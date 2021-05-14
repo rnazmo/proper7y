@@ -94,7 +94,7 @@ TODO: delete old version and re-install it?
 
 TODO:
 
-## Documentation for developper
+## Documentation for developer
 
 Note: These are notes to my future self.
 
