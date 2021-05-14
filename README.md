@@ -52,6 +52,15 @@ TODO:
 
 ## Documentation for developper
 
+### Policy
+
+Since this only provide a very simple function,
+I want to keep the code, usage (≒ option), and documentation very simple.
+
+### How to bump a version (versioning workflow)
+
+TODO:
+
 ### Todo
 
 - Add support for following softwares
@@ -78,7 +87,3 @@ nmap
 hydra
 
 etc...
-
-### How to bump a version (versioning workflow)
-
-TODO:
