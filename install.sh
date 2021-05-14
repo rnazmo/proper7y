@@ -41,6 +41,7 @@ fi
 
 DEST_DIR="$1"
 
+# Check if the DEST_DIR exists and is directory.
 if [ -d "$DEST_DIR" ]; then
   :
 elif [ -e "$DEST_DIR" ]; then
@@ -58,8 +59,10 @@ echo "INFO : DEST_DIR is $DEST_DIR"
 
 cd "$DEST_DIR"
 
+# Download the file from remote server.
 curl -O "$SRC_URL"
 
+# Add execute poermission.
 chmod +x ./property
 
 if [ ! -x ./property ]; then
