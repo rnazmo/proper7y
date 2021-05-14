@@ -67,10 +67,17 @@ TODO:
 
 ### Todo
 
+- Add .editorconfig
+- Add Makefile
 - Add support for following softwares
+  - `<command_name>:<print_version_command>, ...`のようなリストを作っておき(bash script 内に直接書いてしまう？でも Bash は Map をサポートしてないから面倒かも？toml で書けたら楽なのだけど...)、`<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか。
 - Add support for options
 - Add support for following OS
   - Should I rewrite with Golang?
+- Add 'pre-commit' (lint)
+  - Run shellcheck to /property (like `$ shellcheck ./property`)
+  - Run shfmt /property (like `$ shfmt -l -w`)
+  - Use GitHub Action CI and run lint
 
 #### List of OS to be supported
 
@@ -89,5 +96,7 @@ wget
 nmap
 
 hydra
+
+golang, python, ruby
 
 etc...
