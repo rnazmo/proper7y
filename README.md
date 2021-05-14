@@ -12,6 +12,8 @@ TODO: Here's a summary you can read in 30 seconds.
 
 ## Documentation for user
 
+Note: These are notes to my future self.
+
 ### Purpose of this project
 
 **For my own use**
@@ -52,10 +54,12 @@ TODO:
 
 ## Documentation for developper
 
+Note: These are notes to my future self.
+
 ### Policy
 
-Since this only provide a very simple function,
-I want to keep the code, usage (≒ option), and documentation very simple.
+- Since this only provide a very simple function, I want to keep the code, usage (≒ option), and documentation very simple.
+- Avoid writing important information in Issues / Pull requests. (Because it is difficult to search).
 
 ### How to bump a version (versioning workflow)
 
