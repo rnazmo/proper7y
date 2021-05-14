@@ -73,16 +73,16 @@ CHASSIS     : vm
 ### Using without installation
 
 ```console
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/property)"                     
-property v0.0.1 - A tiny Bash script to get OS and other                                                             
-software version info. https://github.com/rnazmo/property                                                            
-============================================================                                                         
-OS NAME     : Kali GNU/Linux Rolling                                                                                 
-OS VERSION  : 2021.1                                                                                                 
-Bash VERSION: 5.1.4(1)-release (x86_64-pc-linux-gnu)                                                                 
-CPU ARCH    : x86-64                                                                                                 
-KERNEL      : Linux 5.10.0-kali4-amd64                                                                               
-CHASSIS     : vm                                                                                                     
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/property)"
+property v0.0.1 - A tiny Bash script to get OS and other
+software version info. https://github.com/rnazmo/property
+============================================================
+OS NAME     : Kali GNU/Linux Rolling
+OS VERSION  : 2021.1
+Bash VERSION: 5.1.4(1)-release (x86_64-pc-linux-gnu)
+CPU ARCH    : x86-64
+KERNEL      : Linux 5.10.0-kali4-amd64
+CHASSIS     : vm
 ============================================================
 ```
 
