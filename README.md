@@ -20,6 +20,10 @@ NOTE: So, I will only support environments and software that I use frequently.
 
 ### Supported environment
 
+Linux (especially Debian-Based Linux, but more specifically Ubuntu, Mint, and Kali)
+
+TODO: Support more environment (OS) ...
+
 ### Supported softwares
 
 TODO:
