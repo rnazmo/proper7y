@@ -56,10 +56,37 @@ TODO:
 
 Note: These are notes to my future self.
 
-### Policy
+### Policies
 
 - Since this only provide a very simple function, I want to keep the code, usage (≒ option), and documentation very simple.
 - Avoid writing important information in Issues / Pull requests. (Because it is difficult to search).
+
+### Conventions
+
+#### Versioning
+
+Follow semantic versioning.
+
+#### Branch management
+
+管理が面倒なので、「main」と「すぐに消すプルリク用の機能追加ブランチ」以外は作らない
+
+#### Commit message
+
+特にルールは設けない。てきとうに。
+
+#### Issue / Pull request title
+
+特にルールは設けない。てきとうに。
+
+#### Documentation
+
+Although not preferred, it is okay to have a mixture of English and Japanese
+(since the target reader of this document is my future self)
+
+#### Code (Bash Script)
+
+shellcheck, shfmt に従うものとする。
 
 ### How to bump a version (versioning workflow)
 
