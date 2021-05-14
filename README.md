@@ -16,6 +16,8 @@ TODO: Here's a summary you can read in 30 seconds.
 
 **For my own use**
 
+NOTE: So, I will only support environments and software that I use frequently.
+
 ### Supported environment
 
 ### Supported softwares
