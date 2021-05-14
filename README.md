@@ -88,6 +88,10 @@ Although not preferred, it is okay to have a mixture of English and Japanese
 
 shellcheck, shfmt に従うものとする。
 
+#### Force push to the remote repo
+
+(どうしても仕方がない場合のみ) 許可する。(対象ユーザーが自分のみなので)
+
 ### How to bump a version (versioning workflow)
 
 TODO:
