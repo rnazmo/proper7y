@@ -1,0 +1,52 @@
+#!/bin/bash
+set -eu
+
+VERSION="v0.0.1"
+
+echo "property $VERSION - A tiny Bash script to get OS and other"
+echo "software version info. https://github.com/rnazmo/property"
+
+echo "============================================================"
+
+OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
+OS_VERSION=$(cat /etc/os-release | grep "^VERSION=" | sed 's/^.*"\(.*\)".*$/\1/')
+BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
+CPU_ARCH=$(hostnamectl status | grep "Architecture:" | sed -e "s/ *Architecture: //")
+KERNEL=$(hostnamectl status | grep "Kernel:" | sed -e "s/ *Kernel: //")
+CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
+
+echo "OS NAME     : $OS_NAME"
+echo "OS VERSION  : $OS_VERSION"
+echo "Bash VERSION: $BASH_VERSION"
+echo "CPU ARCH    : $CPU_ARCH"
+echo "KERNEL      : $KERNEL"
+echo "CHASSIS     : $CHASSIS"
+
+# TODO: Print these if only "--full" option enabled
+if false; then
+
+  DEFAULT_SHELL=$(echo $SHELL)
+  ZSH_VERSION=$(zsh --version | sed "s/zsh //")
+
+  VERTUALIZATION="n/a"
+  if [ "$CHASSIS" = "vm" ]; then
+    VERTUALIZATION=$(hostnamectl status | grep "Vertualization:" | sed -e "s/ *Vertualization: //")
+  fi
+
+  APT_VERSION=$(apt --version | sed "s/apt //")
+
+  GIT_VERSION=$(git --version | sed "s/git version //")
+  TMUX_VERSION=$(tmux -V)
+
+  # GOLANG_VERSION
+  # NVM_VERSION=$(nvm --version)
+  # NPM_VERSION=$(npm --version)
+  # NODE_VERSION=$(node --version)
+  # PYTHON3_VERSION
+  # RUBY_VERSION
+
+  echo "Kernel      : $Kernel"
+  echo "CPU Arch    : $CPU_ARCH"
+fi
+
+echo "============================================================"
