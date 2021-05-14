@@ -14,13 +14,6 @@ TODO: Here's a summary you can read in 30 seconds.
 
 Note: These are notes to my future self.
 
-### Feature
-
-- Tiny size
-- Minimum dependencies
-- Simple usage
-- Support only environment/software that I use frequently
-
 ### Purpose of this project
 
 **For my own use**
@@ -143,6 +136,11 @@ $ cd /tmp && \
 Note: These are notes to my future self.
 
 ### Policies
+
+- Tiny size
+- Minimum dependencies
+- Simple usage
+- Support only environment/software that I use frequently
 
 - Since this only provide a very simple function, I want to keep the code, usage (≒ option), and documentation very simple.
 - Avoid writing important information in Issues / Pull requests. (Because it is difficult to search).
