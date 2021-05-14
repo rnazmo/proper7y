@@ -44,11 +44,16 @@ TODO:
 #### Using Script (recommended)
 
 If you want to install property command under `~/bin/`,
-just run following command on your terminal.
+run commands on your terminal like:
 
-`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh ~/bin/)"`
+```console
+$ DEST_DIR="~/bin"
 
-(The syntax is `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh <your_dir_path>)"`)
+$ cd /tmp && \
+    curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh && \
+    chmod +x ./install.sh && \
+    ./install.sh "$DEST_DIR"
+```
 
 #### Manually
 
@@ -62,11 +67,9 @@ just run following command on your terminal.
 ```console
 $ DEST_DIR="${HOME}/bin" # The directory you want to download the file
 
-$ cd "$DEST_DIR"
-
-$ curl -O "https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property"
-
-$ chmod +x ./property
+$ cd "$DEST_DIR" && \
+    curl -O "https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property" && \
+    chmod +x ./property
 
 $ ./property
 property v0.0.1 - A tiny Bash script to get OS and other
@@ -128,7 +131,11 @@ I highly recommend you to use `install.sh` to avoid these mistakes.
 
 ```console
 # GOOD (Recommend)
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh)"
+$ DEST_DIR="~/bin"
+$ cd /tmp && \
+    curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh && \
+    chmod +x ./install.sh && \
+    ./install.sh "$DEST_DIR"
 ```
 
 ## Documentation for developer
