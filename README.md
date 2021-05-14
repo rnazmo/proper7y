@@ -41,18 +41,30 @@ TODO:
 
 ### Installation
 
-1. Download latest from the [github's raw page](https://github.com/rnazmo/property/blob/main/property) (or, release page for specific version)
+#### Using Script (recommended)
+
+If you want to install property command under `~/bin/`,
+just run following command on your terminal.
+
+`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh ~/bin/)"`
+
+(The syntax is `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh <your_dir_path>)"`)
+
+#### Manually
+
+1. Download `property` file from GitHub's raw page, **specifying any version** (Use a link like [this](https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property) one.)
 2. Add the file to the environment PATH (optional)
 3. Add execute permission (like `chmod +x ./property`)
-4. Run (like `property`)
+4. Run (like `./property`)
 
 #### Example commands
 
 ```console
 $ DEST_DIR="${HOME}/bin" # The directory you want to download the file
+
 $ cd "$DEST_DIR"
 
-$ curl -O "https://raw.githubusercontent.com/rnazmo/property/main/property"
+$ curl -O "https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property"
 
 $ chmod +x ./property
 
@@ -67,23 +79,14 @@ CPU ARCH    : x86-64
 KERNEL      : Linux 5.10.0-kali4-amd64
 CHASSIS     : vm
 ============================================================
-
 ```
 
 ### Using without installation
 
+Just run commands like the following in your terminal.
+
 ```console
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/property)"
-property v0.0.1 - A tiny Bash script to get OS and other
-software version info. https://github.com/rnazmo/property
-============================================================
-OS NAME     : Kali GNU/Linux Rolling
-OS VERSION  : 2021.1
-Bash VERSION: 5.1.4(1)-release (x86_64-pc-linux-gnu)
-CPU ARCH    : x86-64
-KERNEL      : Linux 5.10.0-kali4-amd64
-CHASSIS     : vm
-============================================================
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property)"
 ```
 
 ### How to bump a version of my 'property'
@@ -93,6 +96,40 @@ TODO: delete old version and re-install it?
 ### Examples
 
 TODO:
+
+### Notes
+
+#### Do not download (install) 'property' without specifying the version.
+
+TL;DR: **Use `install.sh`**. Or Download `property` file directly **with specifying a version**
+
+Don't download 'property' (this indicates 'property' as the file) directly from the `main` branch,
+but download it directly using a tag such as "v0.0.1".
+
+Or, I highly recommend you to download 'property' (this indicates 'property' as the file) via `install.sh`.
+If you download `install.sh`, it is also allowed from the `main` branch.
+
+If you do not specify the version (for example, if you download 'property' (this indicates 'property' as the file) directly from `main` branch),
+the version information of 'property' (this indicates 'property' as the project) itself in the output of the `property` (this 'property' means as the file) command can be incorrect.
+
+e.g.,
+
+```console
+# BAD:
+$ curl -O "https://raw.githubusercontent.com/rnazmo/property/main/property"
+```
+
+```console
+# GOOD:
+$ curl -O "https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property"
+```
+
+I highly recommend you to use `install.sh` to avoid these mistakes.
+
+```console
+# GOOD (Recommend)
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh)"
+```
 
 ## Documentation for developer
 
