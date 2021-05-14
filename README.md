@@ -55,13 +55,13 @@ $ cd /tmp && \
 3. Add execute permission (like `chmod +x ./property`)
 4. Run (like `./property`)
 
-#### Example commands
-
 ```console
-$ DEST_DIR="${HOME}/bin" # The directory you want to download the file
+$ DEST_DIR="${HOME}/bin"
+
+$ VERSION="v0.0.1"
 
 $ cd "$DEST_DIR" && \
-    curl -O "https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property" && \
+    curl -O https://raw.githubusercontent.com/rnazmo/property/"$VERSION"/property && \
     chmod +x ./property
 
 $ ./property
