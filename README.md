@@ -14,6 +14,13 @@ TODO: Here's a summary you can read in 30 seconds.
 
 Note: These are notes to my future self.
 
+### Feature
+
+- Tiny size
+- Minimum dependencies
+- Simple usage
+- Support only environment/software that I use frequently
+
 ### Purpose of this project
 
 **For my own use**
@@ -144,6 +151,7 @@ TODO:
   - Run shellcheck to /property (like `$ shellcheck ./property`)
   - Run shfmt /property (like `$ shfmt -l -w`)
   - Use GitHub Action CI and run lint
+- Refine README.md (内容が重複しているところとかある)
 
 #### List of OS to be supported
 
