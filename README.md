@@ -48,6 +48,10 @@ TODO: とりあえず https://brew.sh/ を参考にして書いたが、きち�
 ```
 -->
 
+### How to bump a version of my 'property'
+
+TODO: delete old version and re-install it?
+
 ### Examples
 
 TODO:
