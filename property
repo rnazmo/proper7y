@@ -11,22 +11,37 @@ echo "============================================================"
 OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
 OS_VERSION=$(cat /etc/os-release | grep "^VERSION=" | sed 's/^.*"\(.*\)".*$/\1/')
 BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
+ZSH_VERSION=$(zsh --version | sed "s/zsh //")
 CPU_ARCH=$(hostnamectl status | grep "Architecture:" | sed -e "s/ *Architecture: //")
 KERNEL=$(hostnamectl status | grep "Kernel:" | sed -e "s/ *Kernel: //")
 CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
 
-echo "OS NAME     : $OS_NAME"
-echo "OS VERSION  : $OS_VERSION"
-echo "Bash VERSION: $BASH_VERSION"
-echo "CPU ARCH    : $CPU_ARCH"
-echo "KERNEL      : $KERNEL"
-echo "CHASSIS     : $CHASSIS"
+DEFAULT_SHELL="Unknown"
+if [[ "$SHELL" == *"/bash" ]]; then
+  DEFAULT_SHELL="Bash"
+elif [[ "$SHELL" == *"/zsh" ]]; then
+  DEFAULT_SHELL="Zsh"
+fi
+
+# Print basic info
+if true; then
+  echo "OS NAME      : $OS_NAME"
+  echo "OS VERSION   : $OS_VERSION"
+  echo "Default Shell: $DEFAULT_SHELL"
+  echo "Bash VERSION : $BASH_VERSION"
+  echo "Zsh VERSION  : $ZSH_VERSION"
+  echo "CPU ARCH     : $CPU_ARCH"
+fi
+
+# Print additional property (lower-layer)
+# TODO: Add support options, and switch this with a option
+if false; then
+  echo "KERNEL       : $KERNEL"
+  echo "CHASSIS      : $CHASSIS"
+fi
 
 # TODO: Print these if only "--full" option enabled
 if false; then
-
-  DEFAULT_SHELL=$(echo $SHELL)
-  ZSH_VERSION=$(zsh --version | sed "s/zsh //")
 
   VERTUALIZATION="n/a"
   if [ "$CHASSIS" = "vm" ]; then
@@ -36,17 +51,19 @@ if false; then
   APT_VERSION=$(apt --version | sed "s/apt //")
 
   GIT_VERSION=$(git --version | sed "s/git version //")
-  TMUX_VERSION=$(tmux -V)
+  TMUX_VERSION=$(tmux -V | sed "s/tmux //")
 
-  # GOLANG_VERSION
-  # NVM_VERSION=$(nvm --version)
-  # NPM_VERSION=$(npm --version)
-  # NODE_VERSION=$(node --version)
-  # PYTHON3_VERSION
-  # RUBY_VERSION
+  GOLANG_VERSION=$(go version | sed "s/go version go//")
+  NVM_VERSION=$(nvm --version)
+  NPM_VERSION=$(npm --version)
+  NODE_VERSION=$(node --version)
+  PYTHON_VERSION=$(python --version | sed "s/Python //")
+  RUBY_VERSION=$(ruby --version | sed "s/ruby //")
 
-  echo "Kernel      : $Kernel"
-  echo "CPU Arch    : $CPU_ARCH"
+  VIM_VERSION=$(vim --version | head -1 | sed "s/VIM - Vi IMproved //")
+  NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
+  VSCODE_VERSION=$(code --version | head -1)
+  VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
 fi
 
 echo "============================================================"
