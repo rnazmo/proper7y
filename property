@@ -57,12 +57,12 @@ print_chassis() {
   echo "CHASSIS      : $CHASSIS"
 }
 
-print_vertualization() {
-  local VERTUALIZATION="N/A"
+print_virtualization() {
+  local VIRTUALIZATION="N/A"
   # if [ "$CHASSIS" = "vm" ]; then
-  VERTUALIZATION=$(hostnamectl status | grep "Vertualization:" | sed -e "s/ *Vertualization: //")
+  VIRTUALIZATION=$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //")
   # fi
-  echo "VERTUALIZATION: $VERTUALIZATION"
+  echo "VIRTUALIZATION: $VIRTUALIZATION"
 }
 
 print_apt_version() {
