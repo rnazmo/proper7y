@@ -8,62 +8,143 @@ echo "software version info. https://github.com/rnazmo/property"
 
 echo "============================================================"
 
-OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
-OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
-BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
-ZSH_VERSION=$(zsh --version | sed "s/zsh //")
-CPU_ARCH=$(hostnamectl status | grep "Architecture:" | sed -e "s/ *Architecture: //")
-KERNEL=$(hostnamectl status | grep "Kernel:" | sed -e "s/ *Kernel: //")
-CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
+# # TODO: Add a new function 'pad_with_spaces' to refactor ?
+# pad_with_spaces() {
+# }
 
-DEFAULT_SHELL="Unknown"
-if [[ "$SHELL" == *"/bash" ]]; then
-  DEFAULT_SHELL="Bash"
-elif [[ "$SHELL" == *"/zsh" ]]; then
-  DEFAULT_SHELL="Zsh"
-fi
+print_os_name() {
+  local OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
+  echo "OS NAME      : $OS_NAME"
+}
+
+print_os_version() {
+  local OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
+  echo "OS VERSION   : $OS_VERSION"
+}
+
+print_default_shell() {
+  local DEFAULT_SHELL="Unknown"
+  if [[ "$SHELL" == *"/bash" ]]; then
+    DEFAULT_SHELL="Bash"
+  elif [[ "$SHELL" == *"/zsh" ]]; then
+    DEFAULT_SHELL="Zsh"
+  fi
+  echo "Default Shell: $DEFAULT_SHELL"
+}
+
+print_bash_version() {
+  local BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
+  echo "Bash VERSION : $BASH_VERSION"
+}
+
+print_zsh_version() {
+  local ZSH_VERSION=$(zsh --version | sed "s/zsh //")
+  echo "Zsh VERSION  : $ZSH_VERSION"
+}
+
+print_cpu_arch() {
+  local CPU_ARCH=$(hostnamectl status | grep "Architecture:" | sed -e "s/ *Architecture: //")
+  echo "CPU ARCH     : $CPU_ARCH"
+}
+
+print_kernel() {
+  local KERNEL=$(hostnamectl status | grep "Kernel:" | sed -e "s/ *Kernel: //")
+  echo "KERNEL       : $KERNEL"
+}
+
+print_chassis() {
+  local CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
+  echo "CHASSIS      : $CHASSIS"
+}
+
+print_vertualization() {
+  local VERTUALIZATION="N/A"
+  # if [ "$CHASSIS" = "vm" ]; then
+  VERTUALIZATION=$(hostnamectl status | grep "Vertualization:" | sed -e "s/ *Vertualization: //")
+  # fi
+  echo "VERTUALIZATION: $VERTUALIZATION"
+}
+
+print_apt_version() {
+  local APT_VERSION=$(apt --version | sed "s/apt //")
+  echo "APT VERSION  : $APT_VERSIOIN"
+}
+
+print_git_version() {
+  local GIT_VERSION=$(git --version | sed "s/git version //")
+  echo "GIT VERSION  : $GIT_VERSION"
+}
+
+print_tmux_version() {
+  local TMUX_VERSION=$(tmux -V | sed "s/tmux //")
+  echo "TMUX VERSION : $TMUX_VERSION"
+}
+
+print_golang_version() {
+  local GOLANG_VERSION=$(go version | sed "s/go version go//")
+  echo "GOLAN  VERSION: $GOLANG_VERSION"
+}
+
+print_nvm_version() {
+  local NVM_VERSION=$(nvm --version)
+  echo "NVM VERSION      : $NVM_VERSION"
+}
+
+print_npm_version() {
+  local NPM_VERSION=$(npm --version)
+  echo "NPM VERSION      : $NPM_VERSION"
+}
+
+print_node_version() {
+  local NODE_VERSION=$(node --version)
+  echo "NODE VERSION     : $NODE_VERSION"
+}
+
+print_python_version() {
+  local PYTHON_VERSION=$(python --version | sed "s/Python //")
+  echo "PYTHON VERSION   : $PYTHON_VERSION"
+}
+
+print_ruby_version() {
+  local RUBY_VERSION=$(ruby --version | sed "s/ruby //")
+  echo "RUBY VERSION     : $RUBY_VERSION"
+}
+
+print_vim_version() {
+  local VIM_VERSION=$(vim --version | head -1 | sed "s/VIM - Vi IMproved //")
+  echo "VIM VERSION      : $VIM_VERSION"
+}
+
+print_neovim_version() {
+  local NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
+  echo "NEOVIM VERSION   : $NEOVIM_VERSION"
+}
+
+print_vscode_version() {
+  local VSCODE_VERSION=$(code --version | head -1)
+  echo "VSCODE VERSION   : $VSCODE_VERSION"
+}
+
+print_nvim_version() {
+  local VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
+  echo "VSCODE_INSIDERS VERSION: $VSCODE_INSIDERS_VERSION"
+}
 
 # Print basic info
 if true; then
-  echo "OS NAME      : $OS_NAME"
-  echo "OS VERSION   : $OS_VERSION"
-  echo "Default Shell: $DEFAULT_SHELL"
-  echo "Bash VERSION : $BASH_VERSION"
-  echo "Zsh VERSION  : $ZSH_VERSION"
-  echo "CPU ARCH     : $CPU_ARCH"
+  print_os_name
+  print_os_version
+  print_default_shell
+  print_bash_version
+  print_zsh_version
+  print_cpu_arch
 fi
 
 # Print additional property (lower-layer)
 # TODO: Add support options, and switch this with a option
 if false; then
-  echo "KERNEL       : $KERNEL"
-  echo "CHASSIS      : $CHASSIS"
-fi
-
-# TODO: Print these if only "--full" option enabled
-if false; then
-
-  VERTUALIZATION="n/a"
-  if [ "$CHASSIS" = "vm" ]; then
-    VERTUALIZATION=$(hostnamectl status | grep "Vertualization:" | sed -e "s/ *Vertualization: //")
-  fi
-
-  APT_VERSION=$(apt --version | sed "s/apt //")
-
-  GIT_VERSION=$(git --version | sed "s/git version //")
-  TMUX_VERSION=$(tmux -V | sed "s/tmux //")
-
-  GOLANG_VERSION=$(go version | sed "s/go version go//")
-  NVM_VERSION=$(nvm --version)
-  NPM_VERSION=$(npm --version)
-  NODE_VERSION=$(node --version)
-  PYTHON_VERSION=$(python --version | sed "s/Python //")
-  RUBY_VERSION=$(ruby --version | sed "s/ruby //")
-
-  VIM_VERSION=$(vim --version | head -1 | sed "s/VIM - Vi IMproved //")
-  NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
-  VSCODE_VERSION=$(code --version | head -1)
-  VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
+  print_kernel
+  print_chassis
 fi
 
 echo "============================================================"
