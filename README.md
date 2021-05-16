@@ -178,7 +178,12 @@ shellcheck, shfmt に従うものとする。
 
 ### How to bump a version (versioning workflow)
 
-TODO:
+0. (We edited `property` locally)
+1. Create a commit for the changes with any commit message.
+2. Bump a version of `VERSION="v0.0.X"` in `property` and `install.sh`. (Don't forget to follow semantic versioning!)
+3. Create a commit for the change with the commit message like `Bump a version to v0.0.3`
+4. Tag the commit like `$ git tag v0.0.3`
+5. Push the changes like `$ git push --tags`
 
 ### Todo
 
