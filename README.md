@@ -183,7 +183,7 @@ shellcheck, shfmt に従うものとする。
 2. Bump a version of `VERSION="v0.0.X"` in `property` and `install.sh`. (Don't forget to follow semantic versioning!)
 3. Create a commit for the change with the commit message like `Bump a version to v0.0.3`
 4. Tag the commit like `$ git tag v0.0.3`
-5. Push the changes like `$ git push --tags`
+5. Push the changes like `$ git push --all`
 
 ### Todo
 
