@@ -12,7 +12,7 @@ TODO: Here's a summary you can read in 30 seconds.
 
 ## Documentation for user
 
-Note: These are documents to my future self.
+NOTE: These are documents to my future self.
 
 ### Purpose of this project
 
@@ -133,7 +133,7 @@ $ cd /tmp && \
 
 ## Documentation for developer
 
-Note: These are documents to my future self.
+NOTE: These are documents to my future self.
 
 ### Policies
 
