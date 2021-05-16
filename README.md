@@ -204,7 +204,7 @@ shellcheck, shfmt に従うものとする。
 
 #### List of OS to be supported
 
-Unix (macOS), Windows, VM (WSL2), VM (Docker), ...
+Unix (macOS), **Windows**, VM (WSL2), VM (Docker), ...
 
 #### List of software to be supported
 
