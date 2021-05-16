@@ -89,7 +89,8 @@ Just run commands like the following in your terminal.
 
 ### How to bump a version of my 'property'
 
-TODO: delete old version and re-install it?
+1. Delete you old `property` file.
+2. Install a new version of 'property'. (See [Installation](https://github.com/rnazmo/property#installation) section.)
 
 ### Examples
 
@@ -183,9 +184,10 @@ shellcheck, shfmt に従うものとする。
 0. (We edited `property` locally)
 1. Create a commit for the changes with any commit message.
 2. Bump a version of `VERSION="v0.0.X"` in `property` and `install.sh`. (Don't forget to follow semantic versioning!)
-3. Create a commit for the change with the commit message like `Bump a version to v0.0.3`
-4. Tag the commit like `$ git tag v0.0.3`
-5. Push the changes like `$ git push --all`
+3. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`)
+4. Tag the commit (like `$ git tag v0.0.3`)
+5. Push the changes (like `$ git push`)
+6. Push the tag changes (like `$ git push --tags` or `$ git push origin v0.0.3`)
 
 ### Todo
 
