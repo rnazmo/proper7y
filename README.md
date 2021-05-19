@@ -151,17 +151,24 @@ NOTE: These are documents to my future self.
 
 ### Conventions
 
+TODO: それぞれが "SHALL" なのか、"SHOULD" なのかを明記する。
+
 #### Versioning
 
 Follow semantic versioning.
 
-#### Branch management
+#### Branch
 
-管理が面倒なので、「main」と「すぐに消すプルリク用の機能追加ブランチ」以外は作らない
+- 管理が面倒なので、「main」だけとする。(SHOULD)
+- 「すぐに消すプルリク用の機能追加ブランチ」は作ってもよい。(SHOULD)
 
 #### Commit message
 
 特にルールは設けない。てきとうに。
+
+#### Issues / Pull requests
+
+Avoid writing important information in Issues / Pull requests. (Because it is difficult to search/maintain).
 
 #### Issue / Pull request title
 
@@ -178,7 +185,7 @@ shellcheck, shfmt に従うものとする。
 
 #### Force push to the remote repo
 
-(どうしても仕方がない場合のみ) 許可する。(対象ユーザーが自分のみなので)
+すべきではないが、(どうしても仕方がない場合のみ) 許可する。(対象ユーザーが自分のみなので)
 
 ### How to bump a version (versioning workflow)
 
