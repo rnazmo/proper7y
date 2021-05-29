@@ -98,7 +98,7 @@ TODO:
 
 ### Notes
 
-#### Do not download (install) 'property' without specifying the version.
+#### Do not download (install) 'property' without specifying the version
 
 TL;DR: **Use `install.sh`**. Or Download `property` file directly **with specifying a version**
 
