@@ -13,13 +13,13 @@ echo "============================================================"
 # }
 
 print_os_name() {
-  local OS_NAME
+  local OS_NAME="Unknown"
   OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
   echo "OS NAME      : $OS_NAME"
 }
 
 print_os_version() {
-  local OS_VERSION
+  local OS_VERSION="Unknown"
   OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
   echo "OS VERSION   : $OS_VERSION"
 }
@@ -35,37 +35,37 @@ print_default_shell() {
 }
 
 print_bash_version() {
-  local BASH_VERSION
+  local BASH_VERSION="Unknown"
   BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
   echo "Bash VERSION : $BASH_VERSION"
 }
 
 print_zsh_version() {
-  local ZSH_VERSION
+  local ZSH_VERSION="Unknown"
   ZSH_VERSION=$(zsh --version | sed "s/zsh //")
   echo "Zsh VERSION  : $ZSH_VERSION"
 }
 
 print_cpu_arch() {
-  local CPU_ARCH
+  local CPU_ARCH="Unknown"
   CPU_ARCH=$(hostnamectl status | grep "Architecture:" | sed -e "s/ *Architecture: //")
   echo "CPU ARCH     : $CPU_ARCH"
 }
 
 print_kernel() {
-  local KERNEL
+  local KERNEL="Unknown"
   KERNEL=$(hostnamectl status | grep "Kernel:" | sed -e "s/ *Kernel: //")
   echo "KERNEL       : $KERNEL"
 }
 
 print_chassis() {
-  local CHASSIS
+  local CHASSIS="Unknown"
   CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
   echo "CHASSIS      : $CHASSIS"
 }
 
 print_virtualization() {
-  local VIRTUALIZATION="N/A"
+  local VIRTUALIZATION="Unknown"
   # if [ "$CHASSIS" = "vm" ]; then
   VIRTUALIZATION=$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //")
   # fi
@@ -73,79 +73,79 @@ print_virtualization() {
 }
 
 print_apt_version() {
-  local APT_VERSION
+  local APT_VERSION="Unknown"
   APT_VERSION=$(apt --version | sed "s/apt //")
   echo "APT VERSION  : $APT_VERSION"
 }
 
 print_git_version() {
-  local GIT_VERSION
+  local GIT_VERSION="Unknown"
   GIT_VERSION=$(git --version | sed "s/git version //")
   echo "GIT VERSION  : $GIT_VERSION"
 }
 
 print_tmux_version() {
-  local TMUX_VERSION
+  local TMUX_VERSION="Unknown"
   TMUX_VERSION=$(tmux -V | sed "s/tmux //")
   echo "TMUX VERSION : $TMUX_VERSION"
 }
 
 print_golang_version() {
-  local GOLANG_VERSION
+  local GOLANG_VERSION="Unknown"
   GOLANG_VERSION=$(go version | sed "s/go version go//")
   echo "GOLAN  VERSION: $GOLANG_VERSION"
 }
 
 print_nvm_version() {
-  local NVM_VERSION
+  local NVM_VERSION="Unknown"
   NVM_VERSION=$(nvm --version)
   echo "NVM VERSION      : $NVM_VERSION"
 }
 
 print_npm_version() {
-  local NPM_VERSION
+  local NPM_VERSION="Unknown"
   NPM_VERSION=$(npm --version)
   echo "NPM VERSION      : $NPM_VERSION"
 }
 
 print_node_version() {
-  local NODE_VERSION
+  local NODE_VERSION="Unknown"
   NODE_VERSION=$(node --version)
   echo "NODE VERSION     : $NODE_VERSION"
 }
 
 print_python_version() {
-  local PYTHON_VERSION
+  local PYTHON_VERSION="Unknown"
   PYTHON_VERSION=$(python --version | sed "s/Python //")
   echo "PYTHON VERSION   : $PYTHON_VERSION"
 }
 
 print_ruby_version() {
-  local RUBY_VERSION
+  local RUBY_VERSION="Unknown"
   RUBY_VERSION=$(ruby --version | sed "s/ruby //")
   echo "RUBY VERSION     : $RUBY_VERSION"
 }
 
 print_vim_version() {
-  local VIM_VERSION
+  local VIM_VERSION="Unknown"
   VIM_VERSION=$(vim --version | head -1 | sed "s/VIM - Vi IMproved //")
   echo "VIM VERSION      : $VIM_VERSION"
 }
 
 print_neovim_version() {
-  local NEOVIM_VERSION
+  local NEOVIM_VERSION="Unknown"
   NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
   echo "NEOVIM VERSION   : $NEOVIM_VERSION"
 }
 
 print_vscode_version() {
-  local VSCODE_VERSION
+  local VSCODE_VERSION="Unknown"
   VSCODE_VERSION=$(code --version | head -1)
   echo "VSCODE VERSION   : $VSCODE_VERSION"
 }
 
 print_nvim_version() {
-  local VSCODE_INSIDERS_VERSION
+  local VSCODE_INSIDERS_VERSION="Unknown"
   VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
   echo "VSCODE_INSIDERS VERSION: $VSCODE_INSIDERS_VERSION"
 }
