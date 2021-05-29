@@ -1,0 +1,46 @@
+name: Lint
+on:
+  push:
+    paths-ignore:
+      - "**.md"
+
+jobs:
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install shellcheck
+        run: sudo apt-get install shellcheck
+      - name: Print the version
+        run: shellcheck --version
+      - name: Run shellcheck
+        run: |
+          shellcheck ./property
+          shellcheck ./install.sh
+
+  shfmt:
+    name: shfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16.x
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install shfmt
+        run: go get mvdan.cc/sh/v3/cmd/shfmt
+      - name: Print the version
+        run: shfmt --version
+      - name: Run shfmt
+        # '-i' : Specify indent size
+        # '-ci': Enable indenting on 'switch' statement
+        # '-d' : Error when the formatting differs
+        # Ref:
+        #   https://docs.gitlab.com/ee/development/shell_scripting_guide/#formatting
+        #   https://github.com/mvdan/sh/blob/f33507475241da6fc37b972d825c351b94300bab/cmd/shfmt/shfmt.1.scd
+        run: |
+          shfmt -i 2 -ci -d ./property
+          shfmt -i 2 -ci -d ./install.sh
