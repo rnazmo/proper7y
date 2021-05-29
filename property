@@ -13,12 +13,14 @@ echo "============================================================"
 # }
 
 print_os_name() {
-  local OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
+  local OS_NAME
+  OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
   echo "OS NAME      : $OS_NAME"
 }
 
 print_os_version() {
-  local OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
+  local OS_VERSION
+  OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
   echo "OS VERSION   : $OS_VERSION"
 }
 
@@ -33,27 +35,32 @@ print_default_shell() {
 }
 
 print_bash_version() {
-  local BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
+  local BASH_VERSION
+  BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
   echo "Bash VERSION : $BASH_VERSION"
 }
 
 print_zsh_version() {
-  local ZSH_VERSION=$(zsh --version | sed "s/zsh //")
+  local ZSH_VERSION
+  ZSH_VERSION=$(zsh --version | sed "s/zsh //")
   echo "Zsh VERSION  : $ZSH_VERSION"
 }
 
 print_cpu_arch() {
-  local CPU_ARCH=$(hostnamectl status | grep "Architecture:" | sed -e "s/ *Architecture: //")
+  local CPU_ARCH
+  CPU_ARCH=$(hostnamectl status | grep "Architecture:" | sed -e "s/ *Architecture: //")
   echo "CPU ARCH     : $CPU_ARCH"
 }
 
 print_kernel() {
-  local KERNEL=$(hostnamectl status | grep "Kernel:" | sed -e "s/ *Kernel: //")
+  local KERNEL
+  KERNEL=$(hostnamectl status | grep "Kernel:" | sed -e "s/ *Kernel: //")
   echo "KERNEL       : $KERNEL"
 }
 
 print_chassis() {
-  local CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
+  local CHASSIS
+  CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
   echo "CHASSIS      : $CHASSIS"
 }
 
@@ -66,67 +73,80 @@ print_virtualization() {
 }
 
 print_apt_version() {
-  local APT_VERSION=$(apt --version | sed "s/apt //")
+  local APT_VERSION
+  APT_VERSION=$(apt --version | sed "s/apt //")
   echo "APT VERSION  : $APT_VERSIOIN"
 }
 
 print_git_version() {
-  local GIT_VERSION=$(git --version | sed "s/git version //")
+  local GIT_VERSION
+  GIT_VERSION=$(git --version | sed "s/git version //")
   echo "GIT VERSION  : $GIT_VERSION"
 }
 
 print_tmux_version() {
-  local TMUX_VERSION=$(tmux -V | sed "s/tmux //")
+  local TMUX_VERSION
+  TMUX_VERSION=$(tmux -V | sed "s/tmux //")
   echo "TMUX VERSION : $TMUX_VERSION"
 }
 
 print_golang_version() {
-  local GOLANG_VERSION=$(go version | sed "s/go version go//")
+  local GOLANG_VERSION
+  GOLANG_VERSION=$(go version | sed "s/go version go//")
   echo "GOLAN  VERSION: $GOLANG_VERSION"
 }
 
 print_nvm_version() {
-  local NVM_VERSION=$(nvm --version)
+  local NVM_VERSION
+  NVM_VERSION=$(nvm --version)
   echo "NVM VERSION      : $NVM_VERSION"
 }
 
 print_npm_version() {
-  local NPM_VERSION=$(npm --version)
+  local NPM_VERSION
+  NPM_VERSION=$(npm --version)
   echo "NPM VERSION      : $NPM_VERSION"
 }
 
 print_node_version() {
-  local NODE_VERSION=$(node --version)
+  local NODE_VERSION
+  NODE_VERSION=$(node --version)
   echo "NODE VERSION     : $NODE_VERSION"
 }
 
 print_python_version() {
-  local PYTHON_VERSION=$(python --version | sed "s/Python //")
+  local PYTHON_VERSION
+  PYTHON_VERSION=$(python --version | sed "s/Python //")
   echo "PYTHON VERSION   : $PYTHON_VERSION"
 }
 
 print_ruby_version() {
-  local RUBY_VERSION=$(ruby --version | sed "s/ruby //")
+  local RUBY_VERSION
+  RUBY_VERSION=$(ruby --version | sed "s/ruby //")
   echo "RUBY VERSION     : $RUBY_VERSION"
 }
 
 print_vim_version() {
-  local VIM_VERSION=$(vim --version | head -1 | sed "s/VIM - Vi IMproved //")
+  local VIM_VERSION
+  VIM_VERSION=$(vim --version | head -1 | sed "s/VIM - Vi IMproved //")
   echo "VIM VERSION      : $VIM_VERSION"
 }
 
 print_neovim_version() {
-  local NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
+  local NEOVIM_VERSION
+  NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
   echo "NEOVIM VERSION   : $NEOVIM_VERSION"
 }
 
 print_vscode_version() {
-  local VSCODE_VERSION=$(code --version | head -1)
+  local VSCODE_VERSION
+  VSCODE_VERSION=$(code --version | head -1)
   echo "VSCODE VERSION   : $VSCODE_VERSION"
 }
 
 print_nvim_version() {
-  local VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
+  local VSCODE_INSIDERS_VERSION
+  VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
   echo "VSCODE_INSIDERS VERSION: $VSCODE_INSIDERS_VERSION"
 }
 
