@@ -145,7 +145,12 @@ NOTE: These are documents to my future self.
   - Tiny size
   - Minimum dependencies
 - Simple documentation
-  - Avoid writing important information in Issues / Pull requests. (Because it is difficult to search/maintain).
+  - 重要な情報は `README.md` (とソースコード中のコメント) に集約する。
+  - 情報が散らばるのを避ける。
+    - Should not using 'Issues'
+    - Should not using 'Pull Requests'
+    - Shall not using 'Wikis'
+  - Shall not using wiki
 - Easy to maintain
   - Support only environment/software that I use frequently
 
@@ -159,7 +164,7 @@ Follow semantic versioning.
 
 #### Branch
 
-- 管理が面倒なので、「main」だけとする。(SHOULD)
+- **管理が面倒なので、「main」だけとする。(SHOULD)**
 - 「すぐに消すプルリク用の機能追加ブランチ」は作ってもよい。(SHOULD)
 
 #### Commit message
@@ -168,7 +173,9 @@ Follow semantic versioning.
 
 #### Issues / Pull requests
 
-Avoid writing important information in Issues / Pull requests. (Because it is difficult to search/maintain).
+**Avoid writing important information in Issues / Pull requests.**
+
+Because it is difficult to search and maintain the information written there.
 
 #### Issue / Pull request title
 
