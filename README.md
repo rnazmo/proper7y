@@ -1,5 +1,7 @@
 # property
 
+[![Lint](https://github.com/rnazmo/property/actions/workflows/lint.yml/badge.svg)](https://github.com/rnazmo/property/actions/workflows/lint.yml)
+
 A tiny Bash script to get OS and other software version information.
 
 TODO: GIF here
