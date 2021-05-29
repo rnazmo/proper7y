@@ -197,10 +197,10 @@ shellcheck, shfmt に従うものとする。
 5. Push the changes (like `$ git push`)
 6. Push the tag changes (like `$ git push --tags` or `$ git push origin v0.0.3`)
 
-### Todo
+### TODO
 
-- Add .editorconfig
-- Add Makefile
+- Add `.editorconfig`
+- Add `Makefile`
 - Add support for following softwares
   - `<command_name>:<print_version_command>, ...`のようなリストを作っておき(bash script 内に直接書いてしまう？でも Bash は Map をサポートしてないから面倒かも？toml で書けたら楽なのだけど...)、`<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか。
 - Add support for options
@@ -211,6 +211,9 @@ shellcheck, shfmt に従うものとする。
   - Run shfmt /property (like `$ shfmt -l -w`)
   - Use GitHub Action CI and run lint
 - Refine README.md (内容が重複しているところとかある)
+- `install.sh` がある理由を書いておく
+  - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
+  - [ref](#do-not-download-install-property-without-specifying-the-version)
 
 #### List of OS to be supported
 
