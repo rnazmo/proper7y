@@ -75,7 +75,7 @@ print_virtualization() {
 print_apt_version() {
   local APT_VERSION
   APT_VERSION=$(apt --version | sed "s/apt //")
-  echo "APT VERSION  : $APT_VERSIOIN"
+  echo "APT VERSION  : $APT_VERSION"
 }
 
 print_git_version() {
