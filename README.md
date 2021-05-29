@@ -209,7 +209,6 @@ Ref:
 
 ### TODO
 
-- Add `.editorconfig`
 - Add `Makefile`
 - Add support for following softwares
   - `<command_name>:<print_version_command>, ...`のようなリストを作っておき(bash script 内に直接書いてしまう？でも Bash は Map をサポートしてないから面倒かも？toml で書けたら楽なのだけど...)、`<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか。
