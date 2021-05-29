@@ -179,9 +179,19 @@ Avoid writing important information in Issues / Pull requests. (Because it is di
 Although not preferred, it is okay to have a mixture of English and Japanese
 (since the target reader of this document is my future self)
 
-#### Code (Bash Script)
+#### Code Style for Bash Script (Lint, Format)
 
-shellcheck, shfmt に従うものとする。
+shellcheck, shfmt に従う。
+
+Ref:
+
+[Shell scripting standards and style guidelines | GitLab](https://docs.gitlab.com/ee/development/shell_scripting_guide/#code-style-and-format)
+
+[styleguide | Style guides for Google-originated open-source projects](https://google.github.io/styleguide/shellguide.html)
+
+[koalaman/shellcheck: ShellCheck, a static analysis tool for shell scripts](https://github.com/koalaman/shellcheck)
+
+[mvdan/sh: A shell parser, formatter, and interpreter with bash support; includes shfmt](https://github.com/mvdan/sh)
 
 #### Force push to the remote repo
 
