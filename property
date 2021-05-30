@@ -54,7 +54,7 @@ print_cpu_arch() {
 
 print_kernel() {
   local KERNEL="Unknown"
-  KERNEL=$(hostnamectl status | grep "Kernel:" | sed -e "s/ *Kernel: //")
+  KERNEL=$(uname -r)
   echo "KERNEL       : $KERNEL"
 }
 
