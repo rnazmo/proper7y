@@ -48,7 +48,7 @@ print_zsh_version() {
 
 print_cpu_arch() {
   local CPU_ARCH="Unknown"
-  CPU_ARCH=$(hostnamectl status | grep "Architecture:" | sed -e "s/ *Architecture: //")
+  CPU_ARCH="$(arch)"
   echo "CPU ARCH     : $CPU_ARCH"
 }
 
