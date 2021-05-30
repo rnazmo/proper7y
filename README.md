@@ -217,7 +217,7 @@ Ref:
 5. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
 6. Tag the commit (like `$ git tag v0.0.3`).
 7. Push the change (like `$ git push`).
-8. Push the tag changes (like `$ git push --tags` or `$ git push origin v0.0.3`).
+8. Push the tag changes (like `$ git push origin v0.0.3`).
 
 ### How to run lint
 
