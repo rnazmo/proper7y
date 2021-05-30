@@ -259,7 +259,8 @@ shfmt -i 2 -ci -w ./property ./install.sh
   - `<command_name>:<print_version_command>, ...`のようなリストを作っておき(bash script 内に直接書いてしまう？でも Bash は Map をサポートしてないから面倒かも？toml で書けたら楽なのだけど...)、`<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか。
 - Add support for options
 - Add support for following OS
-  - Should I rewrite with Golang?
+  - ~~Should I rewrite with Golang?~~
+  - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'property4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
 - Add 'pre-commit' (lint)
   - Run shellcheck to /property (like `$ shellcheck ./property`)
   - Run shfmt /property (like `$ shfmt -l -w`)
