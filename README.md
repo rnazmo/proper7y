@@ -1,7 +1,6 @@
 # property
 
 [![Lint](https://github.com/rnazmo/property/actions/workflows/lint.yml/badge.svg)](https://github.com/rnazmo/property/actions/workflows/lint.yml)
-
 [![Integration Test](https://github.com/rnazmo/property/actions/workflows/integ-test.yml/badge.svg)](https://github.com/rnazmo/property/actions/workflows/integ-test.yml)
 
 A tiny Bash script to get OS and other software version information.
