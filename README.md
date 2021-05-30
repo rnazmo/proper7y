@@ -229,7 +229,6 @@ shellcheck ./property ./install.sh
 #### shfmt
 
 - `-i` : Specify indent size
-- `-ci`: Enable indenting on 'switch' statement
 - `-d` : Error when the formatting differs
 
 Ref:
@@ -238,7 +237,7 @@ Ref:
 - [sh/shfmt.1.scd at f33507475241da6fc37b972d825c351b94300bab · mvdan/sh](https://github.com/mvdan/sh/blob/f33507475241da6fc37b972d825c351b94300bab/cmd/shfmt/shfmt.1.scd)
 
 ```console
-shfmt -i 2 -ci -d ./property ./install.sh
+shfmt -i 2 -d ./property ./install.sh
 ```
 
 ### How to run format

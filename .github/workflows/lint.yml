@@ -37,5 +37,5 @@ jobs:
       - name: Run shfmt
         # Ref: https://github.com/rnazmo/property/blob/e2e0869ddce46931279310e274c45dd70d5fafd3/README.md#how-to-run-lint
         run: |
-          shfmt -i 2 -ci -d ./property
-          shfmt -i 2 -ci -d ./install.sh
+          shfmt -i 2 -d ./property
+          shfmt -i 2 -d ./install.sh
