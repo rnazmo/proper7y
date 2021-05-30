@@ -12,15 +12,54 @@ echo "============================================================"
 # pad_with_spaces() {
 # }
 
+# OS="Unknown"
+# identify_os() {
+#   # Ref:
+#   #   https://stackoverflow.com/a/18434831
+#   #   https://github.com/dylanaraps/neofetch/issues/433#issue-188679046
+#   case $(uname | tr '[:upper:]' '[:lower:]') in
+#   linux*)
+#     # Ref: http://linuxmafia.com/faq/Admin/release-files.html
+#     if [ -f /etc/debian_version ]; then
+#       OS="debian-based"
+#     elif [ -f /etc/redhat-release ]; then
+#       OS="reahat-based"
+#     elif [ -f /etc/arch-release ]; then
+#       OS="arch"
+#     fi
+#     # TODO: Identify Bash on Windows, Android, (WSL, Docker, VM)
+#     ;;
+#   darwin*)
+#     OS="macos"
+#     ;;
+#   esac
+# }
+# identify_os
+
 print_os_name() {
   local OS_NAME="Unknown"
-  OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
+  case $OSTYPE in
+  linux-gnu)
+    OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
+    ;;
+  darwin)
+    OS_NAME=$(sw_vers -productName)
+    ;;
+  esac
   echo "OS NAME      : $OS_NAME"
 }
 
 print_os_version() {
   local OS_VERSION="Unknown"
-  OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
+  case $OSTYPE in
+  linux-gnu)
+    # Ref (About /etc/os-release): https://stackoverflow.com/a/53015255
+    OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
+    ;;
+  darwin)
+    OS_VERSION=$(sw_vers -productVersion)
+    ;;
+  esac
   echo "OS VERSION   : $OS_VERSION"
 }
 
