@@ -24,6 +24,32 @@ print_os_version() {
   echo "OS VERSION   : $OS_VERSION"
 }
 
+print_cpu_arch() {
+  local CPU_ARCH="Unknown"
+  CPU_ARCH="$(arch)"
+  echo "CPU ARCH     : $CPU_ARCH"
+}
+
+print_kernel() {
+  local KERNEL="Unknown"
+  KERNEL=$(uname -r)
+  echo "KERNEL       : $KERNEL"
+}
+
+print_chassis() {
+  local CHASSIS="Unknown"
+  CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
+  echo "CHASSIS      : $CHASSIS"
+}
+
+print_virtualization() {
+  local VIRTUALIZATION="Unknown"
+  # if [ "$CHASSIS" = "vm" ]; then
+  VIRTUALIZATION=$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //")
+  # fi
+  echo "VIRTUALIZATION: $VIRTUALIZATION"
+}
+
 print_default_shell() {
   local DEFAULT_SHELL="Unknown"
   if [[ "$SHELL" == *"/bash" ]]; then
@@ -49,32 +75,6 @@ print_zsh_version() {
     ZSH_VERSION="(Not Found)"
   fi
   echo "Zsh VERSION  : $ZSH_VERSION"
-}
-
-print_cpu_arch() {
-  local CPU_ARCH="Unknown"
-  CPU_ARCH="$(arch)"
-  echo "CPU ARCH     : $CPU_ARCH"
-}
-
-print_kernel() {
-  local KERNEL="Unknown"
-  KERNEL=$(uname -r)
-  echo "KERNEL       : $KERNEL"
-}
-
-print_chassis() {
-  local CHASSIS="Unknown"
-  CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
-  echo "CHASSIS      : $CHASSIS"
-}
-
-print_virtualization() {
-  local VIRTUALIZATION="Unknown"
-  # if [ "$CHASSIS" = "vm" ]; then
-  VIRTUALIZATION=$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //")
-  # fi
-  echo "VIRTUALIZATION: $VIRTUALIZATION"
 }
 
 print_apt_version() {
