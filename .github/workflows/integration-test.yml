@@ -5,8 +5,8 @@ on:
       - "**.md"
 
 jobs:
-  run-property:
-    name: Install and run property
+  install-and-run-stable-property:
+    name: Install and run property (stable version)
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -27,4 +27,20 @@ jobs:
         run: ./install.sh .
       - name: Run property
         working-directory: ./temp
+        run: ./property
+
+  run-head-property:
+    name: Run property (HEAD version)
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Print working directory
+        run: pwd
+      - name: ls
+        run: ls -alFh
+      - name: Run property
         run: ./property
