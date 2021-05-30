@@ -12,6 +12,11 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Create temp directory
+        run: mkdir ./temp
+      - name: Print working directory
+        working-directory: ./temp
+        run: pwd
       - name: Get install.sh
         working-directory: ./temp
         run: |
