@@ -1,0 +1,25 @@
+name: Integration Test
+on:
+  push:
+    paths-ignore:
+      - "**.md"
+
+jobs:
+  run-property:
+    name: Install and run property
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Get install.sh
+        working-directory: ./temp
+        run: |
+          curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh
+          chmod +x ./install.sh
+      - name: Run install.sh and install property
+        working-directory: ./temp
+        run: ./install.sh .
+      - name: Run property
+        working-directory: ./temp
+        run: ./property
