@@ -268,6 +268,7 @@ shfmt -i 2 -ci -w ./property ./install.sh
 - `install.sh` がある理由を書いておく
   - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
   - [ref](#do-not-download-install-property-without-specifying-the-version)
+- > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
 
 #### List of OS to be supported
 
