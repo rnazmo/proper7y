@@ -209,13 +209,15 @@ Ref:
 
 ### How to bump a version (versioning workflow)
 
-0. (We edited `property` locally)
+0. (We edited `property` locally.)
 1. Create a commit for the changes with any commit message.
-2. Bump a version of `VERSION="v0.0.X"` in `property` and `install.sh`. (Don't forget to follow semantic versioning!)
-3. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`)
-4. Tag the commit (like `$ git tag v0.0.3`)
-5. Push the changes (like `$ git push`)
-6. Push the tag changes (like `$ git push --tags` or `$ git push origin v0.0.3`)
+2. Push the changes (like `$ git push`).
+3. Ensure that the CI to the commit passes. (And if the CI falls, we go back to step 0.)
+4. Edit and bump a version of `VERSION="v0.0.X"` in `property` and `install.sh`. (Don't forget to follow semantic versioning!)
+5. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
+6. Tag the commit (like `$ git tag v0.0.3`).
+7. Push the change (like `$ git push`).
+8. Push the tag changes (like `$ git push --tags` or `$ git push origin v0.0.3`).
 
 ### How to run lint
 
