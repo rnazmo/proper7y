@@ -38,7 +38,7 @@ echo "============================================================"
 
 print_os_name() {
   local OS_NAME="Unknown"
-  case $(echo $OSTYPE | tr '[:upper:]' '[:lower:]') in
+  case $(echo "$OSTYPE" | tr '[:upper:]' '[:lower:]') in
   linux-gnu)
     OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
     ;;
@@ -51,7 +51,7 @@ print_os_name() {
 
 print_os_version() {
   local OS_VERSION="Unknown"
-  case $(echo $OSTYPE | tr '[:upper:]' '[:lower:]') in
+  case $(echo "$OSTYPE" | tr '[:upper:]' '[:lower:]') in
   linux-gnu)
     # Ref (About /etc/os-release): https://stackoverflow.com/a/53015255
     OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
