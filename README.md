@@ -262,7 +262,6 @@ shfmt -i 2 -ci -w ./property ./install.sh
 - Add 'pre-commit' (lint)
   - Run shellcheck to /property (like `$ shellcheck ./property`)
   - Run shfmt /property (like `$ shfmt -l -w`)
-  - Use GitHub Action CI and run lint
 - Refine README.md (内容が重複しているところとかある)
 - `install.sh` がある理由を書いておく
   - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
