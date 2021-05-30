@@ -216,6 +216,41 @@ Ref:
 5. Push the changes (like `$ git push`)
 6. Push the tag changes (like `$ git push --tags` or `$ git push origin v0.0.3`)
 
+### How to run lint
+
+prerequisite: shellcheck and shfmt are installed.
+
+#### shellcheck
+
+```console
+shellcheck ./property ./install.sh
+```
+
+#### shfmt
+
+- `-i` : Specify indent size
+- `-ci`: Enable indenting on 'switch' statement
+- `-d` : Error when the formatting differs
+
+Ref:
+
+- [Shell scripting standards and style guidelines | GitLab](https://docs.gitlab.com/ee/development/shell_scripting_guide/#formatting)
+- [sh/shfmt.1.scd at f33507475241da6fc37b972d825c351b94300bab · mvdan/sh](https://github.com/mvdan/sh/blob/f33507475241da6fc37b972d825c351b94300bab/cmd/shfmt/shfmt.1.scd)
+
+```console
+shfmt -i 2 -ci -d ./property ./install.sh
+```
+
+### How to run format
+
+NOTE: This overwrite the files. Save it before running.
+
+- `-w`: Write result to file instead of stdout.
+
+```console
+shfmt -i 2 -ci -w ./property ./install.sh
+```
+
 ### TODO
 
 - Add `Makefile`
