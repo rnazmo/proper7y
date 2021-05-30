@@ -35,12 +35,7 @@ jobs:
       - name: Print the version
         run: shfmt --version
       - name: Run shfmt
-        # '-i' : Specify indent size
-        # '-ci': Enable indenting on 'switch' statement
-        # '-d' : Error when the formatting differs
-        # Ref:
-        #   https://docs.gitlab.com/ee/development/shell_scripting_guide/#formatting
-        #   https://github.com/mvdan/sh/blob/f33507475241da6fc37b972d825c351b94300bab/cmd/shfmt/shfmt.1.scd
         run: |
+# Ref: https://github.com/rnazmo/property/blob/e2e0869ddce46931279310e274c45dd70d5fafd3/README.md#how-to-run-lint
           shfmt -i 2 -ci -d ./property
           shfmt -i 2 -ci -d ./install.sh
