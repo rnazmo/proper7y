@@ -269,6 +269,24 @@ shfmt -i 2 -ci -w ./property ./install.sh
   - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
   - [ref](#do-not-download-install-property-without-specifying-the-version)
 - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
+- Add new scripts
+  - [ ] `/devel-tools/script/install-dependencies-for-devel.linux-x64.sh`
+    - Check if `shellcheck` is installed
+    - If not, install `shellcheck`
+      - `VERSION="v0.7.2"`
+      - Download src from `https://github.com/koalaman/shellcheck/releases/download/v0.7.2/shellcheck-v0.7.2.linux.x86_64.tar.xz` to `/devel-tools/bin/shellcheck`
+      - ref: https://github.com/koalaman/shellcheck#installing
+    - Check if `shfmt` is installed
+    - If not, install `shfmt`
+      - TODO: Requires Go 1.15 or later.
+      - `VERSION="v3.3.0"`
+      - Download src from `https://github.com/mvdan/sh/releases/download/v3.3.0/shfmt_v3.3.0_linux_amd64` to `/devel-tools/bin/shfmt`
+      - ref: https://github.com/mvdan/sh#shfmt
+  - [ ] `/devel-tools/script/run-lint.linux-x64.sh`
+    - Run `shellcheck ./property ./install.sh`
+    - Run `shfmt -i 2 -d ./property ./install.sh`
+  - [ ] Update `/README.md` to support these scripts
+  - [ ] Update `/.github/workflows/lint.yml` to support these scripts
 
 #### List of OS to be supported
 
