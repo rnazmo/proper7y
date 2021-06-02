@@ -8,9 +8,37 @@ echo "software version info. https://github.com/rnazmo/property"
 
 echo "============================================================"
 
-# # TODO: Add a new function 'pad_with_spaces' to refactor ?
-# pad_with_spaces() {
-# }
+# Pad right of a given string with spaces.
+#
+# TODO: Does this support only ASCII and UTF-8?
+#
+# Example Usage:
+#   PADDED_HELLO="pad_with_spaces 'hello'"
+#
+pad_with_spaces() {
+  # TODO: Should I check that the number of arguments is one?
+
+  local RAW="$1"
+  local LENGTH="13"
+  printf "%-*s" "$LENGTH" "$RAW"
+}
+
+# Print a row in format using given ROW_NAME and ROW_VALUE.
+#
+# Example Usage:
+#   print_row "OS NAME" "Kali GNU/Linux Rolling"
+#
+print_row() {
+  # TODO: Should I check that the number of arguments is two?
+
+  local ROW_NAME="$1"
+  local ROW_VALUE="$2"
+
+  local ROW_NAME_PADDED
+  ROW_NAME_PADDED="$(pad_with_spaces "$ROW_NAME")"
+
+  echo "${ROW_NAME_PADDED}: ${ROW_VALUE}"
+}
 
 # OS="Unknown"
 # identify_os() {
@@ -39,6 +67,7 @@ echo "============================================================"
 
 print_os_name() {
   local OS_NAME="Unknown"
+
   case $(uname | tr '[:upper:]' '[:lower:]') in
   linux)
     OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
@@ -47,11 +76,13 @@ print_os_name() {
     OS_NAME=$(sw_vers -productName)
     ;;
   esac
-  echo "OS NAME      : $OS_NAME"
+
+  print_row "OS NAME" "$OS_NAME"
 }
 
 print_os_version() {
   local OS_VERSION="Unknown"
+
   case $(uname | tr '[:upper:]' '[:lower:]') in
   linux)
     # Ref (About /etc/os-release): https://stackoverflow.com/a/53015255
@@ -61,139 +92,150 @@ print_os_version() {
     OS_VERSION=$(sw_vers -productVersion)
     ;;
   esac
-  echo "OS VERSION   : $OS_VERSION"
+
+  print_row "OS VERSION" "$OS_VERSION"
 }
 
 print_cpu_arch() {
   local CPU_ARCH="Unknown"
   CPU_ARCH="$(arch)"
-  echo "CPU ARCH     : $CPU_ARCH"
+  print_row "CPU ARCH" "$CPU_ARCH"
 }
 
 print_kernel() {
   local KERNEL="Unknown"
   KERNEL=$(uname -r)
-  echo "KERNEL       : $KERNEL"
+  print_row "KERNEL" "$KERNEL"
 }
 
 print_chassis() {
   local CHASSIS="Unknown"
   CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
-  echo "CHASSIS      : $CHASSIS"
+  print_row "CHASSIS" "$CHASSIS"
 }
 
-print_virtualization() {
-  local VIRTUALIZATION="Unknown"
-  # if [ "$CHASSIS" = "vm" ]; then
-  VIRTUALIZATION=$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //")
-  # fi
-  echo "VIRTUALIZATION: $VIRTUALIZATION"
-}
+# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
+# print_virtualization() {
+#   local VIRTUALIZATION="Unknown"
+#   # if [ "$CHASSIS" = "vm" ]; then
+#   VIRTUALIZATION=$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //")
+#   # fi
+#   print_row "VIRTUALIZATION" "$VIRTUALIZATION"
+# }
 
 print_default_shell() {
   local DEFAULT_SHELL="Unknown"
+
   if [[ "$SHELL" == *"/bash" ]]; then
     DEFAULT_SHELL="Bash"
   elif [[ "$SHELL" == *"/zsh" ]]; then
     DEFAULT_SHELL="Zsh"
   fi
-  echo "Default Shell: $DEFAULT_SHELL"
+
+  print_row "Default Shell" "$DEFAULT_SHELL"
 }
 
 print_bash_version() {
   local BASH_VERSION="Unknown"
   BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
-  echo "Bash VERSION : $BASH_VERSION"
+  print_row "Bash VERSION" "$BASH_VERSION"
 }
 
 print_zsh_version() {
   local ZSH_VERSION="Unknown"
   local CMDNAME="zsh"
+
   if command -v "$CMDNAME" &>/dev/null; then
     ZSH_VERSION=$(zsh --version | sed "s/zsh //")
   else
     ZSH_VERSION="(Not Found)"
   fi
-  echo "Zsh VERSION  : $ZSH_VERSION"
+
+  print_row "Zsh VERSION" "$ZSH_VERSION"
 }
 
 print_apt_version() {
   local APT_VERSION="Unknown"
   APT_VERSION=$(apt --version | sed "s/apt //")
-  echo "APT VERSION  : $APT_VERSION"
+  print_row "APT VERSION" "$APT_VERSION"
 }
 
 print_git_version() {
   local GIT_VERSION="Unknown"
   GIT_VERSION=$(git --version | sed "s/git version //")
-  echo "GIT VERSION  : $GIT_VERSION"
+  print_row "GIT VERSION" "$GIT_VERSION"
 }
 
 print_tmux_version() {
   local TMUX_VERSION="Unknown"
   TMUX_VERSION=$(tmux -V | sed "s/tmux //")
-  echo "TMUX VERSION : $TMUX_VERSION"
+  print_row "TMUX VERSION" "$TMUX_VERSION"
 }
 
-print_golang_version() {
-  local GOLANG_VERSION="Unknown"
-  GOLANG_VERSION=$(go version | sed "s/go version go//")
-  echo "GOLAN  VERSION: $GOLANG_VERSION"
-}
+# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
+# print_golang_version() {
+#   local GOLANG_VERSION="Unknown"
+#   GOLANG_VERSION=$(go version | sed "s/go version go//")
+#   print_row "GOLANG VERSION" "$GOLANG_VERSION"
+# }
 
 print_nvm_version() {
   local NVM_VERSION="Unknown"
   NVM_VERSION=$(nvm --version)
-  echo "NVM VERSION      : $NVM_VERSION"
+  print_row "NVM VERSION" "$NVM_VERSION"
 }
 
 print_npm_version() {
   local NPM_VERSION="Unknown"
   NPM_VERSION=$(npm --version)
-  echo "NPM VERSION      : $NPM_VERSION"
+  print_row "NPM VERSION" "$NPM_VERSION"
 }
 
 print_node_version() {
   local NODE_VERSION="Unknown"
   NODE_VERSION=$(node --version)
-  echo "NODE VERSION     : $NODE_VERSION"
+  print_row "NODE VERSION" "$NODE_VERSION"
 }
 
-print_python_version() {
-  local PYTHON_VERSION="Unknown"
-  PYTHON_VERSION=$(python --version | sed "s/Python //")
-  echo "PYTHON VERSION   : $PYTHON_VERSION"
-}
+# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
+# print_python_version() {
+#   local PYTHON_VERSION="Unknown"
+#   PYTHON_VERSION=$(python --version | sed "s/Python //")
+#   print_row "PYTHON VERSION" "$PYTHON_VERSION"
+# }
 
 print_ruby_version() {
   local RUBY_VERSION="Unknown"
   RUBY_VERSION=$(ruby --version | sed "s/ruby //")
-  echo "RUBY VERSION     : $RUBY_VERSION"
+  print_row "RUBY VERSION" "$RUBY_VERSION"
 }
 
 print_vim_version() {
   local VIM_VERSION="Unknown"
   VIM_VERSION=$(vim --version | head -1 | sed "s/VIM - Vi IMproved //")
-  echo "VIM VERSION      : $VIM_VERSION"
+  print_row "VIM VERSION" "$VIM_VERSION"
 }
 
-print_neovim_version() {
-  local NEOVIM_VERSION="Unknown"
-  NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
-  echo "NEOVIM VERSION   : $NEOVIM_VERSION"
-}
+# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
+# print_neovim_version() {
+#   local NEOVIM_VERSION="Unknown"
+#   NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
+#   print_row "NEOVIM VERSION" "$NEOVIM_VERSION"
+# }
 
-print_vscode_version() {
-  local VSCODE_VERSION="Unknown"
-  VSCODE_VERSION=$(code --version | head -1)
-  echo "VSCODE VERSION   : $VSCODE_VERSION"
-}
+# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
+# print_vscode_version() {
+#   local VSCODE_VERSION="Unknown"
+#   VSCODE_VERSION=$(code --version | head -1)
+#   print_row "VSCODE VERSION" "$VSCODE_VERSION"
+# }
 
-print_nvim_version() {
-  local VSCODE_INSIDERS_VERSION="Unknown"
-  VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
-  echo "VSCODE_INSIDERS VERSION: $VSCODE_INSIDERS_VERSION"
-}
+# # TODO: Need to set LENFTH in pad_with_spaces function to 23 or higher.
+# print_nvim_version() {
+#   local VSCODE_INSIDERS_VERSION="Unknown"
+#   VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
+#   print_row "VSCODE_INSIDERS VERSION" "$VSCODE_INSIDERS_VERSION"
+# }
 
 # Print basic info
 if true; then
