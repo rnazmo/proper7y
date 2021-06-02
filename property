@@ -3,10 +3,31 @@ set -eu
 
 VERSION="v0.0.6"
 
-echo "property $VERSION - A tiny Bash script to get OS and other"
-echo "software version info. https://github.com/rnazmo/property"
+main() {
+  echo "property $VERSION - A tiny Bash script to get OS and other"
+  echo "software version info. https://github.com/rnazmo/property"
 
-echo "============================================================"
+  echo "============================================================"
+
+  # Print basic info
+  if true; then
+    print_os_name
+    print_os_version
+    print_default_shell
+    print_bash_version
+    print_zsh_version
+    print_cpu_arch
+  fi
+
+  # Print additional property (lower-layer)
+  # TODO: Add support options, and switch this with a option
+  if false; then
+    print_kernel
+    print_chassis
+  fi
+
+  echo "============================================================"
+}
 
 # Pad right of a given string with spaces.
 #
@@ -237,21 +258,4 @@ print_vim_version() {
 #   print_row "VSCODE_INSIDERS VERSION" "$VSCODE_INSIDERS_VERSION"
 # }
 
-# Print basic info
-if true; then
-  print_os_name
-  print_os_version
-  print_default_shell
-  print_bash_version
-  print_zsh_version
-  print_cpu_arch
-fi
-
-# Print additional property (lower-layer)
-# TODO: Add support options, and switch this with a option
-if false; then
-  print_kernel
-  print_chassis
-fi
-
-echo "============================================================"
+main
