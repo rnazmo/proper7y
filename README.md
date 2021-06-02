@@ -21,7 +21,8 @@ NOTE: These are documents to my future self.
 
 ### Purpose of this project
 
-**For my own use**
+- **For my own use**
+- For learning bash script
 
 NOTE: So, I will only support environments and software that I use frequently.
 
