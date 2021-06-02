@@ -285,6 +285,7 @@ shfmt -i 2 -ci -w ./property ./install.sh
   - [ ] `/devel-tools/script/run-lint.linux-x64.sh`
     - Run `shellcheck ./property ./install.sh`
     - Run `shfmt -i 2 -d ./property ./install.sh`
+  - [ ] Add `/devel-tools/script/integ-test.sh`
   - [ ] Update `/README.md` to support these scripts
   - [ ] Update `/.github/workflows/lint.yml` to support these scripts
 
