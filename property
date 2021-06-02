@@ -3,6 +3,8 @@ set -eu
 
 VERSION="v0.0.6"
 
+# -------------------------------------------------------------------
+
 main() {
   echo "property $VERSION - A tiny Bash script to get OS and other"
   echo "software version info. https://github.com/rnazmo/property"
@@ -29,62 +31,7 @@ main() {
   echo "============================================================"
 }
 
-# Pad right of a given string with spaces.
-#
-# TODO: Does this support only ASCII and UTF-8?
-#
-# Example Usage:
-#   PADDED_HELLO="pad_with_spaces 'hello'"
-#
-pad_with_spaces() {
-  # TODO: Should I check that the number of arguments is one?
-
-  local RAW="$1"
-  local LENGTH="13"
-  printf "%-*s" "$LENGTH" "$RAW"
-}
-
-# Print a row in format using given ROW_NAME and ROW_VALUE.
-#
-# Example Usage:
-#   print_row "OS NAME" "Kali GNU/Linux Rolling"
-#
-print_row() {
-  # TODO: Should I check that the number of arguments is two?
-
-  local ROW_NAME="$1"
-  local ROW_VALUE="$2"
-
-  local ROW_NAME_PADDED
-  ROW_NAME_PADDED="$(pad_with_spaces "$ROW_NAME")"
-
-  echo "${ROW_NAME_PADDED}: ${ROW_VALUE}"
-}
-
-# OS="Unknown"
-# identify_os() {
-#   # Ref:
-#   #   https://stackoverflow.com/a/17072017
-#   #   https://stackoverflow.com/a/18434831
-#   #   https://github.com/dylanaraps/neofetch/issues/433#issue-188679046
-#   case $(uname | tr '[:upper:]' '[:lower:]') in
-#   linux*)
-#     # Ref: http://linuxmafia.com/faq/Admin/release-files.html
-#     if [ -f /etc/debian_version ]; then
-#       OS="debian-based"
-#     elif [ -f /etc/redhat-release ]; then
-#       OS="reahat-based"
-#     elif [ -f /etc/arch-release ]; then
-#       OS="arch"
-#     fi
-#     # TODO: Identify Bash on Windows, Android, (WSL, Docker, VM)
-#     ;;
-#   darwin*)
-#     OS="macos"
-#     ;;
-#   esac
-# }
-# identify_os
+# -------------------------------------------------------------------
 
 print_os_name() {
   local OS_NAME="Unknown"
@@ -257,5 +204,66 @@ print_vim_version() {
 #   VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
 #   print_row "VSCODE_INSIDERS VERSION" "$VSCODE_INSIDERS_VERSION"
 # }
+
+# -------------------------------------------------------------------
+
+# Pad right of a given string with spaces.
+#
+# TODO: Does this support only ASCII and UTF-8?
+#
+# Example Usage:
+#   PADDED_HELLO="pad_with_spaces 'hello'"
+#
+pad_with_spaces() {
+  # TODO: Should I check that the number of arguments is one?
+
+  local RAW="$1"
+  local LENGTH="13"
+  printf "%-*s" "$LENGTH" "$RAW"
+}
+
+# Print a row in format using given ROW_NAME and ROW_VALUE.
+#
+# Example Usage:
+#   print_row "OS NAME" "Kali GNU/Linux Rolling"
+#
+print_row() {
+  # TODO: Should I check that the number of arguments is two?
+
+  local ROW_NAME="$1"
+  local ROW_VALUE="$2"
+
+  local ROW_NAME_PADDED
+  ROW_NAME_PADDED="$(pad_with_spaces "$ROW_NAME")"
+
+  echo "${ROW_NAME_PADDED}: ${ROW_VALUE}"
+}
+
+# OS="Unknown"
+# identify_os() {
+#   # Ref:
+#   #   https://stackoverflow.com/a/17072017
+#   #   https://stackoverflow.com/a/18434831
+#   #   https://github.com/dylanaraps/neofetch/issues/433#issue-188679046
+#   case $(uname | tr '[:upper:]' '[:lower:]') in
+#   linux*)
+#     # Ref: http://linuxmafia.com/faq/Admin/release-files.html
+#     if [ -f /etc/debian_version ]; then
+#       OS="debian-based"
+#     elif [ -f /etc/redhat-release ]; then
+#       OS="reahat-based"
+#     elif [ -f /etc/arch-release ]; then
+#       OS="arch"
+#     fi
+#     # TODO: Identify Bash on Windows, Android, (WSL, Docker, VM)
+#     ;;
+#   darwin*)
+#     OS="macos"
+#     ;;
+#   esac
+# }
+# identify_os
+
+# -------------------------------------------------------------------
 
 main
