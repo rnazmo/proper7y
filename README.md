@@ -216,7 +216,7 @@ Ref:
 3. Ensure that the CI to the commit passes. (And if the CI falls, we go back to step 0.)
 4. Edit and bump a version of `VERSION="v0.0.X"` in `property` and `install.sh`. (Don't forget to follow semantic versioning!)
 5. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
-6. Tag the commit (like `$ git tag v0.0.3`).
+6. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
 7. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
 
 ### How to install devel-tools
