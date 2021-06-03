@@ -260,12 +260,9 @@ NOTE: This overwrite the files. Save it before running.
   - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
   - [ref](#do-not-download-install-property-without-specifying-the-version)
 - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
-- Add new scripts
-  - [x] `/devel-tools/script/install-dependencies-for-devel.linux-x64.sh`
-  - [x] `/devel-tools/script/run-lint.linux-x64.sh`
+- Add a new script
   - [ ] Add `/devel-tools/script/integ-test.sh`
-  - [ ] Update `/README.md` to support these scripts
-  - [ ] Update `/.github/workflows/lint.yml` to support these scripts
+  - [ ] Update `/.github/workflows/integ-test.yml` to use the script
 - Rename `install-dependencies-for-devel.linux.x64.sh` to `install-devel-tools.linux.x64.sh`
 
 #### List of OS to be supported
