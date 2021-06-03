@@ -219,28 +219,18 @@ Ref:
 6. Tag the commit (like `$ git tag v0.0.3`).
 7. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
 
-### How to run lint
-
-prerequisite: shellcheck and shfmt are installed.
-
-#### shellcheck
+### How to install devel-tools
 
 ```console
-shellcheck ./property ./install.sh
+make install-devel-tools
 ```
 
-#### shfmt
+### How to run lint
 
-- `-i` : Specify indent size
-- `-d` : Error when the formatting differs
-
-Ref:
-
-- [Shell scripting standards and style guidelines | GitLab](https://docs.gitlab.com/ee/development/shell_scripting_guide/#formatting)
-- [sh/shfmt.1.scd at f33507475241da6fc37b972d825c351b94300bab · mvdan/sh](https://github.com/mvdan/sh/blob/f33507475241da6fc37b972d825c351b94300bab/cmd/shfmt/shfmt.1.scd)
+NOTE: Install devel-tools before running lint.
 
 ```console
-shfmt -i 2 -d ./property ./install.sh
+make lint
 ```
 
 ### How to run format
@@ -250,7 +240,7 @@ NOTE: This overwrite the files. Save it before running.
 - `-w`: Write result to file instead of stdout.
 
 ```console
-shfmt -i 2 -ci -w ./property ./install.sh
+./devel-tools/bin/shfmt -i 2 -ci -w ./property ./install.sh
 ```
 
 ### TODO
@@ -299,3 +289,23 @@ hydra
 golang, python, ruby
 
 etc...
+
+## Memo
+
+### Linting
+
+#### Options of shfmt
+
+- `-i` : Specify indent size
+- `-d` : Error when the formatting differs
+
+Ref:
+
+- [Shell scripting standards and style guidelines | GitLab](https://docs.gitlab.com/ee/development/shell_scripting_guide/#formatting)
+- [sh/shfmt.1.scd at f33507475241da6fc37b972d825c351b94300bab · mvdan/sh](https://github.com/mvdan/sh/blob/f33507475241da6fc37b972d825c351b94300bab/cmd/shfmt/shfmt.1.scd)
+
+Example:
+
+```console
+shfmt -i 2 -d ./property ./install.sh
+```
