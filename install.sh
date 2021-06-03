@@ -16,7 +16,7 @@ set -eu
 
 echo "INFO : Start installing..."
 
-VERSION="v0.1.0"
+VERSION="v0.1.1"
 
 SRC_URL="https://raw.githubusercontent.com/rnazmo/property/${VERSION}/property"
 
