@@ -276,6 +276,7 @@ shfmt -i 2 -ci -w ./property ./install.sh
   - [ ] Add `/devel-tools/script/integ-test.sh`
   - [ ] Update `/README.md` to support these scripts
   - [ ] Update `/.github/workflows/lint.yml` to support these scripts
+- Rename `install-dependencies-for-devel.linux.x64.sh` to `install-devel-tools.linux.x64.sh`
 
 #### List of OS to be supported
 
