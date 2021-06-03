@@ -208,7 +208,7 @@ Ref:
 
 すべきではないが、(どうしても仕方がない場合のみ) 許可する。(対象ユーザーが自分のみなので)
 
-### How to bump a version (versioning workflow)
+### How to bump a version of 'property' (versioning workflow)
 
 0. (We edited `property` locally.)
 1. Create a commit for the changes with any commit message.
@@ -224,6 +224,16 @@ Ref:
 ```console
 make install-devel-tools
 ```
+
+### How to bump a version of devel-tools
+
+1. Edit and bump a version of `SHELLCHECK_VERSION="v0.7.2"` or `SHFMT_VERSION="v3.3.0"` in `/devel-tools/script/install-dependencies-for-devel.linux-x64.sh`.
+2. Create a commit for the change with the commit message (like `Bump a version of shellcheck to v0.7.3`).
+3. Push the commit (like `$ git push`).
+
+### How to upgrade a version of devel-tools
+
+Same as the how to install devel-tools. (Just run `make install-devel-tools`).
 
 ### How to run lint
 
