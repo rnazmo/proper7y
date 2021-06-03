@@ -274,6 +274,8 @@ NOTE: This overwrite the files. Save it before running.
   - [ ] Add `/devel-tools/script/integ-test.sh`
   - [ ] Update `/.github/workflows/integ-test.yml` to use the script
 - Rename `install-dependencies-for-devel.linux.x64.sh` to `install-devel-tools.linux.x64.sh`
+- Add a new command to Makefile?
+  - `bump-a-version-of-property`
 
 #### List of OS to be supported
 
