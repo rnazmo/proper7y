@@ -5,37 +5,15 @@ on:
       - "**.md"
 
 jobs:
-  shellcheck:
-    name: shellcheck
+  lint:
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Install shellcheck
-        run: sudo apt-get install shellcheck
-      - name: Print the version
-        run: shellcheck --version
-      - name: Run shellcheck
-        run: |
-          shellcheck ./property
-          shellcheck ./install.sh
-
-  shfmt:
-    name: shfmt
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.16.x
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - name: Install shfmt
-        run: go get mvdan.cc/sh/v3/cmd/shfmt
-      - name: Print the version
-        run: shfmt --version
-      - name: Run shfmt
-        # Ref: https://github.com/rnazmo/property/blob/e2e0869ddce46931279310e274c45dd70d5fafd3/README.md#how-to-run-lint
-        run: |
-          shfmt -i 2 -d ./property
-          shfmt -i 2 -d ./install.sh
+      - name: Install devel-tools
+        run: make install-devel-tools
+      - name: Print the versions
+        run: make print-devel-tools-versions
+      - name: Run lint
+        run: make lint
