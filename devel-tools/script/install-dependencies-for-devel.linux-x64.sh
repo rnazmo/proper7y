@@ -41,6 +41,7 @@ check_if_devel_tools_dir_exists() {
   fi
 }
 
+# Install shellcheck via the GitHub Releases Page as the file 'SHELLCHECK_CMD_PATH'.
 # Ref: https://github.com/koalaman/shellcheck#installing
 install_shellcheck() {
   local TEMP_DIR
@@ -57,7 +58,10 @@ install_shellcheck() {
   rm -rf "$TEMP_DIR" # cleanup
 }
 
+# Install shfmt VIA THE GITHUB RELEASE PAGE under the directory 'DEVEL_TOOLS_DIR'.
+#
 # Note that install not via Golang (download binary from GitHub Release page).
+#
 # Ref:
 #   https://github.com/mvdan/sh#shfmt
 #   https://github.com/mvdan/sh/releases
