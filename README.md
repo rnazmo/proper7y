@@ -219,6 +219,12 @@ Ref:
 6. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
 7. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
 
+### How to setup development environment
+
+**NOTE: Support only debian-based Linux && x64**
+
+- [Install dependencies](https://github.com/rnazmo/property#how-to-install-devel-tools)
+
 ### How to install devel-tools
 
 ```console
