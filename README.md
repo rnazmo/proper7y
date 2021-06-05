@@ -7,10 +7,6 @@ A tiny Bash script to get OS and other software version information.
 
 TODO: GIF here
 
-## TOC
-
-TODO: Add TOC here
-
 ## TL;DR
 
 TODO: Here's a summary you can read in 30 seconds.
