@@ -277,12 +277,39 @@ NOTE: This overwrite the files. Save it before running.
   - [ref](#do-not-download-install-property-without-specifying-the-version)
 - Add following test to `README.md`
   - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
-- Add a new script
+- Add new scripts
   - [ ] Add `/devel-tools/script/integ-test.sh`
   - [ ] Update `/.github/workflows/integ-test.yml` to use the script
+  - [ ] Add `/devel-tools/script/bump-project-version.sh`
+    - https://github.com/rnazmo/property/blob/main/README.md#how-to-bump-a-version-of-property-versioning-workflow の手順をやってくれる。
+    - 上記の記述は `make bump-project` を使ったものへと変更し、元の内容はそのスクリプト最上部に 'What this script do` コメントとして残しておく。
+      - Steps (TODO: Update this)
+        - Print the all versions & current version (via `git tag --list` ?)
+        - major / minor / patch からインタラクティブに選ぶ。
+        - Print the change `git diff `
+        - Confirm (`[y/N]`)
+        - `sed "s/${OLD_VERSION}/${NEW_VERSION}/" property install.sh` みたいな。
+        - Print the changes (via `git diff`?)
+        - Confirm (`[y/N]`)
+        - ...
+  - [ ] Add a new command `bump-project` to Makefile
+  - [ ] Add `check-dependencies-version.sh`
+    - Check that the versions of the dependencies (= devel-tools) are latest.
+    - TODO: どうやって実装する？
+      - **簡易的なものでよい**。シンプルに https://github.com/koalaman/shellcheck/releases/tag/v0.7.2 と https://github.com/koalaman/shellcheck/releases/latest が一致するか確かめるだけで良さそう。
+      - GitHub API 使えそう？使えそうなもののメモ：
+        - https://docs.github.com/en/rest/reference/repos#get-the-latest-release
+        - https://docs.github.com/en/rest/reference/repos#list-releases
+        - https://docs.github.com/en/rest/reference/repos#list-repository-tags
+    - Run the script on CI
+      - Triggrer: weekly (Can I use https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events ?)
+    - 自動で Pull Request 作成するところまでやる？ (dependabot みたいに)
+      - 実装や権限管理面倒じゃない？大丈夫？
+      - そもそも Pull Request はあまり使いたくないのでは？
+      - でもあると便利だし、Bot に限れば Pull Request 使っても良いかも。
+    - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
+  - [ ] Add a new command `check-devel-tools-versions` to Makefile
 - Rename `install-dependencies-for-devel.linux.x64.sh` to `install-devel-tools.linux.x64.sh`
-- Add a new command to Makefile?
-  - `bump-a-version-of-property`
 
 #### List of OS to be supported
 
