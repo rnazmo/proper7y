@@ -271,6 +271,10 @@ NOTE: This overwrite the files. Save it before running.
 - `install.sh` がある理由を書いておく
   - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
   - [ref](#do-not-download-install-property-without-specifying-the-version)
+  - 書き方はここが参考になりそう：
+    - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
+    - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
+
 - Add following test to `README.md`
   - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
 - Add new scripts
