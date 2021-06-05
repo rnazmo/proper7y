@@ -310,6 +310,7 @@ NOTE: This overwrite the files. Save it before running.
     - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
   - [ ] Add a new command `check-devel-tools-versions` to Makefile
 - Rename `install-dependencies-for-devel.linux.x64.sh` to `install-devel-tools.linux.x64.sh`
+- Add a new command `format` to Makefile
 
 #### List of OS to be supported
 
