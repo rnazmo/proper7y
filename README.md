@@ -257,9 +257,8 @@ NOTE: This overwrite the files. Save it before running.
 
 ### TODO
 
-- Add `Makefile`
 - Add support for following softwares
-  - `<command_name>:<print_version_command>, ...`のようなリストを作っておき(bash script 内に直接書いてしまう？でも Bash は Map をサポートしてないから面倒かも？toml で書けたら楽なのだけど...)、`<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか。
+  - `<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか？
 - Add support for options
 - Add support for following OS
   - ~~Should I rewrite with Golang?~~
@@ -318,21 +317,38 @@ Unix (macOS), **Windows**, VM (WSL2), VM (Docker), ...
 
 #### List of software to be supported
 
-vim: vim --version
+- vim: `vim --version`
+- nvim: `nvim --version`
 
-nvim: nvim --version
+- curl: `curl --version`
+- wget: `wget --version`
+- nmap: `nmap --version`
+- gobuster: `gobuster version`
+- nikto: `nikto --version`
+- Metasploit: `msfconsole: --version`
+- hydra: `hydra --foo` => sed
+- hashcat: `hashcat --version`
+- john: `john` => sed
+- wireshark: `wireshark --version`
 
-curl:
+- golang: `go version`
+- python
+  - `type python`
+  - Python2: `python2 --version`
+  - Python3: `python3 --version`
+  - `type pip`
+  - pip2: `pip2 --version`
+  - pip3: `pip3 --version`
+- ruby
+  - RubyGems: `gem --version`
+- nodejs/javascript/typescript
+  - nodejs: `node --version`
+  - (nvm: `nvm --version`)
+  - npm: `npm --version`
+  - yarn: `yarn --version`
 
-wget
-
-nmap
-
-hydra
-
-golang, python, ruby
-
-etc...
+- firefox: `firefox --version`
+- chrome: `google-chrome --version`
 
 ## Memo
 
