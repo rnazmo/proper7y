@@ -313,7 +313,16 @@ NOTE: This overwrite the files. Save it before running.
 
 #### List of OS to be supported
 
-Unix (macOS), **Windows**, VM (WSL2), VM (Docker), ...
+- [ ] Linux (debian-based)
+- [x] Windows
+  - -> Develop on another repo: github.com/rnazmo/property4win
+- [ ] VM (VirtualBox)
+- [ ] VM (Docker)
+- [ ] VM (WSL2)
+
+- [ ] Linux (redhat-based)
+- [ ] Unix (macOS)
+- [ ] VFM (VMWare)
 
 #### List of software to be supported
 
