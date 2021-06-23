@@ -14,20 +14,11 @@ set -eu
 # If you want to download this script from remote and run it with one liner, run like:
 #   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh ${HOME}/bin/)"
 
-echo "INFO : Start installing..."
-
 VERSION="v0.1.1"
 
 SRC_URL="https://raw.githubusercontent.com/rnazmo/property/${VERSION}/property"
 
-print_usage() {
-  echo "Usage: "
-  echo "  ./install.sh <dir_path>"
-  echo "  The <dir_path> is a directory where you want to install 'property' command."
-  echo "Example: "
-  echo "  ./install.sh ~/bin/"
-}
-
+# Parse argument:
 # Check if the number of arguments is one.
 if [ $# -eq 0 ]; then
   echo "ERROR: Too less arguments."
@@ -38,9 +29,9 @@ elif [ $# -gt 1 ]; then
   print_usage
   exit 1
 fi
-
 DEST_DIR="$1"
 
+# Validate argument:
 # Check if the DEST_DIR exists and is directory.
 if [ -d "$DEST_DIR" ]; then
   :
@@ -54,21 +45,35 @@ else
   echo "INFO : The path created."
 fi
 
-echo "INFO : SRC_URL is $SRC_URL"
-echo "INFO : DEST_DIR is $DEST_DIR"
+main() {
+  echo "INFO : Start installing..."
 
-cd "$DEST_DIR"
+  echo "INFO : SRC_URL is $SRC_URL"
+  echo "INFO : DEST_DIR is $DEST_DIR"
 
-# Download the file from remote server.
-curl -O "$SRC_URL"
+  cd "$DEST_DIR"
 
-# Add execute poermission.
-chmod +x ./property
+  # Download the file from remote server.
+  curl -O "$SRC_URL"
 
-if [ ! -x ./property ]; then
-  echo "ERROR: Something wrong :("
-  print_usage
-  exit 1
-fi
+  # Add execute poermission.
+  chmod +x ./property
 
-echo "INFO : Installed successflly!"
+  if [ ! -x ./property ]; then
+    echo "ERROR: Something wrong :("
+    print_usage
+    exit 1
+  fi
+
+  echo "INFO : Installed successflly!"
+}
+
+print_usage() {
+  echo "Usage: "
+  echo "  ./install.sh <dir_path>"
+  echo "  The <dir_path> is a directory where you want to install 'property' command."
+  echo "Example: "
+  echo "  ./install.sh ~/bin/"
+}
+
+main
