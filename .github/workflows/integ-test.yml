@@ -12,22 +12,9 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Create temp directory
-        run: mkdir ./temp
-      - name: Print working directory
-        working-directory: ./temp
-        run: pwd
-      - name: Get install.sh
-        working-directory: ./temp
+      - name: Install and run stable 'property'
         run: |
-          curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh
-          chmod +x ./install.sh
-      - name: Run install.sh and install property
-        working-directory: ./temp
-        run: ./install.sh .
-      - name: Run property
-        working-directory: ./temp
-        run: ./property
+          make integ-test
 
   run-head-property:
     name: Run property (HEAD version)

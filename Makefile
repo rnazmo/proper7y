@@ -14,3 +14,7 @@ lint:
 .PHONY: format
 format:
 	./devel-tools/script/run-format.linux-x64.sh
+
+.PHONY: integ-test
+integ-test:
+	./devel-tools/script/run-integ-test.linux-x64.sh

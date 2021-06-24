@@ -277,8 +277,6 @@ make format
 - Add following test to `README.md`
   - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
 - Add new scripts
-  - [ ] Add `/devel-tools/script/integ-test.sh`
-  - [ ] Update `/.github/workflows/integ-test.yml` to use the script
   - [ ] Add `/devel-tools/script/bump-project-version.sh`
     - https://github.com/rnazmo/property/blob/main/README.md#how-to-bump-a-version-of-property-versioning-workflow の手順をやってくれる。
     - 上記の記述は `make bump-project` を使ったものへと変更し、元の内容はそのスクリプト最上部に 'What this script do` コメントとして残しておく。
