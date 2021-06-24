@@ -64,13 +64,13 @@ _compose_project_root_dir() {
 _compse_devel_tools_dir() {
   DEVEL_TOOLS_DIR="${PROJECT_ROOT}/devel-tools/bin"
 
-  echo "INFO: DEVEL_TOOLS_DIR: $DEVEL_TOOLS_DIR"
+  echo "INFO : DEVEL_TOOLS_DIR: $DEVEL_TOOLS_DIR"
 }
 
 _compse_common_sh_path() {
   COMMON_SH_PATH="${PROJECT_ROOT}/devel-tools/bin"
 
-  echo "INFO: COMMON_SH_PATH: $COMMON_SH_PATH"
+  echo "INFO : COMMON_SH_PATH: $COMMON_SH_PATH"
 }
 
 # Note that this does not return a string,
@@ -78,7 +78,7 @@ _compse_common_sh_path() {
 _compose_shellcheck_cmd_path() {
   SHELLCHECK_CMD_PATH="${DEVEL_TOOLS_DIR}/shellcheck"
 
-  echo "INFO: SHELLCHECK_CMD_PATH: $SHELLCHECK_CMD_PATH"
+  echo "INFO : SHELLCHECK_CMD_PATH: $SHELLCHECK_CMD_PATH"
 }
 
 # Note that this does not return a string,
@@ -86,39 +86,39 @@ _compose_shellcheck_cmd_path() {
 _compose_shfmt_cmd_path() {
   SHFMT_CMD_PATH="${DEVEL_TOOLS_DIR}/shfmt"
 
-  echo "INFO: SHFMT_CMD_PATH: $SHFMT_CMD_PATH"
+  echo "INFO : SHFMT_CMD_PATH: $SHFMT_CMD_PATH"
 }
 
 # Check if the SHELLCHECK_CMD_PATH exists and is a exectable file.
 # If it does, do nothing; if it does not, exit with status code 1.
 _check_if_shellcheck_exists() {
-  echo "INFO: Checking if the SHELLCHECK_CMD_PATH exists and a exectable file..."
+  echo "INFO : Checking if the SHELLCHECK_CMD_PATH exists and a exectable file..."
   if [ ! -x "$SHELLCHECK_CMD_PATH" ]; then
-    echo "INFO: SHELLCHECK_CMD_PATH: $SHELLCHECK_CMD_PATH"
+    echo "INFO : SHELLCHECK_CMD_PATH: $SHELLCHECK_CMD_PATH"
     echo "ERROR: $SHELLCHECK_CMD_PATH not found."
     echo "ERROR: Please install it before run this script."
     echo "ERROR: (You should run install-dependencies-for-devel.linux-x64.sh to install.)"
     exit 1
   fi
-  echo "INFO: Checked that shellcheck is installed"
+  echo "INFO : Checked that shellcheck is installed"
 }
 
 # Almost same as check_if_shellcheck_exists
 _check_if_shfmt_exists() {
-  echo "INFO: Checking if the SHFMT_CMD_PATH exists and a exectable file..."
+  echo "INFO : Checking if the SHFMT_CMD_PATH exists and a exectable file..."
   if [ ! -x "$SHFMT_CMD_PATH" ]; then
-    echo "INFO: SHFMT_CMD_PATH: $SHFMT_CMD_PATH"
+    echo "INFO : SHFMT_CMD_PATH: $SHFMT_CMD_PATH"
     echo "ERROR: $SHFMT_CMD_PATH not found."
     echo "ERROR: Please install it before run this script."
     echo "ERROR: (You should run install-dependencies-for-devel.linux-x64.sh to install.)"
     exit 1
   fi
-  echo "INFO: Checked that shfmt is installed"
+  echo "INFO : Checked that shfmt is installed"
 }
 
 _check_if_installed_shellcheck_version_is_correct() {
   local TARGET_NAME="shellcheck"
-  echo "INFO: Checking that the version of $TARGET_NAME is the one expected."
+  echo "INFO : Checking that the version of $TARGET_NAME is the one expected."
 
   # Here is the example version info:
   #   $ ./devel-tools/bin/shellcheck --version
@@ -137,12 +137,12 @@ _check_if_installed_shellcheck_version_is_correct() {
     exit 1
   fi
 
-  echo "INFO: Checked that the version of $TARGET_NAME is correct."
+  echo "INFO : Checked that the version of $TARGET_NAME is correct."
 }
 
 _check_if_installed_shfmt_version_is_correct() {
   local TARGET_NAME="shfmt"
-  echo "INFO: Checking that the version of $TARGET_NAME is the one expected."
+  echo "INFO : Checking that the version of $TARGET_NAME is the one expected."
 
   # Here is the example version info:
   #   $ ./devel-tools/bin/shfmt --version
@@ -157,32 +157,32 @@ _check_if_installed_shfmt_version_is_correct() {
     exit 1
   fi
 
-  echo "INFO: Checked that the version of $TARGET_NAME is correct."
+  echo "INFO : Checked that the version of $TARGET_NAME is correct."
 }
 
 check_shellcheck_is_ready() {
-  echo "INFO: Checking shellcheck is ready..."
+  echo "INFO : Checking shellcheck is ready..."
   _check_if_shellcheck_exists
   _check_if_installed_shellcheck_version_is_correct
-  echo "INFO: Checked. shellcheck is ready!"
+  echo "INFO : Checked. shellcheck is ready!"
   print_shellcheck_version
 }
 
 check_shfmt_is_ready() {
-  echo "INFO: Checking shfmt is ready..."
+  echo "INFO : Checking shfmt is ready..."
   _check_if_shfmt_exists
   _check_if_installed_shfmt_version_is_correct
-  echo "INFO: Checked. shfmt is ready!"
+  echo "INFO : Checked. shfmt is ready!"
   print_shfmt_version
 }
 
 print_shellcheck_version() {
-  echo "INFO: Version of the shellcheck is:"
+  echo "INFO : Version of the shellcheck is:"
   "$SHELLCHECK_CMD_PATH" --version
 }
 
 print_shfmt_version() {
-  echo "INFO: Version of the shfmt is:"
+  echo "INFO : Version of the shfmt is:"
   "$SHFMT_CMD_PATH" --version
 }
 

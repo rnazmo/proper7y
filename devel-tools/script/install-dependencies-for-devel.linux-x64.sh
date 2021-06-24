@@ -41,10 +41,10 @@ check_if_devel_tools_dir_exists() {
 install_shellcheck() {
   local TEMP_DIR
   TEMP_DIR="$(mktemp -d)"
-  echo "INFO: TEMP_DIR: $TEMP_DIR"
+  echo "INFO : TEMP_DIR: $TEMP_DIR"
 
   cd "$TEMP_DIR"
-  echo "INFO: PWD: $(pwd)"
+  echo "INFO : PWD: $(pwd)"
 
   curl -OL "$SHELLCHECK_URL"
   tar -xf "./shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
