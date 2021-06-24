@@ -38,7 +38,7 @@ main() {
     echo "INFO: Running lint to the target: END"
   done
 
-  echo "INFO : Ran lint successflly!"
+  echo "INFO : Ran all lint successflly!"
 }
 
 main

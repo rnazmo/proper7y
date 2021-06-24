@@ -41,7 +41,7 @@ main() {
     echo "INFO: Running format to the target: END"
   done
 
-  echo "INFO : Ran format successflly!"
+  echo "INFO : Ran all format successflly!"
 }
 
 main
