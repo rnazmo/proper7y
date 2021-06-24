@@ -1,6 +1,6 @@
 .PHONY: install-devel-tools
 install-devel-tools:
-	./devel-tools/script/install-dependencies-for-devel.linux-x64.sh
+	./devel-tools/script/install-devel-tools.linux-x64.sh
 
 .PHONY: print-devel-tools-versions
 print-devel-tools-versions:

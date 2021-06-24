@@ -7,7 +7,7 @@ set -eu
 #   This file will be loaded from the following files:
 #     run-lint.linux-x64.sh
 #     run-lint.format-x64.sh
-#     install-dependencies-for-devel.linux-x64.sh
+#     install-devel-tools.linux-x64.sh
 #
 # How to load this file:
 #   Like this:
@@ -97,7 +97,7 @@ _check_if_shellcheck_exists() {
     echo "INFO : SHELLCHECK_CMD_PATH: $SHELLCHECK_CMD_PATH"
     echo "ERROR: $SHELLCHECK_CMD_PATH not found."
     echo "ERROR: Please install it before run this script."
-    echo "ERROR: (You should run install-dependencies-for-devel.linux-x64.sh to install.)"
+    echo "ERROR: (You should run install-devel-tools.linux-x64.sh to install.)"
     exit 1
   fi
   echo "INFO : Checked that shellcheck is installed"
@@ -110,7 +110,7 @@ _check_if_shfmt_exists() {
     echo "INFO : SHFMT_CMD_PATH: $SHFMT_CMD_PATH"
     echo "ERROR: $SHFMT_CMD_PATH not found."
     echo "ERROR: Please install it before run this script."
-    echo "ERROR: (You should run install-dependencies-for-devel.linux-x64.sh to install.)"
+    echo "ERROR: (You should run install-devel-tools.linux-x64.sh to install.)"
     exit 1
   fi
   echo "INFO : Checked that shfmt is installed"

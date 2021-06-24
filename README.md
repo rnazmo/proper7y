@@ -229,7 +229,7 @@ make install-devel-tools
 
 ### How to bump a version of devel-tools
 
-1. Edit and bump a version of `SHELLCHECK_VERSION="v0.7.2"` or `SHFMT_VERSION="v3.3.0"` in `/devel-tools/script/install-dependencies-for-devel.linux-x64.sh`.
+1. Edit and bump a version of `SHELLCHECK_VERSION="v0.7.2"` or `SHFMT_VERSION="v3.3.0"` in `/devel-tools/script/install-devel-tools.linux-x64.sh`.
 2. Create a commit for the change with the commit message (like `Bump a version of shellcheck to v0.7.3`).
 3. Push the commit (like `$ git push`).
 
@@ -312,7 +312,6 @@ make integ-test
       - でもあると便利だし、Bot に限れば Pull Request 使っても良いかも。
     - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
   - [ ] Add a new command `check-devel-tools-versions` to Makefile
-- Rename `install-dependencies-for-devel.linux-x64.sh` to `install-devel-tools.linux-x64.sh`
 
 #### List of OS to be supported
 

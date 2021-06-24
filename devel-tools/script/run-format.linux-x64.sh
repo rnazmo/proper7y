@@ -14,7 +14,7 @@ source "$(dirname "$0")/common.sh"
 TARGETS=(
   "${PROJECT_ROOT}/property"
   "${PROJECT_ROOT}/install.sh"
-  "${PROJECT_ROOT}/devel-tools/script/install-dependencies-for-devel.linux-x64.sh"
+  "${PROJECT_ROOT}/devel-tools/script/install-devel-tools.linux-x64.sh"
   "${PROJECT_ROOT}/devel-tools/script/run-lint.linux-x64.sh"
   "${PROJECT_ROOT}/devel-tools/script/run-format.linux-x64.sh"
   "${PROJECT_ROOT}/devel-tools/script/common.sh"
