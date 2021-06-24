@@ -111,7 +111,7 @@ print_bash_version() {
 
 print_zsh_version() {
   local ZSH_VERSION="Unknown"
-  local CMDNAME="zsh"
+  local -r CMDNAME="zsh"
 
   if command -v "$CMDNAME" &>/dev/null; then
     ZSH_VERSION=$(zsh --version | sed "s/zsh //")

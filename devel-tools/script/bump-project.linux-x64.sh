@@ -45,7 +45,7 @@ main() {
 }
 
 rename_project_version() {
-  local CURRENT_PROPERTY_VERSION="$PROPERTY_VERSION"
+  local -r CURRENT_PROPERTY_VERSION="$PROPERTY_VERSION"
   echo "INFO : CURRENT_PROPERTY_VERSION: $CURRENT_PROPERTY_VERSION"
 
   # Get a new version

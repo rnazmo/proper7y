@@ -39,8 +39,7 @@ check_if_devel_tools_dir_exists() {
 # Install shellcheck via the GitHub Releases Page as the file 'SHELLCHECK_CMD_PATH'.
 # Ref: https://github.com/koalaman/shellcheck#installing
 install_shellcheck() {
-  local TEMP_DIR
-  TEMP_DIR="$(mktemp -d)"
+  local -r TEMP_DIR="$(mktemp -d)"
   echo "INFO : TEMP_DIR: $TEMP_DIR"
 
   cd "$TEMP_DIR"

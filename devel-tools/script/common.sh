@@ -57,8 +57,7 @@ _get_script_dir() {
 # _get_script_dir composes the project (= 'property') root directory
 # in absolute path.
 _compose_project_root_dir() {
-  local SCRIPT_DIR
-  SCRIPT_DIR="$(_get_script_dir)"
+  local -r SCRIPT_DIR="$(_get_script_dir)"
 
   PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." &>/dev/null && pwd)"
 }
@@ -119,7 +118,7 @@ _check_if_shfmt_exists() {
 }
 
 _check_if_installed_shellcheck_version_is_correct() {
-  local TARGET_NAME="shellcheck"
+  local -r TARGET_NAME="shellcheck"
   echo "INFO : Checking that the version of $TARGET_NAME is the one expected."
 
   # Here is the example version info:
@@ -129,8 +128,8 @@ _check_if_installed_shellcheck_version_is_correct() {
   #   license: GNU General Public License, version 3
   #   website: https://www.shellcheck.net
   #
-  local SHELLCHECK_VERSION_WITHOUT_PREFIX="${SHELLCHECK_VERSION#'v'}"
-  local PATTERN="version: ${SHELLCHECK_VERSION_WITHOUT_PREFIX}"
+  local -r SHELLCHECK_VERSION_WITHOUT_PREFIX="${SHELLCHECK_VERSION#'v'}"
+  local -r PATTERN="version: ${SHELLCHECK_VERSION_WITHOUT_PREFIX}"
   if ! "$SHELLCHECK_CMD_PATH" --version | grep -q "^${PATTERN}$"; then
     echo "ERROR: The version of $TARGET_NAME is wrong (or failed to parse the version info)."
     echo "       Expected version: $SHELLCHECK_VERSION_WITHOUT_PREFIX"
@@ -143,14 +142,14 @@ _check_if_installed_shellcheck_version_is_correct() {
 }
 
 _check_if_installed_shfmt_version_is_correct() {
-  local TARGET_NAME="shfmt"
+  local -r TARGET_NAME="shfmt"
   echo "INFO : Checking that the version of $TARGET_NAME is the one expected."
 
   # Here is the example version info:
   #   $ ./devel-tools/bin/shfmt --version
   #   v3.3.0
   #
-  local PATTERN="$SHFMT_VERSION"
+  local -r PATTERN="$SHFMT_VERSION"
   if ! "$SHFMT_CMD_PATH" --version | grep -q "^${PATTERN}$"; then
     echo "ERROR: The version of $TARGET_NAME is wrong (or failed to parse the version info)."
     echo "       Expected version: $SHFMT_VERSION"
