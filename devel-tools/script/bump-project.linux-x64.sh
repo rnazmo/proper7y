@@ -29,7 +29,7 @@ main() {
   git diff
   confirm_continue
 
-  git commit -m "Bump a version to $NEW_PROPERTY_VERSION"
+  git commit -a -m "Bump a version to $NEW_PROPERTY_VERSION"
   git tag "$NEW_PROPERTY_VERSION"
   git push --atomic origin main "$NEW_PROPERTY_VERSION"
 
