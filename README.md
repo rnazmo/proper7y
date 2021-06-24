@@ -325,6 +325,7 @@ make integ-test
 
 - [ ] Linux (redhat-based)
 - [ ] Unix (macOS)
+  - -> **Develop on another repo?(github.com/rnazmo/property4mac)**
 - [ ] VFM (VMWare)
 
 #### List of software to be supported
