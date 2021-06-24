@@ -16,15 +16,19 @@ TARGETS=(
 main() {
   echo "INFO : Bump the project (= 'property') version: START"
 
-  # Check that all changes are pushed to remote.
-  if ! git diff --quiet origin/main..HEAD; then
+  if ! git diff --quiet; then
+    # Check that tracked && (unstaged/staged) file changes not exist.
+    echo "ERROR: Stage & push all changes to remote before running this script."
+    echo "       (Or, you can bump the project version without this script (manually).)"
+    exit 1
+  elif ! git diff --quiet origin/main..HEAD; then
+    # Check that all changes are pushed to remote.
     echo "ERROR: Push all changes to remote before running this script."
     echo "       (Or, you can bump the project version without this script (manually).)"
     exit 1
   fi
 
   rename_project_version
-
   echo "INFO : Here is the git diff:"
   git diff
   confirm_continue
