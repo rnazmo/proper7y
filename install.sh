@@ -14,7 +14,7 @@ set -eu
 # If you want to download this script from remote and run it with one liner, run like:
 #   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh ${HOME}/bin/)"
 
-VERSION="v0.1.1"
+VERSION="v0.1.2"
 
 SRC_URL="https://raw.githubusercontent.com/rnazmo/property/${VERSION}/property"
 
