@@ -308,7 +308,7 @@ make format
       - でもあると便利だし、Bot に限れば Pull Request 使っても良いかも。
     - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
   - [ ] Add a new command `check-devel-tools-versions` to Makefile
-- Rename `install-dependencies-for-devel.linux.x64.sh` to `install-devel-tools.linux.x64.sh`
+- Rename `install-dependencies-for-devel.linux-x64.sh` to `install-devel-tools.linux.x64.sh`
 
 #### List of OS to be supported
 
