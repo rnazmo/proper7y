@@ -18,3 +18,7 @@ format:
 .PHONY: integ-test
 integ-test:
 	./devel-tools/script/run-integ-test.linux-x64.sh
+
+.PHONY: bump-project
+bump-project:
+	./devel-tools/script/bump-project.linux-x64.sh

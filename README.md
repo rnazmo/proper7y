@@ -210,10 +210,14 @@ Ref:
 1. Create a commit for the changes with any commit message.
 2. Push the changes (like `$ git push`).
 3. Ensure that the CI to the commit passes. (And if the CI falls, we go back to step 0.)
-4. Edit and bump a version of `VERSION="v0.0.X"` in `property` and `install.sh`. (Don't forget to follow semantic versioning!)
-5. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
-6. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
-7. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
+4. Run the script and bump the project version: `$ make bump-project`
+
+MEMO: The script do following:
+
+1. Edit and bump a version of `VERSION="v0.0.X"` in `property`, `install.sh`, and `/devel-tools/script/common.sh`. (Don't forget to follow semantic versioning!)
+2. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
+3. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
+4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
 
 ### How to setup development environment
 
@@ -282,21 +286,6 @@ make integ-test
 
 - Add following test to `README.md`
   - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
-- Add new script: `/devel-tools/script/bump-project-version.sh`
-  - Tasks:
-    - [ ] Add new script: `/devel-tools/script/bump-project-version.sh`
-    - [ ] Add a new command `bump-project` to Makefile
-  - https://github.com/rnazmo/property/blob/main/README.md#how-to-bump-a-version-of-property-versioning-workflow の手順をやってくれる。
-  - 上記の記述は `make bump-project` を使ったものへと変更し、元の内容はそのスクリプト最上部に 'What this script do` コメントとして残しておく。
-    - Steps (TODO: Update this)
-      - Print the all versions & current version (via `git tag --list` ?)
-      - major / minor / patch からインタラクティブに選ぶ。
-      - Print the change `git diff `
-      - Confirm (`[y/N]`)
-      - `sed "s/${OLD_VERSION}/${NEW_VERSION}/" property install.sh` みたいな。
-      - Print the changes (via `git diff`?)
-      - Confirm (`[y/N]`)
-      - ...
 - Add new script: `/devel-tools/script/bump-devel-tools-to-latest.sh`
   - Tasks:
     - [ ] Add new script: `/devel-tools/script/check-devel-tools-are-latest.sh` ?
