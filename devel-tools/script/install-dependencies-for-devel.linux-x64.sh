@@ -6,9 +6,6 @@ set -eu
 
 source "$(dirname "$0")/common.sh"
 
-SHELLCHECK_VERSION="v0.7.2"
-SHFMT_VERSION="v3.3.0"
-
 SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_VERSION}/shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
 SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64"
 
@@ -20,13 +17,11 @@ main() {
 
   # 2. Install shellcheck
   install_shellcheck
-  check_if_shellcheck_exists
-  print_shellcheck_version
+  check_shellcheck_is_ready
 
   # 3. Install shfmt
   install_shfmt
-  check_if_shfmt_exists
-  print_shfmt_version
+  check_shfmt_is_ready
 
   echo "INFO : Installed successflly!"
 }

@@ -22,10 +22,8 @@ main() {
   echo "INFO : Start running lint..."
 
   # 1. Check if the tools are installed
-  check_if_shellcheck_exists
-  check_if_shfmt_exists
-  print_shellcheck_version
-  print_shfmt_version
+  check_shellcheck_is_ready
+  check_shfmt_is_ready
 
   # 2. Run lint
   for TARGET in "${TARGETS[@]}"; do

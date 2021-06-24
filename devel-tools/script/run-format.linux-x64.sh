@@ -28,8 +28,7 @@ main() {
   confirm_continue
 
   # 1. Check if the tools are installed
-  check_if_shfmt_exists
-  print_shfmt_version
+  check_shfmt_is_ready
 
   # 2. Run format
   for TARGET in "${TARGETS[@]}"; do

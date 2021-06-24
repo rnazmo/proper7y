@@ -25,6 +25,8 @@ set -eu
 #     except the _set_global_variables function.
 
 # Global Variables
+SHELLCHECK_VERSION="v0.7.2"
+SHFMT_VERSION="v3.3.0"
 PROJECT_ROOT="This_value_should_be_overridden"
 DEVEL_TOOLS_DIR="This_value_should_be_overridden"
 COMMON_SH_PATH="This_value_should_be_overridden"
@@ -89,7 +91,7 @@ _compose_shfmt_cmd_path() {
 
 # Check if the SHELLCHECK_CMD_PATH exists and is a exectable file.
 # If it does, do nothing; if it does not, exit with status code 1.
-check_if_shellcheck_exists() {
+_check_if_shellcheck_exists() {
   echo "INFO: Checking if the SHELLCHECK_CMD_PATH exists and a exectable file..."
   if [ ! -x "$SHELLCHECK_CMD_PATH" ]; then
     echo "INFO: SHELLCHECK_CMD_PATH: $SHELLCHECK_CMD_PATH"
@@ -102,7 +104,7 @@ check_if_shellcheck_exists() {
 }
 
 # Almost same as check_if_shellcheck_exists
-check_if_shfmt_exists() {
+_check_if_shfmt_exists() {
   echo "INFO: Checking if the SHFMT_CMD_PATH exists and a exectable file..."
   if [ ! -x "$SHFMT_CMD_PATH" ]; then
     echo "INFO: SHFMT_CMD_PATH: $SHFMT_CMD_PATH"
@@ -112,6 +114,66 @@ check_if_shfmt_exists() {
     exit 1
   fi
   echo "INFO: Checked that shfmt is installed"
+}
+
+_check_if_installed_shellcheck_version_is_correct() {
+  local TARGET_NAME="shellcheck"
+  echo "INFO: Checking that the version of $TARGET_NAME is the one expected."
+
+  # Here is the example version info:
+  #   $ ./devel-tools/bin/shellcheck --version
+  #   ShellCheck - shell script analysis tool
+  #   version: 0.7.2
+  #   license: GNU General Public License, version 3
+  #   website: https://www.shellcheck.net
+  #
+  local SHELLCHECK_VERSION_WITHOUT_PREFIX="${SHELLCHECK_VERSION#'v'}"
+  local PATTERN="version: ${SHELLCHECK_VERSION_WITHOUT_PREFIX}"
+  if ! "$SHELLCHECK_CMD_PATH" --version | grep -q "^${PATTERN}$"; then
+    echo "ERROR: The version of $TARGET_NAME is wrong (or failed to parse the version info)."
+    echo "       Expected version: $SHELLCHECK_VERSION_WITHOUT_PREFIX"
+    echo "       Got version info:"
+    $SHELLCHECK_CMD_PATH --version
+    exit 1
+  fi
+
+  echo "INFO: Checked that the version of $TARGET_NAME is correct."
+}
+
+_check_if_installed_shfmt_version_is_correct() {
+  local TARGET_NAME="shfmt"
+  echo "INFO: Checking that the version of $TARGET_NAME is the one expected."
+
+  # Here is the example version info:
+  #   $ ./devel-tools/bin/shfmt --version
+  #   v3.3.0
+  #
+  local PATTERN="$SHFMT_VERSION"
+  if ! "$SHFMT_CMD_PATH" --version | grep -q "^${PATTERN}$"; then
+    echo "ERROR: The version of $TARGET_NAME is wrong (or failed to parse the version info)."
+    echo "       Expected version: $SHFMT_VERSION"
+    echo "       Got version info:"
+    $SHFMT_CMD_PATH --version
+    exit 1
+  fi
+
+  echo "INFO: Checked that the version of $TARGET_NAME is correct."
+}
+
+check_shellcheck_is_ready() {
+  echo "INFO: Checking shellcheck is ready..."
+  _check_if_shellcheck_exists
+  _check_if_installed_shellcheck_version_is_correct
+  echo "INFO: Checked. shellcheck is ready!"
+  print_shellcheck_version
+}
+
+check_shfmt_is_ready() {
+  echo "INFO: Checking shfmt is ready..."
+  _check_if_shfmt_exists
+  _check_if_installed_shfmt_version_is_correct
+  echo "INFO: Checked. shfmt is ready!"
+  print_shfmt_version
 }
 
 print_shellcheck_version() {
