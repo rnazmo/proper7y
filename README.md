@@ -306,6 +306,7 @@ make integ-test
     - そもそも Pull Request はあまり使いたくないのでは？
     - でもあると便利だし、Bot に限れば Pull Request 使っても良いかも。
   - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
+- Add a function to parse&validate arguments to `install.sh`
 
 #### List of OS to be supported
 
