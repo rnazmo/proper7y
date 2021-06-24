@@ -1,12 +1,12 @@
 #!/bin/bash
 set -eu
 
-VERSION="v0.1.2"
+PROPERTY_VERSION="v0.1.2"
 
 # -------------------------------------------------------------------
 
 main() {
-  echo "property $VERSION - A tiny Bash script to get OS and other"
+  echo "property $PROPERTY_VERSION - A tiny Bash script to get OS and other"
   echo "software version info. https://github.com/rnazmo/property"
 
   echo "============================================================"

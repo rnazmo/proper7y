@@ -14,9 +14,9 @@ set -eu
 # If you want to download this script from remote and run it with one liner, run like:
 #   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh ${HOME}/bin/)"
 
-VERSION="v0.1.2"
+PROPERTY_VERSION="v0.1.2"
 
-SRC_URL="https://raw.githubusercontent.com/rnazmo/property/${VERSION}/property"
+SRC_URL="https://raw.githubusercontent.com/rnazmo/property/${PROPERTY_VERSION}/property"
 
 # Parse argument:
 # Check if the number of arguments is one.
