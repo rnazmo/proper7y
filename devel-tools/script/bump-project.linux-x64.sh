@@ -43,8 +43,10 @@ rename_project_version() {
   # Get a new version
   read -p "Enter NEW_PROPERTY_VERSION: " -r NEW_PROPERTY_VERSION
   # Validate the new version
-  PATTERN='^v(\d+\.)(\d+\.)(\d+)$'
-  if [[ "$NEW_PROPERTY_VERSION" =~ $PATTERN ]]; then
+  PATTERN='^v[0-9]+\.[0-9]+\.[0-9]+$'
+  if ! [[ $NEW_PROPERTY_VERSION =~ $PATTERN ]]; then
+    echo "ERROR: Wrong value. Must follow this pattern: $PATTERN"
+    echo "       'NEW_PROPERTY_VERSION': $NEW_PROPERTY_VERSION"
     exit 1
   fi
   echo "INFO : NEW_PROPERTY_VERSION: $NEW_PROPERTY_VERSION"
