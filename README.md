@@ -255,6 +255,12 @@ NOTE: This overwrite the files. Save it before running.
 make format
 ```
 
+### How to integration-test
+
+
+```console
+make integ-test
+```
 ### TODO
 
 - Add support for following softwares
