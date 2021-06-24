@@ -2,7 +2,7 @@
 set -eu
 
 # TL:DR (What is this?)
-#   - Run '/devel-tools/bin/shfmt' to the TARGETS with the option " -i 2 -ci -w"
+#   - Run '/devel-tools/bin/shfmt' to the TARGETS with the option " -i 2 -w"
 #   (See below the variable 'TARGETS' to know what files are included in it.)
 #
 # NOTE
@@ -36,7 +36,7 @@ main() {
     echo "INFO: Running format to the target: START"
     echo "INFO: TARGET: $TARGET"
 
-    "$SHFMT_CMD_PATH" -i 2 -ci -w "$TARGET"
+    "$SHFMT_CMD_PATH" -i 2 -w "$TARGET"
 
     echo "INFO: Running format to the target: END"
   done
