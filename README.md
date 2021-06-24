@@ -297,9 +297,9 @@ make integ-test
       - Print the changes (via `git diff`?)
       - Confirm (`[y/N]`)
       - ...
-- Add new script: `/devel-tools/script/check-devel-tools-versions-are-latest.sh`
   - Tasks:
-    - [ ] Add new script: `/devel-tools/script/bump-project-version.sh`
+    - [ ] Add new script: `/devel-tools/script/check-devel-tools-are-latest.sh` ?
+    - [ ] Add new script: `/devel-tools/script/bump-devel-tools-to-latest.sh` ?
     - [ ] Add a new command `check-updates-for-devel-tools` to Makefile
     - [ ] Setup CI?
   - Check that the versions of the dependencies (= devel-tools) are latest.
