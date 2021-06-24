@@ -2,13 +2,15 @@
 set -eu
 
 # TL:DR (What is this?)
-#   - Run '/devel-tools/bin/shellcheck' to the TARGETS.
-#   - Run '/devel-tools/bin/shfmt' to the TARGETS with the option "-i 2 -d"
+#   - Run '/devel-tools/bin/shfmt' to the TARGETS with the option " -i 2 -ci -w"
 #   (See below the variable 'TARGETS' to know what files are included in it.)
+#
+# NOTE
+#   - This script OVERWRITE the target files. Recommend you to save it before running.
 
 source "$(dirname "$0")/common.sh"
 
-# Targets of runnning lint.
+# Targets of runnning format.
 TARGETS=(
   "${PROJECT_ROOT}/property"
   "${PROJECT_ROOT}/install.sh"
@@ -19,26 +21,27 @@ TARGETS=(
 )
 
 main() {
-  echo "INFO : Start running lint..."
+  echo "INFO : Start running format..."
+
+  echo "WARN: This script OVERWRITE the target files."
+  echo "      Recommend you to save it before running."
+  confirm_continue
 
   # 1. Check if the tools are installed
-  check_if_shellcheck_exists
   check_if_shfmt_exists
-  print_shellcheck_version
   print_shfmt_version
 
-  # 2. Run lint
+  # 2. Run format
   for TARGET in "${TARGETS[@]}"; do
-    echo "INFO: Running lint to the target: START"
+    echo "INFO: Running format to the target: START"
     echo "INFO: TARGET: $TARGET"
 
-    "$SHELLCHECK_CMD_PATH" --exclude SC1091 "$TARGET"
-    "$SHFMT_CMD_PATH" -i 2 -d "$TARGET"
+    "$SHFMT_CMD_PATH" -i 2 -ci -w "$TARGET"
 
-    echo "INFO: Running lint to the target: END"
+    echo "INFO: Running format to the target: END"
   done
 
-  echo "INFO : Ran lint successflly!"
+  echo "INFO : Ran format successflly!"
 }
 
 main

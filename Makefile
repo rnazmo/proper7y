@@ -10,3 +10,7 @@ print-devel-tools-versions:
 .PHONY: lint
 lint:
 	./devel-tools/script/run-lint.linux-x64.sh
+
+.PHONY: format
+format:
+	./devel-tools/script/run-format.linux-x64.sh

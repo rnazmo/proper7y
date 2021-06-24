@@ -247,12 +247,12 @@ make lint
 
 ### How to run format
 
+NOTE: Install devel-tools before running format.
+
 NOTE: This overwrite the files. Save it before running.
 
-- `-w`: Write result to file instead of stdout.
-
 ```console
-./devel-tools/bin/shfmt -i 2 -ci -w ./property ./install.sh
+make format
 ```
 
 ### TODO
@@ -309,7 +309,6 @@ NOTE: This overwrite the files. Save it before running.
     - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
   - [ ] Add a new command `check-devel-tools-versions` to Makefile
 - Rename `install-dependencies-for-devel.linux.x64.sh` to `install-devel-tools.linux.x64.sh`
-- Add a new command `format` to Makefile
 
 #### List of OS to be supported
 
@@ -378,3 +377,9 @@ Example:
 ```console
 shfmt -i 2 -d ./property ./install.sh
 ```
+
+### Formatting
+
+#### Options of shfmt
+
+- `-w`: Write result to file instead of stdout.

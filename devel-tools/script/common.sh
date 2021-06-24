@@ -6,6 +6,7 @@ set -eu
 #   - Export some functions
 #   This file will be loaded from the following files:
 #     run-lint.linux-x64.sh
+#     run-lint.format-x64.sh
 #     install-dependencies-for-devel.linux-x64.sh
 #
 # How to load this file:
@@ -121,6 +122,14 @@ print_shellcheck_version() {
 print_shfmt_version() {
   echo "INFO: Version of the shfmt is:"
   "$SHFMT_CMD_PATH" --version
+}
+
+confirm_continue() {
+  read -p "Continue? [y/N]" -n 1 -r
+  echo # Print new line (optional)
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || exit 1
+  fi
 }
 
 _main
