@@ -297,6 +297,7 @@ make integ-test
       - Print the changes (via `git diff`?)
       - Confirm (`[y/N]`)
       - ...
+- Add new script: `/devel-tools/script/bump-devel-tools-to-latest.sh`
   - Tasks:
     - [ ] Add new script: `/devel-tools/script/check-devel-tools-are-latest.sh` ?
     - [ ] Add new script: `/devel-tools/script/bump-devel-tools-to-latest.sh` ?
