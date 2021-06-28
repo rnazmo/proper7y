@@ -22,11 +22,11 @@ parse_args() {
   # Parse argument:
   # Check if the number of arguments is one.
   if [ $# -eq 0 ]; then
-    echo "ERROR: Too less arguments."
+    log_err "Too less arguments."
     print_usage
     exit 1
   elif [ $# -gt 1 ]; then
-    echo "ERROR: Too many arguments."
+    log_err "Too many arguments."
     print_usage
     exit 1
   fi
@@ -37,21 +37,21 @@ parse_args() {
   if [ -d "$DEST_DIR" ]; then
     :
   elif [ -e "$DEST_DIR" ]; then
-    echo "ERROR: The path $DEST_DIR is not a directory. Must be a directory"
+    log_err "The path $DEST_DIR is not a directory. Must be a directory"
     print_usage
     exit1
   else
-    echo "INFO : The path $DEST_DIR does not exist. Creating..."
+    log_info "The path $DEST_DIR does not exist. Creating..."
     mkdir -p "$DEST_DIR"
-    echo "INFO : The path created."
+    log_info "The path created."
   fi
 }
 
 main() {
-  echo "INFO : Start installing..."
+  log_info "Start installing..."
 
-  echo "INFO : SRC_URL is $SRC_URL"
-  echo "INFO : DEST_DIR is $DEST_DIR"
+  log_info "SRC_URL is $SRC_URL"
+  log_info "DEST_DIR is $DEST_DIR"
 
   cd "$DEST_DIR"
 
@@ -62,12 +62,12 @@ main() {
   chmod +x ./property
 
   if [ ! -x ./property ]; then
-    echo "ERROR: Something wrong :("
+    log_err "Something wrong :("
     print_usage
     exit 1
   fi
 
-  echo "INFO : Installed successflly!"
+  log_info "Installed successflly!"
 }
 
 print_usage() {
@@ -76,6 +76,19 @@ print_usage() {
   echo "  The <dir_path> is a directory where you want to install 'property' command."
   echo "Example: "
   echo "  ./install.sh ~/bin/"
+}
+
+log_info() {
+  local -r PREFIX="INFO :"
+  echo "$PREFIX $1"
+}
+log_warn() {
+  local -r PREFIX="WARN :"
+  echo "$PREFIX $1"
+}
+log_err() {
+  local -r PREFIX="ERROR:"
+  echo "$PREFIX $1"
 }
 
 parse_args "$@"

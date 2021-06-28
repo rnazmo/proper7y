@@ -19,7 +19,7 @@ TARGETS=(
 )
 
 main() {
-  echo "INFO : Start running lint..."
+  log_info "Start running lint..."
 
   # 1. Check if the tools are installed
   check_shellcheck_is_ready
@@ -27,16 +27,16 @@ main() {
 
   # 2. Run lint
   for TARGET in "${TARGETS[@]}"; do
-    echo "INFO : Running lint to the target: START"
-    echo "INFO : TARGET: $TARGET"
+    log_info "Running lint to the target: START"
+    log_info "TARGET: $TARGET"
 
     "$SHELLCHECK_CMD_PATH" --exclude SC1091 "$TARGET"
     "$SHFMT_CMD_PATH" -i 2 -d "$TARGET"
 
-    echo "INFO : Running lint to the target: END"
+    log_info "Running lint to the target: END"
   done
 
-  echo "INFO : Ran all lint successflly!"
+  log_info "Ran all lint successflly!"
 }
 
 main

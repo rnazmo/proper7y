@@ -4,26 +4,28 @@ set -eu
 # TL;DR (What is this?):
 #   - Install and run stable 'property'.
 
+source "$(dirname "$0")/common.sh"
+
 URL="https://raw.githubusercontent.com/rnazmo/property/main/install.sh"
 
 main() {
-  echo "INFO : Start running integ-test (Install and run stable 'property')"
+  log_info "Start running integ-test (Install and run stable 'property')"
 
-  echo "INFO : Cd to temp directory"
+  log_info "Cd to temp directory"
   cd "$(mktemp -d)"
-  echo "INFO : pwd: $(pwd)"
+  log_info "pwd: $(pwd)"
 
-  echo "INFO : Get the 'install.sh'"
+  log_info "Get the 'install.sh'"
   curl -O "$URL"
   chmod +x ./install.sh
 
-  echo "INFO : Run the 'install.sh' and install property"
+  log_info "Run the 'install.sh' and install property"
   ./install.sh .
 
-  echo "INFO : Run property"
+  log_info "Run property"
   ./property
 
-  echo "INFO : Running integ-test successflly!"
+  log_info "Running integ-test successflly!"
 }
 
 main
