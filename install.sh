@@ -18,32 +18,34 @@ PROPERTY_VERSION="v0.1.5"
 
 SRC_URL="https://raw.githubusercontent.com/rnazmo/property/${PROPERTY_VERSION}/property"
 
-# Parse argument:
-# Check if the number of arguments is one.
-if [ $# -eq 0 ]; then
-  echo "ERROR: Too less arguments."
-  print_usage
-  exit 1
-elif [ $# -gt 1 ]; then
-  echo "ERROR: Too many arguments."
-  print_usage
-  exit 1
-fi
-DEST_DIR="$1"
+parse_args() {
+  # Parse argument:
+  # Check if the number of arguments is one.
+  if [ $# -eq 0 ]; then
+    echo "ERROR: Too less arguments."
+    print_usage
+    exit 1
+  elif [ $# -gt 1 ]; then
+    echo "ERROR: Too many arguments."
+    print_usage
+    exit 1
+  fi
+  DEST_DIR="$1"
 
-# Validate argument:
-# Check if the DEST_DIR exists and is directory.
-if [ -d "$DEST_DIR" ]; then
-  :
-elif [ -e "$DEST_DIR" ]; then
-  echo "ERROR: The path $DEST_DIR is not a directory. Must be a directory"
-  print_usage
-  exit1
-else
-  echo "INFO : The path $DEST_DIR does not exist. Creating..."
-  mkdir -p "$DEST_DIR"
-  echo "INFO : The path created."
-fi
+  # Validate argument:
+  # Check if the DEST_DIR exists and is directory.
+  if [ -d "$DEST_DIR" ]; then
+    :
+  elif [ -e "$DEST_DIR" ]; then
+    echo "ERROR: The path $DEST_DIR is not a directory. Must be a directory"
+    print_usage
+    exit1
+  else
+    echo "INFO : The path $DEST_DIR does not exist. Creating..."
+    mkdir -p "$DEST_DIR"
+    echo "INFO : The path created."
+  fi
+}
 
 main() {
   echo "INFO : Start installing..."
@@ -75,5 +77,7 @@ print_usage() {
   echo "Example: "
   echo "  ./install.sh ~/bin/"
 }
+
+parse_args "$@"
 
 main
