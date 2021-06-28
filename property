@@ -82,6 +82,21 @@ print_chassis() {
   print_row "CHASSIS" "$CHASSIS"
 }
 
+# # TODO:
+# print_cpu_name() {
+#
+# }
+
+# # TODO:
+# print_ram_size() {
+#
+# }
+
+# # TODO:
+# print_gpu_name( {
+#
+# }
+
 # # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
 # print_virtualization() {
 #   local VIRTUALIZATION="Unknown"
