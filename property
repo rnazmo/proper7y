@@ -215,8 +215,6 @@ print_vim_version() {
 #   PADDED_HELLO="pad_with_spaces 'hello'"
 #
 pad_with_spaces() {
-  # TODO: Should I check that the number of arguments is one?
-
   local -r RAW="$1"
   local -r LENGTH="13"
   printf "%-*s" "$LENGTH" "$RAW"
@@ -228,8 +226,6 @@ pad_with_spaces() {
 #   print_row "OS NAME" "Kali GNU/Linux Rolling"
 #
 print_row() {
-  # TODO: Should I check that the number of arguments is two?
-
   local -r ROW_NAME="$1"
   local -r ROW_VALUE="$2"
   local -r ROW_NAME_PADDED="$(pad_with_spaces "$ROW_NAME")"
