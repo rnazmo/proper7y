@@ -5,9 +5,11 @@ set -eu
 #   - Compose and export the global variables
 #   - Export some functions
 #   This file will be loaded from the following files:
-#     run-lint.linux-x64.sh
-#     run-lint.format-x64.sh
 #     install-devel-tools.linux-x64.sh
+#     bump-project.linux-x64.sh
+#     run-lint.linux-x64.sh
+#     run-format.linux-x64.sh
+#     run-integ-test.linux-x64.sh
 #
 # How to load this file:
 #   Like this:
