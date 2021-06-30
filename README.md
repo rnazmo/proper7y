@@ -233,7 +233,7 @@ make install-devel-tools
 
 ### How to bump a version of devel-tools
 
-1. Edit and bump a version of `SHELLCHECK_VERSION="v0.7.2"` or `SHFMT_VERSION="v3.3.0"` in `/devel-tools/script/install-devel-tools.linux-x64.sh`.
+1. Edit and bump the versions in `/devel-tools/script/common.sh`. (like `SHELLCHECK_VERSION="v0.7.2"`, `SHFMT_VERSION="v3.3.0"`)
 2. Create a commit for the change with the commit message (like `Bump a version of shellcheck to v0.7.3`).
 3. Push the commit (like `$ git push`).
 
