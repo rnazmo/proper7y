@@ -142,7 +142,8 @@ NOTE: These are documents to my future self.
 
 - Simple usage (≒ option)
 - Simple code
-  - Tiny size
+  - Tiny code size
+  - Fewer files
   - Minimum dependencies
 - Simple documentation
   - 重要な情報は `README.md` (とソースコード中のコメント) に集約する。
