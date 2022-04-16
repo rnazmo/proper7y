@@ -147,8 +147,8 @@ NOTE: These are documents to my future self.
 - Simple documentation
   - 重要な情報は `README.md` (とソースコード中のコメント) に集約する。
   - 情報が散らばるのを避ける。
-    - Should not using 'Issues'
-    - Should not using 'Pull Requests'
+    - **Should not using 'Issues'**
+    - **Should not using 'Pull Requests'**
     - Shall not using 'Wikis'
   - Shall not using wiki
 - Easy to maintain
