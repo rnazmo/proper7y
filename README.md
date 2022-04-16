@@ -11,7 +11,7 @@ TODO: GIF here
 
 TODO: Here's a summary you can read in 30 seconds.
 
-## Documentation for user
+## Documentation for users
 
 NOTE: These are documents to my future self.
 
@@ -134,7 +134,7 @@ $ cd /tmp && \
     ./install.sh "$DEST_DIR"
 ```
 
-## Documentation for developer
+## Documentation for developers
 
 NOTE: These are documents to my future self.
 
