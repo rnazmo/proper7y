@@ -169,7 +169,16 @@ Follow semantic versioning.
 
 #### Commit message
 
-特にルールは設けない。てきとうに。
+- 原則として、てきとうにゆるくやる
+  - ミスってもあまり気にせず。ゆるく
+- For document only changes:
+  - Add 'docs: ' as a prefix (SHALL)
+- When you bump a version of 'property'
+  - Like this: `Bump a version to v0.0.3` (SHOULD)
+- When you bump a version of devel-tools
+  - Like this: `Bump a version of shellcheck to v0.7.3` (SHOULD)
+- When you bump a version of devel-tools
+  - TODO:
 
 #### Issues / Pull requests
 
