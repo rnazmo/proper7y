@@ -228,11 +228,17 @@ MEMO: The script do following:
 3. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
 4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
 
-### How to setup development environment
+### Prerequisite
 
-**NOTE: Support only debian-based Linux && x64**
+**Only the following machine are supported as development environments**:
 
-- [Install dependencies](https://github.com/rnazmo/property#how-to-install-devel-tools)
+- **'debian-based Linux' && 'x64'**
+
+### How to setup your development environment
+
+1. Check if your machine meet [the prerequisites](https://github.com/rnazmo/property#prerequisites)
+2. Clone this repository under any directory on the machine. (`git clone git@github.com:rnazmo/property.git`)
+3. [Install the dependencies using the scripts](https://github.com/rnazmo/property#how-to-install-devel-tools)
 
 ### How to install devel-tools
 
