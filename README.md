@@ -283,25 +283,15 @@ make integ-test
 
 ### TODO
 
-- Add support for following softwares
-  - `<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか？
-- Add support for options
-- Add support for following OS
-  - ~~Should I rewrite with Golang?~~
-  - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'property4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
-- Add 'pre-commit' (lint)
-  - Run shellcheck to /property (like `$ shellcheck ./property`)
-  - Run shfmt /property (like `$ shfmt -l -w`)
-- Refine README.md (内容が重複しているところとかある)
-- `install.sh` がある理由を書いておく
-  - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
-  - [ref](#do-not-download-install-property-without-specifying-the-version)
-  - 書き方はここが参考になりそう：
-    - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
-    - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
+#### Priority: ☆☆☆
 
-- Add following test to `README.md`
-  - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
+- Bump the versions of devel tools
+  - Ref: https://github.com/rnazmo/property#how-to-bump-a-version-of-devel-tools
+- docs: nitpicks: Fix the heading
+  -  "How to bump a version of devel-tools" -> "How to bump versions of devel-tools"
+
+#### Priority: ☆☆
+
 - Add new script: `/devel-tools/script/bump-devel-tools-to-latest.sh`
   - Tasks:
     - [ ] Add new script: `/devel-tools/script/check-devel-tools-are-latest.sh` ?
@@ -324,7 +314,34 @@ make integ-test
   - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
 - Add a function to parse&validate arguments to `install.sh`
 
-#### List of OS to be supported
+#### Priority: ☆
+
+- New features:
+  - Add support for following softwares
+    - `<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか？
+  - Add support for options
+  - Add support for following OS
+    - ~~Should I rewrite with Golang?~~
+    - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'property4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
+- docs only changes:
+  - Refine README.md (内容が重複しているところとかある)
+  - `install.sh` がある理由を書いておく
+    - 「これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中」
+  - Add following texts to `README.md`
+    - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
+
+- Add 'pre-commit' (lint)
+  - Run shellcheck to /property (like `$ shellcheck ./property`)
+  - Run shfmt /property (like `$ shfmt -l -w`)
+で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
+  - [ref](#do-not-download-install-property-without-specifying-the-version)
+  - 書き方はここが参考になりそう：
+    - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
+    - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
+
+#### List of OS/software to be supported
+
+##### OS
 
 - [ ] Linux (debian-based)
 - [x] Windows
@@ -338,7 +355,7 @@ make integ-test
   - -> **Develop on another repo?(github.com/rnazmo/property4mac)**
 - [ ] VFM (VMWare)
 
-#### List of software to be supported
+##### software
 
 - vim: `vim --version`
 - nvim: `nvim --version`
