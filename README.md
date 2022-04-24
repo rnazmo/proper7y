@@ -42,9 +42,9 @@ If you want to install property command under `${HOME}/bin/`,
 run commands on your terminal like:
 
 ```console
-$ DEST_DIR="${HOME}/bin"
+DEST_DIR="${HOME}/bin"
 
-$ cd /tmp && \
+cd /tmp && \
     curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh && \
     chmod +x ./install.sh && \
     ./install.sh "$DEST_DIR"
