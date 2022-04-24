@@ -50,6 +50,12 @@ cd /tmp && \
     ./install.sh "$DEST_DIR"
 ```
 
+To check that you installed it successfully:
+
+```console
+"${HOME}/bin/property"
+```
+
 #### Manually
 
 1. Download `property` file from GitHub's raw page, **specifying any version** (Use a link like [this](https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property) one.)
