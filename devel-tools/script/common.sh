@@ -30,7 +30,7 @@ set -eu
 # shellcheck disable=SC2034
 PROPERTY_VERSION="v0.1.6"
 SHELLCHECK_VERSION="v0.8.0"
-SHFMT_VERSION="v3.3.0"
+SHFMT_VERSION="v3.4.3"
 PROJECT_ROOT="This_value_should_be_overridden"
 DEVEL_TOOLS_DIR="This_value_should_be_overridden"
 COMMON_SH_PATH="This_value_should_be_overridden"
