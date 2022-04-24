@@ -38,11 +38,11 @@ TODO:
 
 #### Using Script (recommended)
 
-If you want to install property command under `~/bin/`,
+If you want to install property command under `${HOME}/bin/`,
 run commands on your terminal like:
 
 ```console
-$ DEST_DIR="~/bin"
+$ DEST_DIR="${HOME}/bin"
 
 $ cd /tmp && \
     curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh && \
@@ -127,7 +127,7 @@ I highly recommend you to use `install.sh` to avoid these mistakes.
 
 ```console
 # GOOD (Recommend)
-$ DEST_DIR="~/bin"
+$ DEST_DIR="${HOME}/bin"
 $ cd /tmp && \
     curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh && \
     chmod +x ./install.sh && \
