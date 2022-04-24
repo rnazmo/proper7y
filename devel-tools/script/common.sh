@@ -28,7 +28,7 @@ set -eu
 
 # Global Variables
 # shellcheck disable=SC2034
-PROPERTY_VERSION="v0.1.6"
+PROPERTY_VERSION="v0.1.7"
 SHELLCHECK_VERSION="v0.8.0"
 SHFMT_VERSION="v3.4.3"
 PROJECT_ROOT="This_value_should_be_overridden"
