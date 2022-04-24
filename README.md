@@ -287,8 +287,6 @@ make integ-test
 
 - Bump the versions of devel tools
   - Ref: https://github.com/rnazmo/property#how-to-bump-a-version-of-devel-tools
-- docs: nitpicks: Fix the heading
-  -  "How to bump a version of devel-tools" -> "How to bump versions of devel-tools"
 
 #### Priority: ☆☆
 
