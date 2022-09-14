@@ -293,6 +293,10 @@ make integ-test
 
 - Bump the versions of devel tools
   - Ref: https://github.com/rnazmo/property#how-to-bump-a-version-of-devel-tools
+- Rename the app
+  - このアプリ名("property")は非常に衝突しやすい。もう少しユニークな文字列にしたい。
+    - かと言って、大きく変えたくない。
+      - `proper7y` とかでどうか。
 
 #### Priority: ☆☆
 
@@ -327,6 +331,7 @@ make integ-test
   - Add support for options
   - Add support for following OS
     - ~~Should I rewrite with Golang?~~
+      - このアプリを作る＆メンテする目的の1つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
     - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'property4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
 - docs only changes:
   - Refine README.md (内容が重複しているところとかある)
