@@ -7,6 +7,10 @@ print-devel-tools-versions:
 	./devel-tools/bin/shellcheck --version | grep "version: " | sed 's/version: /v/'
 	./devel-tools/bin/shfmt --version
 
+.PHONY: check-devel-tools-versions-are-latest
+check-devel-tools-versions-are-latest:
+	./devel-tools/script/check-devel-tools-are-latest.linux-x64.sh
+
 .PHONY: lint
 lint:
 	./devel-tools/script/run-lint.linux-x64.sh

@@ -16,6 +16,7 @@ TARGETS=(
   "${PROJECT_ROOT}/devel-tools/script/run-lint.linux-x64.sh"
   "${PROJECT_ROOT}/devel-tools/script/run-format.linux-x64.sh"
   "${PROJECT_ROOT}/devel-tools/script/common.sh"
+  "${PROJECT_ROOT}/devel-tools/script/check-devel-tools-are-latest.linux-x64.sh"
 )
 
 main() {
