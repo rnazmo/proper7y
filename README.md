@@ -306,7 +306,7 @@ make integ-test
     - [ ] Add new script: `/devel-tools/script/bump-devel-tools-to-latest.sh` ?
     - [ ] Add a new command `check-updates-for-devel-tools` to Makefile
     - [ ] Setup CI?
-  - Check that the versions of the dependencies (= devel-tools) are latest.
+- Check that the versions of the dependencies (= devel-tools) are latest.
   - TODO: どうやって実装する？
     - **簡易的なものでよい**。シンプルに https://github.com/koalaman/shellcheck/releases/tag/v0.7.2 と https://github.com/koalaman/shellcheck/releases/latest が一致するか確かめるだけで良さそう。
     - GitHub API 使えそう？使えそうなもののメモ：
