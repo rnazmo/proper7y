@@ -335,6 +335,8 @@ make integ-test
     - [ShellSpec - シェルスクリプト用のフル機能のBDDユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
     - [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
     - [ShellSpec - シェルスクリプト用のBDDテスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
+- Write supported OS/Software List
+  - Example: [shellspec/shells.md at master · shellspec/shellspec](https://github.com/shellspec/shellspec/blob/f800240b606ed8d60f27ca687400836c0083e76a/docs/shells.md)
 
 #### Priority: ☆
 
