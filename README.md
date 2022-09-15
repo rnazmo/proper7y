@@ -342,6 +342,12 @@ make integ-test
     - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
     - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
 
+- Add GIF image to `README.md`
+  - using `asciinema`?
+    - [ターミナルでの入力の記録と再生、Webでの共有が可能なOSSツール – asciinema | DevelopersIO](https://dev.classmethod.jp/articles/intro-asciinema/)
+
+- コマンドの exit status を整える。(正常終了で 0 を返す、など)
+
 #### List of OS/software to be supported
 
 ##### OS
