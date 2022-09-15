@@ -343,7 +343,8 @@ make integ-test
 - New features:
   - Add support for following softwares
     - `<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか？
-  - Add support for options
+  - Add support for options?
+    - Using [ko1nksm/getoptions: An elegant option/argument parser for shell scripts (full support for bash and all POSIX shells)](https://github.com/ko1nksm/getoptions) ?
   - Add support for following OS
     - ~~Should I rewrite with Golang?~~
       - このアプリを作る＆メンテする目的の1つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
