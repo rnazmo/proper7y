@@ -294,8 +294,8 @@ make integ-test
 - Create/Update commands for devel-tools management:
   - `check-devel-tools-versions.sh`
     - Print following three versions of the devel-tools:
-      - Expected version: Written in the `/devel-tools/script/common.sh`.
-      - Current version : The actual version of the binaries under `/devel-tools/bin/`.
+      - Current version : Expected version written in the `/devel-tools/script/common.sh`.
+      - Binary's version: The actual version of the binaries under `/devel-tools/bin/`.
       - Latest version  : The latest release on GitHub.
   - `install-devel-tools.sh`
   - `upgrade-devel-tools.sh`
