@@ -291,7 +291,25 @@ make integ-test
 
 #### Priority: ☆☆☆
 
-- Bump the versions of devel tools
+- Create/Update commands for devel-tools management:
+  - `check-devel-tools-versions.sh`
+    - Print following three versions of the devel-tools:
+      - Expected version: Written in the `/devel-tools/script/common.sh`.
+      - Current version : The actual version of the binaries under `/devel-tools/bin/`.
+      - Latest version  : The latest release on GitHub.
+  - `install-devel-tools.sh`
+  - `upgrade-devel-tools.sh`
+    - Steps (idea):
+      - 1. Run `check-devel-tools-versions.sh`
+      - 2. Check if update is required
+      - 3. (Get the latest version numbers)
+      - 4. Overwrite devel-tools versions
+      - 5. Install(Reinstall) devel-tools
+    - including `func bump_devel_tools_versions()`
+    - Ref: https://github.com/rnazmo/property#how-to-bump-a-version-of-devel-tools
+  - (Do not forget to update Makefile.)
+- Bump the versions of devel tools with the script
+  - 上記で作ったスクリプト `upgrade-devel-tools.sh` を試すのも兼ねる。
   - Ref: https://github.com/rnazmo/property#how-to-bump-a-version-of-devel-tools
 - Rename the app
   - このアプリ名("property")は非常に衝突しやすい。もう少しユニークな文字列にしたい。
@@ -300,22 +318,16 @@ make integ-test
 
 #### Priority: ☆☆
 
-- Add new script: `/devel-tools/script/bump-devel-tools-to-latest.sh`
-  - Tasks:
-    - [ ] Add new script: `/devel-tools/script/check-devel-tools-are-latest.sh` ?
-    - [ ] Add new script: `/devel-tools/script/bump-devel-tools-to-latest.sh` ?
-    - [ ] Add a new command `check-updates-for-devel-tools` to Makefile
-    - [ ] Setup CI?
-  - Run the script on CI
-    - Triggrer: weekly (Can I use https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events ?)
+- devel-tools が最新かどうか、CI (github actions)でチェック？
+  - Run the script `check-devel-tools-versions.sh` on CI ?
+    - Trigger: weekly (Can I use https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events ?)
   - 自動で Pull Request 作成するところまでやる？ (dependabot みたいに)
     - 実装や権限管理面倒じゃない？大丈夫？
     - そもそも Pull Request はあまり使いたくないのでは？
     - でもあると便利だし、Bot に限れば Pull Request 使っても良いかも。
   - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
-  - Add date infomation in the "property" log?
-- Add a function to parse&validate arguments to `install.sh`
-- Add unit test
+- Add date information in the "property" log?
+- Add unit test?
   - `ShellSpec` ?
     - [ShellSpec - シェルスクリプト用のフル機能のBDDユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
     - [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
