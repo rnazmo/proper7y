@@ -66,30 +66,30 @@ _compose_project_root_dir() {
 
 _compse_devel_tools_dir() {
   DEVEL_TOOLS_DIR="${PROJECT_ROOT}/devel-tools/bin"
-
-  log_info "DEVEL_TOOLS_DIR: $DEVEL_TOOLS_DIR"
+  ROW="$(compose_row "DEVEL_TOOLS_DIR" "$DEVEL_TOOLS_DIR")"
+  log_info "$ROW"
 }
 
 _compse_common_sh_path() {
   COMMON_SH_PATH="${PROJECT_ROOT}/devel-tools/bin"
-
-  log_info "COMMON_SH_PATH: $COMMON_SH_PATH"
+  ROW="$(compose_row "COMMON_SH_PATH" "$COMMON_SH_PATH")"
+  log_info "$ROW"
 }
 
 # Note that this does not return a string,
 # but set global variable SHELLCHECK_CMD_PATH.
 _compose_shellcheck_cmd_path() {
   SHELLCHECK_CMD_PATH="${DEVEL_TOOLS_DIR}/shellcheck"
-
-  log_info "SHELLCHECK_CMD_PATH: $SHELLCHECK_CMD_PATH"
+  ROW="$(compose_row "SHELLCHECK_CMD_PATH" "$SHELLCHECK_CMD_PATH")"
+  log_info "$ROW"
 }
 
 # Note that this does not return a string,
 # but set global variable SHFMT_CMD_PATH.
 _compose_shfmt_cmd_path() {
   SHFMT_CMD_PATH="${DEVEL_TOOLS_DIR}/shfmt"
-
-  log_info "SHFMT_CMD_PATH: $SHFMT_CMD_PATH"
+  ROW="$(compose_row "SHFMT_CMD_PATH" "$SHFMT_CMD_PATH")"
+  log_info "$ROW"
 }
 
 # Check if the SHELLCHECK_CMD_PATH exists and is a exectable file.
@@ -195,6 +195,33 @@ confirm_continue() {
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || exit 1
   fi
+}
+
+# Pad right of a given string with spaces.
+#
+# Example Usage:
+#   PADDED_HELLO="pad_with_spaces 'DEVEL_TOOLS_DIR'"
+#
+# NOTE:
+#   The number '20' is the max length of those variables
+#   (DEVEL_TOOLS_DIR, COMMON_SH_PATH, SHELLCHECK_CMD_PATH).
+pad_with_spaces() {
+  local -r RAW="$1"
+  local -r LENGTH="20"
+  printf "%-*s" "$LENGTH" "$RAW"
+}
+
+# Compose a row in format using given ROW_NAME and ROW_VALUE.
+#
+# Example Usage:
+#   compose_row "DEVEL_TOOLS_DIR" "/foo/bar/baz/property/devel-tools/bin"
+#
+compose_row() {
+  local -r ROW_NAME="$1"
+  local -r ROW_VALUE="$2"
+  local -r ROW_NAME_PADDED="$(pad_with_spaces "$ROW_NAME")"
+
+  echo "${ROW_NAME_PADDED}: ${ROW_VALUE}"
 }
 
 log_info() {
