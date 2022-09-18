@@ -10,6 +10,7 @@ set -eu
 #     run-lint.linux-x64.sh
 #     run-format.linux-x64.sh
 #     run-integ-test.linux-x64.sh
+#     etc...
 #
 # How to load this file:
 #   Like this:
