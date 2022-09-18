@@ -76,7 +76,7 @@ get_latest_version_number() {
 
   REDIRECT_URL="$(curl -w "%{redirect_url}" -s -o /dev/null "https://github.com/${OWNER}/${REPO}/releases/latest")"
   LATEST_VER="$(basename "$REDIRECT_URL")"
-  # TODO: Should I valodate the LATEST_VER ? (The format is like "v0.0.0"?)
+  # TODO: Should I validate the LATEST_VER ? (The format is like "v0.0.0"?)
   echo "$LATEST_VER"
 }
 
