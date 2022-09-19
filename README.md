@@ -447,3 +447,18 @@ shfmt -i 2 -d ./property ./install.sh
 #### Options of shfmt
 
 - `-w`: Write result to file instead of stdout.
+
+### Pre-commit
+
+```console
+make lint
+make format
+```
+
+### Pre-push
+
+```console
+make lint
+make format
+make integ-test
+```
