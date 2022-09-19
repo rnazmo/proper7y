@@ -13,7 +13,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Install devel-tools
         run: make install-devel-tools
-      - name: Print the versions
-        run: make print-devel-tools-versions
       - name: Run lint
         run: make lint
