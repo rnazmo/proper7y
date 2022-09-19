@@ -35,12 +35,12 @@ main() {
 
   # 2. Run format
   for TARGET in "${TARGETS[@]}"; do
-    log_info "Running format to the target: START"
     log_info "TARGET: $TARGET"
+    log_info "  Running format to the target: START"
 
     "$SHFMT_CMD_PATH" -i 2 -w "$TARGET"
 
-    log_info "Running format to the target: END"
+    log_info "  Running format to the target: END"
   done
 
   log_info "Ran all format successflly!"

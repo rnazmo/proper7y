@@ -30,13 +30,13 @@ main() {
 
   # 2. Run lint
   for TARGET in "${TARGETS[@]}"; do
-    log_info "Running lint to the target: START"
     log_info "TARGET: $TARGET"
+    log_info "  Running lint to the target: START"
 
     "$SHELLCHECK_CMD_PATH" --exclude SC1091 "$TARGET"
     "$SHFMT_CMD_PATH" -i 2 -d "$TARGET"
 
-    log_info "Running lint to the target: END"
+    log_info "  Running lint to the target: END"
   done
 
   log_info "Ran all lint successflly!"

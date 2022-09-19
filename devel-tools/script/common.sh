@@ -152,6 +152,7 @@ update_shfmt_binary_version() {
 
 # Check if the SHELLCHECK_CMD_PATH exists and is a exectable file.
 # If it does, do nothing; if it does not, exit with status code 1.
+# TODO: Refactor ('DRY') _check_if_shellcheck_exists() and _check_if_shfmt_exists().
 _check_if_shellcheck_exists() {
   log_info "Checking if the SHELLCHECK_CMD_PATH exists and a exectable file..."
   if [ ! -x "$SHELLCHECK_CMD_PATH" ]; then
@@ -161,7 +162,7 @@ _check_if_shellcheck_exists() {
     log_err "(You should run install-devel-tools.linux-x64.sh to install.)"
     exit 1
   fi
-  log_info "Checked that shellcheck is installed"
+  log_info "  => Checked that shellcheck is installed"
 }
 
 # Almost same as check_if_shellcheck_exists
@@ -174,7 +175,7 @@ _check_if_shfmt_exists() {
     log_err "(You should run install-devel-tools.linux-x64.sh to install.)"
     exit 1
   fi
-  log_info "Checked that shfmt is installed"
+  log_info "  => Checked that shfmt is installed"
 }
 
 # Compare the 'Current version' and the 'Binary version'.
@@ -204,7 +205,7 @@ compare_binary_ver_with_current_ver_of_the_devel_tool() {
     log_err "  Binary version : $CURRENT_VERSION"
     exit 1
   fi
-  log_info "Checked that the version of $TOOL_NAME is correct."
+  log_info "  => Checked that the version of $TOOL_NAME is correct."
 }
 
 check_shellcheck_is_ready() {
