@@ -255,7 +255,7 @@ make install-devel-tools
 
 ### How to bump a version of devel-tools
 
-1. Edit and bump the versions in `/devel-tools/script/common.sh`. (like `SHELLCHECK_VERSION="v0.7.2"`, `SHFMT_VERSION="v3.3.0"`)
+1. Edit and bump the versions in `/devel-tools/script/common.sh`. (like `SHELLCHECK_CURRENT_VERSION="v0.7.2"`, `SHFMT_CURRENT_VERSION="v3.3.0"`)
 2. Create a commit for the change with the commit message (like `Bump a version of shellcheck to v0.7.3`).
 3. Push the commit (like `$ git push`).
 
@@ -300,8 +300,8 @@ make integ-test
   - `install-devel-tools.sh`:
     - Overwrite the `Binary's version` based on the `Current version`.
   - `upgrade-devel-tools.sh`:
-    - Overwrite the `Current version` based on the `Latest version`, 
-      and then overwrite the `Binary version` based on that `Current version`. 
+    - Overwrite the `Current version` based on the `Latest version`,
+      and then overwrite the `Binary version` based on that `Current version`.
     - Steps (idea):
       - 1. Run `check-devel-tools-versions.sh`
       - 2. Check if update is required

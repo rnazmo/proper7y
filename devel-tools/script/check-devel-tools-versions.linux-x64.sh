@@ -2,13 +2,10 @@
 set -eu
 
 # Tl;DR (What is this?)
-#   Check that the versions of the devel-tools are latest.
-
-# TODO: Make sure that the version number shown by the binaries("/devel-tools/bin/*") also matches.
-#   Cehck&Compare following three versions.
-#     1. The versions written in the /devel-tools/script/common.sh (current version 1)
-#     2. The version by the binary under /devel-tools/bin (current version 2)
-#     3. The version in the GitHub latest release page URL (latest version)
+#   Print following three versions of the devel-tools:
+#     'Current version': The expected version written in the `/devel-tools/script/common.sh`.
+#     'Binary version' : The actual version shown by the binaries under `/devel-tools/bin/`.
+#     'Latest version' : The latest version shown by the GitHub latest release page URL
 
 source "$(dirname "$0")/common.sh"
 
@@ -19,31 +16,40 @@ main() {
   local TOOL_NAME="shellcheck"
   local OWNER="koalaman"
   local REPO="shellcheck"
-  check_for_update "$TOOL_NAME" "$OWNER" "$REPO" "$SHELLCHECK_VERSION"
+  print_versions "$TOOL_NAME" "$OWNER" "$REPO" "$SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_BINARY_VERSION"
 
   local TOOL_NAME="shfmt"
   local OWNER="mvdan"
   local REPO="sh"
-  check_for_update "$TOOL_NAME" "$OWNER" "$REPO" "$SHFMT_VERSION"
+  print_versions "$TOOL_NAME" "$OWNER" "$REPO" "$SHFMT_CURRENT_VERSION" "$SHFMT_BINARY_VERSION"
 
   log_info "Checked all devel-tools!"
 }
 
-check_for_update() {
+print_versions() {
   local -r TOOL_NAME="$1"
   local -r OWNER="$2"
   local -r REPO="$3"
   local -r TOOL_CURRENT_VERSION="$4"
+  local -r TOOL_BINARY_VERSION="$5"
 
+  # Get the latest version number.
   TOOL_LATEST_VERSION="$(get_latest_version_number "$OWNER" "$REPO")"
 
+  # Print info.
   log_info "  $TOOL_NAME:"
-  log_info "    current: $TOOL_CURRENT_VERSION"
-  log_info "    latest : $TOOL_LATEST_VERSION"
+  log_info "    Current version: $TOOL_CURRENT_VERSION"
+  log_info "    Binary version : $TOOL_BINARY_VERSION"
+  log_info "    Latest version : $TOOL_LATEST_VERSION"
+
+  # Compare the 'Binary Version' with the 'Current Version'.
+  compare_binary_ver_with_current_ver_of_the_devel_tool "$TOOL_NAME" "$TOOL_BINARY_VERSION" "$TOOL_CURRENT_VERSION"
+
+  # Compare the 'Current Version' with the 'Latest Version'.
   if [[ "$TOOL_CURRENT_VERSION" == "$TOOL_LATEST_VERSION" ]]; then
-    log_info "    => The version is latest"
+    log_warn "    => The version is latest"
   else
-    log_info "    => Latest version found"
+    log_warn "    => Latest version found"
   fi
 }
 

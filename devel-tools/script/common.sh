@@ -30,8 +30,10 @@ set -eu
 # Global Variables
 # shellcheck disable=SC2034
 PROPERTY_VERSION="v0.1.7"
-SHELLCHECK_VERSION="v0.8.0"
-SHFMT_VERSION="v3.4.3"
+SHELLCHECK_CURRENT_VERSION="v0.8.0"
+SHFMT_CURRENT_VERSION="v3.4.3"
+SHELLCHECK_BINARY_VERSION="This_value_should_be_overridden"
+SHFMT_BINARY_VERSION="This_value_should_be_overridden"
 PROJECT_ROOT="This_value_should_be_overridden"
 DEVEL_TOOLS_DIR="This_value_should_be_overridden"
 COMMON_SH_PATH="This_value_should_be_overridden"
@@ -43,12 +45,16 @@ _main() {
 }
 
 _set_global_variables() {
+  log_info "Composing golbal variables..."
   # Override abobe global variables. Be careful about the order of
   # calling these functions.
   _compose_project_root_dir
   _compse_devel_tools_dir
   _compose_shellcheck_cmd_path
   _compose_shfmt_cmd_path
+  _compose_shellcheck_binary_version
+  _compose_shfmt_binary_version
+  log_info "Composed golbal variables."
 }
 
 # _get_script_dir returns the directory where this file is placed.
@@ -67,13 +73,13 @@ _compose_project_root_dir() {
 
 _compse_devel_tools_dir() {
   DEVEL_TOOLS_DIR="${PROJECT_ROOT}/devel-tools/bin"
-  ROW="$(compose_row "DEVEL_TOOLS_DIR" "$DEVEL_TOOLS_DIR")"
+  ROW="$(compose_row_for_variable_log "DEVEL_TOOLS_DIR" "$DEVEL_TOOLS_DIR")"
   log_info "$ROW"
 }
 
 _compse_common_sh_path() {
   COMMON_SH_PATH="${PROJECT_ROOT}/devel-tools/bin"
-  ROW="$(compose_row "COMMON_SH_PATH" "$COMMON_SH_PATH")"
+  ROW="$(compose_row_for_variable_log "COMMON_SH_PATH" "$COMMON_SH_PATH")"
   log_info "$ROW"
 }
 
@@ -81,7 +87,7 @@ _compse_common_sh_path() {
 # but set global variable SHELLCHECK_CMD_PATH.
 _compose_shellcheck_cmd_path() {
   SHELLCHECK_CMD_PATH="${DEVEL_TOOLS_DIR}/shellcheck"
-  ROW="$(compose_row "SHELLCHECK_CMD_PATH" "$SHELLCHECK_CMD_PATH")"
+  ROW="$(compose_row_for_variable_log "SHELLCHECK_CMD_PATH" "$SHELLCHECK_CMD_PATH")"
   log_info "$ROW"
 }
 
@@ -89,8 +95,59 @@ _compose_shellcheck_cmd_path() {
 # but set global variable SHFMT_CMD_PATH.
 _compose_shfmt_cmd_path() {
   SHFMT_CMD_PATH="${DEVEL_TOOLS_DIR}/shfmt"
-  ROW="$(compose_row "SHFMT_CMD_PATH" "$SHFMT_CMD_PATH")"
+  ROW="$(compose_row_for_variable_log "SHFMT_CMD_PATH" "$SHFMT_CMD_PATH")"
   log_info "$ROW"
+}
+
+# NOTE:
+#   You should always **call _compose_shfmt_binary_version()
+#   after making any changes to the binary**.
+_compose_shellcheck_binary_version() {
+  # Here is the example version info:
+  #   $ ./devel-tools/bin/shellcheck --version
+  #   ShellCheck - shell script analysis tool
+  #   version: 0.7.2
+  #   license: GNU General Public License, version 3
+  #   website: https://www.shellcheck.net
+  SHELLCHECK_BINARY_VERSION="$($SHELLCHECK_CMD_PATH --version | grep "version: " | sed 's/version: /v/')"
+
+  # TODO: Following log is verbose? or should print?
+  # ROW="$(compose_row_for_variable_log "SHELLCHECK_BINARY_VERSION" "$SHELLCHECK_BINARY_VERSION")"
+  # log_info "$ROW"
+}
+
+# NOTE:
+#   You should always **call update_shfmt_binary_version()
+#   after making any changes to the binary**.
+_compose_shfmt_binary_version() {
+  # Here is the example version info:
+  #   $ ./devel-tools/bin/shfmt --version
+  #   v3.4.3
+  SHFMT_BINARY_VERSION="$($SHFMT_CMD_PATH --version)"
+
+  # TODO: Following log is verbose? or should print?
+  # ROW="$(compose_row_for_variable_log "SHFMT_BINARY_VERSION" "$SHFMT_BINARY_VERSION")"
+  # log_info "$ROW"
+}
+
+# Update(Re-compose) the variable 'SHELLCHECK_BINARY_VERSION'.
+#
+# NOTE:
+#   You should always **call this function after making any changes to the binary**.
+#   Or, the versions of the variable(SHELLCHECK_BINARY_VERSION) and the binary
+#   (/devel-tools/bin/shellcheck) may not correspond.
+update_shellcheck_binary_version() {
+  _compose_shellcheck_binary_version
+}
+
+# Update(Re-compose) the variable 'SHFMT_BINARY_VERSION'.
+#
+# NOTE:
+#   You should always **call this function after making any changes to the binary**.
+#   Or, the versions of the variable(SHFMT_BINARY_VERSION) and the binary
+#   (/devel-tools/bin/shfmt) may not correspond.
+update_shfmt_binary_version() {
+  _compose_shfmt_binary_version
 }
 
 # Check if the SHELLCHECK_CMD_PATH exists and is a exectable file.
@@ -120,48 +177,34 @@ _check_if_shfmt_exists() {
   log_info "Checked that shfmt is installed"
 }
 
+# Compare the 'Current version' and the 'Binary version'.
+# TODO: Refactor this func (Using SHELLCHECK_CURRENT_VERSION and SHELLCHECK_BINARY_VERSION variables?)
 _check_if_installed_shellcheck_version_is_correct() {
-  local -r TARGET_NAME="shellcheck"
-  log_info "Checking that the version of $TARGET_NAME is the one expected."
-
-  # Here is the example version info:
-  #   $ ./devel-tools/bin/shellcheck --version
-  #   ShellCheck - shell script analysis tool
-  #   version: 0.7.2
-  #   license: GNU General Public License, version 3
-  #   website: https://www.shellcheck.net
-  #
-  local -r SHELLCHECK_VERSION_WITHOUT_PREFIX="${SHELLCHECK_VERSION#'v'}"
-  local -r PATTERN="version: ${SHELLCHECK_VERSION_WITHOUT_PREFIX}"
-  if ! "$SHELLCHECK_CMD_PATH" --version | grep -q "^${PATTERN}$"; then
-    log_err "The version of $TARGET_NAME is wrong (or failed to parse the version info)."
-    log_err "  Expected version: $SHELLCHECK_VERSION_WITHOUT_PREFIX"
-    log_err "  Got version info:"
-    $SHELLCHECK_CMD_PATH --version
-    exit 1
-  fi
-
-  log_info "Checked that the version of $TARGET_NAME is correct."
+  update_shellcheck_binary_version # Update the variable just in case.
+  local -r TOOL_NAME="shellcheck"
+  compare_binary_ver_with_current_ver_of_the_devel_tool "$TOOL_NAME" "$SHELLCHECK_BINARY_VERSION" "$SHELLCHECK_CURRENT_VERSION"
 }
 
+# Compare the 'Current version' and the 'Binary version'.
+# TODO: Refactor this func (Using SHFMT_CURRENT_VERSION and SHFMT_BINARY_VERSION variables?)
 _check_if_installed_shfmt_version_is_correct() {
-  local -r TARGET_NAME="shfmt"
-  log_info "Checking that the version of $TARGET_NAME is the one expected."
+  update_shfmt_binary_version # Update the variable just in case.
+  local -r TOOL_NAME="shfmt"
+  compare_binary_ver_with_current_ver_of_the_devel_tool "$TOOL_NAME" "$SHFMT_BINARY_VERSION" "$SHFMT_CURRENT_VERSION"
+}
 
-  # Here is the example version info:
-  #   $ ./devel-tools/bin/shfmt --version
-  #   v3.3.0
-  #
-  local -r PATTERN="$SHFMT_VERSION"
-  if ! "$SHFMT_CMD_PATH" --version | grep -q "^${PATTERN}$"; then
-    log_err "The version of $TARGET_NAME is wrong (or failed to parse the version info)."
-    log_err "  Expected version: $SHFMT_VERSION"
-    log_err "  Got version info:"
-    $SHFMT_CMD_PATH --version
+compare_binary_ver_with_current_ver_of_the_devel_tool() {
+  log_info "Checking that the version of installed $TOOL_NAME is the one expected."
+  local -r TOOL_NAME="$1"
+  local -r BINARY_VERSION="$2"
+  local -r CURRENT_VERSION="$3"
+  if [[ "$BINARY_VERSION" != "$CURRENT_VERSION" ]]; then
+    log_err "The versions of $TOOL_NAME does not correspond."
+    log_err "  Current version: $BINARY_VERSION"
+    log_err "  Binary version : $CURRENT_VERSION"
     exit 1
   fi
-
-  log_info "Checked that the version of $TARGET_NAME is correct."
+  log_info "Checked that the version of $TOOL_NAME is correct."
 }
 
 check_shellcheck_is_ready() {
@@ -169,7 +212,7 @@ check_shellcheck_is_ready() {
   _check_if_shellcheck_exists
   _check_if_installed_shellcheck_version_is_correct
   log_info "Checked. shellcheck is ready!"
-  print_shellcheck_version
+  print_shellcheck_current_version
 }
 
 check_shfmt_is_ready() {
@@ -177,17 +220,15 @@ check_shfmt_is_ready() {
   _check_if_shfmt_exists
   _check_if_installed_shfmt_version_is_correct
   log_info "Checked. shfmt is ready!"
-  print_shfmt_version
+  print_shfmt_current_version
 }
 
-print_shellcheck_version() {
-  log_info "Version of the shellcheck is:"
-  "$SHELLCHECK_CMD_PATH" --version
+print_shellcheck_current_version() {
+  log_info "shellcheck 'Current version': $SHELLCHECK_CURRENT_VERSION"
 }
 
-print_shfmt_version() {
-  log_info "Version of the shfmt is:"
-  "$SHFMT_CMD_PATH" --version
+print_shfmt_current_version() {
+  log_info "shfmt 'Current version': $SHFMT_CURRENT_VERSION"
 }
 
 confirm_continue() {
@@ -208,21 +249,21 @@ confirm_continue() {
 #   (DEVEL_TOOLS_DIR, COMMON_SH_PATH, SHELLCHECK_CMD_PATH).
 pad_with_spaces() {
   local -r RAW="$1"
-  local -r LENGTH="20"
+  local -r LENGTH="25"
   printf "%-*s" "$LENGTH" "$RAW"
 }
 
 # Compose a row in format using given ROW_NAME and ROW_VALUE.
 #
 # Example Usage:
-#   compose_row "DEVEL_TOOLS_DIR" "/foo/bar/baz/property/devel-tools/bin"
+#   compose_row_for_variable_log "DEVEL_TOOLS_DIR" "/foo/bar/baz/property/devel-tools/bin"
 #
-compose_row() {
+compose_row_for_variable_log() {
   local -r ROW_NAME="$1"
   local -r ROW_VALUE="$2"
   local -r ROW_NAME_PADDED="$(pad_with_spaces "$ROW_NAME")"
 
-  echo "${ROW_NAME_PADDED}: ${ROW_VALUE}"
+  echo "  ${ROW_NAME_PADDED}: ${ROW_VALUE}"
 }
 
 log_info() {

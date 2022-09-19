@@ -6,8 +6,8 @@ set -eu
 
 source "$(dirname "$0")/common.sh"
 
-SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_VERSION}/shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
-SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_VERSION}/shfmt_${SHFMT_VERSION}_linux_amd64"
+SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
+SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
 
 main() {
   log_info "Start installing..."
@@ -46,8 +46,8 @@ install_shellcheck() {
   log_info "PWD: $(pwd)"
 
   curl -OL "$SHELLCHECK_URL"
-  tar -xf "./shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
-  mv -f "./shellcheck-${SHELLCHECK_VERSION}/shellcheck" "$SHELLCHECK_CMD_PATH"
+  tar -xf "./shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
+  mv -f "./shellcheck-${SHELLCHECK_CURRENT_VERSION}/shellcheck" "$SHELLCHECK_CMD_PATH"
 
   rm -rf "$TEMP_DIR" # cleanup
 }

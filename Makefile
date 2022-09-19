@@ -2,14 +2,9 @@
 install-devel-tools:
 	./devel-tools/script/install-devel-tools.linux-x64.sh
 
-.PHONY: print-devel-tools-versions
-print-devel-tools-versions:
-	./devel-tools/bin/shellcheck --version | grep "version: " | sed 's/version: /v/'
-	./devel-tools/bin/shfmt --version
-
-.PHONY: check-devel-tools-versions-are-latest
-check-devel-tools-versions-are-latest:
-	./devel-tools/script/check-devel-tools-are-latest.linux-x64.sh
+.PHONY: check-devel-tools-versions
+check-devel-tools-versions:
+	./devel-tools/script/check-devel-tools-versions.linux-x64.sh
 
 .PHONY: lint
 lint:
