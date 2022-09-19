@@ -39,6 +39,8 @@ DEVEL_TOOLS_DIR="This_value_should_be_overridden"
 COMMON_SH_PATH="This_value_should_be_overridden"
 SHELLCHECK_CMD_PATH="This_value_should_be_overridden"
 SHFMT_CMD_PATH="This_value_should_be_overridden"
+SHELLCHECK_TOOL_NAME="shellcheck"
+SHFMT_TOOL_NAME="shfmt"
 
 _main() {
   _set_global_variables
@@ -103,6 +105,18 @@ _compose_shfmt_cmd_path() {
 #   You should always **call _compose_shfmt_binary_version()
 #   after making any changes to the binary**.
 _compose_shellcheck_binary_version() {
+  # Check if the TOOL exists and is a exectable file.
+  log_info "Checking if the $SHELLCHECK_CMD_PATH exists and a exectable file..."
+  if [ ! -x "$SHELLCHECK_CMD_PATH" ]; then
+    log_warn "Checking if the $SHELLCHECK_CMD_PATH exists and a exectable file..."
+    log_warn "$SHELLCHECK_CMD_PATH not found."
+    SHELLCHECK_BINARY_VERSION="$SHELLCHECK_CMD_PATH not found."
+
+    # Note that return 0 not 1. Or, it fails to install the devel-tools
+    # when the devel-tools does not exist.exists.
+    return 0
+  fi
+
   # Here is the example version info:
   #   $ ./devel-tools/bin/shellcheck --version
   #   ShellCheck - shell script analysis tool
@@ -120,6 +134,18 @@ _compose_shellcheck_binary_version() {
 #   You should always **call update_shfmt_binary_version()
 #   after making any changes to the binary**.
 _compose_shfmt_binary_version() {
+  # Check if the TOOL exists and is a exectable file.
+  log_info "Checking if the $SHFMT_CMD_PATH exists and a exectable file..."
+  if [ ! -x "$SHFMT_CMD_PATH" ]; then
+    log_warn "Checking if the $SHFMT_CMD_PATH exists and a exectable file..."
+    log_warn "$SHFMT_CMD_PATH not found."
+    SHFMT_BINARY_VERSION="$SHFMT_CMD_PATH not found."
+
+    # Note that return 0 not 1. Or, it fails to install the devel-tools
+    # when the devel-tools does not exist.exists.
+    return 0
+  fi
+
   # Here is the example version info:
   #   $ ./devel-tools/bin/shfmt --version
   #   v3.4.3
@@ -150,55 +176,47 @@ update_shfmt_binary_version() {
   _compose_shfmt_binary_version
 }
 
-# Check if the SHELLCHECK_CMD_PATH exists and is a exectable file.
-# If it does, do nothing; if it does not, exit with status code 1.
-# TODO: Refactor ('DRY') _check_if_shellcheck_exists() and _check_if_shfmt_exists().
 _check_if_shellcheck_exists() {
-  log_info "Checking if the SHELLCHECK_CMD_PATH exists and a exectable file..."
-  if [ ! -x "$SHELLCHECK_CMD_PATH" ]; then
-    log_info "SHELLCHECK_CMD_PATH: $SHELLCHECK_CMD_PATH"
-    log_err "$SHELLCHECK_CMD_PATH not found."
-    log_err "Please install it before run this script."
-    log_err "(You should run install-devel-tools.linux-x64.sh to install.)"
-    exit 1
-  fi
-  log_info "  => Checked that shellcheck is installed"
+  _check_if_the_tool_exists "$SHELLCHECK_TOOL_NAME" "$SHELLCHECK_CMD_PATH"
 }
-
-# Almost same as check_if_shellcheck_exists
 _check_if_shfmt_exists() {
-  log_info "Checking if the SHFMT_CMD_PATH exists and a exectable file..."
-  if [ ! -x "$SHFMT_CMD_PATH" ]; then
-    log_info "SHFMT_CMD_PATH: $SHFMT_CMD_PATH"
-    log_err "$SHFMT_CMD_PATH not found."
+  _check_if_the_tool_exists "$SHFMT_TOOL_NAME" "$SHFMT_CMD_PATH"
+}
+# Check if the TOOL exists and is a exectable file.
+# If it does, do nothing; if it does not, EXIT with status code 1.
+_check_if_the_tool_exists() {
+  local -r TOOL_NAME="$1"
+  local -r TOOL_PATH="$2"
+  log_info "Checking if the $TOOL_PATH exists and a exectable file..."
+  if [ ! -x "$TOOL_PATH" ]; then
+    log_info "  TOOL_PATH: $TOOL_PATH"
+    log_err "$TOOL_PATH not found."
     log_err "Please install it before run this script."
     log_err "(You should run install-devel-tools.linux-x64.sh to install.)"
     exit 1
   fi
-  log_info "  => Checked that shfmt is installed"
+  log_info "  => Checked that $TOOL_NAME is installed"
 }
 
 # Compare the 'Current version' and the 'Binary version'.
 # TODO: Refactor this func (Using SHELLCHECK_CURRENT_VERSION and SHELLCHECK_BINARY_VERSION variables?)
 _check_if_installed_shellcheck_version_is_correct() {
   update_shellcheck_binary_version # Update the variable just in case.
-  local -r TOOL_NAME="shellcheck"
-  compare_binary_ver_with_current_ver_of_the_devel_tool "$TOOL_NAME" "$SHELLCHECK_BINARY_VERSION" "$SHELLCHECK_CURRENT_VERSION"
+  compare_binary_ver_with_current_ver_of_the_devel_tool "$SHELLCHECK_TOOL_NAME" "$SHELLCHECK_BINARY_VERSION" "$SHELLCHECK_CURRENT_VERSION"
 }
 
 # Compare the 'Current version' and the 'Binary version'.
 # TODO: Refactor this func (Using SHFMT_CURRENT_VERSION and SHFMT_BINARY_VERSION variables?)
 _check_if_installed_shfmt_version_is_correct() {
   update_shfmt_binary_version # Update the variable just in case.
-  local -r TOOL_NAME="shfmt"
-  compare_binary_ver_with_current_ver_of_the_devel_tool "$TOOL_NAME" "$SHFMT_BINARY_VERSION" "$SHFMT_CURRENT_VERSION"
+  compare_binary_ver_with_current_ver_of_the_devel_tool "$SHFMT_TOOL_NAME" "$SHFMT_BINARY_VERSION" "$SHFMT_CURRENT_VERSION"
 }
 
 compare_binary_ver_with_current_ver_of_the_devel_tool() {
-  log_info "Checking that the version of installed $TOOL_NAME is the one expected."
   local -r TOOL_NAME="$1"
   local -r BINARY_VERSION="$2"
   local -r CURRENT_VERSION="$3"
+  log_info "Checking that the version of installed $TOOL_NAME is the one expected."
   if [[ "$BINARY_VERSION" != "$CURRENT_VERSION" ]]; then
     log_err "The versions of $TOOL_NAME does not correspond."
     log_err "  Current version: $BINARY_VERSION"

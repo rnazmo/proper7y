@@ -13,15 +13,13 @@ main() {
   log_info "Start checking..."
   log_info "(This takes a few seconds. Wait a few seconds....)"
 
-  local TOOL_NAME="shellcheck"
   local OWNER="koalaman"
   local REPO="shellcheck"
-  print_versions "$TOOL_NAME" "$OWNER" "$REPO" "$SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_BINARY_VERSION"
+  print_versions "$SHELLCHECK_TOOL_NAME" "$OWNER" "$REPO" "$SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_BINARY_VERSION"
 
-  local TOOL_NAME="shfmt"
   local OWNER="mvdan"
   local REPO="sh"
-  print_versions "$TOOL_NAME" "$OWNER" "$REPO" "$SHFMT_CURRENT_VERSION" "$SHFMT_BINARY_VERSION"
+  print_versions "$SHFMT_TOOL_NAME" "$OWNER" "$REPO" "$SHFMT_CURRENT_VERSION" "$SHFMT_BINARY_VERSION"
 
   log_info "Checked all devel-tools!"
 }
