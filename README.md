@@ -292,14 +292,14 @@ make integ-test
 #### Priority: ☆☆☆
 
 - Create/Update commands for devel-tools management:
-  - `check-devel-tools-versions.sh`:
+  - [x] `check-devel-tools-versions.sh`:
     - Print following three versions of the devel-tools:
       - `Current version` : Expected version written in the `/devel-tools/script/common.sh`.
       - `Binary's version`: The actual version of the binaries under `/devel-tools/bin/`.
       - `Latest version`  : The latest release on GitHub.
-  - `install-devel-tools.sh`:
+  - [ ] `install-devel-tools.sh`:
     - Overwrite the `Binary's version` based on the `Current version`.
-  - `upgrade-devel-tools.sh`:
+  - [ ] `upgrade-devel-tools.sh`:
     - Overwrite the `Current version` based on the `Latest version`,
       and then overwrite the `Binary version` based on that `Current version`.
     - Steps (idea):
