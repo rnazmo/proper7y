@@ -9,9 +9,6 @@ set -eu
 
 source "$(dirname "$0")/common.sh"
 
-SHELLCHECK_IS_LATEST="this_value_will_be_overwitten"
-SHFMT_IS_LATEST="this_value_will_be_overwitten"
-
 main() {
   log_info "Start checking..."
   log_info "(This takes a few seconds. Wait a few seconds....)"
