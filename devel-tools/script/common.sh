@@ -91,7 +91,7 @@ _compose_devel_tools_bin_dir() {
 }
 
 _compose_common_sh_path() {
-  COMMON_SH_PATH="${DEVEL_TOOLS_DIR}/common.sh"
+  COMMON_SH_PATH="${DEVEL_TOOLS_DIR}/script/common.sh"
   ROW="$(compose_row_for_variable_log "COMMON_SH_PATH" "$COMMON_SH_PATH")"
   log_info "$ROW"
 }
