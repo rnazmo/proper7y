@@ -54,8 +54,8 @@ _set_global_variables() {
   # Override abobe global variables. Be careful about the order of
   # calling these functions.
   _compose_project_root_dir
-  _compse_devel_tools_dir
-  _compse_devel_tools_bin_dir
+  _compose_devel_tools_dir
+  _compose_devel_tools_bin_dir
   _compose_common_sh_path
   _compose_shellcheck_cmd_path
   _compose_shfmt_cmd_path
@@ -78,19 +78,19 @@ _compose_project_root_dir() {
   PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." &>/dev/null && pwd)"
 }
 
-_compse_devel_tools_dir() {
+_compose_devel_tools_dir() {
   DEVEL_TOOLS_DIR="${PROJECT_ROOT}/devel-tools"
   ROW="$(compose_row_for_variable_log "DEVEL_TOOLS_DIR" "$DEVEL_TOOLS_DIR")"
   log_info "$ROW"
 }
 
-_compse_devel_tools_bin_dir() {
+_compose_devel_tools_bin_dir() {
   DEVEL_TOOLS_BIN_DIR="${DEVEL_TOOLS_DIR}/bin"
   ROW="$(compose_row_for_variable_log "DEVEL_TOOLS_BIN_DIR" "$DEVEL_TOOLS_BIN_DIR")"
   log_info "$ROW"
 }
 
-_compse_common_sh_path() {
+_compose_common_sh_path() {
   COMMON_SH_PATH="${DEVEL_TOOLS_DIR}/common.sh"
   ROW="$(compose_row_for_variable_log "COMMON_SH_PATH" "$COMMON_SH_PATH")"
   log_info "$ROW"
