@@ -255,6 +255,16 @@ make install-devel-tools
 
 ### How to bump a version of devel-tools
 
+#### Using script
+
+Just run:
+
+```console
+$ make check-devel-tools-versions
+```
+
+#### Manually
+
 1. Edit and bump the versions in `/devel-tools/script/common.sh`. (like `SHELLCHECK_CURRENT_VERSION="v0.7.2"`, `SHFMT_CURRENT_VERSION="v3.3.0"`)
 2. Create a commit for the change with the commit message (like `Bump a version of shellcheck to v0.7.3`).
 3. Push the commit (like `$ git push`).
@@ -291,26 +301,6 @@ make integ-test
 
 #### Priority: ☆☆☆
 
-- Create/Update commands for devel-tools management:
-  - [x] `check-devel-tools-versions.sh`:
-    - Print following three versions of the devel-tools:
-      - `Current version` : Expected version written in the `/devel-tools/script/common.sh`.
-      - `Binary's version`: The actual version of the binaries under `/devel-tools/bin/`.
-      - `Latest version`  : The latest release on GitHub.
-  - [ ] `install-devel-tools.sh`:
-    - Overwrite the `Binary's version` based on the `Current version`.
-  - [ ] `upgrade-devel-tools.sh`:
-    - Overwrite the `Current version` based on the `Latest version`,
-      and then overwrite the `Binary version` based on that `Current version`.
-    - Steps (idea):
-      - 1. Run `check-devel-tools-versions.sh`
-      - 2. Check if update is required
-      - 3. (Get the latest version numbers)
-      - 4. Overwrite devel-tools versions
-      - 5. Install(Reinstall) devel-tools
-    - including `func bump_devel_tools_versions()`
-    - Ref: https://github.com/rnazmo/property#how-to-bump-a-version-of-devel-tools
-  - (Do not forget to update Makefile.)
 - Bump the versions of devel tools with the script
   - 上記で作ったスクリプト `upgrade-devel-tools.sh` を試すのも兼ねる。
   - Ref: https://github.com/rnazmo/property#how-to-bump-a-version-of-devel-tools
