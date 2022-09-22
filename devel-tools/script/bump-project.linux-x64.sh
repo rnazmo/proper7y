@@ -60,6 +60,9 @@ rename_project_version() {
   log_info "NEW_PROPERTY_VERSION: $NEW_PROPERTY_VERSION"
 
   # Overwrite the project version
+  # TODO: This is DANGEROUS if project number (PROPERTY_VERSION) and
+  #       devel-tools versions (SHELLCHECK_CURRENT_VERSION or SHFMT_CURRENT_VERSION)
+  #       match. Use 'overwrite_version_number_variable()' function.
   for TARGET in "${TARGETS[@]}"; do
     log_info "Overwrite the version in the target: START"
     log_info "TARGET: $TARGET"
