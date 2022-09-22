@@ -318,6 +318,8 @@ make integ-test
   - このアプリ名("property")は非常に衝突しやすい。もう少しユニークな文字列にしたい。
     - かと言って、大きく変えたくない。
       - `proper7y` とかでどうか。
+- Add new commands to `Makefile`
+  - `pre-commit`, `pre-push`
 
 #### Priority: ☆☆
 
