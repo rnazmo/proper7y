@@ -36,6 +36,7 @@ SHELLCHECK_BINARY_VERSION="This_value_should_be_overridden"
 SHFMT_BINARY_VERSION="This_value_should_be_overridden"
 PROJECT_ROOT="This_value_should_be_overridden"
 DEVEL_TOOLS_DIR="This_value_should_be_overridden"
+DEVEL_TOOLS_BIN_DIR="This_value_should_be_overridden"
 COMMON_SH_PATH="This_value_should_be_overridden"
 SHELLCHECK_CMD_PATH="This_value_should_be_overridden"
 SHFMT_CMD_PATH="This_value_should_be_overridden"
@@ -43,7 +44,6 @@ SHELLCHECK_TOOL_NAME="shellcheck"
 SHFMT_TOOL_NAME="shfmt"
 SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
 SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
-
 
 _main() {
   _set_global_variables
@@ -55,6 +55,7 @@ _set_global_variables() {
   # calling these functions.
   _compose_project_root_dir
   _compse_devel_tools_dir
+  _compse_devel_tools_bin_dir
   _compose_shellcheck_cmd_path
   _compose_shfmt_cmd_path
   _compose_shellcheck_binary_version
@@ -77,8 +78,14 @@ _compose_project_root_dir() {
 }
 
 _compse_devel_tools_dir() {
-  DEVEL_TOOLS_DIR="${PROJECT_ROOT}/devel-tools/bin"
+  DEVEL_TOOLS_DIR="${PROJECT_ROOT}/devel-tools"
   ROW="$(compose_row_for_variable_log "DEVEL_TOOLS_DIR" "$DEVEL_TOOLS_DIR")"
+  log_info "$ROW"
+}
+
+_compse_devel_tools_bin_dir() {
+  DEVEL_TOOLS_BIN_DIR="${DEVEL_TOOLS_DIR}/bin"
+  ROW="$(compose_row_for_variable_log "DEVEL_TOOLS_BIN_DIR" "$DEVEL_TOOLS_BIN_DIR")"
   log_info "$ROW"
 }
 
@@ -91,7 +98,7 @@ _compse_common_sh_path() {
 # Note that this does not return a string,
 # but set global variable SHELLCHECK_CMD_PATH.
 _compose_shellcheck_cmd_path() {
-  SHELLCHECK_CMD_PATH="${DEVEL_TOOLS_DIR}/shellcheck"
+  SHELLCHECK_CMD_PATH="${DEVEL_TOOLS_BIN_DIR}/shellcheck"
   ROW="$(compose_row_for_variable_log "SHELLCHECK_CMD_PATH" "$SHELLCHECK_CMD_PATH")"
   log_info "$ROW"
 }
@@ -99,7 +106,7 @@ _compose_shellcheck_cmd_path() {
 # Note that this does not return a string,
 # but set global variable SHFMT_CMD_PATH.
 _compose_shfmt_cmd_path() {
-  SHFMT_CMD_PATH="${DEVEL_TOOLS_DIR}/shfmt"
+  SHFMT_CMD_PATH="${DEVEL_TOOLS_BIN_DIR}/shfmt"
   ROW="$(compose_row_for_variable_log "SHFMT_CMD_PATH" "$SHFMT_CMD_PATH")"
   log_info "$ROW"
 }
@@ -179,13 +186,13 @@ update_shfmt_binary_version() {
   _compose_shfmt_binary_version
 }
 
-# Check if the DEVEL_TOOLS_DIR exists and is a directory.
-check_if_devel_tools_dir_exists() {
-  if [ -e "$DEVEL_TOOLS_DIR" ] && [ ! -d "$DEVEL_TOOLS_DIR" ]; then
-    log_err "The path $DEVEL_TOOLS_DIR sould be a directory not a file."
+# Check if the DEVEL_TOOLS_BIN_DIR exists and is a directory.
+check_if_devel_tools_bin_dir_exists() {
+  if [ -e "$DEVEL_TOOLS_BIN_DIR" ] && [ ! -d "$DEVEL_TOOLS_BIN_DIR" ]; then
+    log_err "The path $DEVEL_TOOLS_BIN_DIR sould be a directory not a file."
     exit 1
-  elif [ ! -d "$DEVEL_TOOLS_DIR" ]; then
-    mkdir "$DEVEL_TOOLS_DIR"
+  elif [ ! -d "$DEVEL_TOOLS_BIN_DIR" ]; then
+    mkdir "$DEVEL_TOOLS_BIN_DIR"
   fi
 }
 
@@ -205,7 +212,7 @@ install_shellcheck() {
   rm -rf "$TEMP_DIR" # cleanup
 }
 
-# Install shfmt VIA THE GITHUB RELEASE PAGE under the directory 'DEVEL_TOOLS_DIR'.
+# Install shfmt VIA THE GITHUB RELEASE PAGE under the directory 'DEVEL_TOOLS_BIN_DIR'.
 #
 # Note that install not via Golang (download binary from GitHub Release page).
 #
@@ -213,7 +220,7 @@ install_shellcheck() {
 #   https://github.com/mvdan/sh#shfmt
 #   https://github.com/mvdan/sh/releases
 install_shfmt() {
-  cd "$DEVEL_TOOLS_DIR"
+  cd "$DEVEL_TOOLS_BIN_DIR"
   curl -L "$SHFMT_URL" -o shfmt
   chmod +x ./shfmt
 }
@@ -303,11 +310,11 @@ confirm_continue() {
 # Pad right of a given string with spaces.
 #
 # Example Usage:
-#   PADDED_HELLO="pad_with_spaces 'DEVEL_TOOLS_DIR'"
+#   PADDED_HELLO="pad_with_spaces 'DEVEL_TOOLS_BIN_DIR'"
 #
 # NOTE:
 #   The number '20' is the max length of those variables
-#   (DEVEL_TOOLS_DIR, COMMON_SH_PATH, SHELLCHECK_CMD_PATH).
+#   (DEVEL_TOOLS_BIN_DIR, COMMON_SH_PATH, SHELLCHECK_CMD_PATH).
 pad_with_spaces() {
   local -r RAW="$1"
   local -r LENGTH="25"
@@ -317,7 +324,7 @@ pad_with_spaces() {
 # Compose a row in format using given ROW_NAME and ROW_VALUE.
 #
 # Example Usage:
-#   compose_row_for_variable_log "DEVEL_TOOLS_DIR" "/foo/bar/baz/property/devel-tools/bin"
+#   compose_row_for_variable_log "DEVEL_TOOLS_BIN_DIR" "/foo/bar/baz/property/devel-tools/bin"
 #
 compose_row_for_variable_log() {
   local -r ROW_NAME="$1"

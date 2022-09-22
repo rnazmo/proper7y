@@ -9,8 +9,8 @@ source "$(dirname "$0")/common.sh"
 main() {
   log_info "Start installing..."
 
-  # 1. Check if the DEVEL_TOOLS_DIR exists
-  check_if_devel_tools_dir_exists
+  # 1. Check if the DEVEL_TOOLS_BIN_DIR exists
+  check_if_devel_tools_bin_dir_exists
 
   # 2. Install shellcheck
   install_shellcheck
