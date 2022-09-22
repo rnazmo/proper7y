@@ -13,6 +13,8 @@ TARGETS=(
   "${PROJECT_ROOT}/devel-tools/script/common.sh"
 )
 
+CURRENT_PROPERTY_VERSION="$PROPERTY_VERSION"
+
 main() {
   log_info "Bump the project (= 'property') version: START"
 
@@ -33,7 +35,7 @@ main() {
   git diff
   confirm_continue
 
-  git commit -a -m "Bump a version to $NEW_PROPERTY_VERSION"
+  git commit -a -m "Bump project version: $CURRENT_PROPERTY_VERSION -> $NEW_PROPERTY_VERSION"
   git tag "$NEW_PROPERTY_VERSION"
   log_info "Here is the git log:"
   git log
@@ -45,7 +47,6 @@ main() {
 }
 
 rename_project_version() {
-  local -r CURRENT_PROPERTY_VERSION="$PROPERTY_VERSION"
   log_info "CURRENT_PROPERTY_VERSION: $CURRENT_PROPERTY_VERSION"
 
   # Get a new version
