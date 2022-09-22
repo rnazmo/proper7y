@@ -177,8 +177,9 @@ overwrite_version_number_variable() {
   log_info "  TARGET: $TARGET_FILE"
 
   local -r OLD="$VARIABLE_NAME=\"$VERSION_OLD\""
+  local -r NEW="$VARIABLE_NAME=\"$VERSION_NEW\""
 
-  sed -i "s/${VERSION_OLD}/${VERSION_NEW}/" "$TARGET_FILE"
+  sed -i "s/${OLD}/${NEW}/" "$TARGET_FILE"
 
   log_info "Overwrite the version in the target: END"
 }
