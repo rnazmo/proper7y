@@ -16,7 +16,6 @@ main() {
   log_info "Start checking..."
   log_info "(This takes a few seconds. Wait a few seconds....)"
 
-
   local -r SHELLCHECK_OWNER="koalaman"
   local -r SHELLCHECK_REPO="shellcheck"
   local -r SHELLCHECK_LATEST_VERSION="$(get_latest_version_number "$SHELLCHECK_OWNER" "$SHELLCHECK_REPO")"
@@ -152,7 +151,7 @@ get_latest_version_number() {
 # TODO: Refactor DRY following two functions
 bump_shellcheck_version() {
   # Overwrite devel-tools versions
-  local -r TARGET_FILE="${DEVEL_TOOLS_DIR}/script/common.sh"
+  local -r TARGET_FILE="${COMMON_SH_PATH}"
   overwrite_version_number_variable "$TARGET_FILE" "SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_LATEST_VERSION"
 
   # Install(Reinstall) the devel-tool
@@ -161,7 +160,7 @@ bump_shellcheck_version() {
 }
 bump_shfmt_version() {
   # Overwrite devel-tools versions
-  local -r TARGET_FILE="${DEVEL_TOOLS_DIR}/script/common.sh"
+  local -r TARGET_FILE="${COMMON_SH_PATH}"
   overwrite_version_number_variable "$TARGET_FILE" "SHFMT_CURRENT_VERSION" "$SHFMT_CURRENT_VERSION" "$SHFMT_LATEST_VERSION"
 
   # Install(Reinstall) the devel-tool

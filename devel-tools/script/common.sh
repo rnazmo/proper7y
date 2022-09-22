@@ -56,6 +56,7 @@ _set_global_variables() {
   _compose_project_root_dir
   _compse_devel_tools_dir
   _compse_devel_tools_bin_dir
+  _compose_common_sh_path
   _compose_shellcheck_cmd_path
   _compose_shfmt_cmd_path
   _compose_shellcheck_binary_version

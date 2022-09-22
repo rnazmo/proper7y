@@ -10,7 +10,7 @@ source "$(dirname "$0")/common.sh"
 TARGETS=(
   "${PROJECT_ROOT}/property"
   "${PROJECT_ROOT}/install.sh"
-  "${PROJECT_ROOT}/devel-tools/script/common.sh"
+  "${COMMON_SH_PATH}"
 )
 
 CURRENT_PROPERTY_VERSION="$PROPERTY_VERSION"

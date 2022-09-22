@@ -12,13 +12,13 @@ source "$(dirname "$0")/common.sh"
 TARGETS=(
   "${PROJECT_ROOT}/property"
   "${PROJECT_ROOT}/install.sh"
-  "${PROJECT_ROOT}/devel-tools/script/common.sh"
-  "${PROJECT_ROOT}/devel-tools/script/run-lint.linux-x64.sh"
-  "${PROJECT_ROOT}/devel-tools/script/run-format.linux-x64.sh"
-  "${PROJECT_ROOT}/devel-tools/script/run-integ-test.linux-x64.sh"
-  "${PROJECT_ROOT}/devel-tools/script/bump-project.linux-x64.sh"
-  "${PROJECT_ROOT}/devel-tools/script/install-devel-tools.linux-x64.sh"
-  "${PROJECT_ROOT}/devel-tools/script/check-devel-tools-versions.linux-x64.sh"
+  "${COMMON_SH_PATH}"
+  "${DEVEL_TOOLS_DIR}/script/run-lint.linux-x64.sh"
+  "${DEVEL_TOOLS_DIR}/script/run-format.linux-x64.sh"
+  "${DEVEL_TOOLS_DIR}/script/run-integ-test.linux-x64.sh"
+  "${DEVEL_TOOLS_DIR}/script/bump-project.linux-x64.sh"
+  "${DEVEL_TOOLS_DIR}/script/install-devel-tools.linux-x64.sh"
+  "${DEVEL_TOOLS_DIR}/script/check-devel-tools-versions.linux-x64.sh"
 )
 
 main() {
