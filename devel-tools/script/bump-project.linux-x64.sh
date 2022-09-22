@@ -38,7 +38,7 @@ main() {
   git commit -a -m "Bump project version: $CURRENT_PROPERTY_VERSION -> $NEW_PROPERTY_VERSION"
   git tag "$NEW_PROPERTY_VERSION"
   log_info "Here is the git log:"
-  git log
+  git log -n 3
   confirm_continue
 
   git push --atomic origin main "$NEW_PROPERTY_VERSION"

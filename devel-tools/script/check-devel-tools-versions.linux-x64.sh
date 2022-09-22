@@ -57,7 +57,7 @@ main() {
     confirm_continue
     git commit -a -m "Bump devel-tool version ($SHELLCHECK_TOOL_NAME): $SHELLCHECK_CURRENT_VERSION -> $SHELLCHECK_LATEST_VERSION"
     log_info "Here is the git log:"
-    git log
+    git log -n 3
     confirm_continue
   fi
   log_info "  => The version is latest."
@@ -86,7 +86,7 @@ main() {
     confirm_continue
     git commit -a -m "Bump devel-tool version ($SHFMT_TOOL_NAME): $SHFMT_CURRENT_VERSION -> $SHFMT_LATEST_VERSION"
     log_info "Here is the git log:"
-    git log
+    git log -n 3
     confirm_continue
   fi
   log_info "  => The version is latest."
