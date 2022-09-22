@@ -6,9 +6,6 @@ set -eu
 
 source "$(dirname "$0")/common.sh"
 
-SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
-SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
-
 main() {
   log_info "Start installing..."
 
@@ -24,45 +21,6 @@ main() {
   check_shfmt_is_ready
 
   log_info "Installed successflly!"
-}
-
-# Check if the DEVEL_TOOLS_DIR exists and is a directory.
-check_if_devel_tools_dir_exists() {
-  if [ -e "$DEVEL_TOOLS_DIR" ] && [ ! -d "$DEVEL_TOOLS_DIR" ]; then
-    log_err "The path $DEVEL_TOOLS_DIR sould be a directory not a file."
-    exit 1
-  elif [ ! -d "$DEVEL_TOOLS_DIR" ]; then
-    mkdir "$DEVEL_TOOLS_DIR"
-  fi
-}
-
-# Install shellcheck via the GitHub Releases Page as the file 'SHELLCHECK_CMD_PATH'.
-# Ref: https://github.com/koalaman/shellcheck#installing
-install_shellcheck() {
-  local -r TEMP_DIR="$(mktemp -d)"
-  log_info "TEMP_DIR: $TEMP_DIR"
-
-  cd "$TEMP_DIR"
-  log_info "PWD: $(pwd)"
-
-  curl -OL "$SHELLCHECK_URL"
-  tar -xf "./shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
-  mv -f "./shellcheck-${SHELLCHECK_CURRENT_VERSION}/shellcheck" "$SHELLCHECK_CMD_PATH"
-
-  rm -rf "$TEMP_DIR" # cleanup
-}
-
-# Install shfmt VIA THE GITHUB RELEASE PAGE under the directory 'DEVEL_TOOLS_DIR'.
-#
-# Note that install not via Golang (download binary from GitHub Release page).
-#
-# Ref:
-#   https://github.com/mvdan/sh#shfmt
-#   https://github.com/mvdan/sh/releases
-install_shfmt() {
-  cd "$DEVEL_TOOLS_DIR"
-  curl -L "$SHFMT_URL" -o shfmt
-  chmod +x ./shfmt
 }
 
 main
