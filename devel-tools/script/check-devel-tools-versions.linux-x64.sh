@@ -26,11 +26,9 @@ main() {
   local -r SHFMT_LATEST_VERSION="$(get_latest_version_number "$SHFMT_OWNER" "$SHFMT_REPO")"
   print_versions "$SHFMT_TOOL_NAME" "$SHFMT_CURRENT_VERSION" "$SHFMT_BINARY_VERSION" "$SHFMT_LATEST_VERSION"
 
-
   # Check: Compare the 'Binary Version' with the 'Current Version'.
   compare_binary_ver_with_current_ver_of_the_devel_tool "$SHELLCHECK_TOOL_NAME" "$SHELLCHECK_BINARY_VERSION" "$SHELLCHECK_CURRENT_VERSION"
   compare_binary_ver_with_current_ver_of_the_devel_tool "$SHFMT_TOOL_NAME" "$SHFMT_BINARY_VERSION" "$SHFMT_CURRENT_VERSION"
-
 
   # Check: Compare the 'Current Version' with the 'Latest Version'
   log_info "Checking that the version of installed $SHELLCHECK_TOOL_NAME is latest."
@@ -40,7 +38,6 @@ main() {
     # Confirmation ("Upgrade or not") (Using `confirm_continue()` in `common.sh`)
     log_warn "Will you upgrade $SHELLCHECK_TOOL_NAME from $SHELLCHECK_CURRENT_VERSION to $SHELLCHECK_LATEST_VERSION ?"
     confirm_continue
-
 
     # Check: You must commit all changes before bump devel-tool version. (Or, you can do it manually).
     if ! git diff --quiet; then
@@ -67,7 +64,6 @@ main() {
     confirm_continue
   fi
   log_info "  => The version is latest."
-
 
   # Do the same for sfmt as for sheckcheck above.
   # TODO: Refactor (DRY)
@@ -97,7 +93,6 @@ main() {
     confirm_continue
   fi
   log_info "  => The version is latest."
-
 
   log_info "Checked all devel-tools!"
 }
@@ -153,6 +148,9 @@ bump_shellcheck_version() {
   # Overwrite devel-tools versions
   local -r TARGET_FILE="${COMMON_SH_PATH}"
   overwrite_version_number_variable "$TARGET_FILE" "SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_LATEST_VERSION"
+  # Reload common.sh to support for above change.
+  # Note especially SHELLCHECK_CURRENT_VERSION and its effect on SHELLCHECK_URL.
+  source "$(dirname "$0")/common.sh"
 
   # Install(Reinstall) the devel-tool
   install_shellcheck
@@ -162,6 +160,9 @@ bump_shfmt_version() {
   # Overwrite devel-tools versions
   local -r TARGET_FILE="${COMMON_SH_PATH}"
   overwrite_version_number_variable "$TARGET_FILE" "SHFMT_CURRENT_VERSION" "$SHFMT_CURRENT_VERSION" "$SHFMT_LATEST_VERSION"
+  # Reload common.sh to support for above change.
+  # Note especially SHFMT_CURRENT_VERSION and its effect on SHFMT_URL.
+  source "$(dirname "$0")/common.sh"
 
   # Install(Reinstall) the devel-tool
   install_shfmt
