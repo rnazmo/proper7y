@@ -90,7 +90,7 @@ _compse_devel_tools_bin_dir() {
 }
 
 _compse_common_sh_path() {
-  COMMON_SH_PATH="${PROJECT_ROOT}/devel-tools/bin"
+  COMMON_SH_PATH="${DEVEL_TOOLS_DIR}/common.sh"
   ROW="$(compose_row_for_variable_log "COMMON_SH_PATH" "$COMMON_SH_PATH")"
   log_info "$ROW"
 }
