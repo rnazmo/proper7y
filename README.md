@@ -292,9 +292,6 @@ make integ-test
 
 #### Priority: ☆☆☆
 
-- Add new commands to `Makefile`
-  - `pre-commit`, `pre-push`
-
 #### Priority: ☆☆
 
 - devel-tools が最新かどうか、CI (github actions)でチェック？
