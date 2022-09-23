@@ -301,9 +301,6 @@ make integ-test
 
 #### Priority: ☆☆☆
 
-- Bump the versions of devel tools with the script
-  - 上記で作ったスクリプト `upgrade-devel-tools.sh` を試すのも兼ねる。
-  - Ref: https://github.com/rnazmo/property#how-to-bump-a-version-of-devel-tools
 - Rename the app
   - このアプリ名("property")は非常に衝突しやすい。もう少しユニークな文字列にしたい。
     - かと言って、大きく変えたくない。
