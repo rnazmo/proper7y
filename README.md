@@ -260,7 +260,7 @@ make install-devel-tools
 Just run:
 
 ```console
-$ make check-devel-tools-versions
+make check-devel-tools-versions
 ```
 
 #### Manually
