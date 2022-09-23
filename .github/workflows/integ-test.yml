@@ -5,8 +5,8 @@ on:
       - "**.md"
 
 jobs:
-  install-and-run-stable-property:
-    name: Install and run property (stable version)
+  install-and-run-stable-proper7y:
+    name: Install and run proper7y (stable version)
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -14,12 +14,12 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Install and run stable 'property'
+      - name: Install and run stable 'proper7y'
         run: |
           make integ-test
 
-  run-head-property:
-    name: Run property (HEAD version)
+  run-head-proper7y:
+    name: Run proper7y (HEAD version)
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -31,5 +31,5 @@ jobs:
         run: pwd
       - name: ls
         run: ls -alFh
-      - name: Run property
-        run: ./property
+      - name: Run proper7y
+        run: ./proper7y

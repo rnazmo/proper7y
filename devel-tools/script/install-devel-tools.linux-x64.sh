@@ -2,7 +2,7 @@
 set -eu
 
 # TL:DR (What is this?)
-#   Install shellcheck and shfmt binary under 'foo/property/devel-tools/bin/'.
+#   Install shellcheck and shfmt binary under 'foo/proper7y/devel-tools/bin/'.
 
 source "$(dirname "$0")/common.sh"
 

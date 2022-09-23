@@ -2,21 +2,21 @@
 set -eu
 
 # What is this:
-#   Install latest version of 'property' command.
+#   Install latest version of 'proper7y' command.
 #
 # Usage:
 #   $ ./install.sh <dir_path>
-#   The <dir_path> is a directory where you want to install 'property' command.
+#   The <dir_path> is a directory where you want to install 'proper7y' command.
 #
 # Example:
 #   $ ./install.sh ~/bin/
 #
 # If you want to download this script from remote and run it with one liner, run like:
-#   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/main/install.sh ${HOME}/bin/)"
+#   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh ${HOME}/bin/)"
 
-PROPERTY_VERSION="v0.1.8"
+PROPER7Y_VERSION="v0.1.8"
 
-SRC_URL="https://raw.githubusercontent.com/rnazmo/property/${PROPERTY_VERSION}/property"
+SRC_URL="https://raw.githubusercontent.com/rnazmo/proper7y/${PROPER7Y_VERSION}/proper7y"
 
 parse_args() {
   # Parse argument:
@@ -59,9 +59,9 @@ main() {
   curl -O "$SRC_URL"
 
   # Add execute poermission.
-  chmod +x ./property
+  chmod +x ./proper7y
 
-  if [ ! -x ./property ]; then
+  if [ ! -x ./proper7y ]; then
     log_err "Something wrong :("
     print_usage
     exit 1
@@ -73,7 +73,7 @@ main() {
 print_usage() {
   echo "Usage: "
   echo "  ./install.sh <dir_path>"
-  echo "  The <dir_path> is a directory where you want to install 'property' command."
+  echo "  The <dir_path> is a directory where you want to install 'proper7y' command."
   echo "Example: "
   echo "  ./install.sh ~/bin/"
 }

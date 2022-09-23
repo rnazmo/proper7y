@@ -2,14 +2,14 @@
 set -eu
 
 # TL;DR (What is this?):
-#   - Install and run stable 'property'.
+#   - Install and run stable 'proper7y'.
 
 source "$(dirname "$0")/common.sh"
 
-URL="https://raw.githubusercontent.com/rnazmo/property/main/install.sh"
+URL="https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh"
 
 main() {
-  log_info "Start running integ-test (Install and run stable 'property')"
+  log_info "Start running integ-test (Install and run stable 'proper7y')"
 
   log_info "Cd to temp directory"
   cd "$(mktemp -d)"
@@ -19,11 +19,11 @@ main() {
   curl -O "$URL"
   chmod +x ./install.sh
 
-  log_info "Run the 'install.sh' and install property"
+  log_info "Run the 'install.sh' and install proper7y"
   ./install.sh .
 
-  log_info "Run property"
-  ./property
+  log_info "Run proper7y"
+  ./proper7y
 
   log_info "Running integ-test successflly!"
 }

@@ -1,13 +1,13 @@
 #!/bin/bash
 set -eu
 
-PROPERTY_VERSION="v0.1.8"
+PROPER7Y_VERSION="v0.1.8"
 
 # -------------------------------------------------------------------
 
 main() {
-  echo "property $PROPERTY_VERSION - A tiny Bash script to get OS and other"
-  echo "software version info. https://github.com/rnazmo/property"
+  echo "proper7y $PROPER7Y_VERSION - A tiny Bash script to get OS and other"
+  echo "software version info. https://github.com/rnazmo/proper7y"
 
   echo "============================================================"
 

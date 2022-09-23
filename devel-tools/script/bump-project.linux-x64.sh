@@ -2,21 +2,21 @@
 set -eu
 
 # TL:DR (What is this?)
-#   - Bump the version of property (project).
+#   - Bump the version of proper7y (project).
 #
 
 source "$(dirname "$0")/common.sh"
 
 TARGETS=(
-  "${PROJECT_ROOT}/property"
+  "${PROJECT_ROOT}/proper7y"
   "${PROJECT_ROOT}/install.sh"
   "${COMMON_SH_PATH}"
 )
 
-CURRENT_PROPERTY_VERSION="$PROPERTY_VERSION"
+CURRENT_PROPER7Y_VERSION="$PROPER7Y_VERSION"
 
 main() {
-  log_info "Bump the project (= 'property') version: START"
+  log_info "Bump the project (= 'proper7y') version: START"
 
   if ! git diff --quiet; then
     # Check that tracked && (unstaged/staged) file changes not exist.
@@ -35,40 +35,40 @@ main() {
   git diff
   confirm_continue
 
-  git commit -a -m "Bump project version: $CURRENT_PROPERTY_VERSION -> $NEW_PROPERTY_VERSION"
-  git tag "$NEW_PROPERTY_VERSION"
+  git commit -a -m "Bump project version: $CURRENT_PROPER7Y_VERSION -> $NEW_PROPER7Y_VERSION"
+  git tag "$NEW_PROPER7Y_VERSION"
   log_info "Here is the git log:"
   git log -n 3
   confirm_continue
 
-  git push --atomic origin main "$NEW_PROPERTY_VERSION"
+  git push --atomic origin main "$NEW_PROPER7Y_VERSION"
 
-  log_info "Bump the project (= 'property') version: END"
+  log_info "Bump the project (= 'proper7y') version: END"
 }
 
 rename_project_version() {
-  log_info "CURRENT_PROPERTY_VERSION: $CURRENT_PROPERTY_VERSION"
+  log_info "CURRENT_PROPER7Y_VERSION: $CURRENT_PROPER7Y_VERSION"
 
   # Get a new version
-  read -p "Enter NEW_PROPERTY_VERSION: " -r NEW_PROPERTY_VERSION
+  read -p "Enter NEW_PROPER7Y_VERSION: " -r NEW_PROPER7Y_VERSION
   # Validate the new version
   PATTERN='^v[0-9]+\.[0-9]+\.[0-9]+$'
-  if ! [[ $NEW_PROPERTY_VERSION =~ $PATTERN ]]; then
+  if ! [[ $NEW_PROPER7Y_VERSION =~ $PATTERN ]]; then
     log_err "Wrong value. Must follow this pattern: $PATTERN"
-    log_err "'NEW_PROPERTY_VERSION': $NEW_PROPERTY_VERSION"
+    log_err "'NEW_PROPER7Y_VERSION': $NEW_PROPER7Y_VERSION"
     exit 1
   fi
-  log_info "NEW_PROPERTY_VERSION: $NEW_PROPERTY_VERSION"
+  log_info "NEW_PROPER7Y_VERSION: $NEW_PROPER7Y_VERSION"
 
   # Overwrite the project version
-  # TODO: This is DANGEROUS if project number (PROPERTY_VERSION) and
+  # TODO: This is DANGEROUS if project number (PROPER7Y_VERSION) and
   #       devel-tools versions (SHELLCHECK_CURRENT_VERSION or SHFMT_CURRENT_VERSION)
   #       match. Use 'overwrite_version_number_variable()' function.
   for TARGET in "${TARGETS[@]}"; do
     log_info "Overwrite the version in the target: START"
     log_info "TARGET: $TARGET"
 
-    sed -i "s/${CURRENT_PROPERTY_VERSION}/${NEW_PROPERTY_VERSION}/" "$TARGET"
+    sed -i "s/${CURRENT_PROPER7Y_VERSION}/${NEW_PROPER7Y_VERSION}/" "$TARGET"
 
     log_info "Overwrite the version in the target: END"
   done

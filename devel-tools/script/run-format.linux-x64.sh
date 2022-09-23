@@ -12,7 +12,7 @@ source "$(dirname "$0")/common.sh"
 
 # Targets of runnning format.
 TARGETS=(
-  "${PROJECT_ROOT}/property"
+  "${PROJECT_ROOT}/proper7y"
   "${PROJECT_ROOT}/install.sh"
   "${COMMON_SH_PATH}"
   "${DEVEL_TOOLS_DIR}/script/run-lint.linux-x64.sh"

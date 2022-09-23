@@ -1,7 +1,7 @@
-# property
+# proper7y
 
-[![Lint](https://github.com/rnazmo/property/actions/workflows/lint.yml/badge.svg)](https://github.com/rnazmo/property/actions/workflows/lint.yml)
-[![Integration Test](https://github.com/rnazmo/property/actions/workflows/integ-test.yml/badge.svg)](https://github.com/rnazmo/property/actions/workflows/integ-test.yml)
+[![Lint](https://github.com/rnazmo/proper7y/actions/workflows/lint.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/lint.yml)
+[![Integration Test](https://github.com/rnazmo/proper7y/actions/workflows/integ-test.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/integ-test.yml)
 
 A tiny Bash script to get OS and other software version information.
 
@@ -38,14 +38,14 @@ TODO:
 
 #### Using Script (recommended)
 
-If you want to install property command under `${HOME}/bin/`,
+If you want to install proper7y command under `${HOME}/bin/`,
 run commands on your terminal like:
 
 ```console
 DEST_DIR="${HOME}/bin"
 
 cd /tmp && \
-    curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh && \
+    curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh && \
     chmod +x ./install.sh && \
     ./install.sh "$DEST_DIR"
 ```
@@ -53,15 +53,15 @@ cd /tmp && \
 To check that you installed it successfully:
 
 ```console
-"${HOME}/bin/property"
+"${HOME}/bin/proper7y"
 ```
 
 #### Manually
 
-1. Download `property` file from GitHub's raw page, **specifying any version** (Use a link like [this](https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property) one.)
+1. Download `proper7y` file from GitHub's raw page, **specifying any version** (Use a link like [this](https://raw.githubusercontent.com/rnazmo/proper7y/v0.0.1/proper7y) one.)
 2. Add the file to the environment PATH (optional)
-3. Add execute permission (like `chmod +x ./property`)
-4. Run (like `./property`)
+3. Add execute permission (like `chmod +x ./proper7y`)
+4. Run (like `./proper7y`)
 
 ```console
 $ DEST_DIR="${HOME}/bin"
@@ -69,20 +69,11 @@ $ DEST_DIR="${HOME}/bin"
 $ VERSION="v0.0.1"
 
 $ cd "$DEST_DIR" && \
-    curl -O https://raw.githubusercontent.com/rnazmo/property/"$VERSION"/property && \
-    chmod +x ./property
+    curl -O https://raw.githubusercontent.com/rnazmo/proper7y/"$VERSION"/proper7y && \
+    chmod +x ./proper7y
 
-$ ./property
-property v0.0.1 - A tiny Bash script to get OS and other
-software version info. https://github.com/rnazmo/property
-============================================================
-OS NAME     : Kali GNU/Linux Rolling
-OS VERSION  : 2021.1
-Bash VERSION: 5.1.4(1)-release (x86_64-pc-linux-gnu)
-CPU ARCH    : x86-64
-KERNEL      : Linux 5.10.0-kali4-amd64
-CHASSIS     : vm
-============================================================
+$ ./proper7y
+TODO: Example result log here
 ```
 
 ### Using without installation
@@ -90,13 +81,13 @@ CHASSIS     : vm
 Just run commands like the following in your terminal.
 
 ```console
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/v0.0.1/proper7y)"
 ```
 
-### How to bump a version of my 'property'
+### How to bump a version of my 'proper7y'
 
-1. Delete you old `property` file.
-2. Install a new version of 'property'. (See [Installation](https://github.com/rnazmo/property#installation) section.)
+1. Delete you old `proper7y` file.
+2. Install a new version of 'proper7y'. (See [Installation](https://github.com/rnazmo/proper7y#installation) section.)
 
 ### Examples
 
@@ -104,29 +95,29 @@ TODO:
 
 ### Notes
 
-#### Do not download (install) 'property' without specifying the version
+#### Do not download (install) 'proper7y' without specifying the version
 
-TL;DR: **Use `install.sh`**. Or Download `property` file directly **with specifying a version**
+TL;DR: **Use `install.sh`**. Or Download `proper7y` file directly **with specifying a version**
 
-Don't download 'property' (this indicates 'property' as the file) directly from the `main` branch,
+Don't download 'proper7y' (this indicates 'proper7y' as the file) directly from the `main` branch,
 but download it directly using a tag such as "v0.0.1".
 
-Or, I highly recommend you to download 'property' (this indicates 'property' as the file) via `install.sh`.
+Or, I highly recommend you to download 'proper7y' (this indicates 'proper7y' as the file) via `install.sh`.
 If you download `install.sh`, it is also allowed from the `main` branch.
 
-If you do not specify the version (for example, if you download 'property' (this indicates 'property' as the file) directly from `main` branch),
-the version information of 'property' (this indicates 'property' as the project) itself in the output of the `property` (this 'property' means as the file) command can be incorrect.
+If you do not specify the version (for example, if you download 'proper7y' (this indicates 'proper7y' as the file) directly from `main` branch),
+the version information of 'proper7y' (this indicates 'proper7y' as the project) itself in the output of the `proper7y` (this 'proper7y' means as the file) command can be incorrect.
 
 e.g.,
 
 ```console
 # BAD:
-$ curl -O "https://raw.githubusercontent.com/rnazmo/property/main/property"
+$ curl -O "https://raw.githubusercontent.com/rnazmo/proper7y/main/proper7y"
 ```
 
 ```console
 # GOOD:
-$ curl -O "https://raw.githubusercontent.com/rnazmo/property/v0.0.1/property"
+$ curl -O "https://raw.githubusercontent.com/rnazmo/proper7y/v0.0.1/proper7y"
 ```
 
 I highly recommend you to use `install.sh` to avoid these mistakes.
@@ -135,7 +126,7 @@ I highly recommend you to use `install.sh` to avoid these mistakes.
 # GOOD (Recommend)
 $ DEST_DIR="${HOME}/bin"
 $ cd /tmp && \
-    curl -O https://raw.githubusercontent.com/rnazmo/property/main/install.sh && \
+    curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh && \
     chmod +x ./install.sh && \
     ./install.sh "$DEST_DIR"
 ```
@@ -180,7 +171,7 @@ Follow semantic versioning.
   - ミスってもあまり気にせず。ゆるく
 - For document only changes:
   - Add 'docs: ' as a prefix (SHALL)
-- When you bump a version of 'property'
+- When you bump a version of 'proper7y'
   - Like this: `Bump a version to v0.0.3` (SHOULD)
 - When you bump a version of devel-tools
   - Like this: `Bump a version of shellcheck to v0.7.3` (SHOULD)
@@ -220,9 +211,9 @@ Ref:
 
 すべきではないが、(どうしても仕方がない場合のみ) 許可する。(対象ユーザーが自分のみなので)
 
-### How to bump a version of 'property' (versioning workflow)
+### How to bump a version of 'proper7y' (versioning workflow)
 
-0. (We edited `property` locally.)
+0. (We edited `proper7y` locally.)
 1. Create a commit for the changes with any commit message.
 2. Push the changes (like `$ git push`).
 3. Ensure that the CI to the commit passes. (And if the CI falls, we go back to step 0.)
@@ -230,7 +221,7 @@ Ref:
 
 MEMO: The script do following:
 
-1. Edit and bump a version of `VERSION="v0.0.X"` in `property`, `install.sh`, and `/devel-tools/script/common.sh`. (Don't forget to follow semantic versioning!)
+1. Edit and bump a version of `VERSION="v0.0.X"` in `proper7y`, `install.sh`, and `/devel-tools/script/common.sh`. (Don't forget to follow semantic versioning!)
 2. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
 3. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
 4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
@@ -243,9 +234,9 @@ MEMO: The script do following:
 
 ### How to setup your development environment
 
-1. Check if your machine meet [the prerequisites](https://github.com/rnazmo/property#prerequisites)
-2. Clone this repository under any directory on the machine. (`git clone git@github.com:rnazmo/property.git`)
-3. [Install the dependencies using the scripts](https://github.com/rnazmo/property#how-to-install-devel-tools)
+1. Check if your machine meet [the prerequisites](https://github.com/rnazmo/proper7y#prerequisites)
+2. Clone this repository under any directory on the machine. (`git clone git@github.com:rnazmo/proper7y.git`)
+3. [Install the dependencies using the scripts](https://github.com/rnazmo/proper7y#how-to-install-devel-tools)
 
 ### How to install devel-tools
 
@@ -301,10 +292,6 @@ make integ-test
 
 #### Priority: ☆☆☆
 
-- Rename the app
-  - このアプリ名("property")は非常に衝突しやすい。もう少しユニークな文字列にしたい。
-    - かと言って、大きく変えたくない。
-      - `proper7y` とかでどうか。
 - Add new commands to `Makefile`
   - `pre-commit`, `pre-push`
 
@@ -318,7 +305,7 @@ make integ-test
     - そもそも Pull Request はあまり使いたくないのでは？
     - でもあると便利だし、Bot に限れば Pull Request 使っても良いかも。
   - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
-- Add date information in the "property" log?
+- Add date information in the "proper7y" log?
 - Add unit test?
   - `ShellSpec` ?
     - [ShellSpec - シェルスクリプト用のフル機能のBDDユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
@@ -337,19 +324,19 @@ make integ-test
   - Add support for following OS
     - ~~Should I rewrite with Golang?~~
       - このアプリを作る＆メンテする目的の1つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
-    - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'property4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
+    - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'proper7y4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
 - docs only changes:
   - Refine README.md (内容が重複しているところとかある)
   - `install.sh` がある理由を書いておく
     - 「これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中」
   - Add following texts to `README.md`
-    - > In this document, `property` indicates the file, 'property' indicates the project (≒ the repository) and `$ property` indicates the command on your console.
+    - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
 
 - Add 'pre-commit' (lint)
-  - Run shellcheck to /property (like `$ shellcheck ./property`)
-  - Run shfmt /property (like `$ shfmt -l -w`)
-で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
-  - [ref](#do-not-download-install-property-without-specifying-the-version)
+  - Run shellcheck to /proper7y (like `$ shellcheck ./proper7y`)
+  - Run shfmt /proper7y (like `$ shfmt -l -w`)
+で 'proper7y' をインストールする場合、バージョン管理しなくてはならず面倒)
+  - [ref](#do-not-download-install-proper7y-without-specifying-the-version)
   - 書き方はここが参考になりそう：
     - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
     - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
@@ -366,14 +353,14 @@ make integ-test
 
 - [ ] Linux (debian-based)
 - [x] Windows
-  - -> Develop on another repo: github.com/rnazmo/property4win
+  - -> Develop on another repo: github.com/rnazmo/proper7y4win
 - [ ] VM (VirtualBox)
 - [ ] VM (Docker)
 - [ ] VM (WSL2)
 
 - [ ] Linux (redhat-based)
 - [ ] Unix (macOS)
-  - -> **Develop on another repo?(github.com/rnazmo/property4mac)**
+  - -> **Develop on another repo?(github.com/rnazmo/proper7y4mac)**
 - [ ] VFM (VMWare)
 
 ##### software
@@ -428,7 +415,7 @@ Ref:
 Example:
 
 ```console
-shfmt -i 2 -d ./property ./install.sh
+shfmt -i 2 -d ./proper7y ./install.sh
 ```
 
 ### Formatting

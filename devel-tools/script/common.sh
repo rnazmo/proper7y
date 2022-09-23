@@ -29,7 +29,7 @@ set -eu
 
 # Global Variables
 # shellcheck disable=SC2034
-PROPERTY_VERSION="v0.1.8"
+PROPER7Y_VERSION="v0.1.8"
 SHELLCHECK_CURRENT_VERSION="v0.8.0"
 SHFMT_CURRENT_VERSION="v3.5.1"
 SHELLCHECK_BINARY_VERSION="This_value_should_be_overridden"
@@ -70,7 +70,7 @@ _get_script_dir() {
   dirname "$0"
 }
 
-# _get_script_dir composes the project (= 'property') root directory
+# _get_script_dir composes the project (= 'proper7y') root directory
 # in absolute path.
 _compose_project_root_dir() {
   local -r SCRIPT_DIR="$(_get_script_dir)"
@@ -325,7 +325,7 @@ pad_with_spaces() {
 # Compose a row in format using given ROW_NAME and ROW_VALUE.
 #
 # Example Usage:
-#   compose_row_for_variable_log "DEVEL_TOOLS_BIN_DIR" "/foo/bar/baz/property/devel-tools/bin"
+#   compose_row_for_variable_log "DEVEL_TOOLS_BIN_DIR" "/foo/bar/baz/proper7y/devel-tools/bin"
 #
 compose_row_for_variable_log() {
   local -r ROW_NAME="$1"
