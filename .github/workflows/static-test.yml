@@ -1,4 +1,4 @@
-name: Lint
+name: Static Test
 on:
   push:
     paths-ignore:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   lint:
-    name: lint
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code

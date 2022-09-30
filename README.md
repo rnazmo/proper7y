@@ -1,6 +1,6 @@
 # proper7y
 
-[![Lint](https://github.com/rnazmo/proper7y/actions/workflows/lint.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/lint.yml)
+[![Lint](https://github.com/rnazmo/proper7y/actions/workflows/static-test.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/static-test.yml)
 [![Integration Test](https://github.com/rnazmo/proper7y/actions/workflows/integ-test.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/integ-test.yml)
 
 A tiny Bash script to get OS and other software version information.
