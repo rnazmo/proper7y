@@ -292,6 +292,10 @@ make integ-test
 
 #### Priority: ☆☆☆
 
+- Print 'current shell' not 'default shell'
+  - scope:
+    - https://github.com/rnazmo/proper7y/blob/c3491e9736dd90192699783550e3ec46bd4fab95/proper7y#L18
+    - https://github.com/rnazmo/proper7y/blob/c3491e9736dd90192699783550e3ec46bd4fab95/proper7y#L109-L119
 - `v1.0.0` までに実装すべきもの(足りないもの)を列挙しておく
   - 対応する OS をはっきりさせる
   - 対応するソフトウェアをはっきりさせる
@@ -301,9 +305,9 @@ make integ-test
         - でも利用方法をあまり複雑にしたくない
       - インタラクティブ？
         - ログから操作を再現することがやりにくくなる
-
     - 割り切って「サポートしない」と決めるのもあり
   - README.md の内容を整える
+- Support `Neovim`
 
 #### Priority: ☆☆
 
