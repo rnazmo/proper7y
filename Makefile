@@ -22,8 +22,11 @@ integ-test:
 bump-project:
 	./devel-tools/script/bump-project.linux-x64.sh
 
+.PHONY: static-test
+static-test: lint format
+
 .PHONY: pre-commit
-pre-commit: lint format
+pre-commit: static-test
 
 .PHONY: pre-push
-pre-push: lint format integ-test
+pre-push: static-test integ-test
