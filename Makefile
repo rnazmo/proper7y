@@ -1,3 +1,7 @@
+.PHONY: bump-project
+bump-project:
+	./devel-tools/script/bump-project.linux-x64.sh
+
 .PHONY: install-devel-tools
 install-devel-tools:
 	./devel-tools/script/install-devel-tools.linux-x64.sh
@@ -14,19 +18,22 @@ lint:
 format:
 	./devel-tools/script/run-format.linux-x64.sh
 
-.PHONY: integ-test
-integ-test:
+.PHONY: run-integ-test-to-head
+run-integ-test-to-head:
+	./proper7y
+
+.PHONY: run-integ-test-to-latest
+run-integ-test-to-latest:
 	./devel-tools/script/run-integ-test.linux-x64.sh
 
-.PHONY: bump-project
-bump-project:
-	./devel-tools/script/bump-project.linux-x64.sh
+.PHONY: static-tests
+static-tests: lint format
 
-.PHONY: static-test
-static-test: lint format
+.PHONY: integ-tests
+integ-tests: run-integ-test-to-head run-integ-test-to-latest
 
 .PHONY: pre-commit
-pre-commit: static-test
+pre-commit: static-tests
 
 .PHONY: pre-push
-pre-push: static-test integ-test
+pre-push: static-tests integ-tests
