@@ -15,7 +15,7 @@ main() {
   if true; then
     print_os_name
     print_os_version
-    print_default_shell
+    print_current_shell
     print_bash_version
     print_zsh_version
     print_cpu_arch
@@ -24,6 +24,7 @@ main() {
   # Print additional property (lower-layer)
   # TODO: Add support options, and switch this with a option
   if false; then
+    print_default_shell
     print_kernel
     print_chassis
   fi
@@ -105,6 +106,25 @@ print_chassis() {
 #   # fi
 #   print_row "VIRTUALIZATION" "$VIRTUALIZATION"
 # }
+
+print_current_shell() {
+  local CURRENT_SHELL="Unknown"
+
+  # The parent process of the running 'proper7y' is probably the 'current shell' we want.
+  # NOTE: In some environments, the fillowing may not work correctly.
+  # Ref:
+  #   https://tkuchiki.hatenablog.com/entry/2014/05/08/222135
+  #   https://askubuntu.com/a/590903
+  local PARENT_PROCESS_CMD="Unknown"
+  PARENT_PROCESS_CMD=$(ps -cp "$PPID" -o command="")
+  if echo "$PARENT_PROCESS_CMD" | grep -qs "bash"; then
+    CURRENT_SHELL="Bash"
+  elif echo "$PARENT_PROCESS_CMD" | grep -qs "zsh"; then
+    CURRENT_SHELL="Zsh"
+  fi
+
+  print_row "Current Shell" "$CURRENT_SHELL"
+}
 
 print_default_shell() {
   local DEFAULT_SHELL="Unknown"
