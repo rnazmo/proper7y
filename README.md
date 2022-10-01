@@ -293,17 +293,45 @@ make integ-test
 #### Priority: ☆☆☆
 
 - `v1.0.0` までに実装すべきもの(足りないもの)を列挙しておく
-  - 対応する OS をはっきりさせる
-  - 対応するソフトウェアをはっきりさせる
+  - 対応する環境・対象とするソフトウェアをはっきりさせる
+    - 対応する環境は？:
+      - OS: ubuntu, kali, macos
+      - shell: bash, zsh
+    - 対象とするソフトウェアは？:
+      - shell: bash, zsh
+      - programming lang: golang, python(pip), ruby(gem), js/ts(node,npm,yarn,)
+      - cli: awk, sed, grep, curl,...
+      - editor: vim, neovim, vscode
+    - Example: [shellspec/shells.md at master · shellspec/shellspec](https://github.com/shellspec/shellspec/blob/f800240b606ed8d60f27ca687400836c0083e76a/docs/shells.md)
   - 「基本情報」に加え、「指定したソフトウェアの情報」を出力する方法を考える
     - 良い感じに指定したい
       - コマンドラインオプション？
         - でも利用方法をあまり複雑にしたくない
-      - インタラクティブ？
-        - ログから操作を再現することがやりにくくなる
+        - like `proper7y --add=ruby,gem,curl,nmap` みたいな？
+          - いや、template を自分で指定できると良いかも
+            - `$ proper7y --template=os_name,os_version,current_shell,bash_version,zsh_version,cpu_arch,ruby,gem` みたいな
+            - (`$ proper7y` == `$ proper7y --template=os_name,os_version,current_shell,bash_version,zsh_version,cpu_arch`)
+            - 実装がだいぶ面倒そう
+      - ~~インタラクティブ？~~
+        - ログから操作を再現しにくくなる
     - 割り切って「サポートしない」と決めるのもあり
+  - オプション周りを考える
+    - `--template`: 上述
+    - `--verbose`: 各バージョン情報について、より詳細に出力する
+      - `v1.22.34` に加え、ハッシュ値とかビルド時間とか。(ある場合のみ)
   - README.md の内容を整える
-- Support `Neovim`
+    - Refine README.md (内容が重複しているところとかある)
+    - `install.sh` がある理由を書いておく
+      - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
+      - ref: https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version
+      - 書き方はここが参考になりそう：
+          - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
+          - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
+    - Add following texts to `README.md`
+      - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
+    - Add GIF image to `README.md`
+      - using `asciinema`?
+        - [ターミナルでの入力の記録と再生、Webでの共有が可能なOSSツール – asciinema | DevelopersIO](https://dev.classmethod.jp/articles/intro-asciinema/)
 
 #### Priority: ☆☆
 
@@ -315,99 +343,126 @@ make integ-test
     - そもそも Pull Request はあまり使いたくないのでは？
     - でもあると便利だし、Bot に限れば Pull Request 使っても良いかも。
   - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
-- Add date information in the "proper7y" log?
 - Add unit test?
   - `ShellSpec` ?
     - [ShellSpec - シェルスクリプト用のフル機能のBDDユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
     - [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
     - [ShellSpec - シェルスクリプト用のBDDテスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
-- Write supported OS/Software List
-  - Example: [shellspec/shells.md at master · shellspec/shellspec](https://github.com/shellspec/shellspec/blob/f800240b606ed8d60f27ca687400836c0083e76a/docs/shells.md)
+  - スクリプトの特性上、ユニットテストでテストできる範囲狭そう
+- Add date information in the "proper7y" log?
 
 #### Priority: ☆
 
-- New features:
-  - Add support for following softwares
-    - `<command_name>`のリストをオプションとして受け取る (like `--"go,nmap,gobuster"`) とか？
-  - Add support for options?
-    - Using [ko1nksm/getoptions: An elegant option/argument parser for shell scripts (full support for bash and all POSIX shells)](https://github.com/ko1nksm/getoptions) ?
-  - Add support for following OS
-    - ~~Should I rewrite with Golang?~~
-      - このアプリを作る＆メンテする目的の1つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
-    - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'proper7y4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
-- docs only changes:
-  - Refine README.md (内容が重複しているところとかある)
-  - `install.sh` がある理由を書いておく
-    - 「これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中」
-  - Add following texts to `README.md`
-    - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
-
-- Add 'pre-commit' (lint)
-  - Run shellcheck to /proper7y (like `$ shellcheck ./proper7y`)
-  - Run shfmt /proper7y (like `$ shfmt -l -w`)
-で 'proper7y' をインストールする場合、バージョン管理しなくてはならず面倒)
-  - [ref](#do-not-download-install-proper7y-without-specifying-the-version)
-  - 書き方はここが参考になりそう：
-    - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
-    - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
-
-- Add GIF image to `README.md`
-  - using `asciinema`?
-    - [ターミナルでの入力の記録と再生、Webでの共有が可能なOSSツール – asciinema | DevelopersIO](https://dev.classmethod.jp/articles/intro-asciinema/)
-
+- Add support for options?
+  - Using [ko1nksm/getoptions: An elegant option/argument parser for shell scripts (full support for bash and all POSIX shells)](https://github.com/ko1nksm/getoptions) ?
+- Add support for following OS?
+  - ~~Should I rewrite with Golang?~~
+    - このアプリを作る＆メンテする目的の1つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
+  - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'proper7y4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
 - コマンドの exit status を整える。(正常終了で 0 を返す、など)
 
-#### List of OS/software to be supported
+#### Environment which should be supported
 
-##### OS
+- [ ] ubuntu
+- [ ] kali
+- [ ] macos (-> Develop on another repo?(github.com/rnazmo/proper7y4mac))
+- [x] ~~windows~~ -> Develop on another repo: github.com/rnazmo/proper7y4win
+- [ ] virtualbox
+- [ ] docker
+- [ ] wsl2
 
-- [ ] Linux (debian-based)
-- [x] Windows
-  - -> Develop on another repo: github.com/rnazmo/proper7y4win
-- [ ] VM (VirtualBox)
-- [ ] VM (Docker)
-- [ ] VM (WSL2)
+(memo: debian-based linux, redhat-based linux)
 
-- [ ] Linux (redhat-based)
-- [ ] Unix (macOS)
-  - -> **Develop on another repo?(github.com/rnazmo/proper7y4mac)**
-- [ ] VFM (VMWare)
+#### Commands to print the software version (on debian-based linux)
 
-##### software
+##### bash
 
-- vim: `vim --version`
-- nvim: `nvim --version`
+```console
+$ bash --version | head -n 1 | sed "s/GNU bash, version //"
+5.1.4(1)-release (x86_64-pc-linux-gnu)
+```
 
-- curl: `curl --version`
-- wget: `wget --version`
-- nmap: `nmap --version`
-- gobuster: `gobuster version`
-- nikto: `nikto --version`
-- Metasploit: `msfconsole: --version`
-- hydra: `hydra --foo` => sed
-- hashcat: `hashcat --version`
-- john: `john` => sed
-- wireshark: `wireshark --version`
+##### zsh
 
-- golang: `go version`
-- python
-  - `type python`
-  - Python2: `python2 --version`
-  - Python3: `python3 --version`
-  - `type pip`
-  - pip2: `pip2 --version`
-  - pip3: `pip3 --version`
-- ruby
-  - RubyGems: `gem --version`
-- nodejs/javascript/typescript
+```console
+$ zsh --version | sed "s/zsh //"
+5.9 (x86_64-debian-linux-gnu)
+```
 
-  - nodejs: `node --version`
-  - (nvm: `nvm --version`)
-  - npm: `npm --version`
-  - yarn: `yarn --version`
+##### golang
 
-- firefox: `firefox --version`
-- chrome: `google-chrome --version`
+
+```console
+$ go version | sed "s/go version go//"
+1.16.5 linux/amd64
+```
+
+##### python
+
+```console
+TODO: python, pip
+```
+
+##### ruby
+
+```console
+TODO: ruby, gem
+```
+
+##### js/ts
+
+```console
+TODO: npm, nvm, node, yarn
+```
+
+##### awk
+
+```console
+TODO:
+```
+
+##### sed
+
+```console
+TODO:
+```
+
+##### grep
+
+```console
+TODO:
+```
+
+##### curl
+
+```console
+TODO:
+```
+
+##### tmux
+
+```console
+TODO:
+```
+
+##### vim
+
+```console
+$ vim --version | head -1 | sed "s/VIM - Vi IMproved //"
+8.2 (2019 Dec 12, compiled Mar 02 2021 02:58:09)
+```
+
+##### neovim
+
+```console
+TODO:
+```
+
+##### vscode
+
+```console
+TODO:
+```
 
 ## Memo
 
@@ -449,3 +504,39 @@ make lint
 make format
 make integ-test
 ```
+
+### Version commands
+
+- vim: `vim --version`
+- nvim: `nvim --version`
+
+- curl: `curl --version`
+- wget: `wget --version`
+- nmap: `nmap --version`
+- gobuster: `gobuster version`
+- nikto: `nikto --version`
+- Metasploit: `msfconsole: --version`
+- hydra: `hydra --foo` => sed
+- hashcat: `hashcat --version`
+- john: `john` => sed
+- wireshark: `wireshark --version`
+
+- golang: `go version`
+- python
+  - `type python`
+  - Python2: `python2 --version`
+  - Python3: `python3 --version`
+  - `type pip`
+  - pip2: `pip2 --version`
+  - pip3: `pip3 --version`
+- ruby
+  - RubyGems: `gem --version`
+- nodejs/javascript/typescript
+
+  - nodejs: `node --version`
+  - (nvm: `nvm --version`)
+  - npm: `npm --version`
+  - yarn: `yarn --version`
+
+- firefox: `firefox --version`
+- chrome: `google-chrome --version`
