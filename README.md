@@ -292,6 +292,30 @@ make integ-test
 
 #### Priority: ☆☆☆
 
+- Add support for command line options
+  - `--add`
+    - Example: `$ proper7y --add=ruby`
+  - `--template` (or 'custom'?)
+    - Example: `$ proper7y --template=os_name,os_version,ruby`
+  - `--version`
+    - Example: `$ proper7y --version`
+  - `--help`
+    - Example: `$ proper7y --help`
+  - `--verbose` (or 'long'?)
+    - Example: `$ proper7y --verbose`
+    - これ実装しようとすると、「`--add`, `--template` とは共存できるが、`--version`, `--help` とは共存できない」という validation をしなければならず、面倒。よってとりあえず保留。上記4つの実装が先。
+  - イメージ：
+    ```
+    SYNOPSIS:
+      proper7y [--add=<params> | --template=<params>] [--verbose]
+      proper7y [--version | --help]
+
+    DESCRIPTION:
+      TODO:
+
+    OPTIONS:
+      TODO:
+    ```
 - `v1.0.0` までに実装すべきもの(足りないもの)を列挙しておく
   - 対応する環境・対象とするソフトウェアをはっきりさせる
     - 対応する環境は？:
