@@ -292,6 +292,11 @@ make integ-test
 
 #### Priority: ☆☆☆
 
+- Update the convention
+  - Scope:
+    - https://github.com/rnazmo/proper7y/blob/5d25e105ac879c5787945b333f13327e33cdb562/README.md?plain=1#L163-L166
+  - やっぱり、変更が大きいときは branch 使いたいかも。
+  - 「**なるべく `main` だけ**の状態を維持することが望ましい。ただし、機能追加などで**一時的な**ブランチを作るのは全く構わない」などと改定する？ 
 - Add support for command line options
   - `--add`
     - Example: `$ proper7y --add=ruby`
