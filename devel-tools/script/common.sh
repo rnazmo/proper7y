@@ -124,7 +124,7 @@ _compose_shellcheck_binary_version() {
     SHELLCHECK_BINARY_VERSION="$SHELLCHECK_CMD_PATH not found."
 
     # Note that return 0 not 1. Or, it fails to install the devel-tools
-    # when the devel-tools does not exist.exists.
+    # when the devel-tools does not exist.
     return 0
   fi
 
@@ -153,7 +153,7 @@ _compose_shfmt_binary_version() {
     SHFMT_BINARY_VERSION="$SHFMT_CMD_PATH not found."
 
     # Note that return 0 not 1. Or, it fails to install the devel-tools
-    # when the devel-tools does not exist.exists.
+    # when the devel-tools does not exist.
     return 0
   fi
 
