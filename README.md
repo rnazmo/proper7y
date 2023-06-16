@@ -364,6 +364,9 @@ make integ-test
 
 #### Priority: ☆☆
 
+- Do not use `exit` command in `common.sh`. Use `return` instead.
+  - 関数の終わりに `exit` を使うべきではない。その場で強制終了させてしまうから。途中で強制終了することで、終了プロセスが複雑になってしまう
+  - 「`exit`使って良いのは `main()` 関数からのみ」みたいなルールを決めておくべき
 - devel-tools が最新かどうか、CI (github actions)でチェック？
   - Run the script `check-devel-tools-versions.sh` on CI ?
     - Trigger: weekly (Can I use https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events ?)
