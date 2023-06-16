@@ -20,7 +20,7 @@ set -eu
 #   Prerequiste: Place this file and the file you want to load this file
 #   into the same direcotry.
 #
-#   NOTE: You must add '--exclude SC1009"' option when you run shellcheck
+#   NOTE: You must add '--exclude SC1091"' option when you run shellcheck
 #   to your bash script to avoid error.
 #
 # NOTE:
