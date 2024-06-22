@@ -290,6 +290,10 @@ make integ-test
 
 ### TODO
 
+#### Priority: ☆☆☆☆
+
+- Support Manjaro Linux
+
 #### Priority: ☆☆☆
 
 - Update the convention
