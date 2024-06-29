@@ -67,7 +67,7 @@ print_os_version() {
 
 print_cpu_arch() {
   local CPU_ARCH="Unknown"
-  CPU_ARCH="$(arch)"
+  CPU_ARCH="$(uname -m)"
   print_row "CPU ARCH" "$CPU_ARCH"
 }
 
