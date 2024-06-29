@@ -244,7 +244,7 @@ make check-devel-tools-versions
 #### Manually
 
 1. Edit and bump the versions in `/devel-tools/script/common.sh`. (like `SHELLCHECK_CURRENT_VERSION="v0.7.2"`, `SHFMT_CURRENT_VERSION="v3.3.0"`)
-2. Create a commit for the change with the commit message (like `Bump a version of shellcheck to v0.7.3`).
+2. Create a commit for the change with the commit message (like `Bump devel-tool version (shfmt): v3.5.1 -> v3.6.3`).
 3. Push the commit (like `$ git push`).
 
 ### How to upgrade a version of devel-tools
