@@ -38,10 +38,10 @@ print_os_name() {
   local OS_NAME="Unknown"
 
   case $(uname | tr '[:upper:]' '[:lower:]') in
-  linux)
+  "linux")
     OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
     ;;
-  darwin)
+  "darwin")
     OS_NAME=$(sw_vers -productName)
     ;;
   esac
@@ -53,7 +53,7 @@ print_os_version() {
   local OS_VERSION="Unknown"
 
   case $(uname | tr '[:upper:]' '[:lower:]') in
-  linux)
+  "linux")
     # Ref
     #   About /etc/os-release:
     #     https://stackoverflow.com/a/53015255
@@ -62,7 +62,7 @@ print_os_version() {
     #     https://exlight.net/linux/cmd/lsb_release/index.html
     OS_VERSION=$(lsb_release -rs)
     ;;
-  darwin)
+  "darwin")
     OS_VERSION=$(sw_vers -productVersion)
     ;;
   esac
