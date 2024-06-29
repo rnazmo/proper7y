@@ -213,21 +213,6 @@ Ref:
 
 すべきではないが、(どうしても仕方がない場合のみ) 許可する。(対象ユーザーが自分のみなので)
 
-### How to bump a version of 'proper7y' (versioning workflow)
-
-0. (We edited `proper7y` locally.)
-1. Create a commit for the changes with any commit message.
-2. Push the changes (like `$ git push`).
-3. Ensure that the CI to the commit passes. (And if the CI falls, we go back to step 0.)
-4. Run the script and bump the project version: `$ make bump-project`
-
-MEMO: The script do following:
-
-1. Edit and bump a version of `VERSION="v0.0.X"` in `proper7y`, `install.sh`, and `/devel-tools/script/common.sh`. (Don't forget to follow semantic versioning!)
-2. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
-3. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
-4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
-
 ### Prerequisite
 
 **Only the following machine are supported as development environments**:
@@ -289,6 +274,21 @@ make format
 ```console
 make integ-test
 ```
+
+### How to bump a version of 'proper7y' (versioning workflow)
+
+0. (We edited `proper7y` locally.)
+1. Create a commit for the changes with any commit message.
+2. Push the changes (like `$ git push`).
+3. Ensure that the CI to the commit passes. (And if the CI falls, we go back to step 0.)
+4. Run the script and bump the project version: `$ make bump-project`
+
+MEMO: The script do following:
+
+1. Edit and bump a version of `VERSION="v0.0.X"` in `proper7y`, `install.sh`, and `/devel-tools/script/common.sh`. (Don't forget to follow semantic versioning!)
+2. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
+3. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
+4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
 
 ### TODO
 
