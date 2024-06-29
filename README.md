@@ -294,7 +294,8 @@ MEMO: The script do following:
 
 #### Priority: ☆☆☆☆
 
-- Support Manjaro Linux
+- Support Manjaro Linux (proper7y command)
+- Support Manjaro Linux as development environment
 
 #### Priority: ☆☆☆
 
