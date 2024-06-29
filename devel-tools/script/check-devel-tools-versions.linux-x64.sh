@@ -13,6 +13,9 @@ main() {
   log_info "Start checking..."
   log_info "(This takes a few seconds. Wait a few seconds....)"
 
+  local -r SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP="$SHELLCHECK_CURRENT_VERSION"
+  local -r SHFMT_CURRENT_VERSION_BEFORE_BUMP="$SHFMT_CURRENT_VERSION"
+
   local -r SHELLCHECK_OWNER="koalaman"
   local -r SHELLCHECK_REPO="shellcheck"
   local -r SHELLCHECK_LATEST_VERSION="$(get_latest_version_number "$SHELLCHECK_OWNER" "$SHELLCHECK_REPO")"
@@ -55,7 +58,7 @@ main() {
     log_info "Here is the git diff:"
     git diff
     confirm_continue
-    git commit -a -m "Bump devel-tool version ($SHELLCHECK_TOOL_NAME): $SHELLCHECK_CURRENT_VERSION -> $SHELLCHECK_LATEST_VERSION"
+    git commit -a -m "Bump devel-tool version ($SHELLCHECK_TOOL_NAME): $SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP -> $SHELLCHECK_CURRENT_VERSION"
     log_info "Here is the git log:"
     git log -n 3
     confirm_continue
@@ -84,7 +87,7 @@ main() {
     log_info "Here is the git diff:"
     git diff
     confirm_continue
-    git commit -a -m "Bump devel-tool version ($SHFMT_TOOL_NAME): $SHFMT_CURRENT_VERSION -> $SHFMT_LATEST_VERSION"
+    git commit -a -m "Bump devel-tool version ($SHFMT_TOOL_NAME): $SHFMT_CURRENT_VERSION_BEFORE_BUMP -> $SHFMT_CURRENT_VERSION"
     log_info "Here is the git log:"
     git log -n 3
     confirm_continue
