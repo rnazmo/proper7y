@@ -211,6 +211,7 @@ install_shellcheck() {
   mv -f "./shellcheck-${SHELLCHECK_CURRENT_VERSION}/shellcheck" "$SHELLCHECK_CMD_PATH"
 
   rm -rf "$TEMP_DIR" # cleanup
+  cd "$PROJECT_ROOT"
 }
 
 # Install shfmt VIA THE GITHUB RELEASE PAGE under the directory 'DEVEL_TOOLS_BIN_DIR'.
