@@ -83,7 +83,7 @@ TODO: Example result log here
 Just run commands like the following in your terminal.
 
 ```console
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/v0.0.1/proper7y)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/v0.3.0/proper7y)"
 ```
 
 ### How to bump a version of my 'proper7y'
