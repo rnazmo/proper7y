@@ -54,8 +54,13 @@ print_os_version() {
 
   case $(uname | tr '[:upper:]' '[:lower:]') in
   linux)
-    # Ref (About /etc/os-release): https://stackoverflow.com/a/53015255
-    OS_VERSION=$(grep "^VERSION=" /etc/os-release | sed 's/^.*"\(.*\)".*$/\1/')
+    # Ref
+    #   About /etc/os-release:
+    #     https://stackoverflow.com/a/53015255
+    #   About lsb_release command;
+    #   What is the "No LSB modules are available." message?:
+    #     https://exlight.net/linux/cmd/lsb_release/index.html
+    OS_VERSION=$(lsb_release -rs)
     ;;
   darwin)
     OS_VERSION=$(sw_vers -productVersion)
