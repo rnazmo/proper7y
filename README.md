@@ -294,11 +294,13 @@ MEMO: The script do following:
 
 #### Priority: ☆☆☆☆
 
-- Support Manjaro Linux (proper7y command)
+- proper7y: 最初に OS を特定し、未対応の OS の場合にはエラーを返して終了させる
+  - main 関数の最初で OS を特定し、その情報を変数に保存しておく
 - Support Manjaro Linux as development environment
 
 #### Priority: ☆☆☆
 
+- Add ChangeLog
 - Update the convention
   - Scope:
     - https://github.com/rnazmo/proper7y/blob/5d25e105ac879c5787945b333f13327e33cdb562/README.md?plain=1#L163-L166
