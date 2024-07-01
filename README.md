@@ -296,7 +296,9 @@ MEMO: The script do following:
 
 - proper7y: 最初に OS を特定し、未対応の OS の場合にはエラーを返して終了させる
   - main 関数の最初で OS を特定し、その情報を変数に保存しておく
-- Support Manjaro Linux as development environment
+- Support Manjaro Linux
+  - Support Manjaro Linux as development environment
+  - CI のテスト環境に Manjaro (Arch Linux) を追加
 
 #### Priority: ☆☆☆
 
