@@ -299,6 +299,8 @@ MEMO: The script do following:
 - Support Manjaro Linux
   - Support Manjaro Linux as development environment
   - CI のテスト環境に Manjaro (Arch Linux) を追加
+- 対応するBashの最小バージョンを決める
+  - スクリプトの最初にBashのバージョンを確認して、対応外のバージョンならエラーメッセージを出力して終了させる
 
 #### Priority: ☆☆☆
 
