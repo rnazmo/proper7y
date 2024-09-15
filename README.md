@@ -44,9 +44,9 @@ run commands on your terminal like:
 ```console
 DEST_DIR="${HOME}/bin"
 
-cd /tmp && \
+cd "$(mktemp -d)" && \
     curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh && \
-    chmod +x ./install.sh && \
+    chmod +x install.sh && \
     ./install.sh "$DEST_DIR"
 ```
 
