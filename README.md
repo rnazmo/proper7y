@@ -36,7 +36,7 @@ TODO:
 
 ### Installation
 
-#### Using Script (recommended)
+#### Using Script (recommended) - Install the latest release version
 
 If you want to install proper7y command under `${HOME}/bin/`,
 run commands on your terminal like:
@@ -56,7 +56,7 @@ To check that you installed it successfully:
 "${HOME}/bin/proper7y"
 ```
 
-#### Manually
+#### Manually - Install the specified release version
 
 1. Download `proper7y` file from GitHub's raw page, **specifying any version** (Use a link like [this](https://raw.githubusercontent.com/rnazmo/proper7y/v0.0.1/proper7y) one.)
 2. Add the file to the environment PATH (optional)
