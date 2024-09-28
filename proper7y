@@ -148,8 +148,7 @@ print_current_shell() {
 }
 
 print_bash_version() {
-  local BASH_VERSION="Unknown"
-  BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
+  local -r BASH_VERSION="${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]}.${BASH_VERSINFO[2]}"
   print_row "BASH VERSION" "$BASH_VERSION"
 }
 
