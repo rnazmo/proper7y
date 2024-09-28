@@ -56,7 +56,7 @@ rename_project_version() {
   if ! [[ $NEW_PROPER7Y_VERSION =~ $PATTERN ]]; then
     log_err "Wrong value. Must follow this pattern: $PATTERN"
     log_err "'NEW_PROPER7Y_VERSION': $NEW_PROPER7Y_VERSION"
-    exit 1
+    return 1
   fi
   log_info "NEW_PROPER7Y_VERSION: $NEW_PROPER7Y_VERSION"
 
@@ -72,6 +72,8 @@ rename_project_version() {
 
     log_info "Overwrite the version in the target: END"
   done
+
+  return 0
 }
 
 main
