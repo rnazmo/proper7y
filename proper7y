@@ -13,6 +13,7 @@ main() {
 
   # Print basic info
   if true; then
+    print_date
     print_os_name
     print_os_version
     print_current_shell
@@ -33,6 +34,11 @@ main() {
 }
 
 # -------------------------------------------------------------------
+
+print_date() {
+  local -r CURRENT_DATE="$(date '+%Y-%m-%d')"
+  print_row "CURRENT DATE" "$CURRENT_DATE"
+}
 
 print_os_name() {
   local OS_NAME="Unknown"
