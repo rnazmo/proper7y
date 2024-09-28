@@ -7,7 +7,7 @@ PROPER7Y_VERSION="v0.5.2"
 
 main() {
   echo "proper7y $PROPER7Y_VERSION - Tiny Bash script to print basic system"
-  echo "information. https://github.com/rnazmo/proper7y"
+  echo "information. See: https://github.com/rnazmo/proper7y"
 
   echo "============================================================"
 
