@@ -11,24 +11,21 @@ main() {
 
   echo "============================================================"
 
-  # Print basic info
-  if true; then
-    print_date
-    print_os_name
-    print_os_version
-    print_current_shell
-    print_bash_version
-    print_zsh_version
-    print_cpu_arch
-  fi
+  # TODO: identify_os
 
-  # Print additional property (lower-layer)
-  # TODO: Add support options, and switch this with a option
-  if false; then
-    print_default_shell
-    print_kernel
-    print_chassis
-  fi
+  print_date
+  print_os_name
+  print_os_version
+  print_current_shell
+  print_bash_version
+  print_zsh_version
+  print_cpu_arch
+
+  # TODO: print_virtualization
+
+  # print_chassis
+  # print_default_shell
+  # print_kernel
 
   echo "============================================================"
 }
@@ -94,21 +91,6 @@ print_chassis() {
   print_row "CHASSIS" "$CHASSIS"
 }
 
-# # TODO:
-# print_cpu_name() {
-#
-# }
-
-# # TODO:
-# print_ram_size() {
-#
-# }
-
-# # TODO:
-# print_gpu_name( {
-#
-# }
-
 # # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
 # print_virtualization() {
 #   local VIRTUALIZATION="Unknown"
@@ -137,18 +119,6 @@ print_current_shell() {
   print_row "Current Shell" "$CURRENT_SHELL"
 }
 
-print_default_shell() {
-  local DEFAULT_SHELL="Unknown"
-
-  if [[ "$SHELL" == *"/bash" ]]; then
-    DEFAULT_SHELL="Bash"
-  elif [[ "$SHELL" == *"/zsh" ]]; then
-    DEFAULT_SHELL="Zsh"
-  fi
-
-  print_row "Default Shell" "$DEFAULT_SHELL"
-}
-
 print_bash_version() {
   local BASH_VERSION="Unknown"
   BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
@@ -167,89 +137,6 @@ print_zsh_version() {
 
   print_row "Zsh VERSION" "$ZSH_VERSION"
 }
-
-print_apt_version() {
-  local APT_VERSION="Unknown"
-  APT_VERSION=$(apt --version | sed "s/apt //")
-  print_row "APT VERSION" "$APT_VERSION"
-}
-
-print_git_version() {
-  local GIT_VERSION="Unknown"
-  GIT_VERSION=$(git --version | sed "s/git version //")
-  print_row "GIT VERSION" "$GIT_VERSION"
-}
-
-print_tmux_version() {
-  local TMUX_VERSION="Unknown"
-  TMUX_VERSION=$(tmux -V | sed "s/tmux //")
-  print_row "TMUX VERSION" "$TMUX_VERSION"
-}
-
-# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
-# print_golang_version() {
-#   local GOLANG_VERSION="Unknown"
-#   GOLANG_VERSION=$(go version | sed "s/go version go//")
-#   print_row "GOLANG VERSION" "$GOLANG_VERSION"
-# }
-
-print_nvm_version() {
-  local NVM_VERSION="Unknown"
-  NVM_VERSION=$(nvm --version)
-  print_row "NVM VERSION" "$NVM_VERSION"
-}
-
-print_npm_version() {
-  local NPM_VERSION="Unknown"
-  NPM_VERSION=$(npm --version)
-  print_row "NPM VERSION" "$NPM_VERSION"
-}
-
-print_node_version() {
-  local NODE_VERSION="Unknown"
-  NODE_VERSION=$(node --version)
-  print_row "NODE VERSION" "$NODE_VERSION"
-}
-
-# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
-# print_python_version() {
-#   local PYTHON_VERSION="Unknown"
-#   PYTHON_VERSION=$(python --version | sed "s/Python //")
-#   print_row "PYTHON VERSION" "$PYTHON_VERSION"
-# }
-
-print_ruby_version() {
-  local RUBY_VERSION="Unknown"
-  RUBY_VERSION=$(ruby --version | sed "s/ruby //")
-  print_row "RUBY VERSION" "$RUBY_VERSION"
-}
-
-print_vim_version() {
-  local VIM_VERSION="Unknown"
-  VIM_VERSION=$(vim --version | head -1 | sed "s/VIM - Vi IMproved //")
-  print_row "VIM VERSION" "$VIM_VERSION"
-}
-
-# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
-# print_neovim_version() {
-#   local NEOVIM_VERSION="Unknown"
-#   NEOVIM_VERSION=$(nvim --version | head -1 | sed "s/NVIM v//")
-#   print_row "NEOVIM VERSION" "$NEOVIM_VERSION"
-# }
-
-# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
-# print_vscode_version() {
-#   local VSCODE_VERSION="Unknown"
-#   VSCODE_VERSION=$(code --version | head -1)
-#   print_row "VSCODE VERSION" "$VSCODE_VERSION"
-# }
-
-# # TODO: Need to set LENFTH in pad_with_spaces function to 23 or higher.
-# print_nvim_version() {
-#   local VSCODE_INSIDERS_VERSION="Unknown"
-#   VSCODE_INSIDERS_VERSION=$(code-insiders --version | head -1)
-#   print_row "VSCODE_INSIDERS VERSION" "$VSCODE_INSIDERS_VERSION"
-# }
 
 # -------------------------------------------------------------------
 
