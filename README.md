@@ -295,8 +295,6 @@ MEMO: The script do following:
 - Check "prerequisites exists?", "the os is supported os?":
   - proper7y: 最初に OS を特定し、未対応の OS の場合にはエラーを返して終了させる
     - main 関数の最初で OS を特定し、その情報を変数に保存しておく
-  - 対応する Bash の最小バージョンを決める
-    - スクリプトの最初に Bash のバージョンを確認して、対応外のバージョンならエラーメッセージを出力して終了させる
   - コマンドの exit status を整える。(正常終了で 0 を返す、など)
 - testing, ci:
   - Support Manjaro Linux

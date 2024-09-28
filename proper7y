@@ -1,7 +1,35 @@
 #!/bin/bash
 set -eu
 
+# What is this?
+#   Print basic system information.
+#
+# Usage:
+#   $ ./proper7y
+#
+# Prerequisites:
+#     Bash version >= 4.0
+#
+# Supported Software:
+#     OS:
+#         TODO:
+#     Shell:
+#         Bash
+#         Zsh
+#     Virtualization:
+#         TODO:
+
 readonly PROPER7Y_VERSION="v0.5.2"
+
+# -------------------------------------------------------------------
+
+init() {
+  # Check prerequisites
+  if [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then
+    log_err "Must be Bash version >= 4.0."
+    exit 1
+  fi
+}
 
 # -------------------------------------------------------------------
 
@@ -191,6 +219,28 @@ print_row() {
 # }
 # identify_os
 
+log_debug() {
+  local -r PREFIX="DEBUG:"
+  echo "$PREFIX $1"
+}
+
+log_info() {
+  local -r PREFIX="INFO :"
+  echo "$PREFIX $1"
+}
+
+log_warn() {
+  local -r PREFIX="WARN :" >&2
+  echo "$PREFIX $1"
+}
+
+log_err() {
+  local -r PREFIX="ERROR:" >&2
+  echo "$PREFIX $1"
+}
+
 # -------------------------------------------------------------------
+
+init
 
 main
