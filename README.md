@@ -297,8 +297,8 @@ MEMO: The script do following:
 - Support Manjaro Linux
   - Support Manjaro Linux as development environment
   - CI のテスト環境に Manjaro (Arch Linux) を追加
-- 対応するBashの最小バージョンを決める
-  - スクリプトの最初にBashのバージョンを確認して、対応外のバージョンならエラーメッセージを出力して終了させる
+- 対応する Bash の最小バージョンを決める
+  - スクリプトの最初に Bash のバージョンを確認して、対応外のバージョンならエラーメッセージを出力して終了させる
 
 #### Priority: ☆☆☆
 
@@ -320,13 +320,13 @@ MEMO: The script do following:
       - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
       - ref: https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version
       - 書き方はここが参考になりそう：
-          - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
-          - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
+        - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
+        - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
     - Add following texts to `README.md`
       - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
     - Add GIF image to `README.md`
       - using `asciinema`?
-        - [ターミナルでの入力の記録と再生、Webでの共有が可能なOSSツール – asciinema | DevelopersIO](https://dev.classmethod.jp/articles/intro-asciinema/)
+        - [ターミナルでの入力の記録と再生、Web での共有が可能な OSS ツール – asciinema | DevelopersIO](https://dev.classmethod.jp/articles/intro-asciinema/)
 
 #### Priority: ☆☆
 
@@ -343,9 +343,9 @@ MEMO: The script do following:
   - Add the badge to `README.md`. (The text is like `dependencies latest` ?)
 - Add unit test?
   - `ShellSpec` ?
-    - [ShellSpec - シェルスクリプト用のフル機能のBDDユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
+    - [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
     - [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
-    - [ShellSpec - シェルスクリプト用のBDDテスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
+    - [ShellSpec - シェルスクリプト用の BDD テスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
   - スクリプトの特性上、ユニットテストでテストできる範囲狭そう
 - Add date information in the "proper7y" log?
 
@@ -353,7 +353,7 @@ MEMO: The script do following:
 
 - Add support for following OS?
   - ~~Should I rewrite with Golang?~~
-    - このアプリを作る＆メンテする目的の1つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
+    - このアプリを作る＆メンテする目的の 1 つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
   - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'proper7y4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
 - コマンドの exit status を整える。(正常終了で 0 を返す、など)
 
