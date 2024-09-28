@@ -336,16 +336,23 @@ compose_row_for_variable_log() {
   echo "  ${ROW_NAME_PADDED}: ${ROW_VALUE}"
 }
 
+log_debug() {
+  local -r PREFIX="DEBUG:"
+  echo "$PREFIX $1"
+}
+
 log_info() {
   local -r PREFIX="INFO :"
   echo "$PREFIX $1"
 }
+
 log_warn() {
-  local -r PREFIX="WARN :"
+  local -r PREFIX="WARN :" >&2
   echo "$PREFIX $1"
 }
+
 log_err() {
-  local -r PREFIX="ERROR:"
+  local -r PREFIX="ERROR:" >&2
   echo "$PREFIX $1"
 }
 
