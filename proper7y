@@ -116,13 +116,13 @@ print_current_shell() {
     CURRENT_SHELL="Zsh"
   fi
 
-  print_row "Current Shell" "$CURRENT_SHELL"
+  print_row "CURRENT SHELL" "$CURRENT_SHELL"
 }
 
 print_bash_version() {
   local BASH_VERSION="Unknown"
   BASH_VERSION=$(bash --version | head -n 1 | sed "s/GNU bash, version //")
-  print_row "Bash VERSION" "$BASH_VERSION"
+  print_row "BASH VERSION" "$BASH_VERSION"
 }
 
 print_zsh_version() {
@@ -135,7 +135,7 @@ print_zsh_version() {
     ZSH_VERSION="(Not Found)"
   fi
 
-  print_row "Zsh VERSION" "$ZSH_VERSION"
+  print_row "ZSH VERSION" "$ZSH_VERSION"
 }
 
 # -------------------------------------------------------------------
