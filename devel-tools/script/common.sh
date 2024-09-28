@@ -29,9 +29,9 @@ set -eu
 
 # Global Variables
 # shellcheck disable=SC2034
-PROPER7Y_VERSION="v0.5.2"
-SHELLCHECK_CURRENT_VERSION="v0.10.0"
-SHFMT_CURRENT_VERSION="v3.8.0"
+readonly PROPER7Y_VERSION="v0.5.2"
+readonly SHELLCHECK_CURRENT_VERSION="v0.10.0"
+readonly SHFMT_CURRENT_VERSION="v3.8.0"
 SHELLCHECK_BINARY_VERSION="This_value_should_be_overridden"
 SHFMT_BINARY_VERSION="This_value_should_be_overridden"
 PROJECT_ROOT="This_value_should_be_overridden"
@@ -40,10 +40,10 @@ DEVEL_TOOLS_BIN_DIR="This_value_should_be_overridden"
 COMMON_SH_PATH="This_value_should_be_overridden"
 SHELLCHECK_CMD_PATH="This_value_should_be_overridden"
 SHFMT_CMD_PATH="This_value_should_be_overridden"
-SHELLCHECK_TOOL_NAME="shellcheck"
-SHFMT_TOOL_NAME="shfmt"
-SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
-SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
+readonly SHELLCHECK_TOOL_NAME="shellcheck"
+readonly SHFMT_TOOL_NAME="shfmt"
+readonly SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
+readonly SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
 
 _main() {
   _set_global_variables

@@ -6,7 +6,7 @@ set -eu
 
 source "$(dirname "$0")/common.sh"
 
-URL="https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh"
+readonly URL="https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh"
 
 main() {
   log_info "Start running integ-test (Install and run stable 'proper7y')"

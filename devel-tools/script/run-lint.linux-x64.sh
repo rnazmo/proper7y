@@ -9,7 +9,7 @@ set -eu
 source "$(dirname "$0")/common.sh"
 
 # Targets of runnning lint.
-TARGETS=(
+readonly TARGETS=(
   "${PROJECT_ROOT}/proper7y"
   "${PROJECT_ROOT}/install.sh"
   "${COMMON_SH_PATH}"

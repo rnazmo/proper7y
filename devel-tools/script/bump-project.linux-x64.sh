@@ -7,13 +7,13 @@ set -eu
 
 source "$(dirname "$0")/common.sh"
 
-TARGETS=(
+readonly TARGETS=(
   "${PROJECT_ROOT}/proper7y"
   "${PROJECT_ROOT}/install.sh"
   "${COMMON_SH_PATH}"
 )
 
-CURRENT_PROPER7Y_VERSION="$PROPER7Y_VERSION"
+readonly CURRENT_PROPER7Y_VERSION="$PROPER7Y_VERSION"
 
 main() {
   log_info "Bump the project (= 'proper7y') version: START"
