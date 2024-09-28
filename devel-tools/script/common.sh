@@ -191,9 +191,10 @@ update_shfmt_binary_version() {
 check_if_devel_tools_bin_dir_exists() {
   if [ -e "$DEVEL_TOOLS_BIN_DIR" ] && [ ! -d "$DEVEL_TOOLS_BIN_DIR" ]; then
     log_err "The path $DEVEL_TOOLS_BIN_DIR sould be a directory not a file."
-    exit 1
+    return 1
   elif [ ! -d "$DEVEL_TOOLS_BIN_DIR" ]; then
     mkdir "$DEVEL_TOOLS_BIN_DIR"
+    return 0
   fi
 }
 
@@ -234,7 +235,7 @@ _check_if_shfmt_exists() {
   _check_if_the_tool_exists "$SHFMT_TOOL_NAME" "$SHFMT_CMD_PATH"
 }
 # Check if the TOOL exists and is a exectable file.
-# If it does, do nothing; if it does not, EXIT with status code 1.
+# If it does, do nothing; if it does not, return status code 1.
 _check_if_the_tool_exists() {
   local -r TOOL_NAME="$1"
   local -r TOOL_PATH="$2"
@@ -244,7 +245,7 @@ _check_if_the_tool_exists() {
     log_err "$TOOL_PATH not found."
     log_err "Please install it before run this script."
     log_err "(You should run install-devel-tools.linux-x64.sh to install.)"
-    exit 1
+    return 1
   fi
   log_info "  => Checked that $TOOL_NAME is installed"
 }
@@ -272,7 +273,7 @@ compare_binary_ver_with_current_ver_of_the_devel_tool() {
     log_err "The versions of $TOOL_NAME does not correspond."
     log_err "  Current version: $BINARY_VERSION"
     log_err "  Binary version : $CURRENT_VERSION"
-    exit 1
+    return 1
   fi
   log_info "  => Checked that the version of $TOOL_NAME is correct."
 }
@@ -305,7 +306,7 @@ confirm_continue() {
   read -p "Continue? [y/N]" -n 1 -r
   echo # Print new line (optional)
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    [[ "$0" = "${BASH_SOURCE[0]}" ]] && exit 1 || exit 1
+    return 1
   fi
 }
 

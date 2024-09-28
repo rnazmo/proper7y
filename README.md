@@ -298,9 +298,6 @@ MEMO: The script do following:
   - 対応する Bash の最小バージョンを決める
     - スクリプトの最初に Bash のバージョンを確認して、対応外のバージョンならエラーメッセージを出力して終了させる
   - コマンドの exit status を整える。(正常終了で 0 を返す、など)
-  - Do not use `exit` command in `common.sh`. Use `return` instead.
-    - 関数の終わりに `exit` を使うべきではない。その場で強制終了させてしまうから。途中で強制終了することで、終了プロセスが複雑になってしまう
-    - 「`exit`使って良いのは `main()` 関数からのみ」みたいなルールを決めておくべき
 - testing, ci:
   - Support Manjaro Linux
     - Support Manjaro Linux as development environment
