@@ -152,9 +152,7 @@ bump_shellcheck_version() {
   # Note especially SHELLCHECK_CURRENT_VERSION and its effect on SHELLCHECK_URL.
   source "$(dirname "$0")/common.sh"
 
-  # Install(Reinstall) the devel-tool
-  install_shellcheck
-  check_shellcheck_is_ready
+  reinstall_shellcheck
 }
 bump_shfmt_version() {
   # Overwrite devel-tools versions
@@ -164,9 +162,7 @@ bump_shfmt_version() {
   # Note especially SHFMT_CURRENT_VERSION and its effect on SHFMT_URL.
   source "$(dirname "$0")/common.sh"
 
-  # Install(Reinstall) the devel-tool
-  install_shfmt
-  check_shfmt_is_ready
+  reinstall_shfmt
 }
 
 overwrite_version_number_variable() {

@@ -118,9 +118,18 @@ _compose_shfmt_cmd_path() {
   log_info "$ROW"
 }
 
+# What is this?:
+#     Update the global variables (SHELLCHECK_BINARY_VERSION) value.
+#
+# Usage:
+#     _compose_shellcheck_binary_version
+#
 # NOTE:
-#   You should always **call _compose_shfmt_binary_version()
-#   after making any changes to the binary**.
+#     You should always call this function and update the global variable (SHELLCHECK_BINARY_VERSION)
+#     after making any changes to the binary (like installing, upgrading, etc).
+#
+#     Do not set the global variable (SHELLCHECK_BINARY_VERSION) to readonly. Because it will be updated
+#     when you install or upgrade the binary of the tool.
 _compose_shellcheck_binary_version() {
   # Check if the TOOL exists and is a exectable file.
   log_info "Checking if the $SHELLCHECK_CMD_PATH exists and a exectable file..."
@@ -147,9 +156,18 @@ _compose_shellcheck_binary_version() {
   # log_info "$ROW"
 }
 
+# What is this?:
+#     Update the global variables (SHFMT_BINARY_VERSION) value.
+#
+# Usage:
+#     _compose_shfmt_binary_version
+#
 # NOTE:
-#   You should always **call update_shfmt_binary_version()
-#   after making any changes to the binary**.
+#     You should always call this function and update the global variable (SHFMT_BINARY_VERSION)
+#     after making any changes to the binary (like installing, upgrading, etc).
+#
+#     Do not set the global variable (SHFMT_BINARY_VERSION) to readonly. Because it will be updated
+#     when you install or upgrade the binary of the tool.
 _compose_shfmt_binary_version() {
   # Check if the TOOL exists and is a exectable file.
   log_info "Checking if the $SHFMT_CMD_PATH exists and a exectable file..."
@@ -179,7 +197,7 @@ _compose_shfmt_binary_version() {
 #   You should always **call this function after making any changes to the binary**.
 #   Or, the versions of the variable(SHELLCHECK_BINARY_VERSION) and the binary
 #   (/devel-tools/bin/shellcheck) may not correspond.
-update_shellcheck_binary_version() {
+_recompose_shellcheck_binary_version() {
   _compose_shellcheck_binary_version
 }
 
@@ -189,7 +207,7 @@ update_shellcheck_binary_version() {
 #   You should always **call this function after making any changes to the binary**.
 #   Or, the versions of the variable(SHFMT_BINARY_VERSION) and the binary
 #   (/devel-tools/bin/shfmt) may not correspond.
-update_shfmt_binary_version() {
+_recompose_shfmt_binary_version() {
   _compose_shfmt_binary_version
 }
 
@@ -219,6 +237,8 @@ install_shellcheck() {
 
   rm -rf "$TEMP_DIR" # cleanup
   cd "$PROJECT_ROOT"
+
+  _recompose_shellcheck_binary_version
 }
 
 # Install shfmt VIA THE GITHUB RELEASE PAGE under the directory 'DEVEL_TOOLS_BIN_DIR'.
@@ -232,6 +252,18 @@ install_shfmt() {
   cd "$DEVEL_TOOLS_BIN_DIR"
   curl -L "$SHFMT_URL" -o shfmt
   chmod +x ./shfmt
+
+  _recompose_shfmt_binary_version
+}
+
+reinstall_shellcheck() {
+  install_shellcheck
+  check_shellcheck_is_ready
+}
+
+reinstall_shfmt() {
+  install_shfmt
+  check_shfmt_is_ready
 }
 
 _check_if_shellcheck_exists() {
@@ -259,14 +291,14 @@ _check_if_the_tool_exists() {
 # Compare the 'Current version' and the 'Binary version'.
 # TODO: Refactor this func (Using SHELLCHECK_CURRENT_VERSION and SHELLCHECK_BINARY_VERSION variables?)
 _check_if_installed_shellcheck_version_is_correct() {
-  update_shellcheck_binary_version # Update the variable just in case.
+  _recompose_shellcheck_binary_version # Update the variable just in case.
   compare_binary_ver_with_current_ver_of_the_devel_tool "$SHELLCHECK_TOOL_NAME" "$SHELLCHECK_BINARY_VERSION" "$SHELLCHECK_CURRENT_VERSION"
 }
 
 # Compare the 'Current version' and the 'Binary version'.
 # TODO: Refactor this func (Using SHFMT_CURRENT_VERSION and SHFMT_BINARY_VERSION variables?)
 _check_if_installed_shfmt_version_is_correct() {
-  update_shfmt_binary_version # Update the variable just in case.
+  _recompose_shfmt_binary_version # Update the variable just in case.
   compare_binary_ver_with_current_ver_of_the_devel_tool "$SHFMT_TOOL_NAME" "$SHFMT_BINARY_VERSION" "$SHFMT_CURRENT_VERSION"
 }
 
