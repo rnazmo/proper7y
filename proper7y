@@ -23,6 +23,9 @@ readonly PROPER7Y_VERSION="v0.5.2"
 
 # -------------------------------------------------------------------
 
+declare -l UNAME_CACHE_KERNEL_NAME="This_value_should_be_overridden"
+declare -l UNAME_CACHE_MACHINE="This_value_should_be_overridden"
+
 # -------------------------------------------------------------------
 
 init() {
@@ -31,6 +34,8 @@ init() {
     log_err "Must be Bash version >= 4.0."
     exit 1
   fi
+
+  cache_uname
 }
 
 # -------------------------------------------------------------------
@@ -61,6 +66,23 @@ main() {
 
 # -------------------------------------------------------------------
 
+# What is this?:
+#     Caches the output of uname in a global variable for performance.
+cache_uname() {
+  local -a uname_cache
+
+  # Receive the return value of uname into an array variable.
+  # Ref: https://www.shellcheck.net/wiki/SC2207
+  IFS=" " read -r -a uname_cache <<<"$(uname -sm)"
+
+  UNAME_CACHE_KERNEL_NAME="${uname_cache[0]}"
+  UNAME_CACHE_MACHINE="${uname_cache[1]}"
+  readonly UNAME_CACHE_KERNEL_NAME
+  readonly UNAME_CACHE_MACHINE
+}
+
+# -------------------------------------------------------------------
+
 print_date() {
   local -r CURRENT_DATE="$(date '+%Y-%m-%d')"
   print_row "CURRENT DATE" "$CURRENT_DATE"
@@ -69,7 +91,7 @@ print_date() {
 print_os_name() {
   local OS_NAME="Unknown"
 
-  case $(uname | tr '[:upper:]' '[:lower:]') in
+  case "$UNAME_CACHE_KERNEL_NAME" in
   "linux")
     OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
     ;;
@@ -84,7 +106,7 @@ print_os_name() {
 print_os_version() {
   local OS_VERSION="Unknown"
 
-  case $(uname | tr '[:upper:]' '[:lower:]') in
+  case "$UNAME_CACHE_KERNEL_NAME" in
   "linux")
     # Ref
     #   About /etc/os-release:
@@ -104,7 +126,7 @@ print_os_version() {
 
 print_cpu_arch() {
   local CPU_ARCH="Unknown"
-  CPU_ARCH="$(uname -m)"
+  CPU_ARCH="$UNAME_CACHE_MACHINE"
   print_row "CPU ARCH" "$CPU_ARCH"
 }
 
