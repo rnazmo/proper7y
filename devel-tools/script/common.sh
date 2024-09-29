@@ -76,22 +76,26 @@ _compose_project_root_dir() {
   local -r SCRIPT_DIR="$(_get_script_dir)"
 
   PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." &>/dev/null && pwd)"
+  readonly PROJECT_ROOT
 }
 
 _compose_devel_tools_dir() {
   DEVEL_TOOLS_DIR="${PROJECT_ROOT}/devel-tools"
+  readonly DEVEL_TOOLS_DIR
   ROW="$(compose_row_for_variable_log "DEVEL_TOOLS_DIR" "$DEVEL_TOOLS_DIR")"
   log_info "$ROW"
 }
 
 _compose_devel_tools_bin_dir() {
   DEVEL_TOOLS_BIN_DIR="${DEVEL_TOOLS_DIR}/bin"
+  readonly DEVEL_TOOLS_BIN_DIR
   ROW="$(compose_row_for_variable_log "DEVEL_TOOLS_BIN_DIR" "$DEVEL_TOOLS_BIN_DIR")"
   log_info "$ROW"
 }
 
 _compose_common_sh_path() {
   COMMON_SH_PATH="${DEVEL_TOOLS_DIR}/script/common.sh"
+  readonly COMMON_SH_PATH
   ROW="$(compose_row_for_variable_log "COMMON_SH_PATH" "$COMMON_SH_PATH")"
   log_info "$ROW"
 }
@@ -100,6 +104,7 @@ _compose_common_sh_path() {
 # but set global variable SHELLCHECK_CMD_PATH.
 _compose_shellcheck_cmd_path() {
   SHELLCHECK_CMD_PATH="${DEVEL_TOOLS_BIN_DIR}/shellcheck"
+  readonly SHELLCHECK_CMD_PATH
   ROW="$(compose_row_for_variable_log "SHELLCHECK_CMD_PATH" "$SHELLCHECK_CMD_PATH")"
   log_info "$ROW"
 }
@@ -108,6 +113,7 @@ _compose_shellcheck_cmd_path() {
 # but set global variable SHFMT_CMD_PATH.
 _compose_shfmt_cmd_path() {
   SHFMT_CMD_PATH="${DEVEL_TOOLS_BIN_DIR}/shfmt"
+  readonly SHFMT_CMD_PATH
   ROW="$(compose_row_for_variable_log "SHFMT_CMD_PATH" "$SHFMT_CMD_PATH")"
   log_info "$ROW"
 }
