@@ -174,13 +174,13 @@ identify_os_id() {
   *) OS_ID="Unknown" ;;
   esac
 
+  readonly OS_ID
+
   # Check if the OS_ID value is in SUPPORTED_OS_IDS
   if [[ ! "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]; then
     log_err "This script does not support the OS ID: ${OS_ID}"
     return 1
   fi
-
-  readonly OS_ID
 }
 
 # -------------------------------------------------------------------
