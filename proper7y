@@ -271,19 +271,34 @@ identify_current_shell_id() {
   # Ref:
   #   https://tkuchiki.hatenablog.com/entry/2014/05/08/222135
   #   https://askubuntu.com/a/590903
-  local PARENT_PROCESS_CMD="Unknown"
-  PARENT_PROCESS_CMD=$(ps -cp "$PPID" -o command="")
-  if echo "$PARENT_PROCESS_CMD" | grep -qs "bash"; then
+  local -r parent_process_cmd=$(ps -cp "$PPID" -o command="")
+  case "$parent_process_cmd" in
+  *bash*)
     CURRENT_SHELL_ID="bash"
-  elif echo "$PARENT_PROCESS_CMD" | grep -qs "zsh"; then
+    ;;
+  *zsh*)
     CURRENT_SHELL_ID="zsh"
-  else
+    ;;
+  *make*)
+    local -i parent_process_id_of_the_parent_process_cmd
+    parent_process_id_of_the_parent_process_cmd=$(ps -cp "$PPID" -o ppid=)
+    local -r parent_process_cmd_of_the_parent_process_cmd=$(ps -cp "$parent_process_id_of_the_parent_process_cmd" -o command="")
+    case "$parent_process_cmd_of_the_parent_process_cmd" in
+    *bash*)
+      CURRENT_SHELL_ID="bash"
+      ;;
+    *zsh*)
+      CURRENT_SHELL_ID="zsh"
+      ;;
+    *)
+      CURRENT_SHELL_ID="unknown"
+      ;;
+    esac
+    ;;
+  *)
     CURRENT_SHELL_ID="unknown"
-    log_debug "PARENT_PROCESS_CMD: $PARENT_PROCESS_CMD"
-    log_debug "PPID: $PPID"
-    ps -cp "$PPID"
-    ps -cp "$$"
-  fi
+    ;;
+  esac
 
   readonly CURRENT_SHELL_ID
 
