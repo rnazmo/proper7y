@@ -14,7 +14,7 @@ set -eu
 # If you want to download this script from remote and run it with one liner, run like:
 #   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash ${HOME}/bin/)"
 
-readonly PROPER7Y_VERSION="v0.7.0"
+readonly PROPER7Y_VERSION="v0.8.0"
 
 readonly SRC_URL="https://raw.githubusercontent.com/rnazmo/proper7y/${PROPER7Y_VERSION}/proper7y"
 

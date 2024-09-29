@@ -29,7 +29,7 @@ set -eu
 
 # Global Variables
 # shellcheck disable=SC2034
-readonly PROPER7Y_VERSION="v0.7.0"
+readonly PROPER7Y_VERSION="v0.8.0"
 readonly SHELLCHECK_CURRENT_VERSION="v0.10.0"
 readonly SHFMT_CURRENT_VERSION="v3.8.0"
 SHELLCHECK_BINARY_VERSION="This_value_should_be_overridden"
