@@ -81,10 +81,12 @@ declare -A VIRTUALIZATION_NAMES=( # The key is VIRTUALIZATION_ID
 declare -al SUPPORTED_SHELL_IDS=( # Allowed SHELL_ID values
   "bash"
   "zsh"
+  "unknown"
 )
 declare -A SHELL_NAMES=( # The key is SHELL_ID
   ["bash"]="Bash"
   ["zsh"]="Zsh"
+  ["unknown"]="Unknown"
 )
 declare -l CURRENT_SHELL_ID="This_value_should_be_overridden"
 
@@ -275,6 +277,8 @@ identify_current_shell_id() {
     CURRENT_SHELL_ID="bash"
   elif echo "$PARENT_PROCESS_CMD" | grep -qs "zsh"; then
     CURRENT_SHELL_ID="zsh"
+  else
+    CURRENT_SHELL_ID="unknown"
   fi
 
   readonly CURRENT_SHELL_ID
