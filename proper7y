@@ -30,14 +30,14 @@ readonly PROPER7Y_VERSION="v0.6.0"
 
 declare -l UNAME_CACHE_KERNEL_NAME="This_value_should_be_overridden"
 declare -l UNAME_CACHE_MACHINE="This_value_should_be_overridden"
-declare -l OS_FAMILY="This_value_should_be_overridden"
-declare -l OS_ID="This_value_should_be_overridden"
 
+declare -l OS_FAMILY="This_value_should_be_overridden"
 declare -al SUPPORTED_OS_FAMILIES=( # Allowed OS_FAMILY values
   "arch-based"
   "debian-based"
   "darwin-based"
 )
+declare -l OS_ID="This_value_should_be_overridden"
 declare -al SUPPORTED_OS_IDS=( # Allowed OS_ID values
   "archlinux"
   "endevouros"
@@ -47,6 +47,15 @@ declare -al SUPPORTED_OS_IDS=( # Allowed OS_ID values
   "ubuntu"
   "macos"
 )
+declare -l VIRTUALIZATION_ID="This_value_should_be_overridden"
+declare -al SUPPORTED_VIRTUALIZATION_IDS=( # Allowed VIRTUALIZATION_ID values
+  "virtualbox"
+  "vmware"
+  "docker"
+  "wsl"
+  "physical" # It's not a virtualized environment but a physical hardware.
+)
+
 declare -A OS_NAMES=( # The key is OS_ID
   ["archlinux"]="Arch Linux"
   ["endevouros"]="EndeavourOS"
@@ -56,6 +65,13 @@ declare -A OS_NAMES=( # The key is OS_ID
   ["ubuntu"]="Ubuntu"
   ["macos"]="macOS"
 )
+declare -A VIRTUALIZATION_NAMES=( # The key is VIRTUALIZATION_ID
+  ["virtualbox"]="VirtualBox"
+  ["vmware"]="VMware"
+  ["docker"]="Docker"
+  ["wsl"]="WSL"
+  ["physical"]="Physical"
+)
 
 # -------------------------------------------------------------------
 
@@ -63,6 +79,7 @@ init() {
   # Check prerequisites
   if [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then
     log_err "Must be Bash version >= 4.0."
+    log_debug "Bash version: ${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]}.${BASH_VERSINFO[2]}"
     exit 1
   fi
 
@@ -70,6 +87,8 @@ init() {
 
   identify_os_family
   identify_os_id
+
+  identify_virtualization_id
 }
 
 # -------------------------------------------------------------------
@@ -89,8 +108,7 @@ main() {
   print_bash_version
   print_zsh_version
   print_cpu_arch
-
-  # TODO: print_virtualization
+  print_virtualization
 
   # print_chassis
   # print_default_shell
@@ -183,6 +201,43 @@ identify_os_id() {
   fi
 }
 
+# Detect virtualization (VM or Container).
+identify_virtualization_id() {
+  if command -v systemd-detect-virt &>/dev/null; then
+    case "$(systemd-detect-virt)" in
+    'oracle' | 'virtualbox') VIRTUALIZATION_ID="virtualbox" ;;
+    'vmware') VIRTUALIZATION_ID="vmware" ;;
+    'docker') VIRTUALIZATION_ID="docker" ;;
+    'wsl') VIRTUALIZATION_ID="wsl" ;;
+    'none') VIRTUALIZATION_ID="physical" ;;
+    *) VIRTUALIZATION_ID="Unknown" ;;
+    esac
+  elif command -v hostnamectl &>/dev/null; then
+    if grep -q "Virtualization:" <<<"$(hostnamectl status)"; then
+      case "$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //" | tr '[:upper:]' '[:lower:]')" in
+      'oracle' | 'virtualbox') VIRTUALIZATION_ID="virtualbox" ;;
+      'vmware') VIRTUALIZATION_ID="vmware" ;;
+      'docker') VIRTUALIZATION_ID="docker" ;;
+      'wsl') VIRTUALIZATION_ID="wsl" ;;
+      *) VIRTUALIZATION_ID="Unknown" ;;
+      esac
+    else
+      VIRTUALIZATION_ID="physical"
+    fi
+  else
+    VIRTUALIZATION_ID="Unknown"
+  fi
+
+  readonly VIRTUALIZATION_ID
+
+  # Check if the VIRTUALIZATION_ID value is in SUPPORTED_VIRTUALIZATION_IDS
+  if [[ ! "${SUPPORTED_VIRTUALIZATION_IDS[*]}" =~ ${VIRTUALIZATION_ID} ]]; then
+    log_err "This script does not support the VIRTUALIZATION_ID: ${VIRTUALIZATION_ID}"
+    log_debug "systemd-detect-virt: $(systemd-detect-virt)"
+    return 1
+  fi
+}
+
 # -------------------------------------------------------------------
 
 print_date() {
@@ -220,6 +275,12 @@ print_cpu_arch() {
   local CPU_ARCH="Unknown"
   CPU_ARCH="$UNAME_CACHE_MACHINE"
   print_row "CPU ARCH" "$CPU_ARCH"
+}
+
+print_virtualization() {
+  local VIRTUALIZATION="Unknown"
+  VIRTUALIZATION="${VIRTUALIZATION_NAMES[$VIRTUALIZATION_ID]}"
+  print_row "VIRTUALIZATION" "$VIRTUALIZATION"
 }
 
 print_chassis() {
@@ -285,7 +346,7 @@ print_zsh_version() {
 #
 pad_with_spaces() {
   local -r RAW="$1"
-  local -r LENGTH="13"
+  local -r LENGTH="14"
   printf "%-*s" "$LENGTH" "$RAW"
 }
 
