@@ -78,6 +78,16 @@ declare -A VIRTUALIZATION_NAMES=( # The key is VIRTUALIZATION_ID
   ["unknown"]="Unknown"
 )
 
+declare -al SUPPORTED_SHELL_IDS=( # Allowed SHELL_ID values
+  "bash"
+  "zsh"
+)
+declare -A SHELL_NAMES=( # The key is SHELL_ID
+  ["bash"]="Bash"
+  ["zsh"]="Zsh"
+)
+declare -l CURRENT_SHELL_ID="This_value_should_be_overridden"
+
 # -------------------------------------------------------------------
 
 init() {
@@ -92,8 +102,8 @@ init() {
 
   identify_os_family
   identify_os_id
-
   identify_virtualization_id
+  identify_current_shell_id
 }
 
 # -------------------------------------------------------------------
@@ -107,13 +117,21 @@ main() {
   # TODO: identify_os
 
   print_date
+  print_virtualization
+  print_cpu_arch
   print_os_name
   print_os_version
   print_current_shell
   print_bash_version
-  print_zsh_version
-  print_cpu_arch
-  print_virtualization
+
+  case "$CURRENT_SHELL_ID" in
+  'bash')
+    # Do nothing
+    ;;
+  'zsh')
+    print_zsh_version
+    ;;
+  esac
 
   # print_chassis
   # print_default_shell
@@ -245,6 +263,29 @@ identify_virtualization_id() {
   fi
 }
 
+identify_current_shell_id() {
+  # The parent process of the running 'proper7y' is probably the 'current shell' we want.
+  # NOTE: In some environments, the fillowing may not work correctly.
+  # Ref:
+  #   https://tkuchiki.hatenablog.com/entry/2014/05/08/222135
+  #   https://askubuntu.com/a/590903
+  local PARENT_PROCESS_CMD="Unknown"
+  PARENT_PROCESS_CMD=$(ps -cp "$PPID" -o command="")
+  if echo "$PARENT_PROCESS_CMD" | grep -qs "bash"; then
+    CURRENT_SHELL_ID="bash"
+  elif echo "$PARENT_PROCESS_CMD" | grep -qs "zsh"; then
+    CURRENT_SHELL_ID="zsh"
+  fi
+
+  readonly CURRENT_SHELL_ID
+
+  # Check if the CURRENT_SHELL_ID value is in SUPPORTED_SHELL_IDS
+  if [[ ! "${SUPPORTED_SHELL_IDS[*]}" =~ ${CURRENT_SHELL_ID} ]]; then
+    log_err "This script does not support the CURRENT_SHELL_ID: ${CURRENT_SHELL_ID}"
+    return 1
+  fi
+}
+
 # -------------------------------------------------------------------
 
 print_date() {
@@ -307,20 +348,7 @@ print_chassis() {
 
 print_current_shell() {
   local CURRENT_SHELL="Unknown"
-
-  # The parent process of the running 'proper7y' is probably the 'current shell' we want.
-  # NOTE: In some environments, the fillowing may not work correctly.
-  # Ref:
-  #   https://tkuchiki.hatenablog.com/entry/2014/05/08/222135
-  #   https://askubuntu.com/a/590903
-  local PARENT_PROCESS_CMD="Unknown"
-  PARENT_PROCESS_CMD=$(ps -cp "$PPID" -o command="")
-  if echo "$PARENT_PROCESS_CMD" | grep -qs "bash"; then
-    CURRENT_SHELL="Bash"
-  elif echo "$PARENT_PROCESS_CMD" | grep -qs "zsh"; then
-    CURRENT_SHELL="Zsh"
-  fi
-
+  CURRENT_SHELL="${SHELL_NAMES[$CURRENT_SHELL_ID]}"
   print_row "CURRENT SHELL" "$CURRENT_SHELL"
 }
 
