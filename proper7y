@@ -26,7 +26,7 @@ set -eu
 #
 # -------------------------------------------------------------------
 
-readonly PROPER7Y_VERSION="v0.5.2"
+readonly PROPER7Y_VERSION="v0.6.0"
 
 declare -l UNAME_CACHE_KERNEL_NAME="This_value_should_be_overridden"
 declare -l UNAME_CACHE_MACHINE="This_value_should_be_overridden"
