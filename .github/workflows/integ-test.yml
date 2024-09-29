@@ -14,6 +14,12 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: Bump Bash version on macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          bash --version
+          brew install bash
+          bash --version
       - name: Install and run stable 'proper7y'
         run: |
           make integ-tests
@@ -31,5 +37,11 @@ jobs:
         run: pwd
       - name: ls
         run: ls -alFh
+      - name: Bump Bash version on macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          bash --version
+          brew install bash
+          bash --version
       - name: Run proper7y
         run: ./proper7y
