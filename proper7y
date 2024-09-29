@@ -279,6 +279,10 @@ identify_current_shell_id() {
     CURRENT_SHELL_ID="zsh"
   else
     CURRENT_SHELL_ID="unknown"
+    log_debug "PARENT_PROCESS_CMD: $PARENT_PROCESS_CMD"
+    log_debug "PPID: $PPID"
+    ps -cp "$PPID"
+    ps -cp "$$"
   fi
 
   readonly CURRENT_SHELL_ID
