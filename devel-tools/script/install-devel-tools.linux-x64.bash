@@ -4,7 +4,7 @@ set -eu
 # TL:DR (What is this?)
 #   Install shellcheck and shfmt binary under 'foo/proper7y/devel-tools/bin/'.
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/common.bash"
 
 main() {
   log_info "Start installing..."

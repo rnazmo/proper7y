@@ -6,19 +6,19 @@ set -eu
 #   - Run '/devel-tools/bin/shfmt' to the TARGETS with the option "-i 2 -d"
 #   (See below the variable 'TARGETS' to know what files are included in it.)
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/common.bash"
 
 # Targets of runnning lint.
 readonly TARGETS=(
   "${PROJECT_ROOT}/proper7y"
-  "${PROJECT_ROOT}/install.sh"
+  "${PROJECT_ROOT}/install.bash"
   "${COMMON_SH_PATH}"
-  "${DEVEL_TOOLS_DIR}/script/run-lint.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/run-format.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/run-integ-test.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/bump-project.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/install-devel-tools.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/check-devel-tools-versions.linux-x64.sh"
+  "${DEVEL_TOOLS_DIR}/script/run-lint.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/run-format.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/run-integ-test.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/bump-project.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/install-devel-tools.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/check-devel-tools-versions.linux-x64.bash"
 )
 
 main() {

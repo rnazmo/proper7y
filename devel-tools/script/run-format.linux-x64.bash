@@ -8,19 +8,19 @@ set -eu
 # NOTE
 #   - This script OVERWRITE the target files. Recommend you to save it before running.
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/common.bash"
 
 # Targets of runnning format.
 TARGETS=(
   "${PROJECT_ROOT}/proper7y"
-  "${PROJECT_ROOT}/install.sh"
+  "${PROJECT_ROOT}/install.bash"
   "${COMMON_SH_PATH}"
-  "${DEVEL_TOOLS_DIR}/script/run-lint.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/run-format.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/run-integ-test.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/bump-project.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/install-devel-tools.linux-x64.sh"
-  "${DEVEL_TOOLS_DIR}/script/check-devel-tools-versions.linux-x64.sh"
+  "${DEVEL_TOOLS_DIR}/script/run-lint.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/run-format.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/run-integ-test.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/bump-project.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/install-devel-tools.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/check-devel-tools-versions.linux-x64.bash"
 )
 
 main() {

@@ -5,14 +5,14 @@ set -eu
 #   Install latest version of 'proper7y' command.
 #
 # Usage:
-#   $ ./install.sh <dir_path>
+#   $ ./install.bash <dir_path>
 #   The <dir_path> is a directory where you want to install 'proper7y' command.
 #
 # Example:
-#   $ ./install.sh ~/bin/
+#   $ ./install.bash ~/bin/
 #
 # If you want to download this script from remote and run it with one liner, run like:
-#   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh ${HOME}/bin/)"
+#   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash ${HOME}/bin/)"
 
 readonly PROPER7Y_VERSION="v0.7.0"
 
@@ -72,10 +72,10 @@ main() {
 
 print_usage() {
   echo "Usage: "
-  echo "  ./install.sh <dir_path>"
+  echo "  ./install.bash <dir_path>"
   echo "  The <dir_path> is a directory where you want to install 'proper7y' command."
   echo "Example: "
-  echo "  ./install.sh ~/bin/"
+  echo "  ./install.bash ~/bin/"
 }
 
 log_info() {

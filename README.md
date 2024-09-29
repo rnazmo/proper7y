@@ -45,9 +45,9 @@ run commands on your terminal like:
 DEST_DIR="${HOME}/bin"
 
 cd "$(mktemp -d)" && \
-    curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh && \
-    chmod +x install.sh && \
-    ./install.sh "$DEST_DIR"
+    curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash && \
+    chmod +x install.bash && \
+    ./install.bash "$DEST_DIR"
 ```
 
 To check that you installed it successfully:
@@ -97,13 +97,13 @@ TODO:
 
 #### Do not download (install) 'proper7y' without specifying the version
 
-TL;DR: **Use `install.sh`**. Or Download `proper7y` file directly **with specifying a version**
+TL;DR: **Use `install.bash`**. Or Download `proper7y` file directly **with specifying a version**
 
 Don't download 'proper7y' (this indicates 'proper7y' as the file) directly from the `main` branch,
 but download it directly using a tag such as "v0.0.1".
 
-Or, I highly recommend you to download 'proper7y' (this indicates 'proper7y' as the file) via `install.sh`.
-If you download `install.sh`, it is also allowed from the `main` branch.
+Or, I highly recommend you to download 'proper7y' (this indicates 'proper7y' as the file) via `install.bash`.
+If you download `install.bash`, it is also allowed from the `main` branch.
 
 If you do not specify the version (for example, if you download 'proper7y' (this indicates 'proper7y' as the file) directly from `main` branch),
 the version information of 'proper7y' (this indicates 'proper7y' as the project) itself in the output of the `proper7y` (this 'proper7y' means as the file) command can be incorrect.
@@ -120,15 +120,15 @@ $ curl -O "https://raw.githubusercontent.com/rnazmo/proper7y/main/proper7y"
 $ curl -O "https://raw.githubusercontent.com/rnazmo/proper7y/v0.0.1/proper7y"
 ```
 
-I highly recommend you to use `install.sh` to avoid these mistakes.
+I highly recommend you to use `install.bash` to avoid these mistakes.
 
 ```console
 # GOOD (Recommend)
 $ DEST_DIR="${HOME}/bin"
 $ cd /tmp && \
-    curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.sh && \
-    chmod +x ./install.sh && \
-    ./install.sh "$DEST_DIR"
+    curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash && \
+    chmod +x ./install.bash && \
+    ./install.bash "$DEST_DIR"
 ```
 
 ## Documentation for developers
@@ -241,7 +241,7 @@ make check-devel-tools-versions
 
 #### Manually
 
-1. Edit and bump the versions in `/devel-tools/script/common.sh`. (like `SHELLCHECK_CURRENT_VERSION="v0.7.2"`, `SHFMT_CURRENT_VERSION="v3.3.0"`)
+1. Edit and bump the versions in `/devel-tools/script/common.bash`. (like `SHELLCHECK_CURRENT_VERSION="v0.7.2"`, `SHFMT_CURRENT_VERSION="v3.3.0"`)
 2. Create a commit for the change with the commit message (like `Bump devel-tool version (shfmt): v3.5.1 -> v3.6.3`).
 3. Push the commit (like `$ git push`).
 
@@ -283,7 +283,7 @@ make integ-test
 
 MEMO: The script do following:
 
-1. Edit and bump a version of `VERSION="v0.0.X"` in `proper7y`, `install.sh`, and `/devel-tools/script/common.sh`. (Don't forget to follow semantic versioning!)
+1. Edit and bump a version of `VERSION="v0.0.X"` in `proper7y`, `install.bash`, and `/devel-tools/script/common.bash`. (Don't forget to follow semantic versioning!)
 2. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
 3. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
 4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
@@ -325,7 +325,7 @@ MEMO: The script do following:
   - オプション機能は作る？どうする？
   - README.md の内容を整える
     - Refine README.md (内容が重複しているところとかある)
-    - `install.sh` がある理由を書いておく
+    - `install.bash` がある理由を書いておく
       - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
       - ref: https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version
       - 書き方はここが参考になりそう：
@@ -341,7 +341,7 @@ MEMO: The script do following:
         - このアプリを作る＆メンテする目的の 1 つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
       - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'proper7y4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
 - devel-tools が最新かどうか、CI (github actions)でチェック？
-  - Run the script `check-devel-tools-versions.sh` on CI ?
+  - Run the script `check-devel-tools-versions.bash` on CI ?
     - Trigger: weekly (Can I use https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events ?)
   - 自動で Pull Request 作成するところまでやる？ (dependabot みたいに)
     - 実装や権限管理面倒じゃない？大丈夫？
@@ -367,7 +367,7 @@ Ref:
 Example:
 
 ```console
-shfmt -i 2 -d ./proper7y ./install.sh
+shfmt -i 2 -d ./proper7y ./install.bash
 ```
 
 ### Formatting

@@ -3,11 +3,11 @@ set -eu
 
 # Tl;DR (What is this?)
 #   Print following three versions of the devel-tools:
-#     'Current version': The expected version written in the `/devel-tools/script/common.sh`.
+#     'Current version': The expected version written in the `/devel-tools/script/common.bash`.
 #     'Binary version' : The actual version shown by the binaries under `/devel-tools/bin/`.
 #     'Latest version' : The latest version shown by the GitHub latest release page URL
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/common.bash"
 
 main() {
   log_info "Start checking..."
@@ -35,7 +35,7 @@ main() {
   if [[ "$SHELLCHECK_CURRENT_VERSION" != "$SHELLCHECK_LATEST_VERSION" ]]; then
     log_info "  => Latest version found."
 
-    # Confirmation ("Upgrade or not") (Using `confirm_continue()` in `common.sh`)
+    # Confirmation ("Upgrade or not") (Using `confirm_continue()` in `common.bash`)
     log_warn "Will you upgrade $SHELLCHECK_TOOL_NAME from $SHELLCHECK_CURRENT_VERSION to $SHELLCHECK_LATEST_VERSION ?"
     confirm_continue
 
@@ -148,9 +148,9 @@ bump_shellcheck_version() {
   # Overwrite devel-tools versions
   local -r TARGET_FILE="${COMMON_SH_PATH}"
   overwrite_version_number_variable "$TARGET_FILE" "SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_LATEST_VERSION"
-  # Reload common.sh to support for above change.
+  # Reload common.bash to support for above change.
   # Note especially SHELLCHECK_CURRENT_VERSION and its effect on SHELLCHECK_URL.
-  source "$(dirname "$0")/common.sh"
+  source "$(dirname "$0")/common.bash"
 
   reinstall_shellcheck
 }
@@ -158,9 +158,9 @@ bump_shfmt_version() {
   # Overwrite devel-tools versions
   local -r TARGET_FILE="${COMMON_SH_PATH}"
   overwrite_version_number_variable "$TARGET_FILE" "SHFMT_CURRENT_VERSION" "$SHFMT_CURRENT_VERSION" "$SHFMT_LATEST_VERSION"
-  # Reload common.sh to support for above change.
+  # Reload common.bash to support for above change.
   # Note especially SHFMT_CURRENT_VERSION and its effect on SHFMT_URL.
-  source "$(dirname "$0")/common.sh"
+  source "$(dirname "$0")/common.bash"
 
   reinstall_shfmt
 }

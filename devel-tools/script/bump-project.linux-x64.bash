@@ -5,11 +5,11 @@ set -eu
 #   - Bump the version of proper7y (project).
 #
 
-source "$(dirname "$0")/common.sh"
+source "$(dirname "$0")/common.bash"
 
 readonly TARGETS=(
   "${PROJECT_ROOT}/proper7y"
-  "${PROJECT_ROOT}/install.sh"
+  "${PROJECT_ROOT}/install.bash"
   "${COMMON_SH_PATH}"
 )
 

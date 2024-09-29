@@ -5,17 +5,17 @@ set -eu
 #   - Compose and export the global variables
 #   - Export some functions
 #   This file will be loaded from the following files:
-#     install-devel-tools.linux-x64.sh
-#     bump-project.linux-x64.sh
-#     run-lint.linux-x64.sh
-#     run-format.linux-x64.sh
-#     run-integ-test.linux-x64.sh
+#     install-devel-tools.linux-x64.bash
+#     bump-project.linux-x64.bash
+#     run-lint.linux-x64.bash
+#     run-format.linux-x64.bash
+#     run-integ-test.linux-x64.bash
 #     etc...
 #
 # How to load this file:
 #   Like this:
 #
-#     source "$(dirname "$0")/common.sh"
+#     source "$(dirname "$0")/common.bash"
 #
 #   Prerequiste: Place this file and the file you want to load this file
 #   into the same direcotry.
@@ -94,7 +94,7 @@ _compose_devel_tools_bin_dir() {
 }
 
 _compose_common_sh_path() {
-  COMMON_SH_PATH="${DEVEL_TOOLS_DIR}/script/common.sh"
+  COMMON_SH_PATH="${DEVEL_TOOLS_DIR}/script/common.bash"
   readonly COMMON_SH_PATH
   local -r ROW="$(compose_row_for_variable_log "COMMON_SH_PATH" "$COMMON_SH_PATH")"
   log_info "$ROW"
@@ -282,7 +282,7 @@ _check_if_the_tool_exists() {
     log_info "  TOOL_PATH: $TOOL_PATH"
     log_err "$TOOL_PATH not found."
     log_err "Please install it before run this script."
-    log_err "(You should run install-devel-tools.linux-x64.sh to install.)"
+    log_err "(You should run install-devel-tools.linux-x64.bash to install.)"
     return 1
   fi
   log_info "  => Checked that $TOOL_NAME is installed"
