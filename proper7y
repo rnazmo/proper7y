@@ -56,6 +56,7 @@ declare -al SUPPORTED_VIRTUALIZATION_IDS=( # Allowed VIRTUALIZATION_ID values
   "docker"
   "wsl"
   "physical" # It's not a virtualized environment but a physical hardware.
+  "unknown"
 )
 
 declare -A OS_NAMES=( # The key is OS_ID
@@ -74,6 +75,7 @@ declare -A VIRTUALIZATION_NAMES=( # The key is VIRTUALIZATION_ID
   ["docker"]="Docker"
   ["wsl"]="WSL"
   ["physical"]="Physical"
+  ["unknown"]="Unknown"
 )
 
 # -------------------------------------------------------------------
@@ -214,7 +216,7 @@ identify_virtualization_id() {
     'docker') VIRTUALIZATION_ID="docker" ;;
     'wsl') VIRTUALIZATION_ID="wsl" ;;
     'none') VIRTUALIZATION_ID="physical" ;;
-    *) VIRTUALIZATION_ID="Unknown" ;;
+    *) VIRTUALIZATION_ID="unknown" ;;
     esac
   elif command -v hostnamectl &>/dev/null; then
     if grep -q "Virtualization:" <<<"$(hostnamectl status)"; then
@@ -224,13 +226,13 @@ identify_virtualization_id() {
       'microsoft') VIRTUALIZATION_ID="microsoft" ;;
       'docker') VIRTUALIZATION_ID="docker" ;;
       'wsl') VIRTUALIZATION_ID="wsl" ;;
-      *) VIRTUALIZATION_ID="Unknown" ;;
+      *) VIRTUALIZATION_ID="unknown" ;;
       esac
     else
       VIRTUALIZATION_ID="physical"
     fi
   else
-    VIRTUALIZATION_ID="Unknown"
+    VIRTUALIZATION_ID="unknown"
   fi
 
   readonly VIRTUALIZATION_ID
