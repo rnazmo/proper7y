@@ -22,7 +22,7 @@ jobs:
           /opt/homebrew/bin/bash --version
           sudo sh -c 'echo /opt/homebrew/bin/bash >> /etc/shells'
           chsh -s /opt/homebrew/bin/bash
-          bash --version
+          /opt/homebrew/bin/bash --version
       - name: Install and run stable 'proper7y'
         run: |
           make integ-tests
@@ -48,6 +48,6 @@ jobs:
           /opt/homebrew/bin/bash --version
           sudo sh -c 'echo /opt/homebrew/bin/bash >> /etc/shells'
           chsh -s /opt/homebrew/bin/bash
-          bash --version
+          /opt/homebrew/bin/bash --version
       - name: Run proper7y
         run: ./proper7y
