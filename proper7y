@@ -159,11 +159,11 @@ cache_uname() {
 identify_os_family() {
   case "$UNAME_CACHE_KERNEL_NAME" in
   'linux')
-    if [ -f /etc/arch-release ]; then
+    if [[ -f /etc/arch-release ]]; then
       OS_FAMILY="arch-based"
-    elif [ -f /etc/debian_version ]; then
+    elif [[ -f /etc/debian_version ]]; then
       OS_FAMILY="debian-based"
-    elif [ -f /etc/ubuntu_version ]; then
+    elif [[ -f /etc/ubuntu_version ]]; then
       OS_FAMILY="debian-based" # NOTE: Not "ubuntu-based" but "debian-based".
     else
       # OS_FAMILY="linux-based"
@@ -190,20 +190,20 @@ identify_os_family() {
 identify_os_id() {
   case "$OS_FAMILY" in
   'arch-based')
-    if [ -f /etc/manjaro-release ]; then
+    if [[ -f /etc/manjaro-release ]]; then
       OS_ID="manjaro"
-    elif [ -f /etc/endevouros-release ]; then
+    elif [[ -f /etc/endevouros-release ]]; then
       OS_ID="endevouros"
-    elif [ -f /etc/arch-release ]; then
+    elif [[ -f /etc/arch-release ]]; then
       OS_ID="archlinux"
     fi
     ;;
   'debian-based')
-    if [ -f /etc/kali-version ]; then
+    if [[ -f /etc/kali-version ]]; then
       OS_ID="kali"
-    elif [ -f /etc/debian_version ]; then
+    elif [[ -f /etc/debian_version ]]; then
       OS_ID="debian"
-    elif [ -f /etc/ubuntu_version ]; then
+    elif [[ -f /etc/ubuntu_version ]]; then
       OS_ID="ubuntu"
     fi
     ;;

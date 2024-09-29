@@ -21,11 +21,11 @@ readonly SRC_URL="https://raw.githubusercontent.com/rnazmo/proper7y/${PROPER7Y_V
 parse_args() {
   # Parse argument:
   # Check if the number of arguments is one.
-  if [ $# -eq 0 ]; then
+  if [[ $# -eq 0 ]]; then
     log_err "Too less arguments."
     print_usage
     exit 1
-  elif [ $# -gt 1 ]; then
+  elif [[ $# -gt 1 ]]; then
     log_err "Too many arguments."
     print_usage
     exit 1
@@ -34,9 +34,9 @@ parse_args() {
 
   # Validate argument:
   # Check if the DEST_DIR exists and is directory.
-  if [ -d "$DEST_DIR" ]; then
+  if [[ -d "$DEST_DIR" ]]; then
     :
-  elif [ -e "$DEST_DIR" ]; then
+  elif [[ -e "$DEST_DIR" ]]; then
     log_err "The path $DEST_DIR is not a directory. Must be a directory"
     print_usage
     exit1
@@ -61,7 +61,7 @@ main() {
   # Add execute poermission.
   chmod +x ./proper7y
 
-  if [ ! -x ./proper7y ]; then
+  if [[ ! -x ./proper7y ]]; then
     log_err "Something wrong :("
     print_usage
     exit 1

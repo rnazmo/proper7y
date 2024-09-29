@@ -133,7 +133,7 @@ _compose_shfmt_cmd_path() {
 _compose_shellcheck_binary_version() {
   # Check if the TOOL exists and is a exectable file.
   log_info "Checking if the $SHELLCHECK_CMD_PATH exists and a exectable file..."
-  if [ ! -x "$SHELLCHECK_CMD_PATH" ]; then
+  if [[ ! -x "$SHELLCHECK_CMD_PATH" ]]; then
     log_warn "Checking if the $SHELLCHECK_CMD_PATH exists and a exectable file..."
     log_warn "$SHELLCHECK_CMD_PATH not found."
     SHELLCHECK_BINARY_VERSION="$SHELLCHECK_CMD_PATH not found."
@@ -171,7 +171,7 @@ _compose_shellcheck_binary_version() {
 _compose_shfmt_binary_version() {
   # Check if the TOOL exists and is a exectable file.
   log_info "Checking if the $SHFMT_CMD_PATH exists and a exectable file..."
-  if [ ! -x "$SHFMT_CMD_PATH" ]; then
+  if [[ ! -x "$SHFMT_CMD_PATH" ]]; then
     log_warn "Checking if the $SHFMT_CMD_PATH exists and a exectable file..."
     log_warn "$SHFMT_CMD_PATH not found."
     SHFMT_BINARY_VERSION="$SHFMT_CMD_PATH not found."
@@ -213,10 +213,10 @@ _recompose_shfmt_binary_version() {
 
 # Check if the DEVEL_TOOLS_BIN_DIR exists and is a directory.
 check_if_devel_tools_bin_dir_exists() {
-  if [ -e "$DEVEL_TOOLS_BIN_DIR" ] && [ ! -d "$DEVEL_TOOLS_BIN_DIR" ]; then
+  if [[ -e "$DEVEL_TOOLS_BIN_DIR" ]] && [[ ! -d "$DEVEL_TOOLS_BIN_DIR" ]]; then
     log_err "The path $DEVEL_TOOLS_BIN_DIR sould be a directory not a file."
     return 1
-  elif [ ! -d "$DEVEL_TOOLS_BIN_DIR" ]; then
+  elif [[ ! -d "$DEVEL_TOOLS_BIN_DIR" ]]; then
     mkdir "$DEVEL_TOOLS_BIN_DIR"
     return 0
   fi
@@ -278,7 +278,7 @@ _check_if_the_tool_exists() {
   local -r TOOL_NAME="$1"
   local -r TOOL_PATH="$2"
   log_info "Checking if the $TOOL_PATH exists and a exectable file..."
-  if [ ! -x "$TOOL_PATH" ]; then
+  if [[ ! -x "$TOOL_PATH" ]]; then
     log_info "  TOOL_PATH: $TOOL_PATH"
     log_err "$TOOL_PATH not found."
     log_err "Please install it before run this script."
