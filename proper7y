@@ -48,9 +48,11 @@ declare -al SUPPORTED_OS_IDS=( # Allowed OS_ID values
   "macos"
 )
 declare -l VIRTUALIZATION_ID="This_value_should_be_overridden"
+# Ref: https://man.archlinux.org/man/systemd-detect-virt.1.en
 declare -al SUPPORTED_VIRTUALIZATION_IDS=( # Allowed VIRTUALIZATION_ID values
   "virtualbox"
   "vmware"
+  "microsoft" # Used in GitHub Actions
   "docker"
   "wsl"
   "physical" # It's not a virtualized environment but a physical hardware.
@@ -68,6 +70,7 @@ declare -A OS_NAMES=( # The key is OS_ID
 declare -A VIRTUALIZATION_NAMES=( # The key is VIRTUALIZATION_ID
   ["virtualbox"]="VirtualBox"
   ["vmware"]="VMware"
+  ["microsoft"]="Hyper-V"
   ["docker"]="Docker"
   ["wsl"]="WSL"
   ["physical"]="Physical"
@@ -207,6 +210,7 @@ identify_virtualization_id() {
     case "$(systemd-detect-virt)" in
     'oracle' | 'virtualbox') VIRTUALIZATION_ID="virtualbox" ;;
     'vmware') VIRTUALIZATION_ID="vmware" ;;
+    'microsoft') VIRTUALIZATION_ID="microsoft" ;;
     'docker') VIRTUALIZATION_ID="docker" ;;
     'wsl') VIRTUALIZATION_ID="wsl" ;;
     'none') VIRTUALIZATION_ID="physical" ;;
@@ -217,6 +221,7 @@ identify_virtualization_id() {
       case "$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //" | tr '[:upper:]' '[:lower:]')" in
       'oracle' | 'virtualbox') VIRTUALIZATION_ID="virtualbox" ;;
       'vmware') VIRTUALIZATION_ID="vmware" ;;
+      'microsoft') VIRTUALIZATION_ID="microsoft" ;;
       'docker') VIRTUALIZATION_ID="docker" ;;
       'wsl') VIRTUALIZATION_ID="wsl" ;;
       *) VIRTUALIZATION_ID="Unknown" ;;
