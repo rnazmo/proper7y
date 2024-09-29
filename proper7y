@@ -158,6 +158,11 @@ cache_uname() {
   readonly UNAME_CACHE_MACHINE
 }
 
+# Ref:
+#     https://stackoverflow.com/a/17072017
+#     https://stackoverflow.com/a/18434831
+#     https://github.com/dylanaraps/neofetch/issues/433#issue-188679046
+#     http://linuxmafia.com/faq/Admin/release-files.html
 identify_os_family() {
   case "$UNAME_CACHE_KERNEL_NAME" in
   'linux')
@@ -360,15 +365,6 @@ print_chassis() {
   print_row "CHASSIS" "$CHASSIS"
 }
 
-# # TODO: Need to set LENFTH in pad_with_spaces function to 14 or higher.
-# print_virtualization() {
-#   local VIRTUALIZATION="Unknown"
-#   # if [ "$CHASSIS" = "vm" ]; then
-#   VIRTUALIZATION=$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //")
-#   # fi
-#   print_row "VIRTUALIZATION" "$VIRTUALIZATION"
-# }
-
 print_current_shell() {
   local CURRENT_SHELL="Unknown"
   CURRENT_SHELL="${SHELL_NAMES[$CURRENT_SHELL_ID]}"
@@ -420,31 +416,6 @@ print_row() {
 
   echo "${ROW_NAME_PADDED}: ${ROW_VALUE}"
 }
-
-# OS="Unknown"
-# identify_os() {
-#   # Ref:
-#   #   https://stackoverflow.com/a/17072017
-#   #   https://stackoverflow.com/a/18434831
-#   #   https://github.com/dylanaraps/neofetch/issues/433#issue-188679046
-#   case $(uname | tr '[:upper:]' '[:lower:]') in
-#   linux*)
-#     # Ref: http://linuxmafia.com/faq/Admin/release-files.html
-#     if [ -f /etc/debian_version ]; then
-#       OS="debian-based"
-#     elif [ -f /etc/redhat-release ]; then
-#       OS="reahat-based"
-#     elif [ -f /etc/arch-release ]; then
-#       OS="arch"
-#     fi
-#     # TODO: Identify Bash on Windows, Android, (WSL, Docker, VM)
-#     ;;
-#   darwin*)
-#     OS="macos"
-#     ;;
-#   esac
-# }
-# identify_os
 
 log_debug() {
   local -r PREFIX="DEBUG:"
