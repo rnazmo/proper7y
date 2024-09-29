@@ -269,21 +269,15 @@ identify_current_shell_id() {
   # Ref:
   #   https://tkuchiki.hatenablog.com/entry/2014/05/08/222135
   #   https://askubuntu.com/a/590903
-  local -l PARENT_PROCESS_CMD_1="unknown"
-  PARENT_PROCESS_CMD_1=$(ps -p $$ -o cmd=)
-  if echo "$PARENT_PROCESS_CMD_1" | grep -qs "bash"; then
+  local PARENT_PROCESS_CMD="Unknown"
+  PARENT_PROCESS_CMD=$(ps -cp "$PPID" -o command="")
+  if echo "$PARENT_PROCESS_CMD" | grep -qs "bash"; then
     CURRENT_SHELL_ID="bash"
-  elif echo "$PARENT_PROCESS_CMD_1" | grep -qs "zsh"; then
+  elif echo "$PARENT_PROCESS_CMD" | grep -qs "zsh"; then
     CURRENT_SHELL_ID="zsh"
-  else
-    local -l PARENT_PROCESS_CMD_2="unknown"
-    PARENT_PROCESS_CMD_2=$(ps -cp "$PPID" -o command="")
-    if echo "$PARENT_PROCESS_CMD_2" | grep -qs "bash"; then
-      CURRENT_SHELL_ID="bash"
-    elif echo "$PARENT_PROCESS_CMD_2" | grep -qs "zsh"; then
-      CURRENT_SHELL_ID="zsh"
-    fi
   fi
+
+  readonly CURRENT_SHELL_ID
 
   # Check if the CURRENT_SHELL_ID value is in SUPPORTED_SHELL_IDS
   if [[ ! "${SUPPORTED_SHELL_IDS[*]}" =~ ${CURRENT_SHELL_ID} ]]; then
