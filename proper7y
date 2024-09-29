@@ -12,19 +12,50 @@ set -eu
 #
 # Supported Software:
 #     OS:
-#         TODO:
+#         See following global variable `SUPPORTED_OS_IDS`.
 #     Shell:
 #         Bash
 #         Zsh
 #     Virtualization:
 #         TODO:
+# TODO:
+#     Support new OS:
+#         Android
+#         iOS
+#         ...
+#
+# -------------------------------------------------------------------
 
 readonly PROPER7Y_VERSION="v0.5.2"
 
-# -------------------------------------------------------------------
-
 declare -l UNAME_CACHE_KERNEL_NAME="This_value_should_be_overridden"
 declare -l UNAME_CACHE_MACHINE="This_value_should_be_overridden"
+declare -l OS_FAMILY="This_value_should_be_overridden"
+declare -l OS_ID="This_value_should_be_overridden"
+
+declare -al SUPPORTED_OS_FAMILIES=( # Allowed OS_FAMILY values
+  "arch-based"
+  "debian-based"
+  "darwin-based"
+)
+declare -al SUPPORTED_OS_IDS=( # Allowed OS_ID values
+  "archlinux"
+  "endevouros"
+  "manjaro"
+  "debian"
+  "kali"
+  "ubuntu"
+  "macos"
+)
+declare -A OS_NAMES=( # The key is OS_ID
+  ["archlinux"]="Arch Linux"
+  ["endevouros"]="EndeavourOS"
+  ["manjaro"]="Manjaro"
+  ["debian"]="Debian"
+  ["kali"]="Kali Linux"
+  ["ubuntu"]="Ubuntu"
+  ["macos"]="macOS"
+)
 
 # -------------------------------------------------------------------
 
@@ -36,6 +67,9 @@ init() {
   fi
 
   cache_uname
+
+  identify_os_family
+  identify_os_id
 }
 
 # -------------------------------------------------------------------
@@ -81,6 +115,74 @@ cache_uname() {
   readonly UNAME_CACHE_MACHINE
 }
 
+identify_os_family() {
+  case "$UNAME_CACHE_KERNEL_NAME" in
+  linux)
+    if [ -f /etc/arch-release ]; then
+      OS_FAMILY="arch-based"
+    elif [ -f /etc/debian_version ]; then
+      OS_FAMILY="debian-based"
+    elif [ -f /etc/ubuntu_version ]; then
+      OS_FAMILY="debian-based" # NOTE: Not "ubuntu-based" but "debian-based".
+    else
+      # OS_FAMILY="linux-based"
+      OS_FAMILY="Unknown"
+    fi
+    ;;
+  darwin) OS_FAMILY="darwin-based" ;;
+  # freebsd) OS_FAMILY="freebsd-based" ;;
+  # openbsd) OS_FAMILY="openbsd-based" ;;
+  # netbsd) OS_FAMILY="netbsd-based" ;;
+  # cygwin* | msys* | mingw*) OS_FAMILY="windows-based" ;;
+  *) OS_FAMILY="Unknown" ;;
+  esac
+
+  readonly OS_FAMILY
+
+  # Check if the UNAME_CACHE_KERNEL_NAME value is in SUPPORTED_OS_FAMILIES
+  if [[ ! "${SUPPORTED_OS_FAMILIES[*]}" =~ ${OS_FAMILY} ]]; then
+    log_err "This script does not support the OS family: ${OS_FAMILY}"
+    return 1
+  fi
+}
+
+identify_os_id() {
+  case "$OS_FAMILY" in
+  arch-based)
+    if [ -f /etc/manjaro-release ]; then
+      OS_ID="manjaro"
+    elif [ -f /etc/endevouros-release ]; then
+      OS_ID="endevouros"
+    elif [ -f /etc/arch-release ]; then
+      OS_ID="archlinux"
+    fi
+    ;;
+  debian-based)
+    if [ -f /etc/kali-version ]; then
+      OS_ID="kali"
+    elif [ -f /etc/debian_version ]; then
+      OS_ID="debian"
+    elif [ -f /etc/ubuntu_version ]; then
+      OS_ID="ubuntu"
+    fi
+    ;;
+  darwin-based) OS_ID="macos" ;;
+  # freebsd-based) OS_ID="freebsd" ;;
+  # openbsd-based) OS_ID="openbsd" ;;
+  # netbsd-based) OS_ID="netbsd" ;;
+  # windows-based) OS_ID="windows11" ;;
+  *) OS_ID="Unknown" ;;
+  esac
+
+  # Check if the OS_ID value is in SUPPORTED_OS_IDS
+  if [[ ! "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]; then
+    log_err "This script does not support the OS ID: ${OS_ID}"
+    return 1
+  fi
+
+  readonly OS_ID
+}
+
 # -------------------------------------------------------------------
 
 print_date() {
@@ -89,17 +191,7 @@ print_date() {
 }
 
 print_os_name() {
-  local OS_NAME="Unknown"
-
-  case "$UNAME_CACHE_KERNEL_NAME" in
-  "linux")
-    OS_NAME=$(hostnamectl status | grep "Operating System:" | sed -e "s/ *Operating System: //")
-    ;;
-  "darwin")
-    OS_NAME=$(sw_vers -productName)
-    ;;
-  esac
-
+  local -r OS_NAME="${OS_NAMES[$OS_ID]}"
   print_row "OS NAME" "$OS_NAME"
 }
 
