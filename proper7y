@@ -23,6 +23,8 @@ readonly PROPER7Y_VERSION="v0.5.2"
 
 # -------------------------------------------------------------------
 
+# -------------------------------------------------------------------
+
 init() {
   # Check prerequisites
   if [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then
@@ -53,7 +55,6 @@ main() {
 
   # print_chassis
   # print_default_shell
-  # print_kernel
 
   echo "============================================================"
 }
@@ -105,12 +106,6 @@ print_cpu_arch() {
   local CPU_ARCH="Unknown"
   CPU_ARCH="$(uname -m)"
   print_row "CPU ARCH" "$CPU_ARCH"
-}
-
-print_kernel() {
-  local KERNEL="Unknown"
-  KERNEL=$(uname -r)
-  print_row "KERNEL" "$KERNEL"
 }
 
 print_chassis() {
