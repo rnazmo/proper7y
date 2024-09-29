@@ -19,6 +19,9 @@ jobs:
         run: |
           bash --version
           brew install bash
+          /opt/homebrew/bin/bash --version
+          sudo sh -c 'echo /opt/homebrew/bin/bash >> /etc/shells'
+          chsh -s /opt/homebrew/bin/bash
           bash --version
       - name: Install and run stable 'proper7y'
         run: |
@@ -42,6 +45,9 @@ jobs:
         run: |
           bash --version
           brew install bash
+          /opt/homebrew/bin/bash --version
+          sudo sh -c 'echo /opt/homebrew/bin/bash >> /etc/shells'
+          chsh -s /opt/homebrew/bin/bash
           bash --version
       - name: Run proper7y
         run: ./proper7y
