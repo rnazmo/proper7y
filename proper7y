@@ -32,13 +32,16 @@ readonly PROPER7Y_VERSION="v0.8.0"
 declare -l UNAME_CACHE_KERNEL_NAME="This_value_should_be_overridden"
 declare -l UNAME_CACHE_MACHINE="This_value_should_be_overridden"
 
-declare -l OS_FAMILY="This_value_should_be_overridden"
-declare -al SUPPORTED_OS_FAMILIES=( # Allowed OS_FAMILY values
+declare -l OS_FAMILY_ID="This_value_should_be_overridden"
+declare -l OS_ID="This_value_should_be_overridden"
+declare -l VIRTUALIZATION_ID="This_value_should_be_overridden"
+declare -l CURRENT_SHELL_ID="This_value_should_be_overridden"
+
+declare -al SUPPORTED_OS_FAMILY_IDS=( # Allowed OS_FAMILY_ID values
   "arch-based"
   "debian-based"
   "darwin-based"
 )
-declare -l OS_ID="This_value_should_be_overridden"
 declare -al SUPPORTED_OS_IDS=( # Allowed OS_ID values
   "archlinux"
   "endevouros"
@@ -48,7 +51,6 @@ declare -al SUPPORTED_OS_IDS=( # Allowed OS_ID values
   "ubuntu"
   "macos"
 )
-declare -l VIRTUALIZATION_ID="This_value_should_be_overridden"
 # Ref: https://man.archlinux.org/man/systemd-detect-virt.1.en
 declare -al SUPPORTED_VIRTUALIZATION_IDS=( # Allowed VIRTUALIZATION_ID values
   "virtualbox"
@@ -59,7 +61,6 @@ declare -al SUPPORTED_VIRTUALIZATION_IDS=( # Allowed VIRTUALIZATION_ID values
   "physical" # It's not a virtualized environment but a physical hardware.
   "unknown"
 )
-declare -l CURRENT_SHELL_ID="This_value_should_be_overridden"
 declare -al SUPPORTED_SHELL_IDS=( # Allowed SHELL_ID values
   "bash"
   "zsh"
@@ -102,7 +103,7 @@ init() {
 
   cache_uname
 
-  identify_os_family
+  identify_os_family_id
   identify_os_id
   identify_virtualization_id
   identify_current_shell_id
@@ -163,39 +164,39 @@ cache_uname() {
 #     https://stackoverflow.com/a/18434831
 #     https://github.com/dylanaraps/neofetch/issues/433#issue-188679046
 #     http://linuxmafia.com/faq/Admin/release-files.html
-identify_os_family() {
+identify_os_family_id() {
   case "$UNAME_CACHE_KERNEL_NAME" in
   'linux')
     if [[ -f /etc/arch-release ]]; then
-      OS_FAMILY="arch-based"
+      OS_FAMILY_ID="arch-based"
     elif [[ -f /etc/debian_version ]]; then
-      OS_FAMILY="debian-based"
+      OS_FAMILY_ID="debian-based"
     elif [[ -f /etc/ubuntu_version ]]; then
-      OS_FAMILY="debian-based" # NOTE: Not "ubuntu-based" but "debian-based".
+      OS_FAMILY_ID="debian-based" # NOTE: Not "ubuntu-based" but "debian-based".
     else
-      # OS_FAMILY="linux-based"
-      OS_FAMILY="Unknown"
+      # OS_FAMILY_ID="linux-based"
+      OS_FAMILY_ID="Unknown"
     fi
     ;;
-  'darwin') OS_FAMILY="darwin-based" ;;
-  # 'freebsd') OS_FAMILY="freebsd-based" ;;
-  # 'openbsd') OS_FAMILY="openbsd-based" ;;
-  # 'netbsd') OS_FAMILY="netbsd-based" ;;
-  # cygwin* | msys* | mingw*) OS_FAMILY="windows-based" ;;
-  *) OS_FAMILY="Unknown" ;;
+  'darwin') OS_FAMILY_ID="darwin-based" ;;
+  # 'freebsd') OS_FAMILY_ID="freebsd-based" ;;
+  # 'openbsd') OS_FAMILY_ID="openbsd-based" ;;
+  # 'netbsd') OS_FAMILY_ID="netbsd-based" ;;
+  # cygwin* | msys* | mingw*) OS_FAMILY_ID="windows-based" ;;
+  *) OS_FAMILY_ID="Unknown" ;;
   esac
 
-  readonly OS_FAMILY
+  readonly OS_FAMILY_ID
 
-  # Check if the UNAME_CACHE_KERNEL_NAME value is in SUPPORTED_OS_FAMILIES
-  if [[ ! "${SUPPORTED_OS_FAMILIES[*]}" =~ ${OS_FAMILY} ]]; then
-    log_err "This script does not support the OS family: ${OS_FAMILY}"
+  # Check if the UNAME_CACHE_KERNEL_NAME value is in SUPPORTED_OS_FAMILY_IDS
+  if [[ ! "${SUPPORTED_OS_FAMILY_IDS[*]}" =~ ${OS_FAMILY_ID} ]]; then
+    log_err "This script does not support the OS family: ${OS_FAMILY_ID}"
     return 1
   fi
 }
 
 identify_os_id() {
-  case "$OS_FAMILY" in
+  case "$OS_FAMILY_ID" in
   'arch-based')
     if [[ -f /etc/manjaro-release ]]; then
       OS_ID="manjaro"
