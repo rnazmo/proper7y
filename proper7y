@@ -18,12 +18,13 @@ set -eu
 #         Zsh
 #     Virtualization:
 #         TODO:
+#
 # TODO:
 #     Support new OS:
 #         Android
 #         iOS
 #         ...
-#
+
 # -------------------------------------------------------------------
 
 readonly PROPER7Y_VERSION="v0.8.0"
@@ -58,6 +59,12 @@ declare -al SUPPORTED_VIRTUALIZATION_IDS=( # Allowed VIRTUALIZATION_ID values
   "physical" # It's not a virtualized environment but a physical hardware.
   "unknown"
 )
+declare -l CURRENT_SHELL_ID="This_value_should_be_overridden"
+declare -al SUPPORTED_SHELL_IDS=( # Allowed SHELL_ID values
+  "bash"
+  "zsh"
+  "unknown"
+)
 
 declare -A OS_NAMES=( # The key is OS_ID
   ["archlinux"]="Arch Linux"
@@ -77,18 +84,11 @@ declare -A VIRTUALIZATION_NAMES=( # The key is VIRTUALIZATION_ID
   ["physical"]="Physical"
   ["unknown"]="Unknown"
 )
-
-declare -al SUPPORTED_SHELL_IDS=( # Allowed SHELL_ID values
-  "bash"
-  "zsh"
-  "unknown"
-)
 declare -A SHELL_NAMES=( # The key is SHELL_ID
   ["bash"]="Bash"
   ["zsh"]="Zsh"
   ["unknown"]="Unknown"
 )
-declare -l CURRENT_SHELL_ID="This_value_should_be_overridden"
 
 # -------------------------------------------------------------------
 
