@@ -22,17 +22,9 @@ NOTE: These are documents to my future self.
 
 NOTE: So, I will only support environments and software that I use frequently.
 
-### Supported environment
-
-Linux (especially Debian-Based Linux, but more specifically Ubuntu, Mint, and Kali)
-
-TODO: Support more environment (OS) ...
-
 ### Supported softwares
 
-zsh,tmux,
-
-TODO:
+See: [`Supported Software:` section in proper7y](https://github.com/rnazmo/proper7y/blob/main/proper7y#L13)
 
 ### Installation
 
