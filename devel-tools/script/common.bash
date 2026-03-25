@@ -50,7 +50,7 @@ _main() {
 }
 
 _set_global_variables() {
-  log_info "Composing golbal variables..."
+  log_info "Composing global variables..."
   # Override abobe global variables. Be careful about the order of
   # calling these functions.
   _compose_project_root_dir
@@ -61,7 +61,7 @@ _set_global_variables() {
   _compose_shfmt_cmd_path
   _compose_shellcheck_binary_version
   _compose_shfmt_binary_version
-  log_info "Composed golbal variables."
+  log_info "Composed global variables."
 }
 
 # _get_script_dir returns the directory where this file is placed.
