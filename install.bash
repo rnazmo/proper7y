@@ -39,7 +39,7 @@ parse_args() {
   elif [[ -e "$DEST_DIR" ]]; then
     log_err "The path $DEST_DIR is not a directory. Must be a directory"
     print_usage
-    exit1
+    exit 1
   else
     log_info "The path $DEST_DIR does not exist. Creating..."
     mkdir -p "$DEST_DIR"
