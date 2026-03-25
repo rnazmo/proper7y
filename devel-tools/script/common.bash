@@ -376,6 +376,7 @@ confirm_continue() {
   read -p "Continue? [y/N]" -n 1 -r
   echo # Print new line (optional)
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    log_info "Aborted."
     return 1
   fi
 }
