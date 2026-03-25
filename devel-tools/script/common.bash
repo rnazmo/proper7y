@@ -67,7 +67,7 @@ _set_global_variables() {
 # _get_script_dir returns the directory where this file is placed.
 # Ref: https://stackoverflow.com/q/59895
 _get_script_dir() {
-  dirname "$0"
+  dirname "${BASH_SOURCE[0]}"
 }
 
 # _get_script_dir composes the project (= 'proper7y') root directory
