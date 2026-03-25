@@ -58,7 +58,7 @@ main() {
   # Download the file from remote server.
   curl -O "$SRC_URL"
 
-  # Add execute poermission.
+  # Add execute permission.
   chmod +x ./proper7y
 
   if [[ ! -x ./proper7y ]]; then
