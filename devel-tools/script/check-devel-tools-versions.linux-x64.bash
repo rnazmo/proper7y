@@ -165,20 +165,4 @@ bump_shfmt_version() {
   reinstall_shfmt
 }
 
-overwrite_version_number_variable() {
-  local -r TARGET_FILE="$1"
-  local -r VARIABLE_NAME="$2"
-  local -r VERSION_OLD="$3"
-  local -r VERSION_NEW="$4"
-  log_info "Overwrite the version in the target: START"
-  log_info "  TARGET: $TARGET_FILE"
-
-  local -r OLD="$VARIABLE_NAME=\"$VERSION_OLD\""
-  local -r NEW="$VARIABLE_NAME=\"$VERSION_NEW\""
-
-  sed -i "s/${OLD}/${NEW}/" "$TARGET_FILE"
-
-  log_info "Overwrite the version in the target: END"
-}
-
 main

@@ -65,12 +65,7 @@ rename_project_version() {
   #       devel-tools versions (SHELLCHECK_CURRENT_VERSION or SHFMT_CURRENT_VERSION)
   #       match. Use 'overwrite_version_number_variable()' function.
   for TARGET in "${TARGETS[@]}"; do
-    log_info "Overwrite the version in the target: START"
-    log_info "TARGET: $TARGET"
-
-    sed -i "s/${CURRENT_PROPER7Y_VERSION}/${NEW_PROPER7Y_VERSION}/" "$TARGET"
-
-    log_info "Overwrite the version in the target: END"
+    overwrite_version_number_variable "$TARGET" "PROPER7Y_VERSION" "$CURRENT_PROPER7Y_VERSION" "$NEW_PROPER7Y_VERSION"
   done
 
   return 0

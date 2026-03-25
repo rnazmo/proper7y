@@ -316,6 +316,38 @@ compare_binary_ver_with_current_ver_of_the_devel_tool() {
   log_info "  => Checked that the version of $TOOL_NAME is correct."
 }
 
+# Overwrite a version number variable in a given file.
+#
+# This function replaces a line like:
+#   VARIABLE_NAME="vX.X.X"
+# with:
+#   VARIABLE_NAME="vY.Y.Y"
+#
+# By including the variable name in the replacement pattern,
+# this avoids accidentally overwriting unrelated lines that
+# happen to contain the same version string.
+#
+# Usage:
+#   overwrite_version_number_variable <file> <variable_name> <old_version> <new_version>
+#
+# Example:
+#   overwrite_version_number_variable "./common.bash" "SHELLCHECK_CURRENT_VERSION" "v0.9.0" "v0.10.0"
+overwrite_version_number_variable() {
+  local -r TARGET_FILE="$1"
+  local -r VARIABLE_NAME="$2"
+  local -r VERSION_OLD="$3"
+  local -r VERSION_NEW="$4"
+  log_info "Overwrite the version in the target: START"
+  log_info "  TARGET: $TARGET_FILE"
+
+  local -r OLD="$VARIABLE_NAME=\"$VERSION_OLD\""
+  local -r NEW="$VARIABLE_NAME=\"$VERSION_NEW\""
+
+  sed -i "s/${OLD}/${NEW}/" "$TARGET_FILE"
+
+  log_info "Overwrite the version in the target: END"
+}
+
 check_shellcheck_is_ready() {
   log_info "Checking shellcheck is ready..."
   _check_if_shellcheck_exists
