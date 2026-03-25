@@ -280,6 +280,21 @@ MEMO: The script do following:
 3. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
 4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
 
+### ADR (Architecture Decision Records)
+
+#### ADR-001: プロジェクトバージョン番号の管理方針
+
+- **日付:** 2026-03-26
+- **状況:**
+- `PROPER7Y_VERSION` が `proper7y`、`install.bash`、`common.bash` の3ファイルに重複して定義されており、Single Source of Truth の原則に反している。
+- **検討した解決策:**
+  - **案1:** `common.bash` を唯一の定義元とし、他のファイルは `source` で読み込む
+  - **案2:** `VERSION` ファイルを作り、各スクリプトがそこから読み込む
+- **却下した理由:**
+  - `proper7y` および `install.bash` は単体でダウンロード・実行されることを前提とした設計である。これらのスクリプトは `common.bash` や `VERSION` ファイルが手元に存在しない環境で動作しなければならないため、外部ファイルへの依存を持たせることができない。バージョンの重複は、このプロジェクトの「スクリプト単体で動く」という設計思想に起因する、避けがたい構造的制約である。
+- **決定:**
+  - バージョン番号の散在を受け入れた上で、`bump-project.linux-x64.bash` に事後検証関数 `verify_version_consistency()` を追加し、バージョン書き換え後・コミット前に3ファイルの整合性を自動チェックする。
+
 ### TODO
 
 #### Priority: ☆☆☆
