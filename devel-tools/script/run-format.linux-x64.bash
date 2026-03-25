@@ -43,7 +43,7 @@ main() {
     log_info "  Running format to the target: END"
   done
 
-  log_info "Ran all format successflly!"
+  log_info "Ran all format successfully!"
 }
 
 main

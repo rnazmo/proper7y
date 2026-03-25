@@ -67,7 +67,7 @@ main() {
     exit 1
   fi
 
-  log_info "Installed successflly!"
+  log_info "Installed successfully!"
 }
 
 print_usage() {

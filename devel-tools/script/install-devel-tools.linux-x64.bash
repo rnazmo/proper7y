@@ -20,7 +20,7 @@ main() {
   install_shfmt
   check_shfmt_is_ready
 
-  log_info "Installed successflly!"
+  log_info "Installed successfully!"
 }
 
 main

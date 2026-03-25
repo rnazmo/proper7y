@@ -25,7 +25,7 @@ main() {
   log_info "Run proper7y"
   ./proper7y
 
-  log_info "Running integ-test successflly!"
+  log_info "Running integ-test successfully!"
 }
 
 main

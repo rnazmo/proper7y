@@ -39,7 +39,7 @@ main() {
     log_info "  Running lint to the target: END"
   done
 
-  log_info "Ran all lint successflly!"
+  log_info "Ran all lint successfully!"
 }
 
 main
