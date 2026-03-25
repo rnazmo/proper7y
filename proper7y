@@ -429,13 +429,13 @@ log_info() {
 }
 
 log_warn() {
-  local -r PREFIX="WARN :" >&2
-  echo "$PREFIX $1"
+  local -r PREFIX="WARN :"
+  echo "$PREFIX $1" >&2
 }
 
 log_err() {
-  local -r PREFIX="ERROR:" >&2
-  echo "$PREFIX $1"
+  local -r PREFIX="ERROR:"
+  echo "$PREFIX $1" >&2
 }
 
 # -------------------------------------------------------------------
