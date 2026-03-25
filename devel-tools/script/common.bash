@@ -131,10 +131,10 @@ _compose_shfmt_cmd_path() {
 #     Do not set the global variable (SHELLCHECK_BINARY_VERSION) to readonly. Because it will be updated
 #     when you install or upgrade the binary of the tool.
 _compose_shellcheck_binary_version() {
-  # Check if the TOOL exists and is a exectable file.
-  log_info "Checking if the $SHELLCHECK_CMD_PATH exists and a exectable file..."
+  # Check if the TOOL exists and is a executable file.
+  log_info "Checking if the $SHELLCHECK_CMD_PATH exists and a executable file..."
   if [[ ! -x "$SHELLCHECK_CMD_PATH" ]]; then
-    log_warn "Checking if the $SHELLCHECK_CMD_PATH exists and a exectable file..."
+    log_warn "Checking if the $SHELLCHECK_CMD_PATH exists and a executable file..."
     log_warn "$SHELLCHECK_CMD_PATH not found."
     SHELLCHECK_BINARY_VERSION="$SHELLCHECK_CMD_PATH not found."
 
@@ -169,10 +169,10 @@ _compose_shellcheck_binary_version() {
 #     Do not set the global variable (SHFMT_BINARY_VERSION) to readonly. Because it will be updated
 #     when you install or upgrade the binary of the tool.
 _compose_shfmt_binary_version() {
-  # Check if the TOOL exists and is a exectable file.
-  log_info "Checking if the $SHFMT_CMD_PATH exists and a exectable file..."
+  # Check if the TOOL exists and is a executable file.
+  log_info "Checking if the $SHFMT_CMD_PATH exists and a executable file..."
   if [[ ! -x "$SHFMT_CMD_PATH" ]]; then
-    log_warn "Checking if the $SHFMT_CMD_PATH exists and a exectable file..."
+    log_warn "Checking if the $SHFMT_CMD_PATH exists and a executable file..."
     log_warn "$SHFMT_CMD_PATH not found."
     SHFMT_BINARY_VERSION="$SHFMT_CMD_PATH not found."
 
@@ -272,12 +272,12 @@ _check_if_shellcheck_exists() {
 _check_if_shfmt_exists() {
   _check_if_the_tool_exists "$SHFMT_TOOL_NAME" "$SHFMT_CMD_PATH"
 }
-# Check if the TOOL exists and is a exectable file.
+# Check if the TOOL exists and is a executable file.
 # If it does, do nothing; if it does not, return status code 1.
 _check_if_the_tool_exists() {
   local -r TOOL_NAME="$1"
   local -r TOOL_PATH="$2"
-  log_info "Checking if the $TOOL_PATH exists and a exectable file..."
+  log_info "Checking if the $TOOL_PATH exists and a executable file..."
   if [[ ! -x "$TOOL_PATH" ]]; then
     log_info "  TOOL_PATH: $TOOL_PATH"
     log_err "$TOOL_PATH not found."
