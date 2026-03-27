@@ -62,9 +62,6 @@ rename_project_version() {
   log_info "NEW_PROPER7Y_VERSION: $NEW_PROPER7Y_VERSION"
 
   # Overwrite the project version
-  # TODO: This is DANGEROUS if project number (PROPER7Y_VERSION) and
-  #       devel-tools versions (SHELLCHECK_CURRENT_VERSION or SHFMT_CURRENT_VERSION)
-  #       match. Use 'overwrite_version_number_variable()' function.
   for TARGET in "${TARGETS[@]}"; do
     overwrite_version_number_variable "$TARGET" "PROPER7Y_VERSION" "$CURRENT_PROPER7Y_VERSION" "$NEW_PROPER7Y_VERSION"
   done
