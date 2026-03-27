@@ -30,7 +30,8 @@ main() {
     exit 1
   fi
 
-  rename_project_version
+  local -r NEW_PROPER7Y_VERSION="$(prompt_new_version)"
+  overwrite_project_version "$NEW_PROPER7Y_VERSION"
   verify_version_consistency "$NEW_PROPER7Y_VERSION"
   log_info "Here is the git diff:"
   git diff
@@ -47,26 +48,25 @@ main() {
   log_info "Bump the project (= 'proper7y') version: END"
 }
 
-rename_project_version() {
-  log_info "CURRENT_PROPER7Y_VERSION: $CURRENT_PROPER7Y_VERSION"
-
-  # Get a new version
-  read -p "Enter NEW_PROPER7Y_VERSION: " -r NEW_PROPER7Y_VERSION
-  # Validate the new version
-  PATTERN='^v[0-9]+\.[0-9]+\.[0-9]+$'
-  if ! [[ $NEW_PROPER7Y_VERSION =~ $PATTERN ]]; then
+# Only perform version input and validation. Return the result to standard output.
+prompt_new_version() {
+  local new_version
+  read -p "Enter NEW_PROPER7Y_VERSION: " -r new_version
+  local -r PATTERN='^v[0-9]+\.[0-9]+\.[0-9]+$'
+  if ! [[ $new_version =~ $PATTERN ]]; then
     log_err "Wrong value. Must follow this pattern: $PATTERN"
-    log_err "'NEW_PROPER7Y_VERSION': $NEW_PROPER7Y_VERSION"
     return 1
   fi
-  log_info "NEW_PROPER7Y_VERSION: $NEW_PROPER7Y_VERSION"
+  echo "$new_version"
+}
 
-  # Overwrite the project version
+overwrite_project_version() {
+  local -r NEW_VERSION="$1"
+  log_info "CURRENT_PROPER7Y_VERSION: $CURRENT_PROPER7Y_VERSION"
+  log_info "NEW_PROPER7Y_VERSION    : $NEW_VERSION"
   for TARGET in "${TARGETS[@]}"; do
-    overwrite_version_number_variable "$TARGET" "PROPER7Y_VERSION" "$CURRENT_PROPER7Y_VERSION" "$NEW_PROPER7Y_VERSION"
+    overwrite_version_number_variable "$TARGET" "PROPER7Y_VERSION" "$CURRENT_PROPER7Y_VERSION" "$NEW_VERSION"
   done
-
-  return 0
 }
 
 # Verify that PROPER7Y_VERSION is consistent across all three files
