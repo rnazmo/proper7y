@@ -28,7 +28,6 @@ set -eu
 #     except the _set_global_variables function.
 
 # Global Variables
-
 # shellcheck disable=SC2034
 
 # ============================================================
@@ -48,6 +47,7 @@ DEVEL_TOOLS_BIN_DIR=""
 COMMON_SH_PATH=""
 SHELLCHECK_CMD_PATH=""
 SHFMT_CMD_PATH=""
+
 # ============================================================
 # Group 3: Mutable variables (may change during execution)
 # ============================================================
