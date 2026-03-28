@@ -227,7 +227,7 @@ identify_os_id() {
   # 'openbsd-based') OS_ID="openbsd" ;;
   # 'netbsd-based') OS_ID="netbsd" ;;
   # 'windows-based') OS_ID="windows11" ;;
-  *) OS_ID="Unknown" ;;
+  *) OS_ID="unknown" ;;
   esac
 
   readonly OS_ID
