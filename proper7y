@@ -207,6 +207,8 @@ identify_os_id() {
       OS_ID="endeavouros"
     elif [[ -f /etc/arch-release ]]; then
       OS_ID="archlinux"
+    else
+      OS_ID="unknown"
     fi
     ;;
   'debian-based')
@@ -216,6 +218,8 @@ identify_os_id() {
       OS_ID="ubuntu"
     elif [[ -f /etc/debian_version ]]; then
       OS_ID="debian"
+    else
+      OS_ID="unknown"
     fi
     ;;
   'darwin-based') OS_ID="macos" ;;
