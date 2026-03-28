@@ -379,8 +379,9 @@ print_current_shell() {
 }
 
 print_bash_version() {
-  local -r BASH_VERSION="${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]}.${BASH_VERSINFO[2]}"
-  print_row "BASH VERSION" "$BASH_VERSION"
+  # NOTE: Avoid using BASH_VERSION here as it is a Bash built-in variable.
+  local -r BASH_VERSION_STR="${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]}.${BASH_VERSINFO[2]}"
+  print_row "BASH VERSION" "$BASH_VERSION_STR"
 }
 
 print_zsh_version() {
