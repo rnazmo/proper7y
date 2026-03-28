@@ -18,6 +18,10 @@ lint:
 format:
 	./devel-tools/script/run-format.linux-x64.bash
 
+.PHONY: validate
+validate:
+	./devel-tools/script/check-project-version-consistency.linux-x64.bash
+
 .PHONY: run-integ-test-to-head
 run-integ-test-to-head:
 	./proper7y
@@ -27,7 +31,7 @@ run-integ-test-to-latest:
 	./devel-tools/script/run-integ-test.linux-x64.bash
 
 .PHONY: static-tests
-static-tests: lint format
+static-tests: lint format validate
 
 .PHONY: integ-tests
 integ-tests: run-integ-test-to-head run-integ-test-to-latest

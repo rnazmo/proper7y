@@ -21,6 +21,7 @@ TARGETS=(
   "${DEVEL_TOOLS_DIR}/script/bump-project.linux-x64.bash"
   "${DEVEL_TOOLS_DIR}/script/install-devel-tools.linux-x64.bash"
   "${DEVEL_TOOLS_DIR}/script/check-devel-tools-versions.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/check-project-version-consistency.linux-x64.bash"
 )
 
 main() {

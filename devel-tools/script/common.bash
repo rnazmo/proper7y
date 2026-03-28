@@ -350,6 +350,48 @@ overwrite_version_number_variable() {
   log_info "Overwrite the version in the target: END"
 }
 
+# Verify that PROPER7Y_VERSION is consistent across all three files
+# that define it: proper7y, install.bash, and common.bash.
+#
+# Background:
+#   These three files each define PROPER7Y_VERSION independently
+#   because proper7y and install.bash are distributed as standalone
+#   scripts and cannot source common.bash. This makes version
+#   duplication an unavoidable structural constraint of this project.
+#
+# Purpose:
+#   Since the version must be kept in sync manually (via
+#   bump-project.linux-x64.bash), this function acts as a safety net
+#   to catch any inconsistency immediately after the version bump,
+#   before the change is committed.
+#
+# Usage:
+#   verify_version_consistency "$NEW_PROPER7Y_VERSION"
+verify_version_consistency() {
+  local -r EXPECTED="$1"
+
+  local -r VERSION_IN_PROPER7Y="$(grep 'PROPER7Y_VERSION=' "${PROJECT_ROOT}/proper7y" |
+    grep -v '^#' | head -1 | sed 's/.*="\(.*\)"/\1/')"
+  local -r VERSION_IN_INSTALL="$(grep 'PROPER7Y_VERSION=' "${PROJECT_ROOT}/install.bash" |
+    grep -v '^#' | head -1 | sed 's/.*="\(.*\)"/\1/')"
+  local -r VERSION_IN_COMMON="$(grep 'PROPER7Y_VERSION=' "${COMMON_SH_PATH}" |
+    grep -v '^#' | head -1 | sed 's/.*="\(.*\)"/\1/')"
+
+  log_info "Verifying version consistency..."
+  log_info "  proper7y    : $VERSION_IN_PROPER7Y"
+  log_info "  install.bash: $VERSION_IN_INSTALL"
+  log_info "  common.bash : $VERSION_IN_COMMON"
+
+  if [[ "$VERSION_IN_PROPER7Y" != "$EXPECTED" ]] ||
+    [[ "$VERSION_IN_INSTALL" != "$EXPECTED" ]] ||
+    [[ "$VERSION_IN_COMMON" != "$EXPECTED" ]]; then
+    log_err "Version mismatch detected! All three files must have: $EXPECTED"
+    return 1
+  fi
+
+  log_info "  => All versions are consistent."
+}
+
 check_shellcheck_is_ready() {
   log_info "Checking shellcheck is ready..."
   _check_if_shellcheck_exists
