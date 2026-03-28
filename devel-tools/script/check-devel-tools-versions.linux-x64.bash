@@ -104,6 +104,9 @@ bump_shellcheck_version() {
   # TODO: Update global variables in common.bash to support for above change ?
   # (Note especially SHELLCHECK_CURRENT_VERSION and its effect on SHELLCHECK_URL.)
 
+  # Update the in-memory variable to match the rewritten file
+  SHELLCHECK_CURRENT_VERSION="$SHELLCHECK_LATEST_VERSION"
+
   reinstall_shellcheck
 }
 bump_shfmt_version() {
@@ -113,6 +116,9 @@ bump_shfmt_version() {
 
   # TODO: Update global variables in common.bash to support for above change ?
   # (Note especially SHFMT_CURRENT_VERSION and its effect on SHFMT_URL.)
+
+  # Update the in-memory variable to match the rewritten file
+  SHFMT_CURRENT_VERSION="$SHFMT_LATEST_VERSION"
 
   reinstall_shfmt
 }
