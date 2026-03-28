@@ -30,11 +30,11 @@ See: [`Supported Software:` section in proper7y](https://github.com/rnazmo/prope
 
 #### Using Script (recommended) - Install the latest release version
 
-If you want to install proper7y command under `${HOME}/bin/`,
+If you want to install proper7y command under `${HOME}/.bin/`,
 run commands on your terminal like:
 
 ```console
-DEST_DIR="${HOME}/bin"
+DEST_DIR="${HOME}/.bin"
 
 cd "$(mktemp -d)" && \
     curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash && \
@@ -45,7 +45,7 @@ cd "$(mktemp -d)" && \
 To check that you installed it successfully:
 
 ```console
-"${HOME}/bin/proper7y"
+"${HOME}/.bin/proper7y"
 ```
 
 #### Manually - Install the specified release version
@@ -56,7 +56,7 @@ To check that you installed it successfully:
 4. Run (like `./proper7y`)
 
 ```console
-$ DEST_DIR="${HOME}/bin"
+$ DEST_DIR="${HOME}/.bin"
 
 $ VERSION="v0.0.1"
 
@@ -116,7 +116,7 @@ I highly recommend you to use `install.bash` to avoid these mistakes.
 
 ```console
 # GOOD (Recommend)
-$ DEST_DIR="${HOME}/bin"
+$ DEST_DIR="${HOME}/.bin"
 $ cd /tmp && \
     curl -O https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash && \
     chmod +x ./install.bash && \
@@ -278,7 +278,7 @@ MEMO: The script do following:
 1. Edit and bump a version of `VERSION="v0.0.X"` in `proper7y`, `install.bash`, and `/devel-tools/script/common.bash`. (Don't forget to follow semantic versioning!)
 2. Create a commit for the change with the commit message (like `Bump a version to v0.0.3`).
 3. Add a Git tag **to the commit** (like `$ git tag v0.0.3`).
-4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: https://stackoverflow.com/a/3745250).
+4. Push the commit and tags (like `$ git push --atomic origin main v0.0.3` . ref: <https://stackoverflow.com/a/3745250>).
 
 ### ADR (Architecture Decision Records)
 
@@ -316,7 +316,7 @@ MEMO: The script do following:
 - docs:
   - Update the convention
     - Scope:
-      - https://github.com/rnazmo/proper7y/blob/5d25e105ac879c5787945b333f13327e33cdb562/README.md?plain=1#L163-L166
+      - <https://github.com/rnazmo/proper7y/blob/5d25e105ac879c5787945b333f13327e33cdb562/README.md?plain=1#L163-L166>
     - やっぱり、変更が大きいときは branch 使いたいかも。
     - 「**なるべく `main` だけ**の状態を維持することが望ましい。ただし、機能追加などで**一時的な**ブランチを作るのは全く構わない」などと改定する？
     - Google Style Guide
@@ -334,10 +334,10 @@ MEMO: The script do following:
     - Refine README.md (内容が重複しているところとかある)
     - `install.bash` がある理由を書いておく
       - これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
-      - ref: https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version
+      - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
       - 書き方はここが参考になりそう：
-        - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci
-        - https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source
+        - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
+        - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
     - Add following texts to `README.md`
       - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
     - Add GIF image to `README.md`
@@ -349,7 +349,7 @@ MEMO: The script do following:
       - Windows の対応は大変だしコードが複雑になる。対応したいなら、 'proper7y4win とでも別リポジトリを作ってそっちでやる (powershell スクリプト？)
 - devel-tools が最新かどうか、CI (github actions)でチェック？
   - Run the script `check-devel-tools-versions.bash` on CI ?
-    - Trigger: weekly (Can I use https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events ?)
+    - Trigger: weekly (Can I use <https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events> ?)
   - 自動で Pull Request 作成するところまでやる？ (dependabot みたいに)
     - 実装や権限管理面倒じゃない？大丈夫？
     - そもそも Pull Request はあまり使いたくないのでは？
