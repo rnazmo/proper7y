@@ -13,17 +13,10 @@ set -eu
 # Supported Software:
 #     OS:
 #         See following global variable `SUPPORTED_OS_IDS`.
-#     Shell:
-#         Bash
-#         Zsh
 #     Virtualization:
-#         TODO:
-#
-# TODO:
-#     Support new OS:
-#         Android
-#         iOS
-#         ...
+#         See following global variable `SUPPORTED_VIRTUALIZATION_IDS`.
+#     Shell:
+#         See following global variable `SUPPORTED_SHELL_IDS`.
 
 # -------------------------------------------------------------------
 
