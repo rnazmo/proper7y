@@ -34,15 +34,17 @@ main() {
     "$SHELLCHECK_TOOL_NAME" \
     "$SHELLCHECK_CURRENT_VERSION" \
     "$SHELLCHECK_LATEST_VERSION" \
+    "$SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP" \
     "bump_shellcheck_version" \
-    "$SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP"
+    "SHELLCHECK_BINARY_VERSION"
 
   upgrade_devel_tool_if_needed \
     "$SHFMT_TOOL_NAME" \
     "$SHFMT_CURRENT_VERSION" \
     "$SHFMT_LATEST_VERSION" \
+    "$SHFMT_CURRENT_VERSION_BEFORE_BUMP" \
     "bump_shfmt_version" \
-    "$SHFMT_CURRENT_VERSION_BEFORE_BUMP"
+    "SHFMT_BINARY_VERSION"
 
   log_info "Checked all devel-tools!"
 }
@@ -118,21 +120,23 @@ bump_shfmt_version() {
 # Upgrade a devel-tool if a newer version is available.
 #
 # Usage:
-#   upgrade_devel_tool_if_needed <tool_name> <current_ver> <latest_ver> <bump_func> <before_bump_ver>
+#   upgrade_devel_tool_if_needed <tool_name> <current_ver> <latest_ver> <before_bump_ver> <bump_func> <binary_version_var>
 #
 # Example:
 #   upgrade_devel_tool_if_needed \
 #     "$SHELLCHECK_TOOL_NAME" \
 #     "$SHELLCHECK_CURRENT_VERSION" \
 #     "$SHELLCHECK_LATEST_VERSION" \
+#     "$SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP" \
 #     "bump_shellcheck_version" \
-#     "$SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP"
+#     "SHELLCHECK_BINARY_VERSION"
 upgrade_devel_tool_if_needed() {
   local -r TOOL_NAME="$1"
   local -r CURRENT_VERSION="$2"
   local -r LATEST_VERSION="$3"
-  local -r BUMP_FUNC="$4"
-  local -r VERSION_BEFORE_BUMP="$5"
+  local -r CURRENT_VERSION_BEFORE_BUMP="$4"
+  local -r BUMP_FUNC="$5"
+  local -r BINARY_VERSION_VAR="$6"
 
   log_info "Checking that the version of installed $TOOL_NAME is latest."
   if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
@@ -154,18 +158,21 @@ upgrade_devel_tool_if_needed() {
   fi
 
   # Update the tool (shecllcheck/shfmt) version to latest
+  # NOTE: After calling $BUMP_FUNC, the binary version variable (e.g. SHELLCHECK_BINARY_VERSION)
+  # is already updated, because $BUMP_FUNC internally calls reinstall_* (in common.bash),
+  # which in turn calls _recompose_*_binary_version().
   "$BUMP_FUNC"
 
   # Print the versions again to check if the upgrade succeeded.
   # TODO: Or, just compare the 'Current Version' with the 'Latest Version'?
-  print_versions "$TOOL_NAME" "$CURRENT_VERSION" "$LATEST_VERSION"
+  print_versions "$TOOL_NAME" "$CURRENT_VERSION" "${!BINARY_VERSION_VAR}" "$LATEST_VERSION"
 
   log_info "Here is the git diff:"
   git diff
   confirm_continue
 
   # Create git commit
-  git commit -a -m "Bump devel-tool version ($TOOL_NAME): $VERSION_BEFORE_BUMP -> $LATEST_VERSION"
+  git commit -a -m "Bump devel-tool version ($TOOL_NAME): $CURRENT_VERSION_BEFORE_BUMP -> $LATEST_VERSION"
   log_info "Here is the git log:"
   git log -n 3
 }
