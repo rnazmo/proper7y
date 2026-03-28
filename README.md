@@ -262,7 +262,7 @@ make format
 ### How to run integration-test
 
 ```console
-make integ-test
+make integ-tests
 ```
 
 ### How to bump a version of 'proper7y' (versioning workflow)
