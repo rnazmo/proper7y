@@ -24,8 +24,7 @@ set -eu
 #   to your bash script to avoid error.
 #
 # NOTE:
-#   - You SHOULD NOT CALL any function whose name starts with '_'
-#     except the _set_global_variables function.
+#   - You SHOULD NOT CALL any function whose name starts with '_'.
 
 # Global Variables
 # shellcheck disable=SC2034
@@ -63,7 +62,8 @@ SHFMT_BINARY_VERSION=""
 # NOTE: **Must be called explicitly by each script that sources this file.**
 initialize_global_variables() {
   log_info "Initializing global variables..."
-  _set_global_variables
+  _set_global_path_variables
+  _set_mutable_global_variables
   log_info "Initialized."
 }
 
@@ -71,12 +71,11 @@ initialize_global_variables() {
 # or SHFMT_CURRENT_VERSION.
 # NOTE: Call this after modifying either of them.
 reinitialize_version_dependent_vars() {
-  _compose_shellcheck_binary_version
-  _compose_shfmt_binary_version
+  _set_mutable_global_variables
 }
 
-_set_global_variables() {
-  log_info "Composing global variables..."
+_set_global_path_variables() {
+  log_info "Composing global path variables..."
   # Override abobe global variables. Be careful about the order of
   # calling these functions.
   _compose_project_root_dir
@@ -85,9 +84,16 @@ _set_global_variables() {
   _compose_common_sh_path
   _compose_shellcheck_cmd_path
   _compose_shfmt_cmd_path
+  log_info "Composed global path variables."
+}
+
+_set_mutable_global_variables() {
+  log_info "Composing mutable global variables..."
+  # Override abobe global variables. Be careful about the order of
+  # calling these functions.
   _compose_shellcheck_binary_version
   _compose_shfmt_binary_version
-  log_info "Composed global variables."
+  log_info "Composed mutable global variables."
 }
 
 # _get_script_dir returns the directory where this file is placed.
