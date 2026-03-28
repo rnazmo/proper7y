@@ -191,7 +191,9 @@ identify_os_family_id() {
   # Check if the UNAME_CACHE_KERNEL_NAME value is in SUPPORTED_OS_FAMILY_IDS
   if [[ ! "${SUPPORTED_OS_FAMILY_IDS[*]}" =~ ${OS_FAMILY_ID} ]]; then
     log_err "This script does not support the OS family: ${OS_FAMILY_ID}"
-    return 1
+    # Use exit instead of return so that the script terminates with a clear
+    # error message, rather than relying on set -e to kill it silently.
+    exit 1
   fi
 }
 
@@ -228,7 +230,8 @@ identify_os_id() {
   # Check if the OS_ID value is in SUPPORTED_OS_IDS
   if [[ ! "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]; then
     log_err "This script does not support the OS ID: ${OS_ID}"
-    return 1
+    # Same reason as identify_os_family_id above.
+    exit 1
   fi
 }
 
@@ -267,7 +270,8 @@ identify_virtualization_id() {
   if [[ ! "${SUPPORTED_VIRTUALIZATION_IDS[*]}" =~ ${VIRTUALIZATION_ID} ]]; then
     log_err "This script does not support the VIRTUALIZATION_ID: ${VIRTUALIZATION_ID}"
     log_debug "systemd-detect-virt: $(systemd-detect-virt)"
-    return 1
+    # Same reason as identify_os_family_id above.
+    exit 1
   fi
 }
 
@@ -311,7 +315,8 @@ identify_current_shell_id() {
   # Check if the CURRENT_SHELL_ID value is in SUPPORTED_SHELL_IDS
   if [[ ! "${SUPPORTED_SHELL_IDS[*]}" =~ ${CURRENT_SHELL_ID} ]]; then
     log_err "This script does not support the CURRENT_SHELL_ID: ${CURRENT_SHELL_ID}"
-    return 1
+    # Same reason as identify_os_family_id above.
+    exit 1
   fi
 }
 
