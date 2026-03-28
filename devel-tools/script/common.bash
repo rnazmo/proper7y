@@ -31,7 +31,7 @@ set -eu
 # shellcheck disable=SC2034
 readonly PROPER7Y_VERSION="v0.9.1"
 readonly SHELLCHECK_CURRENT_VERSION="v0.11.0"
-readonly SHFMT_CURRENT_VERSION="v3.8.0"
+readonly SHFMT_CURRENT_VERSION="v3.13.0"
 SHELLCHECK_BINARY_VERSION="This_value_should_be_overridden"
 SHFMT_BINARY_VERSION="This_value_should_be_overridden"
 PROJECT_ROOT="This_value_should_be_overridden"
