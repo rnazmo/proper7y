@@ -5,6 +5,7 @@ set -eu
 #   - Install and run stable 'proper7y'.
 
 source "$(dirname "$0")/common.bash"
+initialize_global_variables
 
 readonly URL="https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash"
 

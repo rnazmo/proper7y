@@ -6,6 +6,7 @@ set -eu
 #
 
 source "$(dirname "$0")/common.bash"
+initialize_global_variables
 
 readonly TARGETS=(
   "${PROJECT_ROOT}/proper7y"

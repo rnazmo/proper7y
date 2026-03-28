@@ -9,6 +9,7 @@ set -eu
 #   - This script OVERWRITE the target files. Recommend you to save it before running.
 
 source "$(dirname "$0")/common.bash"
+initialize_global_variables
 
 # Targets of runnning format.
 TARGETS=(

@@ -28,23 +28,51 @@ set -eu
 #     except the _set_global_variables function.
 
 # Global Variables
+
 # shellcheck disable=SC2034
+
+# ============================================================
+# Group 1: True constants (never change)
+# ============================================================
 readonly PROPER7Y_VERSION="v0.9.2"
-SHELLCHECK_CURRENT_VERSION="v0.11.0"
-SHFMT_CURRENT_VERSION="v3.13.0"
-SHELLCHECK_BINARY_VERSION="This_value_should_be_overridden"
-SHFMT_BINARY_VERSION="This_value_should_be_overridden"
-PROJECT_ROOT="This_value_should_be_overridden"
-DEVEL_TOOLS_DIR="This_value_should_be_overridden"
-DEVEL_TOOLS_BIN_DIR="This_value_should_be_overridden"
-COMMON_SH_PATH="This_value_should_be_overridden"
-SHELLCHECK_CMD_PATH="This_value_should_be_overridden"
-SHFMT_CMD_PATH="This_value_should_be_overridden"
 readonly SHELLCHECK_TOOL_NAME="shellcheck"
 readonly SHFMT_TOOL_NAME="shfmt"
 
-_main() {
+# ============================================================
+# Group 2: Path variables (set once by initialize_global_variables, then immutable)
+# ============================================================
+# NOTE: Do not use these before calling initialize_global_variables().
+PROJECT_ROOT=""
+DEVEL_TOOLS_DIR=""
+DEVEL_TOOLS_BIN_DIR=""
+COMMON_SH_PATH=""
+SHELLCHECK_CMD_PATH=""
+SHFMT_CMD_PATH=""
+# ============================================================
+# Group 3: Mutable variables (may change during execution)
+# ============================================================
+# NOTE: Do not use these before calling initialize_global_variables().
+# NOTE: After modifying SHELLCHECK_CURRENT_VERSION or SHFMT_CURRENT_VERSION,
+#       always call reinitialize_version_dependent_vars().
+SHELLCHECK_CURRENT_VERSION="v0.11.0"
+SHFMT_CURRENT_VERSION="v3.13.0"
+SHELLCHECK_BINARY_VERSION=""
+SHFMT_BINARY_VERSION=""
+
+# Initialize all global variables.
+# NOTE: **Must be called explicitly by each script that sources this file.**
+initialize_global_variables() {
+  log_info "Initializing global variables..."
   _set_global_variables
+  log_info "Initialized."
+}
+
+# Re-initialize variables that depend on SHELLCHECK_CURRENT_VERSION
+# or SHFMT_CURRENT_VERSION.
+# NOTE: Call this after modifying either of them.
+reinitialize_version_dependent_vars() {
+  _compose_shellcheck_binary_version
+  _compose_shfmt_binary_version
 }
 
 _set_global_variables() {
@@ -471,5 +499,3 @@ log_err() {
   local -r PREFIX="ERROR:"
   echo "$PREFIX $1" >&2
 }
-
-_main

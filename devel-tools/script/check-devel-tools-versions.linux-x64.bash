@@ -8,6 +8,7 @@ set -eu
 #     'Latest version' : The latest version shown by the GitHub latest release page URL
 
 source "$(dirname "$0")/common.bash"
+initialize_global_variables
 
 main() {
   log_info "Start checking..."

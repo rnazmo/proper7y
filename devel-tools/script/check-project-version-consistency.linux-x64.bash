@@ -6,6 +6,7 @@ set -eu
 #   all files that define it: proper7y, install.bash, and common.bash.
 
 source "$(dirname "$0")/common.bash"
+initialize_global_variables
 
 main() {
   log_info "Start checking project version consistency..."

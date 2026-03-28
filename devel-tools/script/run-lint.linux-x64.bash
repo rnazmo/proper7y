@@ -7,6 +7,7 @@ set -eu
 #   (See below the variable 'TARGETS' to know what files are included in it.)
 
 source "$(dirname "$0")/common.bash"
+initialize_global_variables
 
 # Targets of runnning lint.
 readonly TARGETS=(
