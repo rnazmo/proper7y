@@ -42,8 +42,6 @@ SHELLCHECK_CMD_PATH="This_value_should_be_overridden"
 SHFMT_CMD_PATH="This_value_should_be_overridden"
 readonly SHELLCHECK_TOOL_NAME="shellcheck"
 readonly SHFMT_TOOL_NAME="shfmt"
-readonly SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
-readonly SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
 
 _main() {
   _set_global_variables
@@ -225,6 +223,8 @@ check_if_devel_tools_bin_dir_exists() {
 # Install shellcheck via the GitHub Releases Page as the file 'SHELLCHECK_CMD_PATH'.
 # Ref: https://github.com/koalaman/shellcheck#installing
 install_shellcheck() {
+  local -r SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
+
   local -r TEMP_DIR="$(mktemp -d)"
   log_info "TEMP_DIR: $TEMP_DIR"
 
@@ -249,6 +249,8 @@ install_shellcheck() {
 #   https://github.com/mvdan/sh#shfmt
 #   https://github.com/mvdan/sh/releases
 install_shfmt() {
+  local -r SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
+
   cd "$DEVEL_TOOLS_BIN_DIR"
   curl -L "$SHFMT_URL" -o shfmt
   chmod +x ./shfmt

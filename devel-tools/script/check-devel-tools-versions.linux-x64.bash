@@ -98,9 +98,9 @@ bump_shellcheck_version() {
   # Overwrite devel-tools versions
   local -r TARGET_FILE="${COMMON_SH_PATH}"
   overwrite_version_number_variable "$TARGET_FILE" "SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_LATEST_VERSION"
-  # Reload common.bash to support for above change.
-  # Note especially SHELLCHECK_CURRENT_VERSION and its effect on SHELLCHECK_URL.
-  source "$(dirname "$0")/common.bash"
+
+  # TODO: Update global variables in common.bash to support for above change ?
+  # (Note especially SHELLCHECK_CURRENT_VERSION and its effect on SHELLCHECK_URL.)
 
   reinstall_shellcheck
 }
@@ -108,9 +108,9 @@ bump_shfmt_version() {
   # Overwrite devel-tools versions
   local -r TARGET_FILE="${COMMON_SH_PATH}"
   overwrite_version_number_variable "$TARGET_FILE" "SHFMT_CURRENT_VERSION" "$SHFMT_CURRENT_VERSION" "$SHFMT_LATEST_VERSION"
-  # Reload common.bash to support for above change.
-  # Note especially SHFMT_CURRENT_VERSION and its effect on SHFMT_URL.
-  source "$(dirname "$0")/common.bash"
+
+  # TODO: Update global variables in common.bash to support for above change ?
+  # (Note especially SHFMT_CURRENT_VERSION and its effect on SHFMT_URL.)
 
   reinstall_shfmt
 }
