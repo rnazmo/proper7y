@@ -311,8 +311,8 @@ compare_binary_ver_with_current_ver_of_the_devel_tool() {
   log_info "Checking that the version of installed $TOOL_NAME is the one expected."
   if [[ "$BINARY_VERSION" != "$CURRENT_VERSION" ]]; then
     log_err "The versions of $TOOL_NAME does not correspond."
-    log_err "  Current version: $BINARY_VERSION"
-    log_err "  Binary version : $CURRENT_VERSION"
+    log_err "  Binary version : $BINARY_VERSION"
+    log_err "  Current version: $CURRENT_VERSION"
     return 1
   fi
   log_info "  => Checked that the version of $TOOL_NAME is correct."
