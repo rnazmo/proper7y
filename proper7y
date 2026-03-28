@@ -203,7 +203,7 @@ identify_os_id() {
   'arch-based')
     if [[ -f /etc/manjaro-release ]]; then
       OS_ID="manjaro"
-    elif [[ -f /etc/endeavouros-release ]]; then
+    elif [[ -f /etc/os-release ]] && grep -qE '^ID=("endeavouros"|endeavouros)$' /etc/os-release; then
       OS_ID="endeavouros"
     elif [[ -f /etc/arch-release ]]; then
       OS_ID="archlinux"
