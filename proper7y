@@ -170,9 +170,10 @@ identify_os_family_id() {
     if [[ -f /etc/arch-release ]]; then
       OS_FAMILY_ID="arch-based"
     elif [[ -f /etc/debian_version ]]; then
+      # /etc/debian_version exists on both Debian and Ubuntu.
+      # Ubuntu-specific identification is handled later in identify_os_id()
+      # by checking /etc/lsb-release.
       OS_FAMILY_ID="debian-based"
-    elif [[ -f /etc/ubuntu_version ]]; then
-      OS_FAMILY_ID="debian-based" # NOTE: Not "ubuntu-based" but "debian-based".
     else
       # OS_FAMILY_ID="linux-based"
       OS_FAMILY_ID="Unknown"
