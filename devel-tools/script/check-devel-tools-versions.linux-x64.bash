@@ -30,69 +30,19 @@ main() {
   compare_binary_ver_with_current_ver_of_the_devel_tool "$SHELLCHECK_TOOL_NAME" "$SHELLCHECK_BINARY_VERSION" "$SHELLCHECK_CURRENT_VERSION"
   compare_binary_ver_with_current_ver_of_the_devel_tool "$SHFMT_TOOL_NAME" "$SHFMT_BINARY_VERSION" "$SHFMT_CURRENT_VERSION"
 
-  # Check: Compare the 'Current Version' with the 'Latest Version'
-  log_info "Checking that the version of installed $SHELLCHECK_TOOL_NAME is latest."
-  if [[ "$SHELLCHECK_CURRENT_VERSION" != "$SHELLCHECK_LATEST_VERSION" ]]; then
-    log_info "  => Latest version found."
+  upgrade_devel_tool_if_needed \
+    "$SHELLCHECK_TOOL_NAME" \
+    "$SHELLCHECK_CURRENT_VERSION" \
+    "$SHELLCHECK_LATEST_VERSION" \
+    "bump_shellcheck_version" \
+    "$SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP"
 
-    # Confirmation ("Upgrade or not") (Using `confirm_continue()` in `common.bash`)
-    log_warn "Will you upgrade $SHELLCHECK_TOOL_NAME from $SHELLCHECK_CURRENT_VERSION to $SHELLCHECK_LATEST_VERSION ?"
-    confirm_continue
-
-    # Check: You must commit all changes before bump devel-tool version. (Or, you can do it manually).
-    if ! git diff --quiet; then
-      # Check that tracked && (unstaged/staged) file changes not exist.
-      log_err "Commit all changes before running this script."
-      log_err "(Or, you can bump the devel-tool version without this script (manually).)"
-      exit 1
-    fi
-
-    # Update shecllcheck version to latest
-    bump_shellcheck_version
-
-    # Print the versions again to check if the upgrade succeeded.
-    # TODO: Or, just compare the 'Current Version' with the 'Latest Version'?
-    print_versions "$SHELLCHECK_TOOL_NAME" "$SHELLCHECK_CURRENT_VERSION" "$SHELLCHECK_BINARY_VERSION" "$SHELLCHECK_LATEST_VERSION"
-
-    # Create git commit
-    log_info "Here is the git diff:"
-    git diff
-    confirm_continue
-    git commit -a -m "Bump devel-tool version ($SHELLCHECK_TOOL_NAME): $SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP -> $SHELLCHECK_CURRENT_VERSION"
-    log_info "Here is the git log:"
-    git log -n 3
-    confirm_continue
-  fi
-  log_info "  => The version is latest."
-
-  # Do the same for sfmt as for sheckcheck above.
-  # TODO: Refactor (DRY)
-  log_info "Checking that the version of installed $SHFMT_TOOL_NAME is latest."
-  if [[ "$SHFMT_CURRENT_VERSION" != "$SHFMT_LATEST_VERSION" ]]; then
-    log_info "  => Latest version found."
-
-    log_warn "Will you upgrade $SHFMT_TOOL_NAME from $SHFMT_CURRENT_VERSION to $SHFMT_LATEST_VERSION ?"
-    confirm_continue
-
-    if ! git diff --quiet; then
-      log_err "Commit all changes before running this script."
-      log_err "(Or, you can bump the devel-tool version without this script (manually).)"
-      exit 1
-    fi
-
-    bump_shfmt_version
-
-    print_versions "$SHFMT_TOOL_NAME" "$SHFMT_CURRENT_VERSION" "$SHFMT_BINARY_VERSION" "$SHFMT_LATEST_VERSION"
-
-    log_info "Here is the git diff:"
-    git diff
-    confirm_continue
-    git commit -a -m "Bump devel-tool version ($SHFMT_TOOL_NAME): $SHFMT_CURRENT_VERSION_BEFORE_BUMP -> $SHFMT_CURRENT_VERSION"
-    log_info "Here is the git log:"
-    git log -n 3
-    confirm_continue
-  fi
-  log_info "  => The version is latest."
+  upgrade_devel_tool_if_needed \
+    "$SHFMT_TOOL_NAME" \
+    "$SHFMT_CURRENT_VERSION" \
+    "$SHFMT_LATEST_VERSION" \
+    "bump_shfmt_version" \
+    "$SHFMT_CURRENT_VERSION_BEFORE_BUMP"
 
   log_info "Checked all devel-tools!"
 }
@@ -163,6 +113,61 @@ bump_shfmt_version() {
   source "$(dirname "$0")/common.bash"
 
   reinstall_shfmt
+}
+
+# Upgrade a devel-tool if a newer version is available.
+#
+# Usage:
+#   upgrade_devel_tool_if_needed <tool_name> <current_ver> <latest_ver> <bump_func> <before_bump_ver>
+#
+# Example:
+#   upgrade_devel_tool_if_needed \
+#     "$SHELLCHECK_TOOL_NAME" \
+#     "$SHELLCHECK_CURRENT_VERSION" \
+#     "$SHELLCHECK_LATEST_VERSION" \
+#     "bump_shellcheck_version" \
+#     "$SHELLCHECK_CURRENT_VERSION_BEFORE_BUMP"
+upgrade_devel_tool_if_needed() {
+  local -r TOOL_NAME="$1"
+  local -r CURRENT_VERSION="$2"
+  local -r LATEST_VERSION="$3"
+  local -r BUMP_FUNC="$4"
+  local -r VERSION_BEFORE_BUMP="$5"
+
+  log_info "Checking that the version of installed $TOOL_NAME is latest."
+  if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
+    log_info "  => The version is latest."
+    return 0
+  fi
+
+  # Confirmation ("Upgrade or not") (Using `confirm_continue()` in `common.bash`)
+  log_info "  => Latest version found."
+  log_warn "Will you upgrade $TOOL_NAME from $CURRENT_VERSION to $LATEST_VERSION ?"
+  confirm_continue
+
+  # Check: You must commit all changes before bump devel-tool version. (Or, you can do it manually).
+  if ! git diff --quiet; then
+    # Check that tracked && (unstaged/staged) file changes not exist.
+    log_err "Commit all changes before running this script."
+    log_err "(Or, you can bump the devel-tool version without this script (manually).)"
+    exit 1
+  fi
+
+  # Update the tool (shecllcheck/shfmt) version to latest
+  "$BUMP_FUNC"
+
+  # Print the versions again to check if the upgrade succeeded.
+  # TODO: Or, just compare the 'Current Version' with the 'Latest Version'?
+  print_versions "$TOOL_NAME" "$CURRENT_VERSION" "$LATEST_VERSION"
+
+  log_info "Here is the git diff:"
+  git diff
+  confirm_continue
+
+  # Create git commit
+  git commit -a -m "Bump devel-tool version ($TOOL_NAME): $VERSION_BEFORE_BUMP -> $LATEST_VERSION"
+  log_info "Here is the git log:"
+  git log -n 3
 }
 
 main
