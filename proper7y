@@ -44,7 +44,7 @@ declare -al SUPPORTED_OS_FAMILY_IDS=( # Allowed OS_FAMILY_ID values
 )
 declare -al SUPPORTED_OS_IDS=( # Allowed OS_ID values
   "archlinux"
-  "endevouros"
+  "endeavouros"
   "manjaro"
   "debian"
   "kali"
@@ -69,7 +69,7 @@ declare -al SUPPORTED_SHELL_IDS=( # Allowed SHELL_ID values
 
 declare -A OS_NAMES=( # The key is OS_ID
   ["archlinux"]="Arch Linux"
-  ["endevouros"]="EndeavourOS"
+  ["endeavouros"]="EndeavourOS"
   ["manjaro"]="Manjaro"
   ["debian"]="Debian"
   ["kali"]="Kali Linux"
@@ -203,8 +203,8 @@ identify_os_id() {
   'arch-based')
     if [[ -f /etc/manjaro-release ]]; then
       OS_ID="manjaro"
-    elif [[ -f /etc/endevouros-release ]]; then
-      OS_ID="endevouros"
+    elif [[ -f /etc/endeavouros-release ]]; then
+      OS_ID="endeavouros"
     elif [[ -f /etc/arch-release ]]; then
       OS_ID="archlinux"
     fi
