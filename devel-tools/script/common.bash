@@ -263,16 +263,15 @@ install_shellcheck() {
   local -r SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
 
   local -r TEMP_DIR="$(mktemp -d)"
-  log_info "TEMP_DIR: $TEMP_DIR"
-
+  trap 'rm -rf "${TEMP_DIR}"' EXIT # cleanup
   cd "$TEMP_DIR"
+  log_info "TEMP_DIR: $TEMP_DIR"
   log_info "PWD: $(pwd)"
 
   curl -OL "$SHELLCHECK_URL"
   tar -xf "./shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
   mv -f "./shellcheck-${SHELLCHECK_CURRENT_VERSION}/shellcheck" "$SHELLCHECK_CMD_PATH"
 
-  rm -rf "$TEMP_DIR" # cleanup
   cd "$PROJECT_ROOT"
 
   _recompose_shellcheck_binary_version

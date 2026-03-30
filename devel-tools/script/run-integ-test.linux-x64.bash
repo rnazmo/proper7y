@@ -13,7 +13,10 @@ main() {
   log_info "Start running integ-test (Install and run stable 'proper7y')"
 
   log_info "Cd to temp directory"
-  cd "$(mktemp -d)"
+  local -r TEMP_DIR="$(mktemp -d)"
+  trap 'rm -rf "${TEMP_DIR}"' EXIT # cleanup
+  cd "$TEMP_DIR"
+  log_info "TEMP_DIR: $TEMP_DIR"
   log_info "pwd: $(pwd)"
 
   log_info "Get the 'install.bash'"

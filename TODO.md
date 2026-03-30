@@ -8,9 +8,10 @@
 
 ### コード・機能
 
-- [ ] `install_shellcheck()` で `trap` を使ってtempディレクトリのクリーンアップを保証する
+- [x] `install_shellcheck()` および `run-integ-test.linux-x64.bash` で `trap` を使ってtempディレクトリのクリーンアップを保証する
   - 現状は `curl` や `tar` が失敗したとき、`rm -rf "$TEMP_DIR"` が実行されずにゴミが残る
   - `trap "rm -rf '$TEMP_DIR'" EXIT` を使うことで、成功・失敗問わず必ずクリーンアップされる
+  - `run-integ-test.linux-x64.bash` は `mktemp -d` の結果を変数に受けていなかったため、変数への代入も同時に修正した
 - [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加する
   - 対象: `install_shellcheck()` および `run-integ-test.linux-x64.bash`
   - ShellCheckのGitHubリリースには `.sha256` ファイルが提供されているので、`sha256sum -c` で検証する
