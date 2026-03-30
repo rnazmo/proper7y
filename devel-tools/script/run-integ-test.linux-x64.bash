@@ -14,7 +14,7 @@ main() {
 
   log_info "Cd to temp directory"
   local -r TEMP_DIR="$(mktemp -d)"
-  trap 'rm -rf "${TEMP_DIR}"' EXIT # cleanup
+  trap 'rm -rf "${TEMP_DIR:-}"' EXIT # cleanup
   cd "$TEMP_DIR"
   log_info "TEMP_DIR: $TEMP_DIR"
   log_info "pwd: $(pwd)"
