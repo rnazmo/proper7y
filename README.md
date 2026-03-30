@@ -294,6 +294,22 @@ MEMO: The script do following:
 - **決定:**
   - バージョン番号の散在を受け入れた上で、`bump-project.linux-x64.bash` に事後検証関数 `verify_version_consistency()` を追加し、バージョン書き換え後・コミット前に3ファイルの整合性を自動チェックする。
 
+#### ADR-002: ドキュメントの分割管理方針
+
+- **日付:** 2026-03-30
+- **状況:**
+  - README.md への編集が TODO の更新に集中しており、README.md のコミット履歴を分かりづらくしていた。
+  - TODO が README.md 内の他のセクションに埋もれており、参照・更新しづらい状態になっていた。
+  - TODO をマイルストーン単位で構造的に管理したいという要求が生じたが、そのような構造を README.md に持ち込むと煩雑になりすぎる。
+  - ADR はこれから増えていく見込みであり、これを README.md 内の 1 セクションとして扱うのは適切でないと判断した。
+  - Issue などの外部ツールは使わず、Markdown ファイルでシンプルに管理するという方針は維持したい。
+- **決定:**
+  - `TODO.md` と `ADR.md` を新規作成し、README.md から切り出す。
+  - README.md の "Simple documentation" ポリシーを改定し、「重要な情報は `README.md` (とソースコード中のコメント) に集約する。」から「重要なドキュメントは `README.md`、`TODO.md`、`ADR.md`、およびソースコード中のコメントに集約する。」に変更する。
+- **影響:**
+  - README.md の `### TODO` セクションは `TODO.md` に移動する。
+  - README.md の `### ADR` セクションは `ADR.md` に移動する。
+
 ### TODO
 
 #### Priority: ☆☆☆
