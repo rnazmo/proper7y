@@ -9,7 +9,7 @@
   - 対象: `install_shellcheck()` および `run-integ-test.linux-x64.bash`
   - ShellCheckのGitHubリリースには `.sha256` ファイルが提供されているので、`sha256sum -c` で検証する
 - [ ] `verify_version_consistency()` の `grep` パターンを堅牢にする
-  - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする
+  - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする可能性がある
   - 修正案: `^PROPER7Y_VERSION=` のように行頭アンカーを付ける
 - [ ] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
   - `lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
@@ -21,6 +21,31 @@
   - **この検討は ADR で行うべき**
 - [ ] `integ-tests` Makeターゲットの実行順序の意図をコメントに明記する
   - `run-integ-test-to-head` → `run-integ-test-to-latest` の順に実行されているが、その意図と副作用の有無が不明
+- [ ] CIでバージョン整合性チェックを自動化する
+  - 信頼性を高めるためには、CIでも自動で確認すべき
+  - 現状の `verify_version_consistency()` はローカルの `bump-project` 実行時にしか走らない
+  - `static-test.yml` に「3ファイルの `PROPER7Y_VERSION` が一致するかチェックする処理」を追加する
+  - 上記の処理は既に `make validate`（`check-project-version-consistency.linux-x64.bash`）にて実装済み。それを流用できそう。
+  - いっそ、静的テストの CI を丸ごと `make static-tests` で行うのではダメなのか？
+- [ ] integ-testに出力内容のアサーションを追加する
+  - 現状は「スクリプトがエラーなく完走するか」しか確認していない
+  - 出力が空でも、デタラメな内容でも通過してしまう。
+  - 最低限、バージョンヘッダ行・区切り線・OS NAME行などの存在を `grep` でチェックする
+- [ ] `run-integ-test.linux-x64.bash` が `main` ブランチから `install.bash` を取得している意図を明記する
+  - 「stable版のテスト」のはずなのに、インストーラー自体は `main` (開発版) から取得している
+  - 意図的であればコメントで明記し、意図的でなければ修正する
+  - 各テストにおいて、「stable版（リモート）」「`main` (開発版)（リモート）」「`main` (開発版)（ローカル）」の、どのテストなのかを明確にする
+- [ ] `SUPPORTED_OS_IDS` 等の配列チェックを完全一致に変更する
+  - 現状: `[[ "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]` は部分一致のため、例えば `OS_ID="arch"` が `"archlinux"` にマッチしてしまう
+  - ループによる完全一致チェック関数 `is_supported()` を実装して置き換える
+- [ ] `install.bash` の `log_warn` が未使用である
+  - 定義されているが一度も呼ばれていない
+  - 削除するか、適切な箇所で使用する
+- [ ] `print_cpu_arch()` の冗長な初期化を整理する
+  - `local CPU_ARCH="Unknown"` の直後に必ず上書きされるため、`local -r CPU_ARCH="$UNAME_CACHE_MACHINE"` で十分
+- [ ] `run-format.linux-x64.bash` の `confirm_continue` がCI環境で使えない問題を解消する
+  - 対話的な確認を求めるため、CI環境でハングする可能性がある
+  - `-y` フラグや `FORCE=true` 環境変数でスキップできるようにすることを検討する
 
 ## Milestone: v0.11.0 - TBD
 
@@ -30,7 +55,9 @@
 
 ### セキュリティ・バグ修正
 
-*(無し)*
+- [ ] macOSのinteg-testで使用されるBashのバージョンを明示的に指定する
+  - `brew install bash` した後も `./proper7y` のshebang `#!/usr/bin/env bash` はPATHの先頭のbashを使うため、インストールしたbashが必ず使われるとは限らない
+  - `/opt/homebrew/bin/bash ./proper7y` のように明示するか、PATHを先頭に追加する
 
 ### コード・機能
 
@@ -47,6 +74,15 @@
   - 現状は `ps` で親プロセスを辿る実装で、macOSとLinuxで挙動が異なり壊れやすい
   - `$SHELL` 環境変数を使う方法を検討する（ただし「デフォルトシェル」と「実行中のシェル」が異なる場合があるため、そのトレードオフをコメントかADRに明記する）
   - **この検討は ADR で行うべき**
+- [ ] グローバル変数への依存を減らす
+  - `common.bash` の関数群がグローバル変数に強く依存しており、依存関係の理解・関数単体でのテストが困難
+  - 関数が必要な値を引数で受け取る形にすることで、再利用性とテスト可能性が上がる
+  - 大規模リファクタリングになるため、長期的な改善として扱う
+  - ユニットテストを行うかどうかはまた別の検討事項だが、ユニットテストの有無に関わらずコードの可読性・安全性を高めるために、グローバル変数への依存を減らすべき
+- [ ] ファイル名のプラットフォーム縛り（`.linux-x64.bash`）と実態の不一致を解消する
+  - `run-lint.linux-x64.bash` 等をLinux/x64専用と命名しているのに、CIのmatrixでmacOSからも呼ばれている
+  - 命名を変えるか、macOS非対応であることをドキュメントに明記するか、方針を決める
+  - この問題は、このプロジェクト自体の対応 OS の検討（macOS に対応するかどうか）と関連する
 
 ### テスト・CI
 
@@ -70,6 +106,11 @@
   - README.md に `dependencies latest` のようなバッジを追加することを検討
   - これ、セキュリティ管理・関連コードのメンテナンスコストが見合わなくない？現状の依存ツール（devel-tools）である 2 つの CLI、shellcheck と shfmt は、バージョン更新が頻繁ではない。ならば現状のまま、手動更新でも良いのではないか？現状の手動更新でも、作業はほぼ全部スクリプト化しているので、手間としてはかなり少ない。下手に GitHub Actions を導入することによるセキュリティリスクの管理などの方が、コストとしては重いのではないか。
     - こういうことは、ADR にて行い、ログを残すべき
+- [ ] CIトリガーに `pull_request` と `schedule` を追加することを検討する
+  - 現状は `push` のみ
+  - 将来ブランチ運用を始めた場合に困る
+  - 外部サービス（GitHubのURL、brewパッケージ等）の変化を週次で検知する `schedule` トリガーも有用
+  - **この検討は ADR で行うべき**
 
 ### ドキュメント
 
@@ -88,6 +129,7 @@
       - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
   - 以下のテキストを追加する:
     - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
+  - `make integ-test` という記載が存在するが正しいターゲット名は `integ-tests`（複数形）なので修正する
 - [ ] 対応する環境・対象とするソフトウェアを、README に明確に記述する
 - [ ] コーディング規約を更新する
   - 各ルールが SHALL か SHOULD かを明記する
