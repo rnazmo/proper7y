@@ -1,6 +1,12 @@
 # TODO
 
-## Milestone: v0.10.0 - セキュリティ修正 + 簡単な改善
+## Milestone: v0.10.0 - 簡単にできる様々な改善
+
+### セキュリティ・バグ修正
+
+無し。
+
+### コード・機能
 
 - [ ] `install_shellcheck()` で `trap` を使ってtempディレクトリのクリーンアップを保証する
   - 現状は `curl` や `tar` が失敗したとき、`rm -rf "$TEMP_DIR"` が実行されずにゴミが残る
@@ -14,27 +20,6 @@
 - [ ] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
   - `lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
   - `/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`
-- [ ] GitHub Actions の `actions/checkout` を `v2` から `v4` に更新する
-  - `v2` はNode.js 16ベースでGitHubが非推奨化している
-- [ ] `exit` と `return` の使い分け方針をコメントか ADR に明記する
-  - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
-  - **この検討は ADR で行うべき**
-- [ ] `integ-tests` Makeターゲットの実行順序の意図をコメントに明記する
-  - `run-integ-test-to-head` → `run-integ-test-to-latest` の順に実行されているが、その意図と副作用の有無が不明
-- [ ] CIでバージョン整合性チェックを自動化する
-  - 信頼性を高めるためには、CIでも自動で確認すべき
-  - 現状の `verify_version_consistency()` はローカルの `bump-project` 実行時にしか走らない
-  - `static-test.yml` に「3ファイルの `PROPER7Y_VERSION` が一致するかチェックする処理」を追加する
-  - 上記の処理は既に `make validate`（`check-project-version-consistency.linux-x64.bash`）にて実装済み。それを流用できそう。
-  - いっそ、静的テストの CI を丸ごと `make static-tests` で行うのではダメなのか？
-- [ ] integ-testに出力内容のアサーションを追加する
-  - 現状は「スクリプトがエラーなく完走するか」しか確認していない
-  - 出力が空でも、デタラメな内容でも通過してしまう。
-  - 最低限、バージョンヘッダ行・区切り線・OS NAME行などの存在を `grep` でチェックする
-- [ ] `run-integ-test.linux-x64.bash` が `main` ブランチから `install.bash` を取得している意図を明記する
-  - 「stable版のテスト」のはずなのに、インストーラー自体は `main` (開発版) から取得している
-  - 意図的であればコメントで明記し、意図的でなければ修正する
-  - 各テストにおいて、「stable版（リモート）」「`main` (開発版)（リモート）」「`main` (開発版)（ローカル）」の、どのテストなのかを明確にする
 - [ ] `SUPPORTED_OS_IDS` 等の配列チェックを完全一致に変更する
   - 現状: `[[ "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]` は部分一致のため、例えば `OS_ID="arch"` が `"archlinux"` にマッチしてしまう
   - ループによる完全一致チェック関数 `is_supported()` を実装して置き換える
@@ -43,9 +28,41 @@
   - 削除するか、適切な箇所で使用する
 - [ ] `print_cpu_arch()` の冗長な初期化を整理する
   - `local CPU_ARCH="Unknown"` の直後に必ず上書きされるため、`local -r CPU_ARCH="$UNAME_CACHE_MACHINE"` で十分
+
+### テスト・CI
+
+- [ ] GitHub Actions の `actions/checkout` を `v2` から `v4` に更新する
+  - `v2` はNode.js 16ベースでGitHubが非推奨化している
+- [ ] `integ-tests` Makeターゲットの実行順序の意図をコメントに明記する
+  - `run-integ-test-to-head` → `run-integ-test-to-latest` の順に実行されているが、その意図と副作用の有無が不明
+- [ ] integ-testに出力内容のアサーションを追加する
+  - 現状は「スクリプトがエラーなく完走するか」しか確認していない
+  - 出力が空でも、デタラメな内容でも通過してしまう。
+  - 最低限、バージョンヘッダ行・区切り線・OS NAME行などの存在を `grep` でチェックする
+- [ ] `run-integ-test.linux-x64.bash` が `main` ブランチから `install.bash` を取得している意図を明記する
+  - 「stable版のテスト」のはずなのに、インストーラー自体は `main` (開発版) から取得している
+  - 意図的であればコメントで明記し、意図的でなければ修正する
+  - 各テストにおいて、「stable版（リモート）」「`main` (開発版)（リモート）」「`main` (開発版)（ローカル）」の、どのテストなのかを明確にする
+- [ ] CIでバージョン整合性チェックを自動化する
+  - 信頼性を高めるためには、CIでも自動で確認すべき
+  - 現状の `verify_version_consistency()` はローカルの `bump-project` 実行時にしか走らない
+  - `static-test.yml` に「3ファイルの `PROPER7Y_VERSION` が一致するかチェックする処理」を追加する
+  - 上記の処理は既に `make validate`（`check-project-version-consistency.linux-x64.bash`）にて実装済み。それを流用できそう。
+  - いっそ、静的テストの CI を丸ごと `make static-tests` で行うのではダメなのか？
 - [ ] `run-format.linux-x64.bash` の `confirm_continue` がCI環境で使えない問題を解消する
   - 対話的な確認を求めるため、CI環境でハングする可能性がある
   - `-y` フラグや `FORCE=true` 環境変数でスキップできるようにすることを検討する
+
+### ドキュメント
+
+- [ ] `README.md` に `make integ-test` という記載が存在するが正しいターゲット名は `integ-tests`（複数形）なので修正する
+- [ ] `exit` と `return` の使い分け方針をコメントか ADR に明記する
+  - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
+  - **この検討は ADR で行うべき**
+
+### プロジェクト管理
+
+無し。
 
 ## Milestone: v0.11.0 - TBD
 
@@ -129,7 +146,6 @@
       - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
   - 以下のテキストを追加する:
     - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
-  - `make integ-test` という記載が存在するが正しいターゲット名は `integ-tests`（複数形）なので修正する
 - [ ] 対応する環境・対象とするソフトウェアを、README に明確に記述する
 - [ ] コーディング規約を更新する
   - 各ルールが SHALL か SHOULD かを明記する
