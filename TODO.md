@@ -1,20 +1,36 @@
 # TODO
 
-## Milestone: v0.10.0 - TBD
+## Milestone: v0.10.0 - セキュリティ修正 + 簡単な改善
 
-*タスク未定。後で追記予定。*
+- [ ] `install_shellcheck()` で `trap` を使ってtempディレクトリのクリーンアップを保証する
+  - 現状は `curl` や `tar` が失敗したとき、`rm -rf "$TEMP_DIR"` が実行されずにゴミが残る
+  - `trap "rm -rf '$TEMP_DIR'" EXIT` を使うことで、成功・失敗問わず必ずクリーンアップされる
+- [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加する
+  - 対象: `install_shellcheck()` および `run-integ-test.linux-x64.bash`
+  - ShellCheckのGitHubリリースには `.sha256` ファイルが提供されているので、`sha256sum -c` で検証する
+- [ ] `verify_version_consistency()` の `grep` パターンを堅牢にする
+  - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする
+  - 修正案: `^PROPER7Y_VERSION=` のように行頭アンカーを付ける
+- [ ] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
+  - `lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
+  - `/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`
+- [ ] GitHub Actions の `actions/checkout` を `v2` から `v4` に更新する
+  - `v2` はNode.js 16ベースでGitHubが非推奨化している
+- [ ] `exit` と `return` の使い分け方針をコメントか ADR に明記する
+  - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
+  - **この検討は ADR で行うべき**
+- [ ] `integ-tests` Makeターゲットの実行順序の意図をコメントに明記する
+  - `run-integ-test-to-head` → `run-integ-test-to-latest` の順に実行されているが、その意図と副作用の有無が不明
 
 ## Milestone: v0.11.0 - TBD
 
-*タスク未定。後で追記予定。*
+*タスク未定。*
 
 ## Backlog（いつかやる）
 
-### プロジェクト管理
+### セキュリティ・バグ修正
 
-- [ ] v1.0.0 までに必要なものを考える・整理する
-  - 対応する環境・対象とするソフトウェアをはっきりさせる
-  - README.md を最低限完成させる
+*(無し)*
 
 ### コード・機能
 
@@ -27,6 +43,10 @@
     - 対応 OS・シェルなど
   - ドキュメント化も忘れずに
 - [ ] オプション機能を作るかどうかを決める（→ ADR に検討内容と決定を書くこと）
+- [ ] `identify_current_shell_id()` の実装を見直す
+  - 現状は `ps` で親プロセスを辿る実装で、macOSとLinuxで挙動が異なり壊れやすい
+  - `$SHELL` 環境変数を使う方法を検討する（ただし「デフォルトシェル」と「実行中のシェル」が異なる場合があるため、そのトレードオフをコメントかADRに明記する）
+  - **この検討は ADR で行うべき**
 
 ### テスト・CI
 
@@ -40,7 +60,7 @@
       - ref: [ShellSpec - シェルスクリプト用の BDD テスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
   - スクリプトの特性上、ユニットテストでテストできる範囲は狭い可能性がある
   - このプロジェクトにおいて、ユニットテストを導入するのは果たしてどうなのか。Bash のユニットテストは、手間に対してリターンが見合わない可能性が高そう。それよりも、インテグレーションテストを厚くした方が良いのではないか？
-    - NOTE: この辺の検討は ADR にて行い、ログを残すべき
+  - **この検討は ADR で行うべき**
 - [ ] CI で devel-tools が最新かどうかを定期チェックする（weekly trigger など）
   - `check-devel-tools-versions.bash` を CI で実行することを検討する
   - 自動で Pull Request を作成するかどうかも検討する（dependabot 的な運用）
@@ -81,6 +101,12 @@
     - 変更するなら、README.md の規約の branch セクションも更新を忘れないこと
       - README に明記する新規約の記述案：「**なるべく `main` だけ**の状態を維持することが望ましい。ただし、機能追加などで**一時的な**ブランチを作るのは全く構わない」
 - [ ] ChangeLog を追加することを検討
+
+### プロジェクト管理
+
+- [ ] v1.0.0 までに必要なものを考える・整理する
+  - 対応する環境・対象とするソフトウェアをはっきりさせる
+  - README.md を最低限完成させる
 
 ### 将来検討
 
