@@ -16,12 +16,15 @@ set -eu
 #   Like this:
 #
 #     source "$(dirname "$0")/common.bash"
+#     initialize_global_variables
 #
 #   Prerequiste: Place this file and the file you want to load this file
 #   into the same direcotry.
 #
-#   NOTE: You must add '--exclude SC1091"' option when you run shellcheck
-#   to your bash script to avoid error.
+#   NOTE:
+#     - You must run `initialize_global_variables` whenever you "source" this file.
+#     - You must add '--exclude SC1091"' option when you run shellcheck
+#       to your bash script to avoid error.
 #
 # NOTE:
 #   - You SHOULD NOT CALL any function whose name starts with '_'.
