@@ -13,8 +13,13 @@
   - `trap "rm -rf '{$TEMP_DIR:-}'" EXIT` を使うことで、成功・失敗問わず必ずクリーンアップされる
   - `run-integ-test.linux-x64.bash` は `mktemp -d` の結果を変数に受けていなかったため、変数への代入も同時に修正した
 - [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加する
-  - 対象: `install_shellcheck()` および `run-integ-test.linux-x64.bash`
-  - ShellCheckのGitHubリリースには `.sha256` ファイルが提供されているので、`sha256sum -c` で検証する
+  - 対象: shellcheck および shfmt をダウンロードする際。
+  - `.sha256` ファイルの入手方法は要調査。
+    - [shfmt v3.13.0 のリリースページ](https://github.com/mvdan/sh/releases/tag/v3.13.0)の説明によれば、 `Note that this release no longer includes a sha256sums.txt asset; GitHub now provide digests natively.` らしい。
+    - Ref: [Releases now expose digests for release assets - GitHub Changelog](https://github.blog/changelog/2025-06-03-releases-now-expose-digests-for-release-assets/)
+      - GitHub のリリースにアップロードされるアセットに対して、自動で SHA‑256 ダイジェスト（チェックサム）が付くようになった
+      - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
+      - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
 - [ ] `verify_version_consistency()` の `grep` パターンを堅牢にする
   - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする可能性がある
   - 修正案: `^PROPER7Y_VERSION=` のように行頭アンカーを付ける
