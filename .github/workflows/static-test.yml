@@ -15,3 +15,12 @@ jobs:
         run: make install-devel-tools
       - name: Run lint
         run: make lint
+
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Validate project version consistency
+        run: make validate

@@ -32,6 +32,12 @@
 
 - [x] GitHub Actions の `actions/checkout` を `v2` から `v4` に更新する
   - `v2` はNode.js 16ベースでGitHubが非推奨化している
+- [x] CIでバージョン整合性チェックを自動化する
+  - 信頼性を高めるためには、CIでも自動で確認すべき
+  - 現状：`verify_version_consistency()` はローカルの `bump-project` 実行時にしか走らない
+  - 修正案：`static-test.yml` に「3ファイルの `PROPER7Y_VERSION` が一致するかチェックする処理」を追加する
+    - 上記の処理は既に `make validate`（`check-project-version-consistency.linux-x64.bash`）にて実装済み。それを流用できそう。
+    - いっそ、静的テストの CI を丸ごと `make static-tests` で行うのではダメなのか？
 - [ ] `integ-tests` Makeターゲットの実行順序の意図をコメントに明記する
   - `run-integ-test-to-head` → `run-integ-test-to-latest` の順に実行されているが、その意図と副作用の有無が不明
 - [ ] integ-testに出力内容のアサーションを追加する
@@ -42,15 +48,11 @@
   - 「stable版のテスト」のはずなのに、インストーラー自体は `main` (開発版) から取得している
   - 意図的であればコメントで明記し、意図的でなければ修正する
   - 各テストにおいて、「stable版（リモート）」「`main` (開発版)（リモート）」「`main` (開発版)（ローカル）」の、どのテストなのかを明確にする
-- [ ] CIでバージョン整合性チェックを自動化する
-  - 信頼性を高めるためには、CIでも自動で確認すべき
-  - 現状の `verify_version_consistency()` はローカルの `bump-project` 実行時にしか走らない
-  - `static-test.yml` に「3ファイルの `PROPER7Y_VERSION` が一致するかチェックする処理」を追加する
-  - 上記の処理は既に `make validate`（`check-project-version-consistency.linux-x64.bash`）にて実装済み。それを流用できそう。
-  - いっそ、静的テストの CI を丸ごと `make static-tests` で行うのではダメなのか？
 - [ ] `run-format.linux-x64.bash` の `confirm_continue` がCI環境で使えない問題を解消する
   - 対話的な確認を求めるため、CI環境でハングする可能性がある
   - `-y` フラグや `FORCE=true` 環境変数でスキップできるようにすることを検討する
+  - この問題が解消されたら、CIのstatic-test.ymlを `make lint` + `make validate` の個別呼び出しから `make static-tests` への一本化も検討すること
+    - 現状は `format` の副作用があるため個別呼び出しにしている
 
 ### ドキュメント
 
