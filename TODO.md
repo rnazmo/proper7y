@@ -25,7 +25,7 @@
 - [x] `install.bash` の `log_warn` が未使用である
   - 現状：定義されているが一度も呼ばれていない
   - 修正案：削除するか、適切な箇所で使用する
-- [ ] `print_cpu_arch()` の冗長な初期化を整理する
+- [x] `print_cpu_arch()` の冗長な初期化を整理する
   - 修正案：`local CPU_ARCH="Unknown"` の直後に必ず上書きされるため、`local -r CPU_ARCH="$UNAME_CACHE_MACHINE"` で十分
 
 ### テスト・CI

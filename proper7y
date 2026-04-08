@@ -370,8 +370,11 @@ print_os_version() {
 }
 
 print_cpu_arch() {
-  local CPU_ARCH="Unknown"
-  CPU_ARCH="$UNAME_CACHE_MACHINE"
+  # No fallback value (e.g. "Unknown") is needed here.
+  # UNAME_CACHE_MACHINE is guaranteed to be set by the time this function
+  # is called, because init() always calls cache_uname() first.
+  # If cache_uname() fails, the script exits immediately due to 'set -e'.
+  local -r CPU_ARCH="$UNAME_CACHE_MACHINE"
   print_row "CPU ARCH" "$CPU_ARCH"
 }
 
