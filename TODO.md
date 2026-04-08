@@ -30,7 +30,7 @@
 
 ### テスト・CI
 
-- [ ] GitHub Actions の `actions/checkout` を `v2` から `v4` に更新する
+- [x] GitHub Actions の `actions/checkout` を `v2` から `v4` に更新する
   - `v2` はNode.js 16ベースでGitHubが非推奨化している
 - [ ] `integ-tests` Makeターゲットの実行順序の意図をコメントに明記する
   - `run-integ-test-to-head` → `run-integ-test-to-latest` の順に実行されているが、その意図と副作用の有無が不明
