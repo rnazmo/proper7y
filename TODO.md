@@ -19,7 +19,7 @@
 - [x] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
   - 現状：`lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
   - 修正案：`/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`
-- [ ] `SUPPORTED_OS_IDS` 等の配列チェックを完全一致に変更する
+- [x] `SUPPORTED_OS_IDS` 等の配列チェックを完全一致に変更する
   - 現状：`[[ "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]` は部分一致のため、例えば `OS_ID="arch"` が `"archlinux"` にマッチしてしまう
   - 修正案：ループによる完全一致チェック関数 `is_supported()` を実装して置き換える
 - [ ] `install.bash` の `log_warn` が未使用である
