@@ -56,6 +56,10 @@
 
 ### ドキュメント
 
+- [x] `README.md` に `install.bash` がある理由を書く
+- 「常に同じコマンドで最新版をインストールできる」という利点
+  - 案：これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
+  - ADR-004 を書いたので、これをもって対応済みとする
 - [ ] `README.md` に `make integ-test` という記載が存在するが正しいターゲット名は `integ-tests`（複数形）なので修正する
 - [ ] `exit` と `return` の使い分け方針をコメントか ADR に明記する
   - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
@@ -114,10 +118,14 @@ _タスク未定。_
 
 ### テスト・CI
 
-- [ ] integ-testのアサーションをレベル2・3に強化する
+- [ ] integ-testのアサーションをレベル2・3に強化する (Ref: ADR-005)
   - レベル2: 各フィールドの値が `Unknown` や空でないことを確認する
   - レベル3: より多くのフィールドの値の形式を確認する（現状はCURRENT DATEとBASH VERSIONのみ）
   - CI環境への依存度が高くなるため、環境ごとの期待値の管理方法を先に設計すること
+- [ ] `run-integ-test-to-head` には出力内容のアサーションがない (Ref: ADR-005)
+- [ ] CI の `run-head-proper7y` Job と `run-integ-test-to-head` が重複している問題を解消する (Ref: ADR-005)
+  - 両者はどちらも `./proper7y` を直接実行するだけで、同じことをしている
+  - どちらかを削除するか、役割を明確に分けるかを検討する
 - [ ] Manjaro Linux をサポートする
   - 開発環境として Manjaro Linux を対応させる
   - CI のテスト環境に Manjaro (Arch-based) を追加する
@@ -152,9 +160,6 @@ _タスク未定。_
     - ref: <https://dev.classmethod.jp/articles/intro-asciinema/>
   - 全体的に整理する（内容が重複しているところとかありそう？）
   - 使用例（Examples セクション）を書く
-  - `install.bash` がある理由を書く
-    - 「常に同じコマンドで最新版をインストールできる」という利点
-      - > これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
     - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
     - 書き方の参考:
       - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
