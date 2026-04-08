@@ -20,9 +20,10 @@
       - GitHub のリリースにアップロードされるアセットに対して、自動で SHA‑256 ダイジェスト（チェックサム）が付くようになった
       - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
       - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
-- [ ] `verify_version_consistency()` の `grep` パターンを堅牢にする
+- [x] `verify_version_consistency()` の `grep` パターンを堅牢にする
   - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする可能性がある
-  - 修正案: `^PROPER7Y_VERSION=` のように行頭アンカーを付ける
+    - 例：`# OLD: PROPER7Y_VERSION="v0.8.0"` のようなコメント行もマッチしてしまう。それは望ましくない
+  - 修正案: `^PROPER7Y_VERSION=` のように行頭アンカーを付ける。正確には `^readonly PROPER7Y_VERSION=` にする
 - [ ] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
   - `lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
   - `/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`

@@ -406,8 +406,8 @@ overwrite_version_number_variable() {
 verify_version_consistency() {
   local -r EXPECTED="$1"
 
-  local -r VERSION_IN_PROPER7Y="$(grep 'PROPER7Y_VERSION=' "${PROJECT_ROOT}/proper7y" |
-    grep -v '^#' | head -1 | sed 's/.*="\(.*\)"/\1/')"
+  local -r VERSION_IN_PROPER7Y="$(grep '^readonly PROPER7Y_VERSION=' "${PROJECT_ROOT}/proper7y" |
+    head -1 | sed 's/.*="\(.*\)"/\1/')"
   local -r VERSION_IN_INSTALL="$(grep 'PROPER7Y_VERSION=' "${PROJECT_ROOT}/install.bash" |
     grep -v '^#' | head -1 | sed 's/.*="\(.*\)"/\1/')"
   local -r VERSION_IN_COMMON="$(grep 'PROPER7Y_VERSION=' "${COMMON_SH_PATH}" |
