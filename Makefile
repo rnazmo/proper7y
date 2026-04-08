@@ -34,6 +34,8 @@ run-integ-test-to-latest:
 static-tests: lint format validate
 
 .PHONY: integ-tests
+# Run head first (fast, local), then latest (slow, network).
+# No strict dependency between the two; this order is just a convention.
 integ-tests: run-integ-test-to-head run-integ-test-to-latest
 
 .PHONY: pre-commit

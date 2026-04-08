@@ -7,6 +7,10 @@ set -eu
 source "$(dirname "$0")/common.bash"
 initialize_global_variables
 
+# Why we use the main branch URL (not a tagged version):
+#   install.bash itself contains PROPER7Y_VERSION internally.
+#   So running install.bash from main always installs the latest stable proper7y.
+#   This means the entry point URL can stay fixed forever, regardless of version bumps.
 readonly URL="https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash"
 
 main() {

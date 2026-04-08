@@ -38,7 +38,7 @@
   - 修正案：`static-test.yml` に「3ファイルの `PROPER7Y_VERSION` が一致するかチェックする処理」を追加する
     - 上記の処理は既に `make validate`（`check-project-version-consistency.linux-x64.bash`）にて実装済み。それを流用できそう。
     - いっそ、静的テストの CI を丸ごと `make static-tests` で行うのではダメなのか？
-- [ ] `integ-tests` Makeターゲットの実行順序の意図をコメントに明記する
+- [x] `integ-tests` Makeターゲットの実行順序の意図をコメントに明記する
   - `run-integ-test-to-head` → `run-integ-test-to-latest` の順に実行されているが、その意図と副作用の有無が不明
 - [ ] integ-testに出力内容のアサーションを追加する
   - 現状は「スクリプトがエラーなく完走するか」しか確認していない
