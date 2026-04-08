@@ -9,32 +9,24 @@
 ### コード・機能
 
 - [x] `install_shellcheck()` および `run-integ-test.linux-x64.bash` で `trap` を使ってtempディレクトリのクリーンアップを保証する
-  - 現状は `curl` や `tar` が失敗したとき、`rm -rf "$TEMP_DIR"` が実行されずにゴミが残る
-  - `trap "rm -rf '{$TEMP_DIR:-}'" EXIT` を使うことで、成功・失敗問わず必ずクリーンアップされる
-  - `run-integ-test.linux-x64.bash` は `mktemp -d` の結果を変数に受けていなかったため、変数への代入も同時に修正した
-- [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加する
-  - 対象: shellcheck および shfmt をダウンロードする際。
-  - `.sha256` ファイルの入手方法は要調査。
-    - [shfmt v3.13.0 のリリースページ](https://github.com/mvdan/sh/releases/tag/v3.13.0)の説明によれば、 `Note that this release no longer includes a sha256sums.txt asset; GitHub now provide digests natively.` らしい。
-    - Ref: [Releases now expose digests for release assets - GitHub Changelog](https://github.blog/changelog/2025-06-03-releases-now-expose-digests-for-release-assets/)
-      - GitHub のリリースにアップロードされるアセットに対して、自動で SHA‑256 ダイジェスト（チェックサム）が付くようになった
-      - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
-      - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
+  - 現状：`curl` や `tar` が失敗したとき、`rm -rf "$TEMP_DIR"` が実行されずにゴミが残る
+  - 修正案：`trap "rm -rf '{$TEMP_DIR:-}'" EXIT` を使うことで、成功・失敗問わず必ずクリーンアップされる
+  - 備考：`run-integ-test.linux-x64.bash` は `mktemp -d` の結果を変数に受けていなかったため、変数への代入も同時に修正した
 - [x] `verify_version_consistency()` の `grep` パターンを堅牢にする
   - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする可能性がある
     - 例：`# OLD: PROPER7Y_VERSION="v0.8.0"` のようなコメント行もマッチしてしまう。それは望ましくない
-  - 修正案: `^PROPER7Y_VERSION=` のように行頭アンカーを付ける。正確には `^readonly PROPER7Y_VERSION=` にする
+  - 修正案：`^PROPER7Y_VERSION=` のように行頭アンカーを付ける。正確には `^readonly PROPER7Y_VERSION=` にする
 - [ ] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
-  - `lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
-  - `/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`
+  - 現状：`lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
+  - 修正案：`/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`
 - [ ] `SUPPORTED_OS_IDS` 等の配列チェックを完全一致に変更する
-  - 現状: `[[ "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]` は部分一致のため、例えば `OS_ID="arch"` が `"archlinux"` にマッチしてしまう
-  - ループによる完全一致チェック関数 `is_supported()` を実装して置き換える
+  - 現状：`[[ "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]` は部分一致のため、例えば `OS_ID="arch"` が `"archlinux"` にマッチしてしまう
+  - 修正案：ループによる完全一致チェック関数 `is_supported()` を実装して置き換える
 - [ ] `install.bash` の `log_warn` が未使用である
-  - 定義されているが一度も呼ばれていない
-  - 削除するか、適切な箇所で使用する
+  - 現状：定義されているが一度も呼ばれていない
+  - 修正案：削除するか、適切な箇所で使用する
 - [ ] `print_cpu_arch()` の冗長な初期化を整理する
-  - `local CPU_ARCH="Unknown"` の直後に必ず上書きされるため、`local -r CPU_ARCH="$UNAME_CACHE_MACHINE"` で十分
+  - 修正案：`local CPU_ARCH="Unknown"` の直後に必ず上書きされるため、`local -r CPU_ARCH="$UNAME_CACHE_MACHINE"` で十分
 
 ### テスト・CI
 
@@ -85,6 +77,14 @@
 
 ### コード・機能
 
+- [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加する
+  - 対象: shellcheck および shfmt をダウンロードする際。
+  - `.sha256` ファイルの入手方法は要調査。
+    - [shfmt v3.13.0 のリリースページ](https://github.com/mvdan/sh/releases/tag/v3.13.0)の説明によれば、 `Note that this release no longer includes a sha256sums.txt asset; GitHub now provide digests natively.` らしい。
+    - Ref: [Releases now expose digests for release assets - GitHub Changelog](https://github.blog/changelog/2025-06-03-releases-now-expose-digests-for-release-assets/)
+      - GitHub のリリースにアップロードされるアセットに対して、自動で SHA‑256 ダイジェスト（チェックサム）が付くようになった
+      - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
+      - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
 - [ ] コマンドの exit status を整える（正常終了で 0 を返す、など）
 - [ ] 最初に OS を特定し、未対応 OS の場合はエラーを返して終了させる
   - `main` 関数の最初で OS を特定し、その情報を変数に保存しておく（現状は `init` で行っているが、整理が必要）
