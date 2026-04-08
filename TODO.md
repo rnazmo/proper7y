@@ -22,7 +22,7 @@
 - [x] `SUPPORTED_OS_IDS` 等の配列チェックを完全一致に変更する
   - 現状：`[[ "${SUPPORTED_OS_IDS[*]}" =~ ${OS_ID} ]]` は部分一致のため、例えば `OS_ID="arch"` が `"archlinux"` にマッチしてしまう
   - 修正案：ループによる完全一致チェック関数 `is_supported()` を実装して置き換える
-- [ ] `install.bash` の `log_warn` が未使用である
+- [x] `install.bash` の `log_warn` が未使用である
   - 現状：定義されているが一度も呼ばれていない
   - 修正案：削除するか、適切な箇所で使用する
 - [ ] `print_cpu_arch()` の冗長な初期化を整理する
