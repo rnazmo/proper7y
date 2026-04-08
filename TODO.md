@@ -58,6 +58,8 @@
 - [ ] `exit` と `return` の使い分け方針をコメントか ADR に明記する
   - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
   - **この検討は ADR で行うべき**
+- [ ] ChangeLog の書き方を検討する
+  - TODO.md の Milestone 流用すれば楽ではないか
 
 ### プロジェクト管理
 
