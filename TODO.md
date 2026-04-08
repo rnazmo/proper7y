@@ -16,7 +16,7 @@
   - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする可能性がある
     - 例：`# OLD: PROPER7Y_VERSION="v0.8.0"` のようなコメント行もマッチしてしまう。それは望ましくない
   - 修正案：`^PROPER7Y_VERSION=` のように行頭アンカーを付ける。正確には `^readonly PROPER7Y_VERSION=` にする
-- [ ] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
+- [x] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
   - 現状：`lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
   - 修正案：`/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`
 - [ ] `SUPPORTED_OS_IDS` 等の配列チェックを完全一致に変更する
@@ -65,7 +65,7 @@
 
 ## Milestone: v0.11.0 - TBD
 
-*タスク未定。*
+_タスク未定。_
 
 ## Backlog（いつかやる）
 
@@ -115,9 +115,9 @@
   - CI のテスト環境に Manjaro (Arch-based) を追加する
 - [ ] ユニットテストを追加する
   - ShellSpec を検討する
-      - ref: [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
-      - ref: [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
-      - ref: [ShellSpec - シェルスクリプト用の BDD テスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
+    - ref: [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
+    - ref: [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
+    - ref: [ShellSpec - シェルスクリプト用の BDD テスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
   - スクリプトの特性上、ユニットテストでテストできる範囲は狭い可能性がある
   - このプロジェクトにおいて、ユニットテストを導入するのは果たしてどうなのか。Bash のユニットテストは、手間に対してリターンが見合わない可能性が高そう。それよりも、インテグレーションテストを厚くした方が良いのではないか？
   - **この検討は ADR で行うべき**
@@ -141,13 +141,13 @@
 - [ ] README.md を完成させる
   - TL;DR セクションを書く（30秒で読める概要）
   - GIF を追加する（asciinema での録画を検討）
-    - ref: https://dev.classmethod.jp/articles/intro-asciinema/
+    - ref: <https://dev.classmethod.jp/articles/intro-asciinema/>
   - 全体的に整理する（内容が重複しているところとかありそう？）
   - 使用例（Examples セクション）を書く
   - `install.bash` がある理由を書く
     - 「常に同じコマンドで最新版をインストールできる」という利点
-        - > これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
-    - ref: https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version
+      - > これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
+    - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
     - 書き方の参考:
       - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
       - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>

@@ -335,13 +335,31 @@ print_os_version() {
 
   case "$UNAME_CACHE_KERNEL_NAME" in
   "linux")
-    # Ref
-    #   About /etc/os-release:
-    #     https://stackoverflow.com/a/53015255
-    #   About lsb_release command;
-    #   What is the "No LSB modules are available." message?:
-    #     https://exlight.net/linux/cmd/lsb_release/index.html
-    OS_VERSION=$(lsb_release -rs)
+    # Use /etc/os-release instead of `lsb_release` to get the OS version.
+    # `lsb_release` is not available in some minimal environments (e.g. Docker minimal images),
+    # while /etc/os-release is part of the systemd standard and is widely available
+    # on modern Linux distributions.
+    #
+    # Ref:
+    #   https://stackoverflow.com/a/53015255
+    #   https://exlight.net/linux/cmd/lsb_release/index.html
+    #   https://www.freedesktop.org/software/systemd/man/latest/os-release.html
+    if [[ -f /etc/os-release ]]; then
+      # Extract the value of VERSION_ID from /etc/os-release.
+      #
+      # Example lines in /etc/os-release:
+      #   VERSION_ID="22.04"   <- Ubuntu
+      #   VERSION_ID=12        <- Debian (no quotes)
+      #
+      # - `grep '^VERSION_ID='` : Find the line that starts with VERSION_ID=.
+      #                           The ^ anchor prevents accidental matches on lines like
+      #                           # OLD_VERSION_ID="20.04" (commented out lines, etc.)
+      # - `cut -d= -f2`         : Extract the value after the '=' sign.
+      # - `tr -d '"'`           : Remove surrounding double quotes if present.
+      #                           Some distros quote the value (e.g. "22.04"), others don't (e.g. 12).
+      OS_VERSION=$(grep '^VERSION_ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
+    fi
+    # If /etc/os-release does not exist, OS_VERSION remains "Unknown" (set at the top of this function).
     ;;
   "darwin")
     OS_VERSION=$(sw_vers -productVersion)
