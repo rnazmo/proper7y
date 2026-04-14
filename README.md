@@ -325,5 +325,5 @@ make format
 ```console
 make lint
 make format
-make integ-test
+make integ-tests
 ```
