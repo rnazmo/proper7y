@@ -16,6 +16,8 @@
   - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする可能性がある
     - 例：`# OLD: PROPER7Y_VERSION="v0.8.0"` のようなコメント行もマッチしてしまう。それは望ましくない
   - 修正案：`^PROPER7Y_VERSION=` のように行頭アンカーを付ける。正確には `^readonly PROPER7Y_VERSION=` にする
+  - **追記（未対応）**: 修正範囲を間違えていた。`proper7y` 側は `grep '^readonly PROPER7Y_VERSION='` と修正済みだが、`install.bash` と `common.bash` 側の grep にはまだ行頭アンカーが付いていない。修正が必要
+    - → 上記の未対応箇所は以下のタスク「`verify_version_consistency()` の `install.bash` と `common.bash` 側の `grep` に行頭アンカーを付ける」として追加済み
 - [x] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
   - 現状：`lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
   - 修正案：`/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`
@@ -27,6 +29,24 @@
   - 修正案：削除するか、適切な箇所で使用する
 - [x] `print_cpu_arch()` の冗長な初期化を整理する
   - 修正案：`local CPU_ARCH="Unknown"` の直後に必ず上書きされるため、`local -r CPU_ARCH="$UNAME_CACHE_MACHINE"` で十分
+- [ ] `verify_version_consistency()` の `install.bash` と `common.bash` 側の `grep` に行頭アンカーを付ける
+  - 現状：`proper7y` 側は `grep '^readonly PROPER7Y_VERSION='` と修正済みだが、`install.bash` と `common.bash` 側の grep パターンには行頭アンカーがなく不整合
+  - 修正案：`grep 'PROPER7Y_VERSION='` を `grep '^readonly PROPER7Y_VERSION='`（common.bash）および `grep '^readonly PROPER7Y_VERSION='`（install.bash）に変更する
+- [ ] `Makefile` の `static-tests` ターゲットから `format` を外すことを検討する
+  - 現状：`static-tests: lint format validate` と定義されており、`pre-commit` 時にファイルが意図せず上書きされる可能性がある
+  - `format` はファイルを上書きする副作用を持つため、差分チェックのみ行う `lint` とは役割が根本的に異なる
+  - CI での `make static-tests` 実行にも適さない。実際に `static-test.yml` では `make static-tests` を使わず `make lint` と `make validate` を個別に呼んでいる
+  - 修正案：`static-tests: lint validate` に変更する。`format` は明示的に `make format` で呼ぶ運用にするか、`pre-commit` などの別ターゲットにのみ含める
+    - しかし、そうするとローカルでの確認の際に `make static-tests` だけで完結しなくなり不便。ローカルでの確認の際に楽をしたいので、コマンド一発で全部確認できると嬉しい
+  - 合わせて、TODO.md の「`run-format.linux-x64.bash` の `confirm_continue` がCI環境で使えない問題」タスクとの関係も確認すること
+- [ ] `install_shellcheck()` 内の `trap EXIT` がプロセス全体を上書きする問題について検討する
+  - 現状：関数内で `trap 'rm -rf ...' EXIT` を設定しているが、**`trap EXIT` はプロセス全体に対して設定される**ため、後続の関数呼び出し（`install_shfmt` など）と干渉する可能性がある
+    - 具体的には、install_shellcheck() が呼ばれた後に install_shfmt() が呼ばれると、shfmt のインストール中にも shellcheck の TEMP_DIR の trap が上書きされるか、あるいは意図しないタイミングで発火する可能性がある
+  - 修正案：サブシェル `( )` に処理を閉じ込めて trap のスコープを関数内に限定する、または trap のスコープ管理方針を明示的に設計し直す
+- [ ] `common.bash` の `initialize_global_variables()` が2回呼ばれるとエラーになる問題を文書化または修正する
+  - 現状：関数内で `readonly` 宣言しているため、2回呼ぶと readonly 変数への再代入でエラーになる。現状は1回しか呼ばれていないが、将来的な罠になる
+  - 修正案：「1回しか呼んではいけない」という制約をコメントで明記する（最小コスト）か、冪等に動作するよう設計し直す
+  - これ、common.bash やグローバル変数周りの根本的な設計に関わりそうなので、慎重に検討する必要がありそう。
 
 ### テスト・CI
 
@@ -61,6 +81,7 @@
   - 案：これを使うと常に同じコマンドで最新版をインストールできる。使わない場合、明示的にバージョンを指定しなければならなくて面倒。(特に、別のスクリプト中で 'property' をインストールする場合、バージョン管理しなくてはならず面倒)
   - ADR-004 を書いたので、これをもって対応済みとする
 - [ ] `README.md` に `make integ-test` という記載が存在するが正しいターゲット名は `integ-tests`（複数形）なので修正する
+  - 具体的には `README.md` の `### How to run integration-test` セクション内の記述
 - [ ] `exit` と `return` の使い分け方針をコメントか ADR に明記する
   - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
   - **この検討は ADR で行うべき**
@@ -104,10 +125,14 @@ _タスク未定。_
 - [ ] オプション機能を作るかどうかを決める（→ ADR に検討内容と決定を書くこと）
 - [ ] `identify_current_shell_id()` の実装を見直す
   - 現状は `ps` で親プロセスを辿る実装で、macOSとLinuxで挙動が異なり壊れやすい
+  - ps で親プロセスを辿る方法は、CI 環境・Docker・`make` 経由での実行など、実行コンテキストが変わると容易に壊れる
   - `$SHELL` 環境変数を使う方法を検討する（ただし「デフォルトシェル」と「実行中のシェル」が異なる場合があるため、そのトレードオフをコメントかADRに明記する）
+    - そもそも、ここで表示したい・すべきなのは「デフォルトシェル」なのか「実行中のシェル」なのかの検討から。→ 必要なのは「その proper7y コマンドが実行されたシェル」（つまり「実行中のシェル」）では？
+  - 早めの対応が必要だが、検討事項が多くて対応が難しそう
   - **この検討は ADR で行うべき**
 - [ ] グローバル変数への依存を減らす
   - `common.bash` の関数群がグローバル変数に強く依存しており、依存関係の理解・関数単体でのテストが困難
+    - 例えば install_shellcheck() は $SHELLCHECK_CURRENT_VERSION、$SHELLCHECK_CMD_PATH、$PROJECT_ROOT などを暗黙に参照している
   - 関数が必要な値を引数で受け取る形にすることで、再利用性とテスト可能性が上がる
   - 大規模リファクタリングになるため、長期的な改善として扱う
   - ユニットテストを行うかどうかはまた別の検討事項だが、ユニットテストの有無に関わらずコードの可読性・安全性を高めるために、グローバル変数への依存を減らすべき
