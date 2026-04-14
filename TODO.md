@@ -16,8 +16,8 @@
   - 現状: `grep 'PROPER7Y_VERSION='` はコメント行の途中に文字列が現れた場合に誤マッチする可能性がある
     - 例：`# OLD: PROPER7Y_VERSION="v0.8.0"` のようなコメント行もマッチしてしまう。それは望ましくない
   - 修正案：`^PROPER7Y_VERSION=` のように行頭アンカーを付ける。正確には `^readonly PROPER7Y_VERSION=` にする
-  - **追記（未対応）**: 修正範囲を間違えていた。`proper7y` 側は `grep '^readonly PROPER7Y_VERSION='` と修正済みだが、`install.bash` と `common.bash` 側の grep にはまだ行頭アンカーが付いていない。修正が必要
-    - → 上記の未対応箇所は以下のタスク「`verify_version_consistency()` の `install.bash` と `common.bash` 側の `grep` に行頭アンカーを付ける」として追加済み
+  - **追記（~~未対応~~）**: 修正が漏れていた。同関数内にて、修正できていない grep 処理がある。同様の修正が必要
+    - → 上記の未対応箇所は以下のタスク「`common.bash` の `verify_version_consistency()` の `grep` に行頭アンカーを付ける」として追加済み
 - [x] `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換える
   - 現状：`lsb_release` はDockerの最小イメージなど一部のDebian系環境に存在しない場合がある
   - 修正案：`/etc/os-release` の `VERSION_ID` を使う方が堅牢: `grep VERSION_ID /etc/os-release | cut -d= -f2 | tr -d '"'`
@@ -29,9 +29,9 @@
   - 修正案：削除するか、適切な箇所で使用する
 - [x] `print_cpu_arch()` の冗長な初期化を整理する
   - 修正案：`local CPU_ARCH="Unknown"` の直後に必ず上書きされるため、`local -r CPU_ARCH="$UNAME_CACHE_MACHINE"` で十分
-- [ ] `verify_version_consistency()` の `install.bash` と `common.bash` 側の `grep` に行頭アンカーを付ける
-  - 現状：`proper7y` 側は `grep '^readonly PROPER7Y_VERSION='` と修正済みだが、`install.bash` と `common.bash` 側の grep パターンには行頭アンカーがなく不整合
-  - 修正案：`grep 'PROPER7Y_VERSION='` を `grep '^readonly PROPER7Y_VERSION='`（common.bash）および `grep '^readonly PROPER7Y_VERSION='`（install.bash）に変更する
+- [x] `common.bash` の `verify_version_consistency()` の `grep` に行頭アンカーを付ける
+  - 現状：関数内で 3 箇所使われている grep のうち、1 箇所だけ修正済みだが 2 箇所の修正が漏れている
+  - 修正案：`grep 'PROPER7Y_VERSION='` を `grep '^readonly PROPER7Y_VERSION='` にする
 - [ ] `Makefile` の `static-tests` ターゲットから `format` を外すことを検討する
   - 現状：`static-tests: lint format validate` と定義されており、`pre-commit` 時にファイルが意図せず上書きされる可能性がある
   - `format` はファイルを上書きする副作用を持つため、差分チェックのみ行う `lint` とは役割が根本的に異なる

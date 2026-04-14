@@ -408,10 +408,10 @@ verify_version_consistency() {
 
   local -r VERSION_IN_PROPER7Y="$(grep '^readonly PROPER7Y_VERSION=' "${PROJECT_ROOT}/proper7y" |
     head -1 | sed 's/.*="\(.*\)"/\1/')"
-  local -r VERSION_IN_INSTALL="$(grep 'PROPER7Y_VERSION=' "${PROJECT_ROOT}/install.bash" |
-    grep -v '^#' | head -1 | sed 's/.*="\(.*\)"/\1/')"
-  local -r VERSION_IN_COMMON="$(grep 'PROPER7Y_VERSION=' "${COMMON_SH_PATH}" |
-    grep -v '^#' | head -1 | sed 's/.*="\(.*\)"/\1/')"
+  local -r VERSION_IN_INSTALL="$(grep '^readonly PROPER7Y_VERSION=' "${PROJECT_ROOT}/install.bash" |
+    head -1 | sed 's/.*="\(.*\)"/\1/')"
+  local -r VERSION_IN_COMMON="$(grep '^readonly PROPER7Y_VERSION=' "${COMMON_SH_PATH}" |
+    head -1 | sed 's/.*="\(.*\)"/\1/')"
 
   log_info "Verifying version consistency..."
   log_info "  proper7y    : $VERSION_IN_PROPER7Y"
