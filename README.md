@@ -135,7 +135,7 @@ NOTE: These are documents to my future self.
   - Fewer files
   - Minimum dependencies
 - Simple documentation
-  - 重要な情報は `README.md` (とソースコード中のコメント) に集約する。
+  - 重要なドキュメントは `README.md`、`TODO.md`、`ADR.md`、およびソースコード中のコメントに集約する。
   - 情報が散らばるのを避ける。
     - **Should not using 'Issue'**
     - **Should not using 'Pull Request'**
