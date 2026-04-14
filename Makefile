@@ -31,7 +31,7 @@ run-integ-test-to-latest:
 	./devel-tools/script/run-integ-test.linux-x64.bash
 
 .PHONY: static-tests
-static-tests: lint format validate
+static-tests: lint validate
 
 .PHONY: integ-tests
 # Run head first (fast, local), then latest (slow, network).
@@ -39,7 +39,7 @@ static-tests: lint format validate
 integ-tests: run-integ-test-to-head run-integ-test-to-latest
 
 .PHONY: pre-commit
-pre-commit: static-tests
+pre-commit: static-tests format
 
 .PHONY: pre-push
 pre-push: static-tests integ-tests

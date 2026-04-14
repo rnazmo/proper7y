@@ -316,8 +316,7 @@ shfmt -i 2 -d ./proper7y ./install.bash
 ### Pre-commit
 
 ```console
-make lint
-make format
+make pre-commit
 ```
 
 ### Pre-push

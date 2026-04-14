@@ -1,5 +1,37 @@
 # ADR (Architecture Decision Records)
 
+## ADR-006: `static-tests` Makeターゲットから `format` を除外する
+
+- **日付:** 2026-04-14
+- **状況:**
+  - 開発中に多用しているコマンドである `make static-tests` が、`static-tests: lint format validate` と定義されており、
+    `format` が `lint` と同じターゲットに混在していた。
+  - `format` はファイルを上書きする副作用を持つため、差分チェックのみ行う `lint` とは役割が根本的に異なるので分けるべき
+  - CI での make static-tests 実行にも適さない。実際に、`static-test.yml` では `make static-tests` を使わず `make lint` と `make validate`
+    を個別に呼び出すことで問題を回避していた（CIとローカルで異なる手順を使う状態）。
+- **決定:** `static-tests` から `format` を除外する。代わりに、`pre-commit` のターゲットに含める。
+  - Before:
+    - `static-tests: lint format validate`
+    - `pre-commit: static-tests`
+  - After:
+    - `static-tests: lint validate`
+    - `pre-commit: static-tests format`
+- **理由:**
+  - `lint` と `format` は根本的に役割が異なる。`lint` は「問題を報告する」、`format` は「ファイルを書き換える」。副作用を持つ処理を検証系のターゲットに混ぜるべきではない。
+  - CIとローカルで同じターゲット（`make static-tests`）を使えるようにすることで、「CIが通るのにローカルの手順と違う」という状況を解消する。
+  - `make pre-commit` に `format` を含めれば、「コミット前に整形してから静的テストを通す」というユースケースは引き続きカバーされる。
+- **影響:**
+  - `static-test.yml` を `make lint` + `make validate` の個別呼び出しから `make static-tests` に統一できる。
+  - ローカルで `make static-tests` だけでは整形されなくなる。整形が必要な場合は `make format` か `make pre-commit` を明示的に実行する。
+  - つまり、ローカルでこれまで `make static-tests` に期待していた動作は、`make pre-commit` が請け負うことになる
+- **補足メモ:**
+  - 「副作用のあるコマンド」と「副作用のない（＝冪等な）コマンド」は明確に分けるべきである。
+  - 副作用のあるコマンドを実行する前には、ユーザーがそれを認識できるようにすべき。「このコマンドを叩いたら何が起きるか」をわかりやすくする。
+  - 特に CI/CDパイプラインでは、副作用のあるコマンドを安易に混ぜるべきではない。
+    - CI/CDは「コードの品質を検証するための環境」であり、コードを変更するための環境ではない。
+    - CI/CDで副作用のあるコマンドを実行すると、「CIが通るのにローカルで手順が違う」という状況が生まれやすくなり、開発者の混乱を招く。
+  - 「副作用の有無」「冪等性（idempotency）」「CI では冪等に」がキーワード。
+
 ## ADR-005: インテグレーションテストの設計方針
 
 - **日付:** 2026-04-04

@@ -32,13 +32,12 @@
 - [x] `common.bash` の `verify_version_consistency()` の `grep` に行頭アンカーを付ける
   - 現状：関数内で 3 箇所使われている grep のうち、1 箇所だけ修正済みだが 2 箇所の修正が漏れている
   - 修正案：`grep 'PROPER7Y_VERSION='` を `grep '^readonly PROPER7Y_VERSION='` にする
-- [ ] `Makefile` の `static-tests` ターゲットから `format` を外すことを検討する
+- [x] `Makefile` の `static-tests` ターゲットから `format` を外すことを検討する
   - 現状：`static-tests: lint format validate` と定義されており、`pre-commit` 時にファイルが意図せず上書きされる可能性がある
   - `format` はファイルを上書きする副作用を持つため、差分チェックのみ行う `lint` とは役割が根本的に異なる
   - CI での `make static-tests` 実行にも適さない。実際に `static-test.yml` では `make static-tests` を使わず `make lint` と `make validate` を個別に呼んでいる
   - 修正案：`static-tests: lint validate` に変更する。`format` は明示的に `make format` で呼ぶ運用にするか、`pre-commit` などの別ターゲットにのみ含める
     - しかし、そうするとローカルでの確認の際に `make static-tests` だけで完結しなくなり不便。ローカルでの確認の際に楽をしたいので、コマンド一発で全部確認できると嬉しい
-  - 合わせて、TODO.md の「`run-format.linux-x64.bash` の `confirm_continue` がCI環境で使えない問題」タスクとの関係も確認すること
 - [ ] `install_shellcheck()` 内の `trap EXIT` がプロセス全体を上書きする問題について検討する
   - 現状：関数内で `trap 'rm -rf ...' EXIT` を設定しているが、**`trap EXIT` はプロセス全体に対して設定される**ため、後続の関数呼び出し（`install_shfmt` など）と干渉する可能性がある
     - 具体的には、install_shellcheck() が呼ばれた後に install_shfmt() が呼ばれると、shfmt のインストール中にも shellcheck の TEMP_DIR の trap が上書きされるか、あるいは意図しないタイミングで発火する可能性がある
