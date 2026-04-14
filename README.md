@@ -322,7 +322,5 @@ make pre-commit
 ### Pre-push
 
 ```console
-make lint
-make format
-make integ-tests
+make pre-push
 ```
