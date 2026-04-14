@@ -6,21 +6,12 @@ on:
 
 jobs:
   lint:
-    name: Lint
+    name: Static Tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install devel-tools
         run: make install-devel-tools
-      - name: Run lint
-        run: make lint
-
-  validate:
-    name: Validate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Validate project version consistency
-        run: make validate
+      - name: Run static tests
+        run: make static-tests
