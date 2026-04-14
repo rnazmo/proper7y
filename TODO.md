@@ -93,8 +93,6 @@
   - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
   - 既存コードで混在が発生している。早急に行うべき。
   - **この検討は ADR で行うべき**
-- [ ] ChangeLog の書き方を検討する
-  - TODO.md の Milestone 流用すれば楽ではないか
 - [ ] Conventional Commits の採用可否を ADR に記録する
   - ~~Conventional Commits を導入するか検討する~~ 既に導入している。
   - 運用を始めているなら、決定を ADR に明文化すべき
@@ -106,7 +104,22 @@
 
 ## Milestone: v0.11.0 - TBD
 
-_タスク未定。_
+### ドキュメント
+
+- [ ] README.md の未完成セクションを埋める（バックログの「README.md を完成させる」も参照）
+  - TL;DR セクションを書く（30秒で読める概要）
+  - GIF を追加する（asciinema での録画を検討。ref: https://dev.classmethod.jp/articles/intro-asciinema/）
+  - 使用例（Examples セクション）のサンプル出力ログを書く
+    - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
+    - 書き方の参考:
+      - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
+      - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
+- [ ] README.md のどこかに以下のようなテキストを追加する:
+  - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
+- [ ] このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する（README.md? ADR?）
+- [ ] ChangeLog を追加することを検討
+  - TODO.md の Milestone セクションの内容をそのまま流用する運用を検討する。（それなら楽そう）
+  - そもそも必要？
 
 ## Backlog（いつかやる）
 
@@ -186,18 +199,7 @@ _タスク未定。_
 ### ドキュメント
 
 - [ ] README.md を完成させる
-  - TL;DR セクションを書く（30秒で読める概要）
-  - GIF を追加する（asciinema での録画を検討）
-    - ref: <https://dev.classmethod.jp/articles/intro-asciinema/>
   - 全体的に整理する（内容が重複しているところとかありそう？）
-  - 使用例（Examples セクション）を書く
-    - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
-    - 書き方の参考:
-      - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
-      - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
-  - 以下のテキストを追加する:
-    - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
-- [ ] 対応する環境・対象とするソフトウェアを、README に明確に記述する
 - [ ] コーディング規約を更新する
   - 各ルールが SHALL か SHOULD かを明記する
   - Google Shell Style Guide を参照して整備する
@@ -207,10 +209,6 @@ _タスク未定。_
       - この検討・決定内容はADR に書くべき
     - 変更するなら、README.md の規約の branch セクションも更新を忘れないこと
       - README に明記する新規約の記述案：「**なるべく `main` だけ**の状態を維持することが望ましい。ただし、機能追加などで**一時的な**ブランチを作るのは全く構わない」
-- [ ] ChangeLog を追加することを検討
-  - TODO.md の Milestone をそのままコピペする運用ならば、運用負荷は少ないのではないか。
-  - そもそも必要？
-  - **この検討は ADR で行うべき**
 
 ### プロジェクト管理
 
