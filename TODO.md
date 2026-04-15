@@ -97,6 +97,9 @@
   - ~~Conventional Commits を導入するか検討する~~ 既に導入している。
   - 運用を始めているなら、決定を ADR に明文化すべき
   - **この検討は ADR で行うべき**
+- [x] ChangeLog を追加することを検討
+  - TODO.md の Milestone セクションの内容をそのまま流用する運用を検討する。（それなら楽そう）
+  - そもそも必要？
 
 ### プロジェクト管理
 
@@ -117,9 +120,6 @@
 - [ ] README.md のどこかに以下のようなテキストを追加する:
   - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
 - [ ] このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する（README.md? ADR?）
-- [ ] ChangeLog を追加することを検討
-  - TODO.md の Milestone セクションの内容をそのまま流用する運用を検討する。（それなら楽そう）
-  - そもそも必要？
 
 ## Backlog（いつかやる）
 
