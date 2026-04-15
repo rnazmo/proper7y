@@ -62,7 +62,13 @@ SHELLCHECK_BINARY_VERSION=""
 SHFMT_BINARY_VERSION=""
 
 # Initialize all global variables.
-# NOTE: **Must be called explicitly by each script that sources this file.**
+#
+# NOTE:
+#   - **Must be called explicitly by each script that sources this file.**
+#   - Call this function EXACTLY ONCE per process.
+#     Calling it a second time will cause a fatal error because the internal
+#     helper functions (_compose_project_root_dir, etc.) declare variables with
+#     'readonly'.
 initialize_global_variables() {
   log_info "Initializing global variables..."
   _set_global_path_variables
