@@ -1,4 +1,4 @@
-# ADR (Architecture Decision Records)
+# ADR (proper7y)
 
 ## ADR-007: CHANGELOG.md の導入と運用方針
 

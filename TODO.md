@@ -1,4 +1,4 @@
-# TODO
+# TODO (proper7y)
 
 ## Milestone: v0.10.0 - 簡単にできる様々な改善
 
