@@ -42,7 +42,7 @@
 - **決定:**
   - `CHANGELOG.md` を導入する。
   - `v0.9.3` 以前の履歴は書かない。`v0.10.0` のリリース時から書き始める。
-  - フォーマットは Keep a Changelog (https://keepachangelog.com/ja/1.1.0/) を参考にしつつ、簡素に運用する。
+  - フォーマットは Keep a Changelog (<https://keepachangelog.com/ja/1.1.0/>) を参考にしつつ、簡素に運用する。
   - ChangeLog の下書きは AI (Claude 等) を使って生成し、自分で軽く手直しするワークフローをとる。
   - 運用が負担になった場合は、気軽に廃止する。
 
@@ -51,9 +51,9 @@
 Keep a Changelog の形式をベースに、以下の点を簡素化する。
 
 - セクションは `Added / Changed / Fixed / Removed` の4種類のみ使う
-  - `Added`   : 新機能の追加
+  - `Added` : 新機能の追加
   - `Changed` : 既存の機能・コードの変更
-  - `Fixed`   : バグ修正
+  - `Fixed` : バグ修正
   - `Removed` : 機能・コードの削除
 - 該当するセクションが空の場合はそのセクションごと省略する
 - 各エントリは1行で書く（長い説明は書かない）
@@ -66,12 +66,15 @@ Keep a Changelog の形式をベースに、以下の点を簡素化する。
 ## v0.10.0 - 2026-XX-XX
 
 ### Added
+
 - `is_supported()` 関数を実装し、配列チェックを完全一致に変更した
 
 ### Changed
+
 - `print_os_version()` の `lsb_release` 依存を `/etc/os-release` に置き換えた
 
 ### Fixed
+
 - `install.bash` の未使用 `log_warn` 関数を削除した
 ```
 
@@ -99,6 +102,7 @@ TODO.md の完了済みマイルストーンの内容も合わせて素材にす
 これをもとに CHANGELOG.md のエントリの下書きを作成してください。
 
 フォーマットのルール:
+
 - セクションは `Added / Changed / Fixed / Removed` の4種類のみ使う
 - 該当するセクションが空の場合はそのセクションごと省略する
 - 各エントリは1行で書く（長い説明は不要）

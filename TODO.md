@@ -114,7 +114,7 @@
 
 - [ ] README.md の未完成セクションを埋める（バックログの「README.md を完成させる」も参照）
   - TL;DR セクションを書く（30秒で読める概要）
-  - GIF を追加する（asciinema での録画を検討。ref: https://dev.classmethod.jp/articles/intro-asciinema/）
+  - GIF を追加する（asciinema での録画を検討。ref: <https://dev.classmethod.jp/articles/intro-asciinema/）>
   - 使用例（Examples セクション）のサンプル出力ログを書く
     - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
     - 書き方の参考:
