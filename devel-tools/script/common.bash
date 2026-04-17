@@ -266,20 +266,28 @@ check_if_devel_tools_bin_dir_exists() {
 # Install shellcheck via the GitHub Releases Page as the file 'SHELLCHECK_CMD_PATH'.
 # Ref: https://github.com/koalaman/shellcheck#installing
 install_shellcheck() {
-  local -r SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
+  # Run in a subshell so that `trap EXIT` is scoped to this subshell only.
+  # Without this, trap would overwrite any existing EXIT trap in the parent
+  # shell, potentially causing other cleanup handlers to be silently dropped.
+  (
+    local -r SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
 
-  local -r TEMP_DIR="$(mktemp -d)"
-  trap 'rm -rf "${TEMP_DIR:-}"' EXIT # cleanup
-  cd "$TEMP_DIR"
-  log_info "TEMP_DIR: $TEMP_DIR"
-  log_info "PWD: $(pwd)"
+    local -r TEMP_DIR="$(mktemp -d)"
+    # The trap fires when this subshell exits (success or failure).
+    # No need to `cd` back to PROJECT_ROOT: subshell exit restores the
+    # working directory automatically in the parent shell.
+    trap 'rm -rf "${TEMP_DIR:-}"' EXIT
+    cd "$TEMP_DIR"
+    log_info "TEMP_DIR: $TEMP_DIR"
+    log_info "PWD: $(pwd)"
 
-  curl -OL "$SHELLCHECK_URL"
-  tar -xf "./shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
-  mv -f "./shellcheck-${SHELLCHECK_CURRENT_VERSION}/shellcheck" "$SHELLCHECK_CMD_PATH"
+    curl -OL "$SHELLCHECK_URL"
+    tar -xf "./shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
+    mv -f "./shellcheck-${SHELLCHECK_CURRENT_VERSION}/shellcheck" "$SHELLCHECK_CMD_PATH"
+  )
 
-  cd "$PROJECT_ROOT"
-
+  # Must be called outside the subshell because subshell variable changes
+  # do not propagate to the parent shell.
   _recompose_shellcheck_binary_version
 }
 

@@ -38,10 +38,12 @@
   - CI での `make static-tests` 実行にも適さない。実際に `static-test.yml` では `make static-tests` を使わず `make lint` と `make validate` を個別に呼んでいる
   - 修正案：`static-tests: lint validate` に変更する。`format` は明示的に `make format` で呼ぶ運用にするか、`pre-commit` などの別ターゲットにのみ含める
     - しかし、そうするとローカルでの確認の際に `make static-tests` だけで完結しなくなり不便。ローカルでの確認の際に楽をしたいので、コマンド一発で全部確認できると嬉しい
-- [ ] `install_shellcheck()` 内の `trap EXIT` がプロセス全体を上書きする問題について検討する
+- [x] `install_shellcheck()` 内の `trap EXIT` がプロセス全体を上書きする問題について検討する
   - 現状：関数内で `trap 'rm -rf ...' EXIT` を設定しているが、**`trap EXIT` はプロセス全体に対して設定される**ため、後続の関数呼び出し（`install_shfmt` など）と干渉する可能性がある
     - 具体的には、install_shellcheck() が呼ばれた後に install_shfmt() が呼ばれると、shfmt のインストール中にも shellcheck の TEMP_DIR の trap が上書きされるか、あるいは意図しないタイミングで発火する可能性がある
   - 修正案：サブシェル `( )` に処理を閉じ込めて trap のスコープを関数内に限定する、または trap のスコープ管理方針を明示的に設計し直す
+  - 対応：サブシェル `( )` に閉じ込める方法で修正した。`_recompose_shellcheck_binary_version` はグローバル変数を変更するためサブシェルの外に置いた
+- [ ] `run-integ-test.linux-x64.bash` の `main()` 内にも `trap EXIT` がある。これも、`install_shellcheck()` 内の `trap EXIT` と同様に「サブシェルで処理を閉じ込める」必要があるかどうか検討する。
 - [x] `common.bash` の `initialize_global_variables()` が2回呼ばれるとエラーになる問題を文書化または修正する
   - 現状：関数内で `readonly` 宣言しているため、2回呼ぶと readonly 変数への再代入でエラーになる。現状は1回しか呼ばれていないが、将来的な罠になる
   - 修正案：「1回しか呼んではいけない」という制約をコメントで明記する（最小コスト）か、冪等に動作するよう設計し直す
