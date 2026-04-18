@@ -344,9 +344,9 @@ curl -L https://github.com/rnazmo/proper7y/releases/latest/download/proper7y \
 
 - **日付:** 2026-03-26
 - **状況:**
-- `PROPER7Y_VERSION` が `proper7y`、`install.bash`、`common.bash` の3ファイルに重複して定義されており、Single Source of Truth の原則に反している。
+  - `PROPER7Y_VERSION` が `proper7y`、`install.bash`、`common.bash` の3ファイルに重複して定義されており、Single Source of Truth の原則に反している。
 - **検討した解決策:**
   - **案1:** `common.bash` を唯一の定義元とし、他のファイルは `source` で読み込む
   - **案2:** `VERSION` ファイルを作り、各スクリプトがそこから読み込む
 - **却下した理由:**
-- `proper7y` および `install.bash` は単体でダウンロード・実行されることを前提とした設計である。これらのスクリプトは `common.bash` や `VERSION` ファイルが手元に存在しない環境で動作しなければならないため、外部ファイルへの依存を持たせることができない。バージョンの重複は、このプロジェクトの「スクリプト単体で動く」という設計思想に起因する、避けがたい構造的制約である。
+  - `proper7y` および `install.bash` は単体でダウンロード・実行されることを前提とした設計である。これらのスクリプトは `common.bash` や `VERSION` ファイルが手元に存在しない環境で動作しなければならないため、外部ファイルへの依存を持たせることができない。バージョンの重複は、このプロジェクトの「スクリプト単体で動く」という設計思想に起因する、避けがたい構造的制約である。
