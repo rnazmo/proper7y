@@ -1,5 +1,52 @@
 # ADR (proper7y)
 
+## ADR-009: Conventional Commits の採用
+
+- **日付:** 2026-04-19
+- **状況:**
+  - コミットメッセージのフォーマットに関する明示的な方針が存在しなかった。
+  - README.md の「Commit message」セクションには「てきとうにゆるくやる」と書かれており、
+    一部のコミットでは既に `docs:` プレフィックスを使うルールが記載されていたが、
+    Conventional Commits を正式に採用するかどうかは明文化されていなかった。
+  - 実際には `docs:` プレフィックスの使用や `Bump ...` 形式のメッセージなど、
+    Conventional Commits に近い運用がすでに始まっていた。
+- **決定:**
+  - Conventional Commits (<https://www.conventionalcommits.org/ja/v1.0.0/>) を正式に採用する。
+  - ただし、個人プロジェクトであるため、厳格な運用は求めない。
+    ミスがあっても気にしすぎず、ゆるく継続することを優先する。
+- **採用する主なコミットタイプ:**
+  - `feat` : 新機能の追加
+  - `fix` : バグ修正
+  - `docs` : ドキュメントのみの変更
+  - `style` : コードの意味に影響しない変更（フォーマット等）
+  - `refactor` : バグ修正でも機能追加でもないコードの変更
+  - `test` : テストの追加・修正
+  - `chore` : ビルドプロセスや補助ツールの変更（devel-tools のバージョン更新等）
+- **スコープの運用:**
+  - スコープ（例: `feat(install): ...`）は任意とする。
+  - 変更対象が明確な場合（例: `proper7y`、`install.bash`、`common.bash`、`ci`）は
+    付けると読みやすい。付けなくても構わない。
+- **既存ルールとの統合:**
+  - README.md の「Commit message」セクションに記載されていた個別ルールは、
+    Conventional Commits の表現に統合する。
+    - `docs:` プレフィックス → そのまま `docs:` として継続
+    - `Bump a version to vX.X.X` → `chore: bump version to vX.X.X`
+    - `Bump devel-tool version (shfmt): ...` → `chore(shfmt): bump version ...`
+  - ただし、`bump-project.linux-x64.bash` および `check-devel-tools-versions.linux-x64.bash`
+    内でハードコードされているコミットメッセージ文字列は、今回は変更しない。
+    将来リファクタリングの機会があれば合わせて修正すること。
+    - TDOO へ記述済み
+- **理由:**
+  - 既に近い運用をしているなら、正式に採用してルールを明文化した方が、
+    将来の自分がコミット履歴を読むときに迷わなくて済む。
+  - CHANGELOG.md の自動生成ツール（git-cliff 等）を将来導入する場合にも、
+    Conventional Commits に準拠していると都合がよい。
+- **注意:**
+  - コミットメッセージの自動検証（commitlint 等）は導入しない。
+    ツール管理のコストが目的に見合わないと判断した。
+  - 「ゆるく運用する」という方針は維持する。完璧なメッセージを書くことより、
+    コミットすること自体を継続することを優先する。
+
 ## ADR-008: 一時ディレクトリ処理における `trap EXIT` のスコープ管理方針
 
 - **日付:** 2026-04-17

@@ -140,10 +140,14 @@
   - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
   - 既存コードで混在が発生している。早急に行うべき。
   - **この検討は ADR で行うべき**
-- [ ] Conventional Commits の採用可否を ADR に記録する
+- [x] Conventional Commits の採用可否を ADR に記録する
   - ~~Conventional Commits を導入するか検討する~~ 既に導入している。
   - 運用を始めているなら、決定を ADR に明文化すべき
   - **この検討は ADR で行うべき**
+- [ ] `bump-project.linux-x64.bash` と `check-devel-tools-versions.linux-x64.bash` のハードコードされたコミットメッセージを Conventional Commits 形式に修正する
+  - `bump-project.linux-x64.bash`: `"Bump project version: ..."` → `"chore: bump version to ..."`
+  - `check-devel-tools-versions.linux-x64.bash`: `"Bump devel-tool version ($TOOL_NAME): ..."` → `"chore($TOOL_NAME): bump version ..."`
+  - ADR-009 にて、既存のハードコード文字列は今回変更しないと決定した。この作業はその持ち越し分。
 - [ ] README.md の未完成セクション `TL;DR` を埋める
   - 30秒で読める概要
 - [ ] README.md の未完成セクション `Examples` を埋める
