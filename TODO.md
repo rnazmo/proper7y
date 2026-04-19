@@ -106,20 +106,23 @@
 
 ### プロジェクト管理
 
-無し。
+- [ ] TODO.md の `Milestone: v0.11.0` を策定
 
 ## Milestone: v0.11.0 - TBD
 
 ### ドキュメント
 
-- [ ] README.md の未完成セクションを埋める（バックログの「README.md を完成させる」も参照）
-  - TL;DR セクションを書く（30秒で読める概要）
-  - GIF を追加する（asciinema での録画を検討。ref: <https://dev.classmethod.jp/articles/intro-asciinema/）>
-  - 使用例（Examples セクション）のサンプル出力ログを書く
-    - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
-    - 書き方の参考:
-      - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
-      - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
+- [ ] README.md の未完成セクション `TL;DR` を埋める
+  - 30秒で読める概要
+- [ ] README.md の未完成セクション `Examples` を埋める
+  - サンプル出力ログ。使用例。
+  - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
+  - 書き方の参考:
+    - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
+    - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
+- [ ] README.md に GIF 動画を追加
+  - asciinema での録画を検討
+    - ref: <https://dev.classmethod.jp/articles/intro-asciinema/）>
 - [ ] README.md のどこかに以下のようなテキストを追加する:
   - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
 - [ ] このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する（README.md? ADR?）
@@ -203,7 +206,10 @@
 ### ドキュメント
 
 - [ ] README.md を完成させる
-  - 全体的に整理する（内容が重複しているところとかありそう？）
+  - 今あるセクションが妥当かどうか検討（不足・重複しているセクションがないか）
+  - 既存のセクションの内容が妥当かどうか検討（更新すべき記述多そう）
+    - ポリシーのセクションの内容は妥当？
+  - 全体的に整理する（内容の重複とか、色々整えるとか）
 - [ ] コーディング規約を更新する
   - 各ルールが SHALL か SHOULD かを明記する
   - Google Shell Style Guide を参照して整備する
