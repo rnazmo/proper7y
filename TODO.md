@@ -120,9 +120,20 @@
   - 書き方の参考:
     - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
     - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
-- [ ] README.md に GIF 動画を追加
-  - asciinema での録画を検討
-    - ref: <https://dev.classmethod.jp/articles/intro-asciinema/）>
+- [ ] README.md に GIF 動画を追加する
+  - [ ] フェーズ1: 意思決定
+    - [ ] 録画ツールを選定する（候補: charmbracelet/vhs, asciinema）
+      - ref: <https://dev.classmethod.jp/articles/intro-asciinema/）>
+  - [ ] フェーズ2: 準備
+    - [ ] 選定ツールをインストールし、試し録りして品質・操作感を確認する
+  - [ ] フェーズ3: 本番作業
+    - [ ] 録画シナリオを書く
+    - [ ] 本番録画してGIFを生成する
+    - [ ] GIFの配置先を決め、README.md に埋め込む
+  - [ ] フェーズ4: 後処理
+    - [ ] 録画・更新手順をドキュメント化する（将来のメンテコスト削減のため）
+    - [ ] インストールスクリプト化の要否を判断し、必要なら実施する
+    - [ ] ADR.md に意思決定を記録する
 - [ ] README.md のどこかに以下のようなテキストを追加する:
   - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
 - [ ] このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する（README.md? ADR?）
