@@ -38,7 +38,7 @@ main() {
   git diff
   confirm_continue
 
-  git commit -a -m "Bump project version: $CURRENT_PROPER7Y_VERSION -> $NEW_PROPER7Y_VERSION"
+  git commit -a -m "chore(proper7y): Bump project version: $CURRENT_PROPER7Y_VERSION -> $NEW_PROPER7Y_VERSION"
   git tag "$NEW_PROPER7Y_VERSION"
   log_info "Here is the git log:"
   git log -n 3

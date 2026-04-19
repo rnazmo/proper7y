@@ -179,7 +179,7 @@ upgrade_devel_tool_if_needed() {
   confirm_continue
 
   # Create git commit
-  git commit -a -m "Bump devel-tool version ($TOOL_NAME): $CURRENT_VERSION_BEFORE_BUMP -> $LATEST_VERSION"
+  git commit -a -m "chore($TOOL_NAME): Bump devel-tool version: $CURRENT_VERSION_BEFORE_BUMP -> $LATEST_VERSION"
   log_info "Here is the git log:"
   git log -n 3
 }

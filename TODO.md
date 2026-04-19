@@ -144,7 +144,7 @@
   - ~~Conventional Commits を導入するか検討する~~ 既に導入している。
   - 運用を始めているなら、決定を ADR に明文化すべき
   - **この検討は ADR で行うべき**
-- [ ] `bump-project.linux-x64.bash` と `check-devel-tools-versions.linux-x64.bash` のハードコードされたコミットメッセージを Conventional Commits 形式に修正する
+- [x] `bump-project.linux-x64.bash` と `check-devel-tools-versions.linux-x64.bash` のハードコードされたコミットメッセージを Conventional Commits 形式に修正する
   - `bump-project.linux-x64.bash`: `"Bump project version: ..."` → `"chore: bump version to ..."`
   - `check-devel-tools-versions.linux-x64.bash`: `"Bump devel-tool version ($TOOL_NAME): ..."` → `"chore($TOOL_NAME): bump version ..."`
   - ADR-009 にて、既存のハードコード文字列は今回変更しないと決定した。この作業はその持ち越し分。
