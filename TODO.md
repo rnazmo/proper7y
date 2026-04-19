@@ -1,6 +1,6 @@
 # TODO (proper7y)
 
-## Milestone: v0.10.0 - 簡単にできる様々な改善
+## Milestone: v0.10.0 - Foo
 
 ### セキュリティ・バグ修正
 
@@ -38,17 +38,38 @@
   - CI での `make static-tests` 実行にも適さない。実際に `static-test.yml` では `make static-tests` を使わず `make lint` と `make validate` を個別に呼んでいる
   - 修正案：`static-tests: lint validate` に変更する。`format` は明示的に `make format` で呼ぶ運用にするか、`pre-commit` などの別ターゲットにのみ含める
     - しかし、そうするとローカルでの確認の際に `make static-tests` だけで完結しなくなり不便。ローカルでの確認の際に楽をしたいので、コマンド一発で全部確認できると嬉しい
+- [x] `common.bash` の `initialize_global_variables()` が2回呼ばれるとエラーになる問題を文書化または修正する
+  - 現状：関数内で `readonly` 宣言しているため、2回呼ぶと readonly 変数への再代入でエラーになる。現状は1回しか呼ばれていないが、将来的な罠になる
+  - 修正案：「1回しか呼んではいけない」という制約をコメントで明記する（最小コスト）か、冪等に動作するよう設計し直す
+  - これ、common.bash やグローバル変数周りの根本的な設計に関わりそうなので、慎重に検討する必要がありそう。
+  - → 今回の変更では「冪等設計」を採用せず、該当関数の上部にコメントを追加するに留めた。common.bash のグローバル変数設計自体をいずれ見直す予定なので、そのときに改めて「冪等設計」にするかどうかを検討する予定。
 - [x] `install_shellcheck()` 内の `trap EXIT` がプロセス全体を上書きする問題について検討する
   - 現状：関数内で `trap 'rm -rf ...' EXIT` を設定しているが、**`trap EXIT` はプロセス全体に対して設定される**ため、後続の関数呼び出し（`install_shfmt` など）と干渉する可能性がある
     - 具体的には、install_shellcheck() が呼ばれた後に install_shfmt() が呼ばれると、shfmt のインストール中にも shellcheck の TEMP_DIR の trap が上書きされるか、あるいは意図しないタイミングで発火する可能性がある
   - 修正案：サブシェル `( )` に処理を閉じ込めて trap のスコープを関数内に限定する、または trap のスコープ管理方針を明示的に設計し直す
   - 対応：サブシェル `( )` に閉じ込める方法で修正した。`_recompose_shellcheck_binary_version` はグローバル変数を変更するためサブシェルの外に置いた
 - [ ] `run-integ-test.linux-x64.bash` の `main()` 内にも `trap EXIT` がある。これも、`install_shellcheck()` 内の `trap EXIT` と同様に「サブシェルで処理を閉じ込める」必要があるかどうか検討する。
-- [x] `common.bash` の `initialize_global_variables()` が2回呼ばれるとエラーになる問題を文書化または修正する
-  - 現状：関数内で `readonly` 宣言しているため、2回呼ぶと readonly 変数への再代入でエラーになる。現状は1回しか呼ばれていないが、将来的な罠になる
-  - 修正案：「1回しか呼んではいけない」という制約をコメントで明記する（最小コスト）か、冪等に動作するよう設計し直す
-  - これ、common.bash やグローバル変数周りの根本的な設計に関わりそうなので、慎重に検討する必要がありそう。
-  - → 今回の変更では「冪等設計」を採用せず、該当関数の上部にコメントを追加するに留めた。common.bash のグローバル変数設計自体をいずれ見直す予定なので、そのときに改めて「冪等設計」にするかどうかを検討する予定。
+- [ ] コマンドの exit status を整える（正常終了で 0 を返す、など）
+- [ ] ファイル名のプラットフォーム縛り（`.linux-x64.bash`）と実態の不一致を解消する
+  - `run-lint.linux-x64.bash` 等をLinux/x64専用と命名しているのに、CIのmatrixでmacOSからも呼ばれている
+  - 命名を変えるか、macOS非対応であることをドキュメントに明記するか、方針を決める
+  - この問題は、このプロジェクト自体の対応 OS の検討（macOS に対応するかどうか）と関連する
+  - **この検討は ADR で行うべき**
+- [ ] 対応する環境・対象とするソフトウェアを明確にする
+  - サポートする環境は？（利用者環境/開発者環境それぞれで。）
+    - 対応 OS・シェルなど
+  - ドキュメント化も忘れずに
+- [ ] 最初に OS を特定し、未対応 OS の場合はエラーを返して終了させる
+  - `main` 関数の最初で OS を特定し、その情報を変数に保存しておく（現状は `init` で行っているが、整理が必要）
+  - "prerequisites exists?", "the os is supported os?" みたいな。
+- [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加する
+  - 対象: shellcheck および shfmt をダウンロードする際。
+  - `.sha256` ファイルの入手方法は要調査。
+    - [shfmt v3.13.0 のリリースページ](https://github.com/mvdan/sh/releases/tag/v3.13.0)の説明によれば、 `Note that this release no longer includes a sha256sums.txt asset; GitHub now provide digests natively.` らしい。
+    - Ref: [Releases now expose digests for release assets - GitHub Changelog](https://github.blog/changelog/2025-06-03-releases-now-expose-digests-for-release-assets/)
+      - GitHub のリリースにアップロードされるアセットに対して、自動で SHA‑256 ダイジェスト（チェックサム）が付くようになった
+      - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
+      - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
 - [ ] `identify_current_shell_id()` の実装を見直す
   - 現状は `ps` で親プロセスを辿る実装で、macOSとLinuxで挙動が異なり壊れやすい
   - ps で親プロセスを辿る方法は、CI 環境・Docker・`make` 経由での実行など、実行コンテキストが変わると容易に壊れる
@@ -57,6 +78,16 @@
   - 早めの対応が必要だが、検討事項が多くて対応が難しそう
   - **この検討は ADR で行うべき**
   - **この関数はスクリプトの中核機能に近いため、早急に行うべき**
+- [ ] グローバル変数への依存を減らす（`common.bash` のグローバル変数設計の再考）
+  - `common.bash` の関数群がグローバル変数に強く依存しており、依存関係の理解・関数単体でのテストが困難
+    - 例えば install_shellcheck() は $SHELLCHECK_CURRENT_VERSION、$SHELLCHECK_CMD_PATH、$PROJECT_ROOT などを暗黙に参照している
+  - 関数が必要な値を引数で受け取る形にすることで、再利用性とテスト可能性が上がる
+  - 大規模リファクタリングになるため、長期的な改善として扱う
+  - ユニットテストを行うかどうかはまた別の検討事項だが、ユニットテストの有無に関わらずコードの可読性・安全性を高めるために、グローバル変数への依存を減らすべき
+  - また、現状 `common.bash` の `initialize_global_variables()` が2回呼ばれるとエラーになる設計になっている（関数内で `readonly` 宣言している）ので、それも考慮すること。具体的には、冪等に動作するよう設計し直すことを検討。
+- [ ] Manjaro Linux をサポートする
+  - 開発環境として Manjaro Linux を対応させる
+  - CI のテスト環境に Manjaro (Arch-based) を追加する
 
 ### テスト・CI
 
@@ -83,6 +114,15 @@
   - `-y` フラグや `FORCE=true` 環境変数でスキップできるようにすることを検討する
   - この問題が解消されたら、CIのstatic-test.ymlを `make lint` + `make validate` の個別呼び出しから `make static-tests` への一本化も検討すること
     - 現状は `format` の副作用があるため個別呼び出しにしている
+- [ ] ユニットテストを追加することを検討する
+  - ShellSpec を検討する
+    - ref: [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
+    - ref: [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
+    - ref: [ShellSpec - シェルスクリプト用の BDD テスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
+  - スクリプトの特性上、ユニットテストでテストできる範囲は狭い可能性がある
+  - このプロジェクトにおいて、ユニットテストを導入するのは果たしてどうなのか。Bash のユニットテストは、手間に対してリターンが見合わない可能性が高そう。それよりも、インテグレーションテストを厚くした方が良いのではないか？
+  - **この検討は ADR で行うべき**
+- [ ] CI でのテスト環境に Arch Linux, EndeavourOS, Manjaro Linux などを追加する
 
 ### ドキュメント
 
@@ -92,6 +132,9 @@
   - ADR-004 を書いたので、これをもって対応済みとする
 - [x] `README.md` に `make integ-test` という記載が存在するが正しいターゲット名は `integ-tests`（複数形）なので修正する
   - 具体的には `README.md` の `### How to run integration-test` セクション内の記述
+- [x] ChangeLog を追加することを検討
+  - TODO.md の Milestone セクションの内容をそのまま流用する運用を検討する。（それなら楽そう）
+  - そもそも必要？
 - [ ] `exit` と `return` の使い分け方針をコメントか ADR に明記する
   - `proper7y` の `identify_*()` は `exit 1`、`common.bash` のチェック関数は `return 1` を使っており、方針が不明確
   - 既存コードで混在が発生している。早急に行うべき。
@@ -100,18 +143,6 @@
   - ~~Conventional Commits を導入するか検討する~~ 既に導入している。
   - 運用を始めているなら、決定を ADR に明文化すべき
   - **この検討は ADR で行うべき**
-- [x] ChangeLog を追加することを検討
-  - TODO.md の Milestone セクションの内容をそのまま流用する運用を検討する。（それなら楽そう）
-  - そもそも必要？
-
-### プロジェクト管理
-
-- [ ] TODO.md の `Milestone: v0.11.0` を策定
-
-## Milestone: v0.11.0 - TBD
-
-### ドキュメント
-
 - [ ] README.md の未完成セクション `TL;DR` を埋める
   - 30秒で読める概要
 - [ ] README.md の未完成セクション `Examples` を埋める
@@ -138,6 +169,25 @@
   - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
 - [ ] このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する（README.md? ADR?）
 
+### プロジェクト管理
+
+- [ ] TODO.md の `Milestone: v0.10.0` のタイトルを考える
+- [ ] TODO.md の `Milestone: v0.11.0` を策定
+
+## Milestone: v0.11.0 - TBD
+
+### ドキュメント
+
+- [ ] README.md のコーディング規約を更新する
+  - 各ルールが SHALL か SHOULD かを明記する
+  - Google Shell Style Guide を参照して整備する
+  - ブランチ運用の方針を改定することを検討
+    - やっぱり、変更が大きいときは branch 使いたいから。main だけだと厳しい場面がある
+      - 「なるべく `main` だけ」を維持しつつ、一時的なブランチを許容する？
+      - この検討・決定内容はADR に書くべき
+    - 変更するなら、README.md の規約の branch セクションも更新を忘れないこと
+      - README に明記する新規約の記述案：「**なるべく `main` だけ**の状態を維持することが望ましい。ただし、機能追加などで**一時的な**ブランチを作るのは全く構わない」
+
 ## Backlog（いつかやる）
 
 ### セキュリティ・バグ修正
@@ -148,35 +198,7 @@
 
 ### コード・機能
 
-- [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加する
-  - 対象: shellcheck および shfmt をダウンロードする際。
-  - `.sha256` ファイルの入手方法は要調査。
-    - [shfmt v3.13.0 のリリースページ](https://github.com/mvdan/sh/releases/tag/v3.13.0)の説明によれば、 `Note that this release no longer includes a sha256sums.txt asset; GitHub now provide digests natively.` らしい。
-    - Ref: [Releases now expose digests for release assets - GitHub Changelog](https://github.blog/changelog/2025-06-03-releases-now-expose-digests-for-release-assets/)
-      - GitHub のリリースにアップロードされるアセットに対して、自動で SHA‑256 ダイジェスト（チェックサム）が付くようになった
-      - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
-      - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
-- [ ] コマンドの exit status を整える（正常終了で 0 を返す、など）
-- [ ] 最初に OS を特定し、未対応 OS の場合はエラーを返して終了させる
-  - `main` 関数の最初で OS を特定し、その情報を変数に保存しておく（現状は `init` で行っているが、整理が必要）
-  - "prerequisites exists?", "the os is supported os?" みたいな。
-- [ ] 対応する環境・対象とするソフトウェアを明確にする
-  - サポートする環境は？（利用者環境/開発者環境それぞれで。）
-    - 対応 OS・シェルなど
-  - ドキュメント化も忘れずに
 - [ ] オプション機能を作るかどうかを決める（→ ADR に検討内容と決定を書くこと）
-- [ ] グローバル変数への依存を減らす（`common.bash` のグローバル変数設計の再考）
-  - `common.bash` の関数群がグローバル変数に強く依存しており、依存関係の理解・関数単体でのテストが困難
-    - 例えば install_shellcheck() は $SHELLCHECK_CURRENT_VERSION、$SHELLCHECK_CMD_PATH、$PROJECT_ROOT などを暗黙に参照している
-  - 関数が必要な値を引数で受け取る形にすることで、再利用性とテスト可能性が上がる
-  - 大規模リファクタリングになるため、長期的な改善として扱う
-  - ユニットテストを行うかどうかはまた別の検討事項だが、ユニットテストの有無に関わらずコードの可読性・安全性を高めるために、グローバル変数への依存を減らすべき
-  - また、現状 `common.bash` の `initialize_global_variables()` が2回呼ばれるとエラーになる設計になっている（関数内で `readonly` 宣言している）ので、それも考慮すること。具体的には、冪等に動作するよう設計し直すことを検討。
-- [ ] ファイル名のプラットフォーム縛り（`.linux-x64.bash`）と実態の不一致を解消する
-  - `run-lint.linux-x64.bash` 等をLinux/x64専用と命名しているのに、CIのmatrixでmacOSからも呼ばれている
-  - 命名を変えるか、macOS非対応であることをドキュメントに明記するか、方針を決める
-  - この問題は、このプロジェクト自体の対応 OS の検討（macOS に対応するかどうか）と関連する
-  - **この検討は ADR で行うべき**
 
 ### テスト・CI
 
@@ -188,18 +210,7 @@
 - [ ] CI の `run-head-proper7y` Job と `run-integ-test-to-head` が重複している問題を解消する (Ref: ADR-005)
   - 両者はどちらも `./proper7y` を直接実行するだけで、同じことをしている
   - どちらかを削除するか、役割を明確に分けるかを検討する
-- [ ] Manjaro Linux をサポートする
-  - 開発環境として Manjaro Linux を対応させる
-  - CI のテスト環境に Manjaro (Arch-based) を追加する
-- [ ] ユニットテストを追加する
-  - ShellSpec を検討する
-    - ref: [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
-    - ref: [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
-    - ref: [ShellSpec - シェルスクリプト用の BDD テスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
-  - スクリプトの特性上、ユニットテストでテストできる範囲は狭い可能性がある
-  - このプロジェクトにおいて、ユニットテストを導入するのは果たしてどうなのか。Bash のユニットテストは、手間に対してリターンが見合わない可能性が高そう。それよりも、インテグレーションテストを厚くした方が良いのではないか？
-  - **この検討は ADR で行うべき**
-- [ ] CI で devel-tools が最新かどうかを定期チェックする（weekly trigger など）
+- [ ] CI で devel-tools が最新かどうかを定期チェックする（weekly trigger など）ことを検討する
   - `check-devel-tools-versions.bash` を CI で実行することを検討する
   - 自動で Pull Request を作成するかどうかも検討する（dependabot 的な運用）
     - 実装や権限管理面倒じゃない？大丈夫？
@@ -221,15 +232,6 @@
   - 既存のセクションの内容が妥当かどうか検討（更新すべき記述多そう）
     - ポリシーのセクションの内容は妥当？
   - 全体的に整理する（内容の重複とか、色々整えるとか）
-- [ ] コーディング規約を更新する
-  - 各ルールが SHALL か SHOULD かを明記する
-  - Google Shell Style Guide を参照して整備する
-  - ブランチ運用の方針を改定することを検討
-    - やっぱり、変更が大きいときは branch 使いたいから。main だけだと厳しい場面がある
-      - 「なるべく `main` だけ」を維持しつつ、一時的なブランチを許容する？
-      - この検討・決定内容はADR に書くべき
-    - 変更するなら、README.md の規約の branch セクションも更新を忘れないこと
-      - README に明記する新規約の記述案：「**なるべく `main` だけ**の状態を維持することが望ましい。ただし、機能追加などで**一時的な**ブランチを作るのは全く構わない」
 
 ### プロジェクト管理
 
