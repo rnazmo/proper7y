@@ -52,8 +52,8 @@
   - README.md の「Commit message」セクションに記載されていた個別ルールは、
     Conventional Commits の表現に統合する。
     - `docs:` プレフィックス → そのまま `docs:` として継続
-    - `Bump a version to vX.X.X` → `chore: bump version to vX.X.X`
-    - `Bump devel-tool version (shfmt): ...` → `chore(shfmt): bump version ...`
+    - `Bump project version: vX.X.X -> vX.X.X` → `chore: Bump project version: vX.X.X -> vX.X.X`
+    - `Bump devel-tool version (shfmt): vX.X.X -> vX.X.X` → `chore(shfmt): Bump devel-tool version: vX.X.X -> vX.X.X`
   - ただし、`bump-project.linux-x64.bash` および `check-devel-tools-versions.linux-x64.bash`
     内でハードコードされているコミットメッセージ文字列は、今回は変更しない。
     将来リファクタリングの機会があれば合わせて修正すること。
