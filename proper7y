@@ -185,8 +185,9 @@ identify_os_family_id() {
   # Check if the UNAME_CACHE_KERNEL_NAME value is in SUPPORTED_OS_FAMILY_IDS
   if ! is_supported "$OS_FAMILY_ID" "${SUPPORTED_OS_FAMILY_IDS[@]}"; then
     log_err "This script does not support the OS family: ${OS_FAMILY_ID}"
-    # Use exit instead of return so that the script terminates with a clear
-    # error message, rather than relying on set -e to kill it silently.
+    # Use 'exit' here (not 'return') because proper7y is a top-level script,
+    # not a library. When identification fails, there is nothing useful to do.
+    # See ADR-010 for the exit/return policy.
     exit 1
   fi
 }
@@ -228,7 +229,7 @@ identify_os_id() {
   # Check if the OS_ID value is in SUPPORTED_OS_IDS
   if ! is_supported "$OS_ID" "${SUPPORTED_OS_IDS[@]}"; then
     log_err "This script does not support the OS ID: ${OS_ID}"
-    # Same reason as identify_os_family_id above.
+    # See identify_os_family_id() and ADR-010.
     exit 1
   fi
 }
@@ -268,7 +269,7 @@ identify_virtualization_id() {
   if ! is_supported "$VIRTUALIZATION_ID" "${SUPPORTED_VIRTUALIZATION_IDS[@]}"; then
     log_err "This script does not support the VIRTUALIZATION_ID: ${VIRTUALIZATION_ID}"
     log_debug "systemd-detect-virt: $(systemd-detect-virt)"
-    # Same reason as identify_os_family_id above.
+    # See identify_os_family_id() and ADR-010.
     exit 1
   fi
 }
@@ -313,7 +314,7 @@ identify_current_shell_id() {
   # Check if the CURRENT_SHELL_ID value is in SUPPORTED_SHELL_IDS
   if ! is_supported "$CURRENT_SHELL_ID" "${SUPPORTED_SHELL_IDS[@]}"; then
     log_err "This script does not support the CURRENT_SHELL_ID: ${CURRENT_SHELL_ID}"
-    # Same reason as identify_os_family_id above.
+    # See identify_os_family_id() and ADR-010.
     exit 1
   fi
 }

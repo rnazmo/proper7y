@@ -335,6 +335,8 @@ _check_if_the_tool_exists() {
     log_err "$TOOL_PATH not found."
     log_err "Please install it before run this script."
     log_err "(You should run install-devel-tools.linux-x64.bash to install.)"
+    # Use 'return 1' here (not 'exit') because this is a library function.
+    # The caller decides whether to abort. See ADR-008.
     return 1
   fi
   log_info "  => Checked that $TOOL_NAME is installed"
