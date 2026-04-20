@@ -1,5 +1,26 @@
 # ADR (proper7y)
 
+## ADR-012: devel-tools スクリプトのファイル名サフィックス方針
+
+- **日付:** 2026-04-20
+- **状況:**
+  - `devel-tools/script/` 以下のスクリプトは `.linux-x64.bash` というサフィックスを持つが、
+    CI (`integ-test.yml`) では macOS 上でも `make integ-tests` が呼ばれており、
+    `run-integ-test.linux-x64.bash` が macOS 上で実際に実行されていた。
+  - 命名と実態が乖離しており、TODO.md にて「この検討は ADR で行うべき」と記録されていた。
+- **調査結果:**
+  - `install-devel-tools`・`run-lint`・`run-format`・`bump-project`・`check-devel-tools-versions`・`check-project-version-consistency` の各スクリプトは、以下の理由により Linux/x64 専用である。
+    - shellcheck・shfmt のバイナリ取得 URL が `linux.x86_64` 固定
+    - `sed -i` を GNU sed の構文で使用しており、macOS の BSD sed では動作しない
+  - `run-integ-test` スクリプトは `curl` と `bash` のみを使用しており、Linux/macOS 両方で動作する。
+- **決定:**
+  - Linux/x64 専用スクリプトは `.linux-x64.bash` サフィックスを維持する。
+  - `run-integ-test.linux-x64.bash` は実態に合わせて `run-integ-test.bash` にリネームする。
+  - 「開発者環境は Linux/x64 のみ」という方針は変更しない（README.md の Prerequisite セクションに既に明記されている）。ただし `run-integ-test.bash` の例外についてはコメントで補足する。
+- **採用しなかった案:**
+  - すべてのスクリプトから `.linux-x64.bash` サフィックスを除去する案は、Linux/x64 専用スクリプトに対して誤解を招くため採用しない。
+  - macOS 対応を全スクリプトに広げる案は、devel-tools のバイナリ管理の複雑化を招くため現時点では採用しない。
+
 ## ADR-011: 正常終了時の `exit 0` 明示方針
 
 - **日付:** 2026-04-20
