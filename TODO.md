@@ -64,7 +64,7 @@
 - [x] 最初に OS を特定し、未対応 OS の場合はエラーを返して終了させる
   - `main` 関数の最初で OS を特定し、その情報を変数に保存しておく（現状は `init` で行っているが、整理が必要）
   - "prerequisites exists?", "the os is supported os?" みたいな。
-- [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加する
+- [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加することを検討する
   - 対象: shellcheck および shfmt をダウンロードする際。
   - `.sha256` ファイルの入手方法は要調査。
     - [shfmt v3.13.0 のリリースページ](https://github.com/mvdan/sh/releases/tag/v3.13.0)の説明によれば、 `Note that this release no longer includes a sha256sums.txt asset; GitHub now provide digests natively.` らしい。
@@ -72,6 +72,7 @@
       - GitHub のリリースにアップロードされるアセットに対して、自動で SHA‑256 ダイジェスト（チェックサム）が付くようになった
       - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
       - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
+    - -> 検討の結果、実装しないことにした (ADR-014)
 - [ ] `identify_current_shell_id()` の実装を見直す
   - 現状は `ps` で親プロセスを辿る実装で、macOSとLinuxで挙動が異なり壊れやすい
   - ps で親プロセスを辿る方法は、CI 環境・Docker・`make` 経由での実行など、実行コンテキストが変わると容易に壊れる
