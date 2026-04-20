@@ -208,6 +208,11 @@ Ref:
 
 - **'debian-based Linux' && 'x64'**
 
+Note: `devel-tools` scripts (lint, format, install, bump, etc.) depend on
+Linux/x64 binaries (shellcheck, shfmt) and `GNU sed`, so they only work on
+Linux/x64. The exception is `run-integ-test.bash`, which has no such
+dependency and works on both Linux and macOS. (Ref: ADR-012)
+
 ### How to setup your development environment
 
 1. Check if your machine meet [the prerequisites](https://github.com/rnazmo/proper7y#prerequisites)

@@ -9,7 +9,7 @@ set -eu
 #     bump-project.linux-x64.bash
 #     run-lint.linux-x64.bash
 #     run-format.linux-x64.bash
-#     run-integ-test.linux-x64.bash
+#     run-integ-test.bash
 #     etc...
 #
 # How to load this file:

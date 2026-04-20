@@ -16,7 +16,7 @@ readonly TARGETS=(
   "${COMMON_SH_PATH}"
   "${DEVEL_TOOLS_DIR}/script/run-lint.linux-x64.bash"
   "${DEVEL_TOOLS_DIR}/script/run-format.linux-x64.bash"
-  "${DEVEL_TOOLS_DIR}/script/run-integ-test.linux-x64.bash"
+  "${DEVEL_TOOLS_DIR}/script/run-integ-test.bash"
   "${DEVEL_TOOLS_DIR}/script/bump-project.linux-x64.bash"
   "${DEVEL_TOOLS_DIR}/script/install-devel-tools.linux-x64.bash"
   "${DEVEL_TOOLS_DIR}/script/check-devel-tools-versions.linux-x64.bash"

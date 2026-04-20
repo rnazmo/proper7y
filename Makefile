@@ -28,7 +28,7 @@ run-integ-test-to-head:
 
 .PHONY: run-integ-test-to-latest
 run-integ-test-to-latest:
-	./devel-tools/script/run-integ-test.linux-x64.bash
+	./devel-tools/script/run-integ-test.bash
 
 .PHONY: static-tests
 static-tests: lint validate

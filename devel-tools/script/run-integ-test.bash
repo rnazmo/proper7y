@@ -3,6 +3,11 @@ set -eu
 
 # TL;DR (What is this?):
 #   - Install and run stable 'proper7y'.
+#
+# Platform note:
+#   This script does not depend on Linux/x64-specific tools,
+#   and runs on both Linux and macOS. (Ref: ADR-012)
+#   (Unlike the other devel-tools scripts, which are Linux/x64-only.)
 
 source "$(dirname "$0")/common.bash"
 initialize_global_variables
