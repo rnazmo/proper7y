@@ -50,7 +50,7 @@
   - 対応：サブシェル `( )` に閉じ込める方法で修正した。`_recompose_shellcheck_binary_version` はグローバル変数を変更するためサブシェルの外に置いた
 - [x] `run-integ-test.linux-x64.bash` の `main()` 内にも `trap EXIT` がある。これも、`install_shellcheck()` 内の `trap EXIT` と同様に「サブシェルで処理を閉じ込める」必要があるかどうか検討する。
   - 検討結果：**変更不要**。`main()` はスクリプトのトップレベルであり、後続で `trap EXIT` を上書きする処理が存在しないため、`install_shellcheck()` が抱えていた問題は発生しない。詳細は ADR-008 を参照。
-- [ ] コマンドの exit status を整える（正常終了で 0 を返す、など）
+- [x] コマンドの exit status を整える（正常終了で 0 を返す、など）
 - [ ] ファイル名のプラットフォーム縛り（`.linux-x64.bash`）と実態の不一致を解消する
   - `run-lint.linux-x64.bash` 等をLinux/x64専用と命名しているのに、CIのmatrixでmacOSからも呼ばれている
   - 命名を変えるか、macOS非対応であることをドキュメントに明記するか、方針を決める
