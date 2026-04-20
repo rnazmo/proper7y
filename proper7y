@@ -489,3 +489,5 @@ log_err() {
 init
 
 main
+
+exit 0

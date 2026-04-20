@@ -91,3 +91,5 @@ log_err() {
 parse_args "$@"
 
 main
+
+exit 0
