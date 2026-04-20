@@ -5,6 +5,11 @@
 
 Tiny Bash script to print basic system information in consistent format.
 
+> **Note on terminology used in this document:**
+> `proper7y` refers to the file (the script itself),
+> 'proper7y' refers to the project (≒ the repository), and
+> `$ proper7y` refers to the command on your console.
+
 TODO: GIF here
 
 ## TL;DR
