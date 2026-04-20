@@ -185,3 +185,5 @@ upgrade_devel_tool_if_needed() {
 }
 
 main
+
+exit 0

@@ -71,3 +71,5 @@ overwrite_project_version() {
 }
 
 main
+
+exit 0
