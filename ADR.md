@@ -1,5 +1,33 @@
 # ADR (proper7y)
 
+## ADR-013: `init()` の責務分割方針
+
+- **日付:** 2026-04-20
+- **状況:**
+  - TODO.md に「最初に OS を特定し、未対応 OS の場合はエラーを返して終了させる」というタスクがあった。
+  - 調査の結果、未対応 OS でのエラー終了は `identify_os_family_id()` と `identify_os_id()` が既に `exit 1` しており、**動作としては既に正しかった**。
+  - 問題は設計の明確さにあった。`init()` は以下をすべて一括で行っており、関数名からは何をしているか分からない状態だった：
+    - Bash バージョンチェック（前提条件の確認）
+    - `uname` のキャッシュ
+    - OS family / OS ID の特定
+    - 仮想化環境の特定
+    - 現在のシェルの特定
+  - `main()` から `init` と呼ばれるだけでは、「OS判定もここで行われている」ことが読み取れない。
+- **検討した解決策:**
+  - **案1:** `init()` を廃止し、`check_prerequisites()` と `identify_environment()` を `main()` の冒頭で直接呼ぶ
+  - **案2:** `init()` を残し、`check_prerequisites()` と `identify_environment()` への委譲ラッパーにする
+- **却下した理由（案1）:**
+  - `init()` には「これらは冒頭で必ず呼ぶべき処理である」というまとめ役の意図があった。
+  - `init()` を廃止すると、将来コードを追加する人が「`check_prerequisites()` と `identify_environment()` は必ずセットで冒頭に呼ぶべき」という制約を読み取りにくくなる。
+- **決定（案2）:**
+  - `init()` は残す。ただし中身を `check_prerequisites()` と `identify_environment()` に委譲するラッパーとする。
+  - `init()` のコメントに `Must be called once at the very beginning of the script` と明記し、役割を文書化する。
+  - `check_prerequisites()` : Bash バージョンチェックのみ担う。
+  - `identify_environment()` : `cache_uname()` の呼び出しと、OS / 仮想化 / シェルの特定を担う。**未対応環境では `exit 1` する。**
+- **結果:**
+  - `init()` が「冒頭で必ず呼ぶべきまとめ役」という役割を保持したまま、中身が何をしているかを関数名で表現できるようになった。
+  - `main()` から読んだときに「OS が未対応なら `identify_environment()` の中で終了する」という流れが明確になった。
+
 ## ADR-012: devel-tools スクリプトのファイル名サフィックス方針
 
 - **日付:** 2026-04-20

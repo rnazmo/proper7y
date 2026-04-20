@@ -86,14 +86,26 @@ declare -A SHELL_NAMES=( # The key is SHELL_ID
 
 # -------------------------------------------------------------------
 
+# Must be called once at the very beginning of the script,
+# before any other processing.
 init() {
-  # Check prerequisites
+  check_prerequisites
+  identify_environment # Exits here if the OS or environment is not supported.
+}
+
+# Check that the runtime meets the minimum requirements for this script.
+# Exit immediately if requirements are not satisfied.
+check_prerequisites() {
   if [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then
     log_err "Must be Bash version >= 4.0."
     log_debug "Bash version: ${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]}.${BASH_VERSINFO[2]}"
     exit 1
   fi
+}
 
+# Identify the current environment (OS, virtualization, shell).
+# Exit immediately if the environment is not supported.
+identify_environment() {
   cache_uname
 
   identify_os_family_id
