@@ -64,7 +64,7 @@
 - [x] 最初に OS を特定し、未対応 OS の場合はエラーを返して終了させる
   - `main` 関数の最初で OS を特定し、その情報を変数に保存しておく（現状は `init` で行っているが、整理が必要）
   - "prerequisites exists?", "the os is supported os?" みたいな。
-- [ ] `curl` でのファイルダウンロード時にチェックサム検証を追加することを検討する
+- [x] `curl` でのファイルダウンロード時にチェックサム検証を追加することを検討する
   - 対象: shellcheck および shfmt をダウンロードする際。
   - `.sha256` ファイルの入手方法は要調査。
     - [shfmt v3.13.0 のリリースページ](https://github.com/mvdan/sh/releases/tag/v3.13.0)の説明によれば、 `Note that this release no longer includes a sha256sums.txt asset; GitHub now provide digests natively.` らしい。
