@@ -1,5 +1,31 @@
 # ADR (proper7y)
 
+## ADR-015: ローリングリリース系ディストリビューションでの OS VERSION 表示方針
+
+- **日付:** 2026-04-22
+- **状況:**
+  - EndeavourOS 上で `./proper7y` を実行すると、`OS VERSION` フィールドが空欄になるバグが発覚した。
+  - 原因は `print_os_version()` が `/etc/os-release` の `VERSION_ID` フィールドを参照しているが、
+    EndeavourOS を含む Arch 系ローリングリリースディストリビューションはこのフィールドを持たないことにある。
+  - EndeavourOS の `/etc/os-release` には `VERSION_ID` の代わりに `BUILD_ID=rolling` が存在する。
+- **検討した案:**
+  - **案1:** `"Unknown"` のまま表示する（現状維持）
+    - バグが残り、ユーザーに意図が伝わらない
+  - **案2:** `"N/A (Rolling Release)"` などの固定文字列を表示する
+    - シンプルだが、`BUILD_ID` の情報を活用していない
+  - **案2':** `BUILD_ID` の値（`rolling`）をそのまま表示する
+    - `BUILD_ID` の意味はディストリビューションによって異なるため汎用性に欠ける
+  - **案2''（採用）:** `VERSION_ID` が取れず `BUILD_ID=rolling` の場合に `"Rolling Release"` を表示する
+- **決定:** 案2'' を採用する。
+- **理由:**
+  - `BUILD_ID=rolling` という機械的な値をそのまま出力するより、`"Rolling Release"` という
+    人間が読みやすい文字列に変換する方が、このツールの出力としてふさわしい。
+  - Arch Linux 本体・EndeavourOS・Manjaro など、Arch 系全般で同様に動作することが期待できる。
+  - 実装がシンプルで、既存の `print_os_version()` の構造を大きく変えずに済む。
+- **実装:**
+  - `VERSION_ID` が空の場合に `BUILD_ID=rolling` の有無を確認するフォールバック処理を
+    `print_os_version()` 内の Linux ブランチに追加した。
+
 ## ADR-014: `curl` ダウンロード時のチェックサム検証を実装しない
 
 - **日付:** 2026-04-20
