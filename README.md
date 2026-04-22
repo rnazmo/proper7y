@@ -150,11 +150,12 @@ NOTE: These are documents to my future self.
 
 ### Conventions
 
-TODO: それぞれが "SHALL" なのか、"SHOULD" なのかを明記する。
+- **SHALL**: 必ず守るルール。例外なし。
+- **SHOULD**: 原則として守るルール。合理的な理由があれば例外を認める。
 
 #### Versioning
 
-Follow semantic versioning.
+Follow semantic versioning. (SHALL)
 
 #### Branch
 
@@ -177,7 +178,7 @@ Follow semantic versioning.
 
 #### Issues / Pull requests
 
-**Avoid writing important information in Issues / Pull requests.**
+**Avoid writing important information in Issues / Pull requests. (SHALL)**
 
 Because it is difficult to search and maintain the information written there.
 
@@ -187,8 +188,8 @@ Because it is difficult to search and maintain the information written there.
 
 #### Documentation
 
-Although not preferred, it is okay to have a mixture of English and Japanese
-(since the target reader of this document is my future self)
+Although not preferred, it is okay to have a mixture of English and Japanese. (SHOULD)
+(The target reader of these documents is my future self.)
 
 #### Code Style for Bash Script (Lint, Format)
 
