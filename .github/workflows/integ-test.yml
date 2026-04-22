@@ -42,8 +42,11 @@ jobs:
       - name: Bump Bash version on macOS
         if: matrix.os == 'macos-latest'
         run: |
-          bash --version
           brew install bash
-          /opt/homebrew/bin/bash --version
+          echo "/opt/homebrew/bin" >> "$GITHUB_PATH"
+      - name: Verify Bash version on macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          bash --version
       - name: Run proper7y
         run: ./proper7y

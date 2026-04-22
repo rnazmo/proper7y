@@ -9,6 +9,9 @@
   - 原因：`VERSION_ID` が `/etc/os-release` に存在しないディストリビューションがある
   - 修正：`VERSION_ID` が取れない場合に `BUILD_ID=rolling` を確認し、`"Rolling Release"` を表示するフォールバックを追加した
   - 詳細は ADR-015 を参照
+- [x] macOSのinteg-testで使用されるBashのバージョンを明示的に指定する
+  - `brew install bash` した後も `./proper7y` のshebang `#!/usr/bin/env bash` はPATHの先頭のbashを使うため、インストールしたbashが必ず使われるとは限らない
+  - `/opt/homebrew/bin/bash ./proper7y` のように明示するか、PATHを先頭に追加する
 
 ### コード・機能
 
@@ -241,10 +244,6 @@
 ## Backlog（いつかやる）
 
 ### セキュリティ・バグ修正
-
-- [ ] macOSのinteg-testで使用されるBashのバージョンを明示的に指定する
-  - `brew install bash` した後も `./proper7y` のshebang `#!/usr/bin/env bash` はPATHの先頭のbashを使うため、インストールしたbashが必ず使われるとは限らない
-  - `/opt/homebrew/bin/bash ./proper7y` のように明示するか、PATHを先頭に追加する
 
 ### コード・機能
 
