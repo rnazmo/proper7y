@@ -165,16 +165,29 @@ Follow semantic versioning. (SHALL)
 
 #### Commit message
 
-- 原則として、てきとうにゆるくやる
-  - ミスってもあまり気にせず。ゆるく
-- For document only changes:
-  - Add 'docs: ' as a prefix (SHALL)
-- When you bump a version of 'proper7y'
-  - Like this: `Bump a version to v0.0.3` (SHOULD)
-- When you bump a version of devel-tools
-  - Like this: `Bump a version of shellcheck to v0.7.3` (SHOULD)
-- When you bump a version of devel-tools
-  - TODO:
+Follow [Conventional Commits](https://www.conventionalcommits.org/ja/v1.0.0/). (SHOULD)
+See ADR-009 for the rationale and detailed rules.
+
+This project is personal, so strict enforcement is not required. Continuing to commit matters more than writing a perfect message.
+
+**Commit types used in this project:**
+
+- `feat`: new feature
+- `fix`: bug fix
+- `docs`: documentation only
+- `style`: formatting, no logic change
+- `refactor`: neither fix nor feature
+- `test`: adding or updating tests
+- `chore`: build process or tooling changes (e.g. bumping devel-tools versions)
+
+**Scope** (optional): Use when the target is clear (e.g. `feat(install): ...`, `chore(shfmt): ...`, `docs(ADR): ...`).
+
+**Examples:**
+
+- `chore: bump project version: v0.9.3 -> v0.10.0`
+- `chore(shellcheck): bump devel-tool version: v0.10.0 -> v0.11.0`
+- `docs(README): add TL;DR section`
+- `refactor(proper7y): split init() into check_prerequisites() and identify_environment() (ADR-013)`
 
 #### Issues / Pull requests
 
