@@ -190,7 +190,7 @@
     - [ ] ADR.md に意思決定を記録する
 - [x] README.md のどこかに以下のようなテキストを追加する:
   - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
-- [ ] README.md の Notes セクション内にある冗長な括弧書き（`(this indicates 'proper7y' as the file)` など）を削除する
+- [x] README.md の Notes セクション内にある冗長な括弧書き（`(this indicates 'proper7y' as the file)` など）を削除する
   - 一つ上のタスクにて README.md の冒頭に用語の凡例を追加したことで、これらの括弧書きは不要になった
 - [ ] このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する（README.md? ADR?）
 - [ ] コード内コメント・コミットメッセージ・ADR・README・TODO などのドキュメントの言語を明示的にする。どこかに書いておく

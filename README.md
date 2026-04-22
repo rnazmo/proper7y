@@ -96,14 +96,14 @@ TODO:
 
 TL;DR: **Use `install.bash`**. Or Download `proper7y` file directly **with specifying a version**
 
-Don't download 'proper7y' (this indicates 'proper7y' as the file) directly from the `main` branch,
+Don't download `proper7y` directly from the `main` branch,
 but download it directly using a tag such as "v0.0.1".
 
-Or, I highly recommend you to download 'proper7y' (this indicates 'proper7y' as the file) via `install.bash`.
+Or, I highly recommend you to download `proper7y` via `install.bash`.
 If you download `install.bash`, it is also allowed from the `main` branch.
 
-If you do not specify the version (for example, if you download 'proper7y' (this indicates 'proper7y' as the file) directly from `main` branch),
-the version information of 'proper7y' (this indicates 'proper7y' as the project) itself in the output of the `proper7y` (this 'proper7y' means as the file) command can be incorrect.
+If you do not specify the version (for example, if you download `proper7y` directly from the `main` branch),
+the version information of 'proper7y' itself in the output of `proper7y` can be incorrect.
 
 e.g.,
 
