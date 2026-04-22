@@ -158,8 +158,9 @@ Follow semantic versioning.
 
 #### Branch
 
-- **管理が面倒なので、「main」だけとする。(SHOULD)**
-- 「すぐに消すプルリク用の機能追加ブランチ」は作ってもよい。(SHOULD)
+- **なるべく `main` だけの状態を維持することが望ましい。(SHOULD)**
+- ただし、機能追加など変更が大きい場合に一時的なブランチを作るのは全く構わない。(SHOULD)
+- 一時ブランチはマージ後すみやかに削除する。(SHOULD)
 
 #### Commit message
 
