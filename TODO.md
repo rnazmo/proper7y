@@ -102,6 +102,10 @@
   - より具体的なバージョン情報を表示した方が有用な気もする。例えば、Linux カーネルや主要なパッケージのバージョン情報
     - uname -r や pacman -Q の結果などで取得できるような情報
   - **この検討は ADR で行うべき**
+- [ ] `print_chassis()` を実装して出力に追加することを検討する
+  - シャーシ情報（desktop / laptop / server 等）を表示する機能
+  - `hostnamectl status | grep "Chassis:"` で取得できる
+  - 削除時の実装: `CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")`
 
 ### テスト・CI
 

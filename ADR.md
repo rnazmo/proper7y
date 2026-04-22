@@ -1,5 +1,54 @@
 # ADR (proper7y)
 
+## ADR-017: shellcheck SC2329 への対応方針
+
+- **日付:** 2026-04-22
+- **状況:**
+  - shellcheck を v0.10.0 から v0.11.0 にアップグレード後、`proper7y` などのトップレベルスクリプトに
+    `exit 0` を追加したタイミングで `make static-tests` が失敗するようになった。
+    - [Bump devel-tool version (shellcheck): v0.10.0 -> v0.11.0 · rnazmo／proper7y@e8f3095](https://github.com/rnazmo/proper7y/commit/e8f309521e676170437d9e6259dd81d2ba7d314e)
+    - [docs(ADR): add ADR-011 for explicit exit 0 policy · rnazmo／proper7y@77f7168](https://github.com/rnazmo/proper7y/commit/77f7168c684394395e5fbc88f9a194e661156c99)
+    - [feat: explicitly exit 0 on success in proper7y and install.bash (ADR-… · rnazmo／proper7y@d2a6175](https://github.com/rnazmo/proper7y/commit/d2a61752fa51caef25473515fe1f48b59b0c5c56)
+    - [feat: explicitly exit 0 on success in devel-tools scripts (ADR-011) · rnazmo／proper7y@c473df2](https://github.com/rnazmo/proper7y/commit/c473df2cee9daed8654b4455ec5d9c98997ab1b2)
+  - エラーの内容は SC2329（未使用関数の警告）で、対象は
+    - `proper7y`: `print_chassis()`、`log_info()`、`log_warn()` の3関数
+    - `check-devel-tools-versions.linux-x64.bash`: `bump_shellcheck_version()`, `bump_shfmt_version()` の2関数
+  - SC2329 は v0.11.0 で新設されたルールであり、v0.10.0 では存在しなかった。
+  - 問題が表面化した直接的なトリガーは `exit 0` の追加（ADR-011 に基づくコミット）だった。
+    公式 [ShellCheck: SC2329 – This function is never invoked. Check usage (or ignored if invoked indirectly).](https://www.shellcheck.net/wiki/SC2329)
+    を読むと、次のように書いてある：
+    - > Note that if the example script did not end in exit, this warning would not be emitted. This is because the function could be invoked by another script that sources it.
+  - つまり「v0.11.0 へのアップグレード」と「`exit 0` の追加」という2つの変更が
+    組み合わさって初めて問題が表面化した。
+- **検討した対応策:**
+  - **案A:** 未使用関数を削除する
+  - **案B:** `--exclude SC2329` で警告を抑制する
+  - **案C:** `# shellcheck disable=SC2329` でインラインに抑制する
+  - **案D:** このトラブルの記録としてインシデントレポート用の新ファイルを追加する
+- **決定:**
+  - `proper7y` の3関数については案Aを採用する
+  - `check-devel-tools-versions.linux-x64.bash` の2関数については案Cを採用する
+  - 案Dは採用しない
+- **理由:**
+  - 案Bと案Cは根本解決ではなく、未使用コードを残すことを正当化する理由がない。
+  - 案Aが最もシンプルで、コードの健全性を保てる。
+  - ただし、`check-devel-tools-versions.linux-x64.bash` の2関数については、他の関数に引数として渡すという形で間接的に呼ばれている。そのため削除できない。インラインで警告を抑制する案Cが妥当。
+  - 案Dは、README.md の "Fewer files" ポリシーに反することと、
+    同様のトラブルが継続的に発生する見込みが現時点では薄く、
+    ファイルを作っても放置されるリスクが高いため採用しない。
+    今後同様のトラブルが頻発するようであれば再検討する。
+- **対応内容:**
+  - `print_chassis()` : 将来の機能追加で使う可能性があるため、実装内容を
+    TODO.md のバックログに残したうえで削除する。
+  - `log_info()`, `log_warn()` : 再実装が容易なため、そのまま削除する。
+    - bump_shellcheck_version()`,`bump_shfmt_version()` : 関数の上部にディレクティブを追加する
+- **教訓:**
+  - 複数の変更が組み合わさって初めて問題が表面化するケースがある。
+    今回は「新ルールを含む shellcheck へのアップグレード」と
+    「`exit 0` の追加」という独立した2つの変更が原因だった。
+  - devel-tools をアップグレードした後は、静的テストをその場で実行して
+    確認する習慣をつけるとこのようなケースを早期に発見できる。
+
 ## ADR-016: Golang への全面書き換えを行わない
 
 - **日付:** 2026-04-22
