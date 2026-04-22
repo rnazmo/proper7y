@@ -404,12 +404,6 @@ print_virtualization() {
   print_row "VIRTUALIZATION" "$VIRTUALIZATION"
 }
 
-print_chassis() {
-  local CHASSIS="Unknown"
-  CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
-  print_row "CHASSIS" "$CHASSIS"
-}
-
 print_current_shell() {
   local CURRENT_SHELL="Unknown"
   CURRENT_SHELL="${SHELL_NAMES[$CURRENT_SHELL_ID]}"
@@ -486,16 +480,6 @@ print_row() {
 log_debug() {
   local -r PREFIX="DEBUG:"
   echo "$PREFIX $1"
-}
-
-log_info() {
-  local -r PREFIX="INFO :"
-  echo "$PREFIX $1"
-}
-
-log_warn() {
-  local -r PREFIX="WARN :"
-  echo "$PREFIX $1" >&2
 }
 
 log_err() {
