@@ -35,7 +35,7 @@ set -eu
 # ============================================================
 # Group 1: True constants (never change)
 # ============================================================
-readonly PROPER7Y_VERSION="v0.9.5"
+readonly PROPER7Y_VERSION="v0.9.6"
 readonly SHELLCHECK_TOOL_NAME="shellcheck"
 readonly SHFMT_TOOL_NAME="shfmt"
 
