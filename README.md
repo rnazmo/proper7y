@@ -193,17 +193,43 @@ Although not preferred, it is okay to have a mixture of English and Japanese. (S
 
 #### Code Style for Bash Script (Lint, Format)
 
-shellcheck, shfmt に従う。
+Follow shellcheck and shfmt. (SHALL)
+
+Also follow [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html) for rules not covered by the above tools. Key rules adopted in this project:
+
+**Naming**
+
+- Function names: `lowercase_with_underscores` (SHALL)
+- Constants and readonly globals: `UPPER_SNAKE_CASE` with `readonly` (SHALL)
+- Local variables: `lowercase_with_underscores` with `local` (SHALL)
+
+**Functions**
+
+- Always declare function-scoped variables with `local` or `local -r`. (SHALL)
+- Functions that are internal (not intended to be called from outside the file) should be prefixed with `_`. (SHOULD)
+
+**Error handling**
+
+- Always use `set -eu` at the top of every script. (SHALL)
+- Use `exit 1` in top-level scripts and `return 1` in library functions (`common.bash`). See ADR-010. (SHALL)
+
+**Quoting**
+
+- Always double-quote variables: `"$VAR"` not `$VAR`. (SHALL)
+- Exception: inside `[[ ]]`, quoting is optional but still preferred. (SHOULD)
+
+**Misc**
+
+- Use `[[ ]]` instead of `[ ]` for conditionals. (SHALL)
+- Use `$(...)` instead of backticks for command substitution. (SHALL)
+- Always add `exit 0` at the end of top-level scripts. See ADR-011. (SHALL)
 
 Ref:
 
-[Shell scripting standards and style guidelines | GitLab](https://docs.gitlab.com/ee/development/shell_scripting_guide/#code-style-and-format)
-
-[styleguide | Style guides for Google-originated open-source projects](https://google.github.io/styleguide/shellguide.html)
-
-[koalaman/shellcheck: ShellCheck, a static analysis tool for shell scripts](https://github.com/koalaman/shellcheck)
-
-[mvdan/sh: A shell parser, formatter, and interpreter with bash support; includes shfmt](https://github.com/mvdan/sh)
+- [Shell scripting standards and style guidelines | GitLab](https://docs.gitlab.com/ee/development/shell_scripting_guide/#code-style-and-format)
+- [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
+- [ShellCheck](https://github.com/koalaman/shellcheck)
+- [shfmt](https://github.com/mvdan/sh)
 
 #### Force push to the remote repo
 
