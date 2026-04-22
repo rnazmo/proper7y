@@ -48,6 +48,16 @@ NOTE: So, I will only support environments and software that I use frequently.
 
 See: [`Supported Software:` section in proper7y](https://github.com/rnazmo/proper7y/blob/main/proper7y#L13)
 
+#### Support policy
+
+| Environment           | Target                           | Support level                                 |
+| --------------------- | -------------------------------- | --------------------------------------------- |
+| User environment      | Linux (Arch-based, Debian-based) | Full support                                  |
+| User environment      | macOS                            | Best-effort (works in CI, but not guaranteed) |
+| User environment      | Shell: Bash (>= 4.0), Zsh        | Full support                                  |
+| Developer environment | Linux x64                        | Full support                                  |
+| Developer environment | macOS                            | Not supported                                 |
+
 ### Installation
 
 #### Using Script (recommended) - Install the latest release version
@@ -297,12 +307,13 @@ Ref:
 
 **Only the following machine are supported as development environments**:
 
-- **'debian-based Linux' && 'x64'**
+- **Linux x64**
 
 Note: `devel-tools` scripts (lint, format, install, bump, etc.) depend on
 Linux/x64 binaries (shellcheck, shfmt) and `GNU sed`, so they only work on
 Linux/x64. The exception is `run-integ-test.bash`, which has no such
-dependency and works on both Linux and macOS. (Ref: ADR-012)
+dependency and works on both Linux and macOS. (Ref: ADR-012, ADR-020)
+(Unlike the other devel-tools scripts, which are Linux/x64-only.)
 
 ### How to setup your development environment
 
