@@ -96,6 +96,7 @@ get_latest_version_number() {
   echo "$LATEST_VER"
 }
 
+# shellcheck disable=SC2329
 # TODO: Refactor DRY following two functions
 bump_shellcheck_version() {
   # Overwrite devel-tools versions
@@ -110,6 +111,8 @@ bump_shellcheck_version() {
 
   reinstall_shellcheck
 }
+
+# shellcheck disable=SC2329
 bump_shfmt_version() {
   # Overwrite devel-tools versions
   local -r TARGET_FILE="${COMMON_SH_PATH}"
