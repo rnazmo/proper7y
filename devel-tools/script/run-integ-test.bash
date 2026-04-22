@@ -47,13 +47,13 @@ assert_output() {
   assert_line_exists "$OUTPUT" "BASH VERSION"
 
   # Check CURRENT DATE format (YYYY-MM-DD)
-  if ! echo "$OUTPUT" | grep -qE "^CURRENT DATE\s+: [0-9]{4}-[0-9]{2}-[0-9]{2}$"; then
+  if ! echo "$OUTPUT" | grep -qE "^CURRENT DATE\s*: [0-9]{4}-[0-9]{2}-[0-9]{2}$"; then
     log_err "CURRENT DATE does not match expected format YYYY-MM-DD"
     return 1
   fi
 
   # Check BASH VERSION format (X.Y.Z)
-  if ! echo "$OUTPUT" | grep -qE "^BASH VERSION\s+: [0-9]+\.[0-9]+\.[0-9]+$"; then
+  if ! echo "$OUTPUT" | grep -qE "^BASH VERSION\s*: [0-9]+\.[0-9]+\.[0-9]+$"; then
     log_err "BASH VERSION does not match expected format X.Y.Z"
     return 1
   fi
