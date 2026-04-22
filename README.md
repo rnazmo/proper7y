@@ -10,11 +10,28 @@ Tiny Bash script to print basic system information in consistent format.
 > 'proper7y' refers to the project (≒ the repository), and
 > `$ proper7y` refers to the command on your console.
 
-TODO: GIF here
+<!-- TODO: GIF here -->
 
 ## TL;DR
 
-TODO: Here's a summary you can read in 30 seconds.
+`proper7y` is a tiny Bash script that prints basic system information
+in a consistent, easy-to-copy format. Useful for attaching environment
+details to technical articles or bug reports.
+
+```console
+$ ./proper7y
+proper7y v0.9.3 - Tiny Bash script to print basic system
+information. See: https://github.com/rnazmo/proper7y
+============================================================
+CURRENT DATE  : 2026-04-19
+VIRTUALIZATION: Hyper-V
+CPU ARCH      : x86_64
+OS NAME       : Ubuntu
+OS VERSION    : 24.04
+CURRENT SHELL : Bash
+BASH VERSION  : 5.2.21
+============================================================
+```
 
 ## Documentation for users
 
@@ -88,7 +105,35 @@ Just run commands like the following in your terminal.
 
 ### Examples
 
-TODO:
+```console
+$ ./proper7y
+proper7y v0.9.3 - Tiny Bash script to print basic system
+information. See: https://github.com/rnazmo/proper7y
+============================================================
+CURRENT DATE  : 2026-04-18
+VIRTUALIZATION: Physical
+CPU ARCH      : x86_64
+OS NAME       : Ubuntu
+OS VERSION    : 24.04
+CURRENT SHELL : Bash
+BASH VERSION  : 5.2.21
+============================================================
+```
+
+```console
+$ ./proper7y
+proper7y v0.9.3 - Tiny Bash script to print basic system
+information. See: https://github.com/rnazmo/proper7y
+============================================================
+CURRENT DATE  : 2026-04-18
+VIRTUALIZATION: Docker
+CPU ARCH      : x86_64
+OS NAME       : Debian
+OS VERSION    : 12
+CURRENT SHELL : Bash
+BASH VERSION  : 5.2.15
+============================================================
+```
 
 ### Notes
 
