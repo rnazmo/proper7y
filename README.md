@@ -44,6 +44,15 @@ NOTE: These are documents to my future self.
 
 NOTE: So, I will only support environments and software that I use frequently.
 
+#### Scope of displayed information
+
+proper7y outputs **machine-global environment information** only.
+This means information that is tied to the machine itself, such as OS, CPU architecture,
+shell, and virtualization environment.
+
+Project-local information (e.g. React version, Vite version) is out of scope,
+as it varies per project rather than per machine. (Ref: ADR-021)
+
 ### Supported softwares
 
 See: [`Supported Software:` section in proper7y](https://github.com/rnazmo/proper7y/blob/main/proper7y#L13)
