@@ -166,9 +166,9 @@
   - `bump-project.linux-x64.bash`: `"Bump project version: ..."` → `"chore: bump version to ..."`
   - `check-devel-tools-versions.linux-x64.bash`: `"Bump devel-tool version ($TOOL_NAME): ..."` → `"chore($TOOL_NAME): bump version ..."`
   - ADR-009 にて、既存のハードコード文字列は今回変更しないと決定した。この作業はその持ち越し分。
-- [ ] README.md の未完成セクション `TL;DR` を埋める
+- [x] README.md の未完成セクション `TL;DR` を埋める
   - 30秒で読める概要
-- [ ] README.md の未完成セクション `Examples` を埋める
+- [x] README.md の未完成セクション `Examples` を埋める
   - サンプル出力ログ。使用例。
   - ref: <https://github.com/rnazmo/proper7y/blob/6b77aee0debf25f4d6f6a1aee8224c84470a765f/README.md#do-not-download-install-proper7y-without-specifying-the-version>
   - 書き方の参考:
@@ -197,7 +197,7 @@
 
 ### プロジェクト管理
 
-- [ ] TODO.md の `Milestone: v0.10.0` のタイトルを考える
+- [x] TODO.md の `Milestone: v0.10.0` のタイトルを考える
 - [ ] TODO.md の `Milestone: v0.11.0` を策定
 
 ## Milestone: v0.11.0 - TBD
