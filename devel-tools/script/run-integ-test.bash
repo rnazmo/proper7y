@@ -74,7 +74,7 @@ assert_output() {
   for FIELD in "${LEVEL2_FIELDS[@]}"; do
     # Extract the value after the ': ' separator.
     local VALUE
-    VALUE="$(echo "$OUTPUT" | grep -E "^${FIELD}\s+: " | sed 's/^[^:]*: //')"
+    VALUE="$(echo "$OUTPUT" | grep -E "^${FIELD}\s*: " | sed 's/^[^:]*: //')"
     if [[ -z "$VALUE" ]]; then
       log_err "Field '${FIELD}' is missing or has an empty value ($VALUE)"
       return 1
