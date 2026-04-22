@@ -58,6 +58,33 @@ assert_output() {
     return 1
   fi
 
+  # Level 2: Check that field values are not "Unknown" or empty.
+  # "Unknown" in any field indicates an identification failure, which is a bug
+  # regardless of the environment.
+  local -a LEVEL2_FIELDS=(
+    "CURRENT DATE"
+    "VIRTUALIZATION"
+    "CPU ARCH"
+    "OS NAME"
+    "OS VERSION"
+    "CURRENT SHELL"
+    "BASH VERSION"
+  )
+  local FIELD
+  for FIELD in "${LEVEL2_FIELDS[@]}"; do
+    # Extract the value after the ': ' separator.
+    local VALUE
+    VALUE="$(echo "$OUTPUT" | grep -E "^${FIELD}\s+: " | sed 's/^[^:]*: //')"
+    if [[ -z "$VALUE" ]]; then
+      log_err "Field '${FIELD}' is missing or has an empty value ($VALUE)"
+      return 1
+    fi
+    if [[ "$VALUE" == "Unknown" ]]; then
+      log_err "Field '${FIELD}' has value 'Unknown', which indicates an identification failure ($VALUE)"
+      return 1
+    fi
+  done
+
   log_info "Assert passed!"
 }
 
