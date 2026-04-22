@@ -1,6 +1,6 @@
 # TODO (proper7y)
 
-## Milestone: v0.10.0 - Foo
+## Milestone: v0.10.0 - 堅牢性の向上とコードの整理
 
 ### セキュリティ・バグ修正
 
