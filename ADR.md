@@ -1,5 +1,31 @@
 # ADR (proper7y)
 
+## ADR-019: CIトリガーへの `schedule` 追加方針
+
+- **日付:** 2026-04-22
+- **状況:**
+  - CIのトリガーは `push` のみであり、外部依存（GitHub の raw URL からの `install.bash` 取得、
+    proper7y の実行）が時間経過によって壊れても自動では検知できない状態だった。
+  - TODO.md のバックログに「CIトリガーに `pull_request` と `schedule` を追加することを検討する」
+    というタスクが存在していた。
+- **決定:**
+  - `schedule` (weekly) を `integ-test.yml` に追加する。
+  - `pull_request` トリガーは追加しない。
+  - `static-test.yml` への `schedule` 追加も行わない。
+- **理由:**
+  - **`schedule` を追加する理由:** 外部URL（`https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash`）
+    からのダウンロードや proper7y の実行が、コードの変更なしに時間経過で壊れるケースがある。
+    weekly で `make integ-tests` を走らせることでそれを自動検知できる。実装コストは `.yml` への
+    数行追加のみであり、コストに対して得られる価値が十分ある。
+  - **`pull_request` を追加しない理由:** 現在のブランチ運用方針（README.md）は「なるべく `main` だけ」
+    であり、Pull Request を常態的に使う運用ではない。トリガーを追加しても現状の開発フローでは
+    恩恵がない。将来ブランチ運用を始める際に改めて追加すれば十分である。
+  - **`static-test.yml` に `schedule` を追加しない理由:** 静的テスト（lint, validate）はコードが
+    変わらなければ結果も変わらないため、定期実行に意味がない。
+- **補足:**
+  - GitHub Actions の `schedule` トリガーはリポジトリが一定期間（約60日）無操作だと自動で
+    無効化される仕様がある。長期間コードを触らない場合は手動で再有効化が必要になる点に注意。
+
 ## ADR-018: CI での devel-tools 定期バージョンチェックを導入しない
 
 - **日付:** 2026-04-22

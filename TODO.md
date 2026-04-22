@@ -149,6 +149,12 @@
   - 候補: CPU ARCH（英数字・アンダースコア形式）、OS VERSION（数字ドット形式）
   - CURRENT SHELL の Unknown チェック対象への包含可否も合わせて検討する
   - CI環境への依存度が高くなるため、環境ごとの期待値の管理方法を先に設計すること
+- [x] CIトリガーに `pull_request` と `schedule` を追加することを検討する
+  - 現状は `push` のみ
+  - 将来ブランチ運用を始めた場合に困る
+  - 外部サービス（GitHubのURL、brewパッケージ等）の変化を週次で検知する `schedule` トリガーも有用
+  - **この検討は ADR で行うべき**
+  - → `pull_request` は追加しない。`schedule` (weekly) を `integ-test.yml` に追加した。詳細は ADR-015 参照。
 
 ### ドキュメント
 
@@ -250,11 +256,6 @@
 - [ ] CI の `run-head-proper7y` Job と `run-integ-test-to-head` が重複している問題を解消する (Ref: ADR-005)
   - 両者はどちらも `./proper7y` を直接実行するだけで、同じことをしている
   - どちらかを削除するか、役割を明確に分けるかを検討する
-- [ ] CIトリガーに `pull_request` と `schedule` を追加することを検討する
-  - 現状は `push` のみ
-  - 将来ブランチ運用を始めた場合に困る
-  - 外部サービス（GitHubのURL、brewパッケージ等）の変化を週次で検知する `schedule` トリガーも有用
-  - **この検討は ADR で行うべき**
 
 ### ドキュメント
 
