@@ -204,7 +204,7 @@
 
 ### ドキュメント
 
-- [ ] README.md のコーディング規約を更新する
+- [x] README.md のコーディング規約を更新する
   - 各ルールが SHALL か SHOULD かを明記する
   - Google Shell Style Guide を参照して整備する
   - ブランチ運用の方針を改定することを検討
