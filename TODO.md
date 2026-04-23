@@ -147,28 +147,9 @@
   - 現状：「stable版のテスト」のはずなのに、インストーラー自体は `main` (開発版) から取得している
   - 修正案：意図的であればコメントで明記し、意図的でなければ修正する
   - 各テストにおいて、「stable版（リモート）」「`main` (開発版)（リモート）」「`main` (開発版)（ローカル）」の、どのテストなのかを明確にする
-- [ ] `run-format.linux-x64.bash` の `confirm_continue` がCI環境で使えない問題を解消する
-  - 対話的な確認を求めるため、CI環境でハングする可能性がある
-  - `-y` フラグや `FORCE=true` 環境変数でスキップできるようにすることを検討する
-  - この問題が解消されたら、CIのstatic-test.ymlを `make lint` + `make validate` の個別呼び出しから `make static-tests` への一本化も検討すること
-    - 現状は `format` の副作用があるため個別呼び出しにしている
-- [ ] ユニットテストを追加することを検討する
-  - ShellSpec を検討する
-    - ref: [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
-    - ref: [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
-    - ref: [ShellSpec - シェルスクリプト用の BDD テスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
-  - スクリプトの特性上、ユニットテストでテストできる範囲は狭い可能性がある
-  - このプロジェクトにおいて、ユニットテストを導入するのは果たしてどうなのか。Bash のユニットテストは、手間に対してリターンが見合わない可能性が高そう。それよりも、インテグレーションテストを厚くした方が良いのではないか？
-  - **この検討は ADR で行うべき**
-- [ ] CI でのテスト環境に Arch Linux, EndeavourOS, Manjaro Linux などを追加する
 - [x] integ-testのアサーションをレベル2に強化する (Ref: ADR-005)
   - レベル2: 各フィールドの値が `Unknown` や空でないことを確認する
   - **優先度を上げること。** `OS VERSION` が空欄になるバグ（ADR-015）が長期間気づかれなかった直接の原因が、レベル2のアサーションが未実装であることだった。このタスクはバグの早期検出に直結する。
-- [ ] integ-testのアサーションをレベル3に強化する (Ref: ADR-005)
-  - レベル3: より多くのフィールドの値の形式を確認する（現状はCURRENT DATEとBASH VERSIONのみ）
-  - 候補: CPU ARCH（英数字・アンダースコア形式）、OS VERSION（数字ドット形式）
-  - CURRENT SHELL の Unknown チェック対象への包含可否も合わせて検討する
-  - CI環境への依存度が高くなるため、環境ごとの期待値の管理方法を先に設計すること
 - [x] CIトリガーに `pull_request` と `schedule` を追加することを検討する
   - 現状は `push` のみ
   - 将来ブランチ運用を始めた場合に困る
@@ -227,23 +208,6 @@
   - 一つ上のタスクにて README.md の冒頭に用語の凡例を追加したことで、これらの括弧書きは不要になった
 - [ ] このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する（README.md? ADR?）
 - [ ] コード内コメント・コミットメッセージ・ADR・README・TODO などのドキュメントの言語を明示的にする。どこかに書いておく
-
-### プロジェクト管理
-
-- [x] TODO.md の `Milestone: v0.10.0` のタイトルを考える
-- [ ] TODO.md の `Milestone: v0.11.0` を策定
-- [x] Golang での全面書き換えの検討
-  - 様々な環境への対応が用意になる
-  - このアプリを作る＆メンテする目的の 1 つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
-  - **この検討は ADR で行うべき**
-- [x] Windows 対応の検討
-  - Windows の対応は大変だしコードが複雑になる。対応したいなら、別リポジトリ `proper7y4win` として切り出すべき（PowerShell スクリプトで実装する）
-  - **この検討は ADR で行うべき**
-
-## Milestone: v0.11.0 - TBD
-
-### ドキュメント
-
 - [x] README.md のコーディング規約を更新する
   - 各ルールが SHALL か SHOULD かを明記する
   - Google Shell Style Guide を参照して整備する
@@ -257,6 +221,44 @@
     - シェルスクリプトはshellcheck（--exclude SC1091）とshfmt（-i 2）に準拠する
     - インデントはスペース2つ
     - 関数名はスネークケース
+
+### プロジェクト管理
+
+- [x] TODO.md の `Milestone: v0.10.0` のタイトルを考える
+- [ ] TODO.md の `Milestone: v0.11.0` を策定
+- [x] Golang での全面書き換えの検討
+  - 様々な環境への対応が用意になる
+  - このアプリを作る＆メンテする目的の 1 つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
+  - **この検討は ADR で行うべき**
+- [x] Windows 対応の検討
+  - Windows の対応は大変だしコードが複雑になる。対応したいなら、別リポジトリ `proper7y4win` として切り出すべき（PowerShell スクリプトで実装する）
+  - **この検討は ADR で行うべき**
+
+## Milestone: v0.11.0 - テスト戦略の再設計
+
+### テスト・CI
+
+- [ ] ユニットテストを追加することを検討する
+  - ShellSpec を検討する
+    - ref: [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
+    - ref: [シェルスクリプトのテスト、何を使ってる？shUnit2？Bats？ ShellSpec を使ってみませんか？ - Qiita](https://qiita.com/ko1nksm/items/556336797d7e49117842)
+    - ref: [ShellSpec - シェルスクリプト用の BDD テスティングフレームワークを作りました - Qiita](https://qiita.com/ko1nksm/items/77388d75b8c1f18c0058)
+  - スクリプトの特性上、ユニットテストでテストできる範囲は狭い可能性がある
+  - このプロジェクトにおいて、ユニットテストを導入するのは果たしてどうなのか。Bash のユニットテストは、手間に対してリターンが見合わない可能性が高そう。それよりも、インテグレーションテストを厚くした方が良いのではないか？
+  - **この検討は ADR で行うべき**
+- [ ] integ-testのアサーションをレベル3に強化する (Ref: ADR-005)
+  - レベル3: より多くのフィールドの値の形式を確認する（現状はCURRENT DATEとBASH VERSIONのみ）
+  - 候補: CPU ARCH（英数字・アンダースコア形式）、OS VERSION（数字ドット形式）
+  - CURRENT SHELL の Unknown チェック対象への包含可否も合わせて検討する
+  - CI環境への依存度が高くなるため、環境ごとの期待値の管理方法を先に設計すること
+- [ ] `run-format.linux-x64.bash` の `confirm_continue` がCI環境で使えない問題を解消する
+  - 対話的な確認を求めるため、CI環境でハングする可能性がある
+  - `-y` フラグや `FORCE=true` 環境変数でスキップできるようにすることを検討する
+  - この問題が解消されたら、CIのstatic-test.ymlを `make lint` + `make validate` の個別呼び出しから `make static-tests` への一本化も検討すること
+    - 現状は `format` の副作用があるため個別呼び出しにしている
+- [ ] CI でのテスト環境に Arch Linux, EndeavourOS, Manjaro Linux などを追加する
+
+### ドキュメント
 
 ## Backlog（いつかやる）
 
