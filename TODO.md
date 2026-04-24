@@ -107,6 +107,7 @@
   - シャーシ情報（desktop / laptop / server 等）を表示する機能
   - `hostnamectl status | grep "Chassis:"` で取得できる
   - 削除時の実装: `CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")`
+  - 実装完了。macOS対応は将来の拡張として TODO コメントに記載
 - [x] サポート環境の明文化
   - [x] ADR を書く: サポート環境の定義（利用者環境・開発者環境）
     - 利用者環境: Linux (Arch系・Debian系) は正式サポート。macOS はベストエフォート
