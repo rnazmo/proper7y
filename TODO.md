@@ -103,7 +103,7 @@
   - **この検討は ADR で行うべき**
   - ADR-022 にて、すべての Linux 環境で `KERNEL VERSION` フィールドを追加することを決定した
   - 主要パッケージ情報の表示は効果が不明確なため見送り、将来バックログで再検討する
-- [ ] `print_chassis()` を実装して出力に追加することを検討する
+- [x] `print_chassis()` を実装して出力に追加することを検討する
   - シャーシ情報（desktop / laptop / server 等）を表示する機能
   - `hostnamectl status | grep "Chassis:"` で取得できる
   - 削除時の実装: `CHASSIS=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")`
@@ -122,11 +122,11 @@
     - 対象箇所: `### Prerequisite` セクション
     - 現状「debian-based Linux && x64」とあるが「Linux x64」に修正する
 - [x] 表示スコープと設計方向性の明文化
-  - [ ] ADR を書く: proper7y の表示スコープと将来の設計方向性
+  - [x] ADR を書く: proper7y の表示スコープと将来の設計方向性
     - proper7y が表示する情報のスコープを「マシングローバルな環境情報」に限定すると定義する
     - 方向性B（選択的表示機能）を将来の検討事項とした理由を記録する
     - 方向性C（用途別スクリプト群）を将来の検討事項とした理由を記録する
-  - [ ] README.md を更新する: proper7y の表示スコープを明記する
+  - [x] README.md を更新する: proper7y の表示スコープを明記する
     - 対象箇所: `### Purpose of this project` セクション付近
     - 「マシングローバルな環境情報を出力するツール」という定義を追加する
 
