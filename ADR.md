@@ -206,8 +206,8 @@ VIRTUALIZATION: Physical + CHASSIS: Unknown
 - **出力例:**
 
 ```txt
-  OS VERSION    : Rolling Release
-  KERNEL VERSION: 6.7.9-arch1-1
+OS VERSION    : Rolling Release
+KERNEL VERSION: 6.7.9-arch1-1
 ```
 
 ```txt
