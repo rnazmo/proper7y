@@ -270,6 +270,19 @@ Because it is difficult to search and maintain the information written there.
 Although not preferred, it is okay to have a mixture of English and Japanese. (SHOULD)
 (The target reader of these documents is my future self.)
 
+**Language policy for each document type:**
+
+| Document type   | Language | Rationale                                                                    |
+| --------------- | -------- | ---------------------------------------------------------------------------- |
+| Code comments   | English  | Code itself is in English; keeping comments in English maintains consistency |
+| Commit messages | English  | Follows Conventional Commits standard; English is the de facto standard      |
+| README.md       | English  | Public-facing documentation; English allows broader accessibility            |
+| ADR.md          | Japanese | Internal decision records; Japanese allows faster writing for the author     |
+| TODO.md         | Japanese | Internal task list; Japanese allows faster writing for the author            |
+| CHANGELOG.md    | Japanese | Internal release notes; Japanese allows faster writing for the author        |
+
+This policy balances accessibility (English for public docs) with productivity (Japanese for internal docs where the primary reader is the author).
+
 #### Code Style for Bash Script (Lint, Format)
 
 Follow shellcheck and shfmt. (SHALL)
