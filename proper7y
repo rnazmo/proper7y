@@ -84,6 +84,17 @@ declare -A SHELL_NAMES=( # The key is SHELL_ID
   ["zsh"]="Zsh"
   ["unknown"]="Unknown"
 )
+declare -A CHASSIS_NAMES=( # The key is chassis type returned by hostnamectl
+  ["desktop"]="Desktop"
+  ["laptop"]="Laptop"
+  ["server"]="Server"
+  ["tablet"]="Tablet"
+  ["handset"]="Handset"
+  ["watch"]="Watch"
+  ["embedded"]="Embedded"
+  ["vm"]="Virtual Machine"
+  ["container"]="Container"
+)
 
 # -------------------------------------------------------------------
 
@@ -127,6 +138,7 @@ main() {
 
   print_date
   print_virtualization
+  print_chassis
   print_cpu_arch
   print_os_name
   print_os_version
@@ -420,6 +432,68 @@ print_virtualization() {
   local VIRTUALIZATION="Unknown"
   VIRTUALIZATION="${VIRTUALIZATION_NAMES[$VIRTUALIZATION_ID]}"
   print_row "VIRTUALIZATION" "$VIRTUALIZATION"
+}
+
+# Print chassis (device type) information.
+#
+# Chassis types (from systemd documentation):
+#   desktop, laptop, server, tablet, handset, watch, embedded, vm, container
+#
+# Strategy:
+#   - Virtual environments (VIRTUALIZATION_ID != "physical"): Display "N/A"
+#     because the concept of "chassis" doesn't apply to VMs/containers.
+#   - Physical Linux machines: Use hostnamectl if available.
+#   - macOS: Currently "Unknown" (future enhancement: use system_profiler).
+#
+# Ref: https://www.freedesktop.org/software/systemd/man/latest/machine-info.html
+print_chassis() {
+  local CHASSIS="Unknown"
+
+  # Virtual environments don't have a meaningful chassis type.
+  # VIRTUALIZATION already tells us it's a VM/container.
+  if [[ "$VIRTUALIZATION_ID" != "physical" ]]; then
+    CHASSIS="N/A"
+    print_row "CHASSIS" "$CHASSIS"
+    return 0
+  fi
+
+  # Physical machine: Try to get chassis info from hostnamectl
+  case "$UNAME_CACHE_KERNEL_NAME" in
+  "linux")
+    if command -v hostnamectl &>/dev/null; then
+      # Check if the "Chassis:" line exists in hostnamectl output
+      if grep -q "Chassis:" <<<"$(hostnamectl status)"; then
+        # Extract chassis type from hostnamectl output
+        # Example line: "       Chassis: laptop"
+        local -r raw_chassis=$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")
+
+        # Map to display name if known, otherwise use raw value
+        if [[ -n "${CHASSIS_NAMES[$raw_chassis]}" ]]; then
+          CHASSIS="${CHASSIS_NAMES[$raw_chassis]}"
+        else
+          # Unknown chassis type from hostnamectl: use raw value
+          CHASSIS="$raw_chassis"
+        fi
+      fi
+      # If "Chassis:" line doesn't exist, CHASSIS remains "Unknown"
+    fi
+    # If hostnamectl doesn't exist, CHASSIS remains "Unknown"
+    ;;
+  "darwin")
+    # macOS: Future enhancement using system_profiler SPHardwareDataType
+    # For now, leave as "Unknown"
+    # TODO: Implement macOS chassis detection
+    #   Possible approach:
+    #     if system_profiler SPHardwareDataType | grep -q "Model Name.*MacBook"; then
+    #       CHASSIS="Laptop"
+    #     elif system_profiler SPHardwareDataType | grep -q "Model Name.*Mac mini\|iMac\|Mac Pro"; then
+    #       CHASSIS="Desktop"
+    #     fi
+    CHASSIS="Unknown"
+    ;;
+  esac
+
+  print_row "CHASSIS" "$CHASSIS"
 }
 
 print_current_shell() {
