@@ -1,5 +1,116 @@
 # ADR (proper7y)
 
+## ADR-023: CHASSIS フィールドの導入判断と実装方針
+
+- **日付:** 2026-04-24
+- **状況:**
+  - TODO.md に「`print_chassis()` を実装して出力に追加することを検討する」というタスクが存在していた。
+  - proper7y は現在、OS・Shell・仮想化環境などの情報を表示しているが、「ハードウェアの物理的な形状（デスクトップ / ラップトップ / サーバー等）」という情報は含まれていなかった。
+  - この情報を追加すべきかどうか、また追加する場合の実装方針について検討が必要になった。
+- **CHASSIS フィールドとは何か:**
+  - **CHASSIS フィールド:** 「物理的なハードウェアの形状・種類」を示す（Desktop, Laptop, Server, Tablet など）
+  - **VIRTUALIZATION フィールド:** 「どの仮想化技術を使っているか」を示す（VirtualBox, Docker, Hyper-V, Physical など）
+  - これらは**異なる軸の情報**である:
+
+```txt
+例1: 物理マシンのラップトップ
+  VIRTUALIZATION: Physical  ← 仮想化されていない
+  CHASSIS       : Laptop    ← ハードウェアの形状
+
+例2: VirtualBox 上の仮想マシン
+  VIRTUALIZATION: VirtualBox ← 仮想化技術
+  CHASSIS       : ???        ← 仮想環境にシャーシは存在するか？
+
+例3: サーバーマシン上の Docker コンテナ
+  VIRTUALIZATION: Docker     ← 仮想化技術
+  CHASSIS       : ???        ← コンテナに形状という概念はあるか？
+```
+
+- **CHASSIS フィールドを導入すべきか（3つの案）:**
+  - **案A（導入する）:** CHASSIS フィールドを追加する
+    - メリット: ハードウェアの物理的特性という有用な情報を提供できる
+    - デメリット: 仮想環境での扱いが複雑になる
+  - **案B（導入しない）:** CHASSIS フィールドは追加しない
+    - メリット: シンプルさを維持できる
+    - デメリット: ラップトップかデスクトップかという情報が得られない
+  - **案C（別スクリプト化）:** proper7y-hardware のような別スクリプトとして切り出す
+    - メリット: proper7y 本体のスコープを狭く保てる
+    - デメリット: 管理するファイルが増える
+- **仮想環境での CHASSIS の扱い（案A を採用する場合の検討）:**
+  - **案A-1:** 仮想環境では `"N/A"` と表示する
+  - **案A-2:** 仮想環境ではホスト側の情報を表示する（可能なら）
+  - **案A-3:** 仮想環境の種類に応じて `"Virtual Machine"` / `"Container"` と表示する
+- **macOS 対応について:**
+  - **案1:** 当面 `"Unknown"` とし、将来的に `system_profiler` を使って実装する
+  - **案2:** 最初から `system_profiler` による実装を行う
+- **フィールド名について:**
+  - `CHASSIS` vs `DEVICE TYPE`
+- **決定:**
+  - **CHASSIS フィールドを導入する（案A）**
+  - **フィールド名:** `CHASSIS` を採用する
+  - **仮想環境での表示:** 案A-1 を採用し、`"N/A"` を表示する
+  - **macOS 対応:** 案1 を採用し、当面は `"Unknown"` とする
+  - **出力位置:** `VIRTUALIZATION` フィールドの後、`CPU ARCH` フィールドの前
+  - **実装方法:**
+    - 仮想環境（`VIRTUALIZATION_ID != "physical"`）では早期リターンで `"N/A"` を表示
+    - 物理 Linux マシンでは `hostnamectl` から取得
+    - macOS では当面 `"Unknown"`、将来的に `system_profiler` で実装予定
+- **理由:**
+  - **CHASSIS フィールドを導入する理由（案A）:**
+    - ハードウェアの物理的な形状（ラップトップ / デスクトップ / サーバー）は「マシングローバルな環境情報」（ADR-021）に該当する
+    - 技術記事を書く際、「ラップトップで検証した」「サーバー環境で動作確認した」という情報は有用である
+    - `hostnamectl` で簡単に取得でき、実装コストが低い
+    - 案B（導入しない）では有用な情報が失われる
+    - 案C（別スクリプト化）は管理コストが増え、このプロジェクトの「Fewer files」ポリシーに反する
+  - **フィールド名を `CHASSIS` にした理由:**
+    - `hostnamectl` および systemd が使用する公式用語であり、技術的に正確である
+    - `DEVICE TYPE` より短く、他のフィールド名（`OS NAME`, `CPU ARCH` など）との粒度が揃っている
+    - proper7y の利用者は技術者（≒将来の自分）であり、この専門用語で問題ない
+  - **仮想環境で `"N/A"` を表示する理由（案A-1）:**
+    - 仮想マシンやコンテナに「シャーシ（筐体）」という概念を適用すること自体がナンセンスである
+    - `VIRTUALIZATION` フィールドで既に仮想化情報は提供しており、重複を避けられる
+    - 実装がシンプルで、意図も明確である（「仮想環境にシャーシは無い」という思想）
+    - 案A-2（ホスト側の情報取得）は実装が複雑で、Docker や多くの VM 環境では取得不可能
+    - 案A-3（`"Virtual Machine"` / `"Container"` 表示）は `VIRTUALIZATION` フィールドと情報が重複し、冗長である
+  - **macOS を当面 `"Unknown"` とする理由:**
+    - 開発者が現時点で macOS を使用しておらず、手元に検証環境がない
+    - macOS での CHASSIS 情報取得は `system_profiler SPHardwareDataType` で可能だが、現時点では優先度が低い
+    - 将来的な実装の方針をコード内のコメントで明記しておくことで、実装時のガイドとする
+    - 案2（最初から実装）は検証環境がない状態では現実的でない
+- **CHASSIS と VIRTUALIZATION の違い（まとめ）:**
+  - **VIRTUALIZATION:** 「この環境は仮想化されているか？されている場合どの技術か？」に答える
+    - 値の例: Physical, VirtualBox, Docker, Hyper-V, WSL
+    - 用途: 仮想化の有無と種類を把握する
+  - **CHASSIS:** 「（物理マシンの場合）ハードウェアの形状は何か？」に答える
+    - 値の例: Desktop, Laptop, Server, N/A（仮想環境）, Unknown（未対応環境）
+    - 用途: 物理的なハードウェア特性を把握する
+  - 両者は独立した情報であり、組み合わせることで環境の全体像が把握できる:
+
+```txt
+VIRTUALIZATION: Physical + CHASSIS: Laptop
+  → 物理的なラップトップマシン
+
+VIRTUALIZATION: Docker + CHASSIS: N/A
+  → Docker コンテナ（ホストのハードウェア情報は関係ない）
+
+VIRTUALIZATION: Physical + CHASSIS: Unknown
+  → 物理マシンだがシャーシ情報が取得できない（macOS など）
+```
+
+- **影響:**
+  - `proper7y` に `print_chassis()` 関数を実装する
+  - `CHASSIS_NAMES` マップを追加し、`hostnamectl` の各シャーシタイプに対応する
+  - `run-integ-test.bash` のアサーションに `CHASSIS` フィールドを追加する
+    - レベル1（フィールド名存在確認）には含める
+    - レベル2（値の検証）からは除外する（環境依存が強く、macOS では `"Unknown"` になるため）
+  - macOS での CI は当面 `CHASSIS: Unknown` となるが、これは想定内の動作である
+  - README.md の Examples セクションを更新し、CHASSIS フィールドを含む出力例を追加する
+- **将来の拡張:**
+  - macOS 対応: `system_profiler SPHardwareDataType` を使用し、Model Name から判定する
+    - `MacBook` を含む → `"Laptop"`
+    - `Mac mini` / `iMac` / `Mac Pro` を含む → `"Desktop"`
+  - この実装方針はコード内の TODO コメントに記載済み
+
 ## ADR-022: Linux 環境でのカーネルバージョン表示
 
 - **日付:** 2026-04-24
