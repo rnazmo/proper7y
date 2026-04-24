@@ -209,8 +209,8 @@
   - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
 - [x] README.md の Notes セクション内にある冗長な括弧書き（`(this indicates 'proper7y' as the file)` など）を削除する
   - 一つ上のタスクにて README.md の冒頭に用語の凡例を追加したことで、これらの括弧書きは不要になった
-- [ ] このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する（README.md? ADR?）
 - [x] コード内コメント・コミットメッセージ・ADR・README・TODO などのドキュメントの言語を明示的にする。どこかに書いておく
+- [x] このプロジェクトが対応する環境・対象とするソフトウェアのドキュメント管理方法を再検討
 - [x] README.md のコーディング規約を更新する
   - 各ルールが SHALL か SHOULD かを明記する
   - Google Shell Style Guide を参照して整備する

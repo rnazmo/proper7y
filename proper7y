@@ -11,12 +11,14 @@ set -eu
 #     Bash version >= 4.0
 #
 # Supported Software:
-#     OS:
-#         See following global variable `SUPPORTED_OS_IDS`.
-#     Virtualization:
-#         See following global variable `SUPPORTED_VIRTUALIZATION_IDS`.
-#     Shell:
-#         See following global variable `SUPPORTED_SHELL_IDS`.
+#     For the list of supported OS, virtualization environments, and shells,
+#     see the "Support policy" section in README.md:
+#     https://github.com/rnazmo/proper7y/blob/main/README.md#support-policy
+#
+#     The actual supported values are defined in the following global variables:
+#         OS:             SUPPORTED_OS_IDS
+#         Virtualization: SUPPORTED_VIRTUALIZATION_IDS
+#         Shell:          SUPPORTED_SHELL_IDS
 
 # -------------------------------------------------------------------
 

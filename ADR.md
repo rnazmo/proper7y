@@ -1,5 +1,55 @@
 # ADR (proper7y)
 
+## ADR-024: サポート環境情報のドキュメント管理方針
+
+- **日付:** 2026-04-25
+- **状況:**
+  - サポート環境に関する情報が複数箇所に散在していた：
+    - README.md の `### Supported softwares` セクション（ほぼ空）
+    - README.md の `#### Support policy` セクション（表形式）
+    - ADR-020（詳細な説明）
+    - `proper7y` ファイル内のグローバル変数（実装上の真実）
+    - `proper7y` ファイル内のコメント
+  - 情報の重複により、OS/Shell を追加・削除する際の更新箇所が不明確だった
+  - Single Source of Truth (SSoT) が確立されておらず、メンテナンスコストが高かった
+  - TODO.md に「このプロジェクトが対応する環境・対象とするソフトウェアを、どこかで明確に記述する」というタスクが残っていた
+- **検討した案:**
+  - **案A（採用）:** `### Support policy` セクションに一本化する
+    - `### Supported softwares` セクションを削除
+    - `### Support policy` を唯一の利用者向けドキュメントとして強化
+    - 表形式 + 補足説明で詳細を記載
+  - **案B:** `### Supported softwares` と `### Support policy` で役割分担
+    - 前者に「何がサポートされているか」、後者に「どのレベルでサポートされているか」
+    - 情報が重複し、メンテナンスコストが高いため却下
+- **決定:**
+  - 案A を採用する
+  - `### Support policy` セクションを以下の構造に改訂する：
+    - 表：環境ごとのサポートレベルを明記
+    - 補足：サポート対象 OS の詳細、macOS が best-effort である理由、開発者環境が Linux x64 のみである理由
+  - `### Supported softwares` セクションは削除する
+- **SSoT の定義:**
+  - **実装上のSSoT:** `proper7y` ファイル内のグローバル変数
+    - `SUPPORTED_OS_FAMILY_IDS`, `SUPPORTED_OS_IDS`, `SUPPORTED_VIRTUALIZATION_IDS`, `SUPPORTED_SHELL_IDS`
+    - これらが実際の動作を決定する
+  - **ドキュメント上のSSoT:** README.md の `### Support policy` セクション
+    - 利用者が参照する唯一の情報源
+  - ADR-020 は設計判断の記録として保持するが、参照ドキュメントとしては使わない
+- **更新手順:**
+  - OS/Shell/仮想化環境を追加・削除する際は以下を更新する：
+    1. `proper7y` のグローバル変数（必須・実装）
+    2. README.md の `### Support policy` セクション（必須・ドキュメント）
+    3. ADR-020 は更新不要（歴史的記録として保持）
+- **理由:**
+  - 情報が1箇所に集約され、利用者が迷わない
+  - 表形式 + 補足説明の構造が読みやすく、詳細情報も提供できる
+  - メンテナンスコストが最小（更新箇所が明確）
+  - すでに存在する `### Support policy` セクションを強化する方が、新しいセクションを作るより混乱が少ない
+- **影響:**
+  - README.md の `### Supported softwares` セクションが削除される
+  - README.md の `### Support policy` セクションが詳細化される
+  - `proper7y` ファイル内のコメントが更新され、README.md への参照が明記される
+  - TODO.md の該当タスクが更新される
+
 ## ADR-023: CHASSIS フィールドの導入判断と実装方針
 
 - **日付:** 2026-04-24

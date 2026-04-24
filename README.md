@@ -53,10 +53,6 @@ shell, and virtualization environment.
 Project-local information (e.g. React version, Vite version) is out of scope,
 as it varies per project rather than per machine. (Ref: ADR-021)
 
-### Supported softwares
-
-See: [`Supported Software:` section in proper7y](https://github.com/rnazmo/proper7y/blob/main/proper7y#L13)
-
 #### Support policy
 
 | Environment           | Target                           | Support level                                 |
@@ -66,6 +62,15 @@ See: [`Supported Software:` section in proper7y](https://github.com/rnazmo/prope
 | User environment      | Shell: Bash (>= 4.0), Zsh        | Full support                                  |
 | Developer environment | Linux x64                        | Full support                                  |
 | Developer environment | macOS                            | Not supported                                 |
+
+**Supported OS details:**
+
+- **Arch-based:** Arch Linux, EndeavourOS, Manjaro
+- **Debian-based:** Debian, Kali Linux, Ubuntu
+
+**Why macOS is best-effort:** I don't have a macOS machine for hands-on testing. CI (`macos-latest`) confirms basic functionality, but macOS-specific bugs may not be caught immediately.
+
+**Why developer environment is Linux x64 only:** `devel-tools` scripts depend on Linux/x64 binaries (shellcheck, shfmt) and GNU sed syntax. Exception: `run-integ-test.bash` works on both Linux and macOS (see ADR-012).
 
 ### Installation
 
