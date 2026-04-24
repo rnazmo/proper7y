@@ -40,6 +40,7 @@ assert_output() {
   # Check field names exist
   assert_line_exists "$OUTPUT" "CURRENT DATE"
   assert_line_exists "$OUTPUT" "VIRTUALIZATION"
+  assert_line_exists "$OUTPUT" "CHASSIS"
   assert_line_exists "$OUTPUT" "CPU ARCH"
   assert_line_exists "$OUTPUT" "OS NAME"
   assert_line_exists "$OUTPUT" "OS VERSION"
