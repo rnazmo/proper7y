@@ -43,6 +43,7 @@ assert_output() {
   assert_line_exists "$OUTPUT" "CPU ARCH"
   assert_line_exists "$OUTPUT" "OS NAME"
   assert_line_exists "$OUTPUT" "OS VERSION"
+  assert_line_exists "$OUTPUT" "KERNEL VERSION"
   assert_line_exists "$OUTPUT" "CURRENT SHELL"
   assert_line_exists "$OUTPUT" "BASH VERSION"
 
@@ -67,6 +68,7 @@ assert_output() {
     "CPU ARCH"
     "OS NAME"
     "OS VERSION"
+    "KERNEL VERSION"
     "CURRENT SHELL"
     "BASH VERSION"
   )

@@ -134,6 +134,7 @@ VIRTUALIZATION: Physical
 CPU ARCH      : x86_64
 OS NAME       : Ubuntu
 OS VERSION    : 24.04
+KERNEL VERSION: 6.8.0-45-generic
 CURRENT SHELL : Bash
 BASH VERSION  : 5.2.21
 ============================================================
@@ -149,6 +150,7 @@ VIRTUALIZATION: Docker
 CPU ARCH      : x86_64
 OS NAME       : Debian
 OS VERSION    : 12
+KERNEL VERSION: 6.8.0-45-generic
 CURRENT SHELL : Bash
 BASH VERSION  : 5.2.15
 ============================================================

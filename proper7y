@@ -24,6 +24,7 @@ readonly PROPER7Y_VERSION="v0.9.6"
 
 declare -l UNAME_CACHE_KERNEL_NAME="This_value_should_be_overridden"
 declare -l UNAME_CACHE_MACHINE="This_value_should_be_overridden"
+declare -l UNAME_CACHE_RELEASE="This_value_should_be_overridden"
 
 declare -l OS_FAMILY_ID="This_value_should_be_overridden"
 declare -l OS_ID="This_value_should_be_overridden"
@@ -129,6 +130,7 @@ main() {
   print_cpu_arch
   print_os_name
   print_os_version
+  print_kernel_version
   print_current_shell
   print_bash_version
 
@@ -156,12 +158,14 @@ cache_uname() {
 
   # Receive the return value of uname into an array variable.
   # Ref: https://www.shellcheck.net/wiki/SC2207
-  IFS=" " read -r -a uname_cache <<<"$(uname -sm)"
+  IFS=" " read -r -a uname_cache <<<"$(uname -smr)"
 
   UNAME_CACHE_KERNEL_NAME="${uname_cache[0]}"
   UNAME_CACHE_MACHINE="${uname_cache[1]}"
+  UNAME_CACHE_RELEASE="${uname_cache[2]}"
   readonly UNAME_CACHE_KERNEL_NAME
   readonly UNAME_CACHE_MACHINE
+  readonly UNAME_CACHE_RELEASE
 }
 
 # Ref:
@@ -387,6 +391,20 @@ print_os_version() {
   esac
 
   print_row "OS VERSION" "$OS_VERSION"
+}
+
+print_kernel_version() {
+  # Only display kernel version on Linux.
+  # macOS and other Unix-like systems have kernel versions with different semantics,
+  # so we exclude them to avoid confusion.
+  if [[ "$UNAME_CACHE_KERNEL_NAME" != "linux" ]]; then
+    return 0
+  fi
+
+  # UNAME_CACHE_RELEASE is guaranteed to be set by cache_uname().
+  # If cache_uname() fails, the script exits immediately due to 'set -e'.
+  local -r KERNEL_VERSION="$UNAME_CACHE_RELEASE"
+  print_row "KERNEL VERSION" "$KERNEL_VERSION"
 }
 
 print_cpu_arch() {
