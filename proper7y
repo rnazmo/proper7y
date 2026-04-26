@@ -519,7 +519,10 @@ print_zsh_version() {
   local -r CMDNAME="zsh"
 
   if command -v "$CMDNAME" &>/dev/null; then
-    ZSH_VERSION=$(zsh --version | sed "s/zsh //")
+    # Extract only the version number from `zsh --version` output.
+    # Example input : "zsh 5.9 (x86_64-pc-linux-gnu)"
+    # Example output: "5.9"
+    ZSH_VERSION=$(zsh --version | sed "s/zsh //" | sed "s/ (.*//")
   else
     ZSH_VERSION="(Not Found)"
   fi
