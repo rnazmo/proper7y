@@ -123,9 +123,8 @@
     - `install_shellcheck()` はサブシェル（ADR-008対応）を内部で使っており、`echo` で値を返す処理も加わると「サブシェルの入れ子」になりデバッグが難しくなるかも
     - `bump_shellcheck_version()` のような副作用の連鎖は戻り値で表現できない。要注意
   - `initialize_global_variables()` が2回呼ばれるとエラーになる問題も密接に関わっている。将来の設計変更時に合わせて検討すること
-- [ ] Manjaro Linux をサポートする
+- [x] Manjaro Linux をサポートする
   - 開発環境として Manjaro Linux を対応させる
-  - CI のテスト環境に Manjaro (Arch-based) を追加する
 - [x] ADR-015 にてローリングリリース系ディストリビューションでは、`OS VERSION` として `Rolling Release` を表示することを決定したが、この判断が適切かどうかを再検討する
   - 例えば、Arch Linux は常に最新の状態を維持することが推奨されているため、`Rolling Release` と表示するのは適切な気もする
   - 一方で、Arch Linux ユーザーは自分の環境がローリングリリースであることを当然知っている
