@@ -10,7 +10,7 @@ Tiny Bash script to print basic system information in consistent format.
 > 'proper7y' refers to the project (≒ the repository), and
 > `$ proper7y` refers to the command on your console.
 
-<!-- TODO: GIF here -->
+![proper7y demo](devel-tools/demo/proper7y.gif)
 
 ## TL;DR
 
