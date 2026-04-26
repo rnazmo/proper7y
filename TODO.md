@@ -12,6 +12,7 @@
 - [x] macOSのinteg-testで使用されるBashのバージョンを明示的に指定する
   - `brew install bash` した後も `./proper7y` のshebang `#!/usr/bin/env bash` はPATHの先頭のbashを使うため、インストールしたbashが必ず使われるとは限らない
   - `/opt/homebrew/bin/bash ./proper7y` のように明示するか、PATHを先頭に追加する
+- [x] proper7y コマンドの出力表示にバグがある。CPU ARCH と KERNEL VERSION の値が逆になっている
 
 ### コード・機能
 
