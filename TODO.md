@@ -13,6 +13,12 @@
   - `brew install bash` した後も `./proper7y` のshebang `#!/usr/bin/env bash` はPATHの先頭のbashを使うため、インストールしたbashが必ず使われるとは限らない
   - `/opt/homebrew/bin/bash ./proper7y` のように明示するか、PATHを先頭に追加する
 - [x] proper7y コマンドの出力表示にバグがある。CPU ARCH と KERNEL VERSION の値が逆になっている
+- [ ] 全スクリプトに `set -o pipefail` を追加する（ことを検討する）
+  - 現状：`set -eu` のみで、パイプ途中のエラーを検知できない
+  - 例：`grep ... | sed ...` の形式で grep が失敗しても、set -e は発動しない（最後のコマンド=sedの終了ステータスで判断されるため）
+  - 修正案：全スクリプトの `set -eu` を `set -euo pipefail` に変更する
+  - 対象：`proper7y`、`install.bash`、`devel-tools/script/` 配下の全スクリプト（`common.bash` 含む）
+  - 注意：`pipefail` 有効化後は既存のパイプ処理が意図せず失敗するケースがないか確認すること
 
 ### コード・機能
 
@@ -170,10 +176,16 @@
   - ぱっと見たときのわかりやすさと、正確性のトレードオフ？
   - 他の項目の表示形式との統一感も考慮する必要がある
   - → バージョン番号のみ表示するよう修正した（`BASH VERSION` と同形式）
-- [ ] `UNAME_CACHE_MACHINE` の `declare -l`（小文字化）が意図的かどうかを確認し、コメントで明記する
-  - 現状：`declare -l UNAME_CACHE_MACHINE` により代入時に強制小文字化される
-  - `uname -m` の出力（例: `x86_64`）は通常すでに小文字だが、macOS で `arm64` や `ARM64` が混在する環境では意図しない挙動になる可能性がある
-  - 修正案：意図的なら理由をコメントで明記する。不要なら `declare` から `-l` を外す
+- [ ] `declare -l` の使用が意図的かどうかを確認し、コメントで明記する
+  - 現状：`UNAME_CACHE_KERNEL_NAME`、`UNAME_CACHE_MACHINE`、`UNAME_CACHE_RELEASE`、`OS_FAMILY_ID`、`OS_ID`、`VIRTUALIZATION_ID`、`CURRENT_SHELL_ID` がすべて `declare -l` で宣言されている
+  - `declare -l` は代入時に強制小文字化する属性。OSの識別子を小文字で統一するために意図的に使っているなら、その旨をコメントで明記する
+  - 意図的でないなら `-l` を外すか、意図を示すコメントを追加する
+  - `uname -m` の出力（例: `x86_64`）は通常すでに小文字だが、macOS で `arm64`/`ARM64` が混在する環境では意図しない挙動になる可能性もある点も注意
+- [ ] `print_chassis()` から仮想化判定ロジックを分離することを検討する
+  - 現状：`print_chassis()` の中で `VIRTUALIZATION_ID != "physical"` の判定を行っており、「表示」と「識別」の責務が混在している
+  - 他のフィールドはすべて `identify_*()` で識別、`print_*()` で表示という分離がされているが、シャーシだけ例外になっている
+  - 修正案：`identify_chassis_id()` を分離し、`init()` → `identify_environment()` の中で呼ぶ構造にする
+  - ただし、シャーシは仮想環境では常に N/A であり、識別処理が軽微なため、コストと効果を比較して判断すること
 
 ### テスト・CI
 
@@ -207,6 +219,9 @@
 - [ ] `run-integ-test-to-head` にアサーションがないことを `Makefile` のコメントで明示する
   - 現状：`make integ-tests` は `run-integ-test-to-head`（アサーションなし）と `run-integ-test-to-latest`（アサーションあり）を両方実行するが、その違いが `Makefile` を読んだだけでは分からない
   - 修正案：`run-integ-test-to-head` ターゲットにコメントを追加し、「出力内容のアサーションは行わない（exit code のみ確認）」と明記する
+- [ ] `run-integ-test.bash` の `assert_output()` で macOS 非表示フィールドの扱いをコメントで明記する
+  - 現状：`KERNEL VERSION` は Linux 専用フィールドだが、macOS 上でのテストで「存在しなくてよい」扱いになっている根拠がコードに記載されていない
+  - 修正案：レベル1（フィールド名存在確認）の対象から `KERNEL VERSION` を外している理由、または macOS では表示されないためアサーション対象外としている旨をコメントで明記する
 
 ### ドキュメント
 
