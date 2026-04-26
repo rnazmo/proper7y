@@ -270,6 +270,9 @@
 - [ ] CHANGELOG.md の初回作成（ADR-007 関連）
   - v0.10.0 のリリース前に CHANGELOG の下書きを作成する
   - ADR-007 に記載されているワークフローに従って作業する
+- [ ] README.md の `TL;DR` と `Examples` セクションを新フィールドに合わせて更新する
+  - ADR-022（KERNEL VERSION 追加）と ADR-023（CHASSIS 追加）により出力フォーマットが変わっている
+  - 両 ADR の「影響」欄に「README.md の Examples セクションを更新する必要がある」と明記されている
 
 ### プロジェクト管理
 
