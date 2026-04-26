@@ -263,8 +263,12 @@
       - `devel-tools/script/install-demo-tools.linux-x64.bash` として管理する
       - シナリオファイル: `devel-tools/demo/proper7y.tape`（作成済み）
       - 生成された GIF: `devel-tools/demo/proper7y.gif`（Git リポジトリに含める）
-  - [ ] フェーズ2: 準備
-    - [ ] 選定ツールをインストールし、試し録りして品質・操作感を確認する
+  - [x] フェーズ2: 準備
+    - [x] 選定ツールをインストールし、試し録りして品質・操作感を確認する
+      - インストール・実行コマンドのメモ：
+        - `sudo pacman -S ffmpeg ttyd`
+        - `sudo pacman -S vhs`
+        - `vhs ./devel-tools/demo/proper7y.tape`
   - [ ] フェーズ3: 本番作業
     - [ ] 録画シナリオを書く
     - [ ] 本番録画してGIFを生成する
