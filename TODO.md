@@ -77,6 +77,9 @@
       - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
       - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
     - -> 検討の結果、実装しないことにした (ADR-014)
+- [ ] `ps` コマンドの移植性問題を `identify_current_shell_id()` のタスクに明記する
+  - 現状：`ps -cp "$PPID" -o command=""` の `-c` フラグは macOS (BSD ps) に存在するが、Linux (GNU ps) では動作が異なる場合がある
+  - 既存タスク「`identify_current_shell_id()` の実装を見直す」と関連しているが、**移植性の問題そのものが明記されていない**ため、別途記録する
 - [ ] `identify_current_shell_id()` の実装を見直す
   - 現状は `ps` で親プロセスを辿る実装で、macOSとLinuxで挙動が異なり壊れやすい
   - ps で親プロセスを辿る方法は、CI 環境・Docker・`make` 経由での実行など、実行コンテキストが変わると容易に壊れる
@@ -167,6 +170,10 @@
   - ぱっと見たときのわかりやすさと、正確性のトレードオフ？
   - 他の項目の表示形式との統一感も考慮する必要がある
   - → バージョン番号のみ表示するよう修正した（`BASH VERSION` と同形式）
+- [ ] `UNAME_CACHE_MACHINE` の `declare -l`（小文字化）が意図的かどうかを確認し、コメントで明記する
+  - 現状：`declare -l UNAME_CACHE_MACHINE` により代入時に強制小文字化される
+  - `uname -m` の出力（例: `x86_64`）は通常すでに小文字だが、macOS で `arm64` や `ARM64` が混在する環境では意図しない挙動になる可能性がある
+  - 修正案：意図的なら理由をコメントで明記する。不要なら `declare` から `-l` を外す
 
 ### テスト・CI
 
@@ -197,6 +204,9 @@
   - 外部サービス（GitHubのURL、brewパッケージ等）の変化を週次で検知する `schedule` トリガーも有用
   - **この検討は ADR で行うべき**
   - → `pull_request` は追加しない。`schedule` (weekly) を `integ-test.yml` に追加した。詳細は ADR-015 参照。
+- [ ] `run-integ-test-to-head` にアサーションがないことを `Makefile` のコメントで明示する
+  - 現状：`make integ-tests` は `run-integ-test-to-head`（アサーションなし）と `run-integ-test-to-latest`（アサーションあり）を両方実行するが、その違いが `Makefile` を読んだだけでは分からない
+  - 修正案：`run-integ-test-to-head` ターゲットにコメントを追加し、「出力内容のアサーションは行わない（exit code のみ確認）」と明記する
 
 ### ドキュメント
 
@@ -272,6 +282,12 @@
 - [ ] README.md の `TL;DR` と `Examples` セクションを新フィールドに合わせて更新する
   - ADR-022（KERNEL VERSION 追加）と ADR-023（CHASSIS 追加）により出力フォーマットが変わっている
   - 両 ADR の「影響」欄に「README.md の Examples セクションを更新する必要がある」と明記されている
+- [ ] `CHANGELOG.md` のワークフロー手順への参照を `TODO.md` または `README.md` に追加する
+  - 現状：ChangeLog作成のワークフローは `ADR.md` の ADR-007 にしか記載されていない
+  - リリース時に手順を忘れてADRを探し回ることを防ぐため、`TODO.md` のマイルストーン運用メモか `README.md` の「How to bump a version」セクションあたりに参照を追加する
+- [ ] `ADR.md` における ADR の並び順の方針をどこかに明記する
+  - 現状：新しいADRが上に来る順（降順）で並んでいるが、その方針がどこにも記述されていない
+  - 修正案：`ADR.md` の冒頭にコメントとして「新しい順に並べる」と明記する
 
 ### プロジェクト管理
 
