@@ -255,23 +255,14 @@
     - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
     - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
 - [ ] README.md に GIF 動画を追加する
-  - [ ] フェーズ1: 意思決定
-    - [ ] そもそも GIF を追加するべきかどうかを検討する
-      - 作業は大したコストでは無さそうだし、ターミナル操作の GIF 録画自体に興味があるので、するつもりではある
-    - [ ] 追加するならどのような方法にするか（≒ 録画ツールの選定）
-      - 候補: charmbracelet/vhs, asciinema, あたり？
-      - ref: <https://dev.classmethod.jp/articles/intro-asciinema/）>
-      - VHS が第一候補。良さそう
-    - [ ] (VHS と仮定して) VHS の管理方法について
-      - [ ] VHS 自体のインストール方法は？バイナリはどこに置く？
-        - 独立したスクリプト devel-tools/script/run-demo.linux-x64.bash として管理が良さそうかな
-        - devel-tools/bin/ 以下にバイナリを置く形（shellcheck・shfmtと同様の管理）にするか、それとも別途手動インストールとするか
-        - GIF録画はリリース時にしか行わない作業であり、shellcheck・shfmtのように日常的に使うツールではない
-        - 既存の install-devel-tools.linux-x64.bash に組み込むと、普段の開発で不要なツールまでインストールされることになる
-      - [ ] シナリオファイル（.tape）の配置場所
-        - devel-tools/demo/proper7y.tape が良さそう
-      - [ ] 生成されたGIFファイルの管理方法
-        - Gitリポジトリに含める（devel-tools/demo/proper7y.gif としてコミット）
+  - [x] フェーズ1: 意思決定（ADR-025 参照）
+    - [x] そもそも GIF を追加するべきかどうかを検討する
+    - [x] 追加するならどのような方法にするか（≒ 録画ツールの選定）
+      - VHS (charmbracelet/vhs) を採用する
+    - [x] VHS の管理方法について
+      - `devel-tools/script/install-demo-tools.linux-x64.bash` として管理する
+      - シナリオファイル: `devel-tools/demo/proper7y.tape`（作成済み）
+      - 生成された GIF: `devel-tools/demo/proper7y.gif`（Git リポジトリに含める）
   - [ ] フェーズ2: 準備
     - [ ] 選定ツールをインストールし、試し録りして品質・操作感を確認する
   - [ ] フェーズ3: 本番作業
