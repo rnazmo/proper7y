@@ -25,6 +25,7 @@ information. See: https://github.com/rnazmo/proper7y
 ============================================================
 CURRENT DATE  : 2026-04-19
 VIRTUALIZATION: Hyper-V
+CHASSIS       : N/A
 CPU ARCH      : x86_64
 OS NAME       : Ubuntu
 OS VERSION    : 24.04
@@ -136,6 +137,7 @@ information. See: https://github.com/rnazmo/proper7y
 ============================================================
 CURRENT DATE  : 2026-04-18
 VIRTUALIZATION: Physical
+CHASSIS       : laptop
 CPU ARCH      : x86_64
 OS NAME       : Ubuntu
 OS VERSION    : 24.04
@@ -152,6 +154,7 @@ information. See: https://github.com/rnazmo/proper7y
 ============================================================
 CURRENT DATE  : 2026-04-18
 VIRTUALIZATION: Docker
+CHASSIS       : N/A
 CPU ARCH      : x86_64
 OS NAME       : Debian
 OS VERSION    : 12

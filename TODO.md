@@ -321,12 +321,12 @@
 - [ ] CHANGELOG.md の初回作成（ADR-007 関連）
   - v0.10.0 のリリース前に CHANGELOG の下書きを作成する
   - ADR-007 に記載されているワークフローに従って作業する
-- [ ] README.md の `TL;DR` と `Examples` セクションを新フィールドに合わせて更新する
-  - ADR-022（KERNEL VERSION 追加）と ADR-023（CHASSIS 追加）により出力フォーマットが変わっている
-  - 両 ADR の「影響」欄に「README.md の Examples セクションを更新する必要がある」と明記されている
 - [ ] `CHANGELOG.md` のワークフロー手順への参照を `TODO.md` または `README.md` に追加する
   - 現状：ChangeLog作成のワークフローは `ADR.md` の ADR-007 にしか記載されていない
   - リリース時に手順を忘れてADRを探し回ることを防ぐため、`TODO.md` のマイルストーン運用メモか `README.md` の「How to bump a version」セクションあたりに参照を追加する
+- [x] README.md の `TL;DR` と `Examples` セクションを新フィールドに合わせて更新する
+  - ADR-022（KERNEL VERSION 追加）と ADR-023（CHASSIS 追加）により出力フォーマットが変わっている
+  - 両 ADR の「影響」欄に「README.md の Examples セクションを更新する必要がある」と明記されている
 - [ ] `ADR.md` における ADR の並び順の方針をどこかに明記する
   - 現状：新しいADRが上に来る順（降順）で並んでいるが、その方針がどこにも記述されていない
   - 修正案：`ADR.md` の冒頭にコメントとして「新しい順に並べる」と明記する
