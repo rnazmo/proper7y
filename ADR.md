@@ -1,5 +1,7 @@
 # ADR (proper7y)
 
+<!-- ADRs are listed in reverse chronological order (newest first). -->
+
 ## ADR-027: `identify_chassis_id()` の分離と「exit しない識別関数」の設計方針
 
 - **日付:** 2026-04-27
