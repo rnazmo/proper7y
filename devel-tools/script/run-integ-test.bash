@@ -69,13 +69,18 @@ assert_output() {
   # "Unknown" in any field indicates an identification failure, which is a bug
   # regardless of the environment.
   #
+  # NOTE: VIRTUALIZATION is excluded from Level 2 checks because on macOS,
+  # neither systemd-detect-virt nor hostnamectl is available, so the value
+  # is legitimately "Unknown". This is expected behavior, not a bug.
+  # See identify_virtualization_id() in proper7y for details.
+  #
   # NOTE: KERNEL VERSION is excluded here for the same reason as above:
   # it is Linux-only and not present in the output on macOS.
-  # TODO: Excluding KERNEL VERSION is workaround.
-  #       KERNEL VERSION should be included and tested.
+  #
+  # TODO: Excluding VIRTUALIZATION and KERNEL VERSION is workaround.
+  #       They should be included and tested.
   local -a LEVEL2_FIELDS=(
     "CURRENT DATE"
-    "VIRTUALIZATION"
     "CPU ARCH"
     "OS NAME"
     "OS VERSION"
