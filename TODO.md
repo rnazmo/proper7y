@@ -222,7 +222,7 @@
 - [x] `run-integ-test.bash` の `assert_output()` で macOS 非表示フィールドの扱いをコメントで明記する
   - 現状：`KERNEL VERSION` は Linux 専用フィールドだが、macOS 上でのテストで「存在しなくてよい」扱いになっている根拠がコードに記載されていない
   - 修正案：レベル1（フィールド名存在確認）の対象から `KERNEL VERSION` を外している理由、または macOS では表示されないためアサーション対象外としている旨をコメントで明記する
-- [ ] CI に落ちているので対応する（`Integration Test / Install and run proper7y (stable version) (macos-latest) (push)`）
+- [x] CI に落ちているので対応する（`Integration Test / Install and run proper7y (stable version) (macos-latest) (push)`）
   - `Install and run proper7y (stable version) (macos-latest)` で落ちてる。
   - エラーメッセージの抜粋をすると、`./devel-tools/script/run-integ-test.bash` 実行時に
     `ERROR: Expected to find 'KERNEL VERSION' in output, but not found.` というエラーが発生している。
@@ -352,6 +352,25 @@
 
 ### テスト・CI
 
+- [ ] 「環境依存フィールド」のテスト設計を再考する
+  - 主にインテグレーションテスト周りの問題。
+  - 環境依存フィールドとは、例えば `OS VERSION` はすべての環境で表示されるが、
+    `KERNEL VERSION` は Linux 環境でのみ表示される、というようなフィールドのこと。
+  - 背景：`KERNEL VERSION`（Linux専用）、`ZSH VERSION`（Zsh時のみ）のように、
+    実行環境によって出力されるフィールドが変わる仕様が存在する。
+    現状のテストはこれに対して `if [[ "$(uname -s)" == "Linux" ]]` のような
+    分岐をテストコード側に直接書くことで（応急処置的に）対処しているが、この方法では
+    `proper7y` 本体と同じ条件分岐をテストコードが重複して持つことになり、
+    メンテナンスコストが二重になる。根本的な設計の再検討が必要である。
+  - 問題意識：環境依存フィールドが増えるたびに `assert_output()` が複雑化していく。
+    将来的に macOS の CHASSIS 対応なども加わると、この問題はさらに大きくなる。
+  - 検討すべき方向性：
+    - テスト側が「どのフィールドが出るか」を静的に決め打ちするのをやめる、というのはどうか？
+    - 「出力されたフィールドには必ず値がある（Unknown・空でない）」という
+      検証に特化する設計を検討する
+    - `proper7y` 側に「出力フィールド一覧を返す」仕組みを持たせる案も検討する
+    - その他にも、環境依存フィールドのテスト設計を改善するためのアイデアがあれば検討する
+  - **この検討は ADR で行うべき**
 - [ ] ユニットテストを追加することを検討する
   - ShellSpec を検討する
     - ref: [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
