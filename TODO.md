@@ -222,6 +222,11 @@
 - [x] `run-integ-test.bash` の `assert_output()` で macOS 非表示フィールドの扱いをコメントで明記する
   - 現状：`KERNEL VERSION` は Linux 専用フィールドだが、macOS 上でのテストで「存在しなくてよい」扱いになっている根拠がコードに記載されていない
   - 修正案：レベル1（フィールド名存在確認）の対象から `KERNEL VERSION` を外している理由、または macOS では表示されないためアサーション対象外としている旨をコメントで明記する
+- [ ] CI に落ちているので対応する（`Integration Test / Install and run proper7y (stable version) (macos-latest) (push)`）
+  - `Install and run proper7y (stable version) (macos-latest)` で落ちてる。
+  - エラーメッセージの抜粋をすると、`./devel-tools/script/run-integ-test.bash` 実行時に
+    `ERROR: Expected to find 'KERNEL VERSION' in output, but not found.` というエラーが発生している。
+  - おそらく、一つ上のタスクの「`assert_output()` で macOS 非表示フィールドの扱いをコメントで明記することを検討する」に関連する事象である。
 
 ### ドキュメント
 
