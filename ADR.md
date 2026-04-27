@@ -1,5 +1,24 @@
 # ADR (proper7y)
 
+## ADR-027: `identify_chassis_id()` の分離と「exit しない識別関数」の設計方針
+
+- **日付:** 2026-04-27
+- **状況:**
+  - `print_chassis()` の中で `VIRTUALIZATION_ID != "physical"` の判定と `hostnamectl` の呼び出しを行っており、「識別」と「表示」の責務が混在していた。
+  - 他のすべてのフィールドは `identify_*()` で識別・`print_*()` で表示という分離がされており、シャーシだけが例外になっていた。
+  - TODO.md に「`print_chassis()` から仮想化判定ロジックを分離することを検討する」というタスクが存在していた。
+- **決定:**
+  - `identify_chassis_id()` を新設し、`identify_environment()` の中で呼ぶ。
+  - `print_chassis()` は `CHASSIS_ID` を参照して表示するだけにする。
+  - `identify_chassis_id()` は他の `identify_*()` と異なり、未知の値でも `exit` しない（後述）。
+- **理由:**
+  - **分離する理由:** `print_*` 関数が識別ロジックを持つと、コードを読む人は「この関数は表示だけしているはず」という期待を裏切られる。小さな例外でも設計の一貫性を崩すと、将来の読み手（≒ 将来の自分）の認知負荷が上がる。
+  - **`exit` しない理由:** 他の `identify_*()` は未サポートの値に対して `exit 1` するが、シャーシ情報は「取得できなくてもスクリプト全体を止めるべきではない」補助的な情報である。`hostnamectl` が返す値は将来増える可能性もあり（新しいハードウェア形状など）、未知の値を graceful に扱う（raw 値をそのまま表示する）方が適切である。これは「未サポートの OS では動作できないため即 `exit`」する OS 識別とは性質が異なる。
+- **影響:**
+  - `proper7y` にグローバル変数 `CHASSIS_ID` と関数 `identify_chassis_id()` を追加した。
+  - `print_chassis()` から識別ロジックを除去し、表示に専念させた。
+  - `identify_environment()` に `identify_chassis_id()` の呼び出しを追加した。
+
 ## ADR-026: 全スクリプトへの `pipefail` 追加
 
 - **日付:** 2026-04-27
