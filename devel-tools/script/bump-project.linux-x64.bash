@@ -31,6 +31,7 @@ main() {
     exit 1
   fi
 
+  log_info "Current version: $CURRENT_PROPER7Y_VERSION"
   local -r NEW_PROPER7Y_VERSION="$(prompt_new_version)"
   overwrite_project_version "$NEW_PROPER7Y_VERSION"
   verify_version_consistency "$NEW_PROPER7Y_VERSION"
