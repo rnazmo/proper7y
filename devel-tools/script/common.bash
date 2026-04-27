@@ -35,14 +35,41 @@ set -euo pipefail
 # shellcheck disable=SC2034
 
 # ============================================================
-# Group 1: True constants (never change)
+# Variable classification:
+#
+#   Class A (config values):
+#     Set once at startup, never change thereafter.
+#     Examples: PROPER7Y_VERSION, PROJECT_ROOT, SHELLCHECK_CMD_PATH
+#
+#   Class B (user-configured version strings):
+#     Written in this file as the "expected" version of each tool.
+#     Updated only via overwrite_version_number_variable() during a
+#     version bump workflow. Must not be modified elsewhere.
+#     Examples: SHELLCHECK_CURRENT_VERSION, SHFMT_CURRENT_VERSION
+#
+#   Class C (runtime-fetched values):
+#     Obtained by executing a binary (e.g. `shellcheck --version`).
+#     Updated by _compose_*() / _recompose_*() after any install or
+#     upgrade. The hardest class to track: always call the appropriate
+#     _recompose_*() after touching the binary.
+#     Examples: SHELLCHECK_BINARY_VERSION, SHFMT_BINARY_VERSION
+#
+# Ownership rules:
+#   Class A  — written once by _set_global_path_variables(); readonly after that.
+#   Class B  — written by overwrite_version_number_variable() only.
+#   Class C  — written by _compose_*() / _recompose_*() only.
+#              Never set these directly from other functions.
+# ============================================================
+
+# ============================================================
+# Class A: True constants (never change)
 # ============================================================
 readonly PROPER7Y_VERSION="v0.9.9"
 readonly SHELLCHECK_TOOL_NAME="shellcheck"
 readonly SHFMT_TOOL_NAME="shfmt"
 
 # ============================================================
-# Group 2: Path variables (set once by initialize_global_variables, then immutable)
+# Class A: Path variables (set once by initialize_global_variables, then immutable)
 # ============================================================
 # NOTE: Do not use these before calling initialize_global_variables().
 PROJECT_ROOT=""
@@ -53,15 +80,15 @@ SHELLCHECK_CMD_PATH=""
 SHFMT_CMD_PATH=""
 
 # ============================================================
-# Group 3: Mutable variables (may change during execution)
+# Class B / Class C: Mutable variables (may change during execution)
 # ============================================================
 # NOTE: Do not use these before calling initialize_global_variables().
 # NOTE: After modifying SHELLCHECK_CURRENT_VERSION or SHFMT_CURRENT_VERSION,
 #       always call reinitialize_version_dependent_vars().
-SHELLCHECK_CURRENT_VERSION="v0.11.0"
-SHFMT_CURRENT_VERSION="v3.13.0"
-SHELLCHECK_BINARY_VERSION=""
-SHFMT_BINARY_VERSION=""
+SHELLCHECK_CURRENT_VERSION="v0.11.0" # Class B
+SHFMT_CURRENT_VERSION="v3.13.0"      # Class B
+SHELLCHECK_BINARY_VERSION=""         # Class C
+SHFMT_BINARY_VERSION=""              # Class C
 
 # Initialize all global variables.
 #
