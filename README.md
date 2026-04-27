@@ -211,8 +211,8 @@ NOTE: These are documents to my future self.
   - Fewer files
   - Minimum dependencies
 - Simple documentation
-  - 重要なドキュメントは `README.md`、`TODO.md`、`ADR.md`、およびソースコード中のコメントに集約する。
-  - 情報が散らばるのを避ける。
+  - Keep important documentation in `README.md`, `TODO.md`, `ADR.md`, and inline code comments.
+  - Avoid scattering information across multiple places.
     - **Should not using 'Issue'**
     - **Should not using 'Pull Request'**
     - Shall not using 'Wiki'
@@ -298,12 +298,48 @@ Also follow [Google Shell Style Guide](https://google.github.io/styleguide/shell
 
 - Function names: `lowercase_with_underscores` (SHALL)
 - Constants and readonly globals: `UPPER_SNAKE_CASE` with `readonly` (SHALL)
-- Local variables: `lowercase_with_underscores` with `local` (SHALL)
+- Mutable globals: `UPPER_SNAKE_CASE` without `readonly` (SHALL)
+- Local variables: `lowercase_with_underscores` with `local` or `local -r` (SHALL)
 
 **Functions**
 
 - Always declare function-scoped variables with `local` or `local -r`. (SHALL)
-- Functions that are internal (not intended to be called from outside the file) should be prefixed with `_`. (SHOULD)
+- Functions intended only for use within the same file should be prefixed with `_`. (SHOULD)
+  Calling `_`-prefixed functions from another file (e.g. via `source`) is prohibited. (SHALL)
+- Document non-trivial functions with a comment block above the definition. Use the following format: (SHOULD)
+
+```
+
+# TL;DR (What is this?):
+#   Short description of what this function does.
+#
+# Usage:
+#   function_name <arg1> <arg2>
+#
+# Example:
+#   function_name "foo" "bar"
+#
+# NOTE:
+#   Any important caveats or constraints.
+
+```
+
+**File header**
+
+- Each script file should begin with a header comment in the following format: (SHOULD)
+
+```
+
+# TL;DR (What is this?):
+#   One-line summary of what this script does.
+#
+# Usage:
+#   ./script-name.bash <args>
+#
+# NOTE:
+#   Any important prerequisites or constraints.
+
+```
 
 **Error handling**
 

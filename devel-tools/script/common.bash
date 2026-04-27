@@ -27,7 +27,9 @@ set -eu
 #       to your bash script to avoid error.
 #
 # NOTE:
-#   - You SHOULD NOT CALL any function whose name starts with '_'.
+#   - Functions prefixed with '_' are internal to this file.
+#     Calling them from another file (e.g. via source) is prohibited.
+#     Calling them from within this file is allowed.
 
 # Global Variables
 # shellcheck disable=SC2034
