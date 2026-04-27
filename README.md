@@ -482,7 +482,8 @@ git commit -m "docs(demo): update demo GIF"
 1. Create a commit for the changes with any commit message.
 2. Push the changes (like `$ git push`).
 3. Ensure that the CI to the commit passes. (And if the CI falls, we go back to step 0.)
-4. Run the script and bump the project version: `$ make bump-project`
+4. Update `CHANGELOG.md` before bumping. See the workflow in ADR-007 for details.
+5. Run the script and bump the project version: `$ make bump-project`
 
 MEMO: The script do following:
 

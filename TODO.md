@@ -326,7 +326,7 @@
 - [ ] CHANGELOG.md の初回作成（ADR-007 関連）
   - v0.10.0 のリリース前に CHANGELOG の下書きを作成する
   - ADR-007 に記載されているワークフローに従って作業する
-- [ ] `CHANGELOG.md` のワークフロー手順への参照を `TODO.md` または `README.md` に追加する
+- [x] `CHANGELOG.md` のワークフロー手順への参照を `TODO.md` または `README.md` に追加する
   - 現状：ChangeLog作成のワークフローは `ADR.md` の ADR-007 にしか記載されていない
   - リリース時に手順を忘れてADRを探し回ることを防ぐため、`TODO.md` のマイルストーン運用メモか `README.md` の「How to bump a version」セクションあたりに参照を追加する
 - [x] README.md の `TL;DR` と `Examples` セクションを新フィールドに合わせて更新する
