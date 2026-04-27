@@ -355,41 +355,56 @@ identify_chassis_id() {
   readonly CHASSIS_ID
 }
 
+# Identify the shell that invoked this script by walking up the process tree.
+#
+# Strategy:
+#   Starting from $PPID, repeatedly look up the parent process name via 'ps'
+#   until a known shell (bash, zsh) is found or the tree is exhausted.
+#   If no known shell is found, CURRENT_SHELL_ID is set to "unknown".
+#
+# NOTE:
+#   This approach is best-effort. It works reliably in common cases (direct
+#   invocation from bash/zsh, invocation via make, invocation inside tmux),
+#   but may return "unknown" in unusual execution contexts such as deeply
+#   nested process trees or exotic CI environments. This is acceptable by
+#   design. See ADR-028.
+#
+# NOTE:
+#   '(( depth++ )) || true' is required because in Bash with 'set -e',
+#   an arithmetic expression that evaluates to 0 (i.e. false) causes the
+#   script to exit. When depth is 0, '(( depth++ ))' evaluates to 0 (the
+#   value before increment), which would trigger 'set -e'. '|| true' prevents
+#   this. See ADR-028.
 identify_current_shell_id() {
-  # The parent process of the running 'proper7y' is probably the 'current shell' we want.
-  # NOTE: In some environments, the fillowing may not work correctly.
-  # Ref:
-  #   https://tkuchiki.hatenablog.com/entry/2014/05/08/222135
-  #   https://askubuntu.com/a/590903
-  local -r parent_process_cmd=$(ps -cp "$PPID" -o command="")
-  case "$parent_process_cmd" in
-  *bash*)
-    CURRENT_SHELL_ID="bash"
-    ;;
-  *zsh*)
-    CURRENT_SHELL_ID="zsh"
-    ;;
-  *make*)
-    local -i parent_process_id_of_the_parent_process_cmd
-    parent_process_id_of_the_parent_process_cmd=$(ps -cp "$PPID" -o ppid=)
-    local -r parent_process_cmd_of_the_parent_process_cmd=$(ps -cp "$parent_process_id_of_the_parent_process_cmd" -o command="")
-    case "$parent_process_cmd_of_the_parent_process_cmd" in
+  local pid="$PPID"
+  local cmd
+  local -i depth=0
+  local -ri MAX_DEPTH=10
+
+  while [[ $depth -lt $MAX_DEPTH ]]; do
+    cmd="$(ps -o comm= -p "$pid" 2>/dev/null)" || break
+    cmd="${cmd// /}" # trim whitespace
+
+    case "$cmd" in
     *bash*)
       CURRENT_SHELL_ID="bash"
+      break
       ;;
     *zsh*)
       CURRENT_SHELL_ID="zsh"
-      ;;
-    *)
-      CURRENT_SHELL_ID="unknown"
+      break
       ;;
     esac
-    ;;
-  *)
-    CURRENT_SHELL_ID="unknown"
-    ;;
-  esac
 
+    # Walk up to the parent process
+    pid="$(ps -o ppid= -p "$pid" 2>/dev/null)" || break
+    pid="${pid// /}" # trim whitespace
+    [[ -z "$pid" || "$pid" == "0" || "$pid" == "1" ]] && break
+
+    ((depth++)) || true
+  done
+
+  [[ -z "${CURRENT_SHELL_ID:-}" ]] && CURRENT_SHELL_ID="unknown"
   readonly CURRENT_SHELL_ID
 
   # Check if the CURRENT_SHELL_ID value is in SUPPORTED_SHELL_IDS

@@ -83,7 +83,7 @@
       - GitHub のリリースページ（UI）で、各アセットの横に SHA‑256 の digest が表示される
       - REST API や GraphQL API、gh CLI からも .digest というフィールドで取得できる
     - -> 検討の結果、実装しないことにした (ADR-014)
-- [ ] `identify_current_shell_id()` の実装を見直す
+- [x] `identify_current_shell_id()` の実装を見直す
   - いくつか問題がある。
   - 現状は `ps` で親プロセスを辿る実装で、macOSとLinuxで挙動が異なり壊れやすい
   - 移植性の問題：ps のオプションは macOS と Linux で挙動が異なる（-c フラグの有無など）
