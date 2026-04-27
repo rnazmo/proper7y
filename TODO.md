@@ -203,6 +203,11 @@
   - エラーメッセージの抜粋をすると、`./devel-tools/script/run-integ-test.bash` 実行時に
     `ERROR: Expected to find 'KERNEL VERSION' in output, but not found.` というエラーが発生している。
   - おそらく、一つ上のタスクの「`assert_output()` で macOS 非表示フィールドの扱いをコメントで明記することを検討する」に関連する事象である。
+- [ ] CI に落ちているので対応する（`Integration Test / Install and run proper7y (stable version) (macos-latest) (push)`）
+  - ~~1つ上のタスクで直したはずが、直っていなかった~~ 上記とは別のエラーかも？エラー内容は違った。
+  - `Install and run proper7y (stable version) (macos-latest)` で落ちてる。
+  - エラーメッセージの抜粋をすると、`./devel-tools/script/run-integ-test.bash` 実行時に
+    `ERROR: Field 'VIRTUALIZATION' has value 'Unknown', which indicates an identification failure (Unknown)` というエラーが発生している。
 
 ### ドキュメント
 
