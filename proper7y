@@ -22,7 +22,7 @@ set -eu
 
 # -------------------------------------------------------------------
 
-readonly PROPER7Y_VERSION="v0.9.9"
+readonly PROPER7Y_VERSION="v0.9.10"
 
 # 'declare -l' is intentional: it forces values to lowercase on assignment,
 # so that case-statement comparisons (e.g. 'linux', 'physical') always work
