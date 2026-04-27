@@ -64,7 +64,7 @@ set -euo pipefail
 # ============================================================
 # Class A: True constants (never change)
 # ============================================================
-readonly PROPER7Y_VERSION="v0.9.10"
+readonly PROPER7Y_VERSION="v0.10.0"
 readonly SHELLCHECK_TOOL_NAME="shellcheck"
 readonly SHFMT_TOOL_NAME="shfmt"
 
