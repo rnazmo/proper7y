@@ -236,6 +236,10 @@
   - エラーメッセージの抜粋をすると、`./devel-tools/script/run-integ-test.bash` 実行時に
     `ERROR: Expected to find 'KERNEL VERSION' in output, but not found.` というエラーが発生している。
   - おそらく、一つ上のタスクの「`assert_output()` で macOS 非表示フィールドの扱いをコメントで明記することを検討する」に関連する事象である。
+- [ ] `make bump-project` で次のバージョンを入力する際に、現在のバージョンも表示する
+  - 現状：次のバージョンを入力する際に、現在のバージョンが表示されないため、ユーザーは別途 `common.bash` を開くなどで確認する必要がある
+  - 修正案：`bump-project.linux-x64.bash` の `main()` 内で、ユーザーに次のバージョンを入力させる前に、その直前あたりで現在のバージョンを表示する
+  - これも、バージョン整合性チェックと同様に、ユーザビリティ向上のために早めに対応したい
 
 ### ドキュメント
 
