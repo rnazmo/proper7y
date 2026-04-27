@@ -19,10 +19,20 @@ initialize_global_variables
 readonly URL="https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash"
 
 # Assert that the output of proper7y looks correct.
-# We check structure (headers, separator lines, field names) and
-# the format of a few environment-independent fields.
-# Checking that values are not "Unknown" is left as a future TODO,
-# because it depends on the CI environment and is fragile.
+#
+# Design:
+#   Rather than hardcoding which fields appear in which environment,
+#   this function splits fields into two categories:
+#
+#   - REQUIRED_FIELDS: Always present regardless of environment.
+#     Checked for existence AND that the value is not empty or "Unknown".
+#   - CONDITIONAL_FIELDS: Present only in certain environments (e.g. Linux-only).
+#     If a conditional field appears in the output, its value is also checked.
+#     If it does not appear, the absence is silently accepted.
+#
+#   This avoids duplicating proper7y's internal condition logic in test code.
+#   When a new environment-dependent field is added to proper7y, only
+#   CONDITIONAL_FIELDS needs to be updated here. See ADR-029.
 assert_output() {
   local -r OUTPUT="$1"
   log_info "Asserting output..."
@@ -37,21 +47,31 @@ assert_output() {
     return 1
   fi
 
-  # Check field names exist
-  assert_line_exists "$OUTPUT" "CURRENT DATE"
-  assert_line_exists "$OUTPUT" "VIRTUALIZATION"
-  assert_line_exists "$OUTPUT" "CHASSIS"
-  assert_line_exists "$OUTPUT" "CPU ARCH"
-  assert_line_exists "$OUTPUT" "OS NAME"
-  assert_line_exists "$OUTPUT" "OS VERSION"
-  # NOTE: KERNEL VERSION is Linux-only. On macOS, print_kernel_version() returns
-  # early without printing anything, so we skip this assertion on macOS.
-  # TODO: This is workaround. Refactor this code.
-  if [[ "$(uname -s)" == "Linux" ]]; then
-    assert_line_exists "$OUTPUT" "KERNEL VERSION"
-  fi
-  assert_line_exists "$OUTPUT" "CURRENT SHELL"
-  assert_line_exists "$OUTPUT" "BASH VERSION"
+  # Fields that must always appear, regardless of environment.
+  local -ar REQUIRED_FIELDS=(
+    "CURRENT DATE"
+    "VIRTUALIZATION"
+    "CHASSIS"
+    "CPU ARCH"
+    "OS NAME"
+    "OS VERSION"
+    "CURRENT SHELL"
+    "BASH VERSION"
+  )
+
+  # Fields that appear only in certain environments (e.g. Linux-only, Zsh-only).
+  # If present in the output, their values are validated the same way as required fields.
+  # If absent, the absence is silently accepted.
+  local -ar CONDITIONAL_FIELDS=(
+    "KERNEL VERSION" # Linux-only
+    "ZSH VERSION"    # Zsh-only
+  )
+
+  # Check existence of all required fields.
+  local FIELD
+  for FIELD in "${REQUIRED_FIELDS[@]}"; do
+    assert_line_exists "$OUTPUT" "$FIELD"
+  done
 
   # Check CURRENT DATE format (YYYY-MM-DD)
   if ! echo "$OUTPUT" | grep -qE "^CURRENT DATE\s*: [0-9]{4}-[0-9]{2}-[0-9]{2}$"; then
@@ -65,39 +85,25 @@ assert_output() {
     return 1
   fi
 
-  # Level 2: Check that field values are not "Unknown" or empty.
-  # "Unknown" in any field indicates an identification failure, which is a bug
-  # regardless of the environment.
-  #
-  # NOTE: VIRTUALIZATION is excluded from Level 2 checks because on macOS,
-  # neither systemd-detect-virt nor hostnamectl is available, so the value
-  # is legitimately "Unknown". This is expected behavior, not a bug.
-  # See identify_virtualization_id() in proper7y for details.
-  #
-  # NOTE: KERNEL VERSION is excluded here for the same reason as above:
-  # it is Linux-only and not present in the output on macOS.
-  #
-  # TODO: Excluding VIRTUALIZATION and KERNEL VERSION is workaround.
-  #       They should be included and tested.
-  local -a LEVEL2_FIELDS=(
-    "CURRENT DATE"
-    "CPU ARCH"
-    "OS NAME"
-    "OS VERSION"
-    "CURRENT SHELL"
-    "BASH VERSION"
-  )
-  local FIELD
-  for FIELD in "${LEVEL2_FIELDS[@]}"; do
-    # Extract the value after the ': ' separator.
+  # For all required fields and any conditional fields that appear in the output,
+  # check that the value is not empty or "Unknown".
+  # "Unknown" in any field indicates an identification failure, which is a bug.
+  local -a FIELDS_TO_VALIDATE=("${REQUIRED_FIELDS[@]}")
+  for FIELD in "${CONDITIONAL_FIELDS[@]}"; do
+    if echo "$OUTPUT" | grep -qE "^${FIELD}\s*: "; then
+      FIELDS_TO_VALIDATE+=("$FIELD")
+    fi
+  done
+
+  for FIELD in "${FIELDS_TO_VALIDATE[@]}"; do
     local VALUE
     VALUE="$(echo "$OUTPUT" | grep -E "^${FIELD}\s*: " | sed 's/^[^:]*: //')"
     if [[ -z "$VALUE" ]]; then
-      log_err "Field '${FIELD}' is missing or has an empty value ($VALUE)"
+      log_err "Field '${FIELD}' is missing or has an empty value"
       return 1
     fi
     if [[ "$VALUE" == "Unknown" ]]; then
-      log_err "Field '${FIELD}' has value 'Unknown', which indicates an identification failure ($VALUE)"
+      log_err "Field '${FIELD}' has value 'Unknown', which indicates an identification failure"
       return 1
     fi
   done

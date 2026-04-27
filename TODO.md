@@ -50,7 +50,7 @@
 
 ### テスト・CI
 
-- [ ] 「環境依存フィールド」のテスト設計を再考する
+- [x] 「環境依存フィールド」のテスト設計を再考する
   - 主にインテグレーションテスト周りの問題。
   - 環境依存フィールドとは、例えば `OS VERSION` はすべての環境で表示されるが、
     `KERNEL VERSION` は Linux 環境でのみ表示される、というようなフィールドのこと。
@@ -69,7 +69,7 @@
     - `proper7y` 側に「出力フィールド一覧を返す」仕組みを持たせる案も検討する
     - その他にも、環境依存フィールドのテスト設計を改善するためのアイデアがあれば検討する
   - **この検討は ADR で行うべき**
-- [ ] `run-integ-test.bash` の `VIRTUALIZATION` および `KERNEL VERSION` の workaround を解消する
+- [x] `run-integ-test.bash` の `VIRTUALIZATION` および `KERNEL VERSION` の workaround を解消する
   - 背景：`VIRTUALIZATION` は macOS で `systemd-detect-virt` / `hostnamectl` が使えないため、
     レベル2アサーション（値が `Unknown` でないことの確認）の対象から除外している。
     `KERNEL VERSION` は Linux 専用フィールドのため同様に除外している。
