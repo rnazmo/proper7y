@@ -33,6 +33,19 @@ readonly URL="https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bas
 #   This avoids duplicating proper7y's internal condition logic in test code.
 #   When a new environment-dependent field is added to proper7y, only
 #   CONDITIONAL_FIELDS needs to be updated here. See ADR-029.
+#
+# Assertion levels per field:
+#   Field            L1(exists)  L2(not empty/Unknown)  L3(format check)
+#   CURRENT DATE     yes         yes                     yes (YYYY-MM-DD)
+#   VIRTUALIZATION   yes         yes                     -
+#   CHASSIS          yes         yes                     -
+#   CPU ARCH         yes         yes                     yes ([a-zA-Z0-9_]+)
+#   OS NAME          yes         yes                     -
+#   OS VERSION       yes         yes                     - (format varies: "24.04", "Rolling Release", etc.)
+#   CURRENT SHELL    yes         yes                     yes ([A-Za-z]+)
+#   BASH VERSION     yes         yes                     yes (X.Y.Z)
+#   KERNEL VERSION   yes(cond)   yes(cond)               -
+#   ZSH VERSION      yes(cond)   yes(cond)               -
 assert_output() {
   local -r OUTPUT="$1"
   log_info "Asserting output..."
@@ -79,9 +92,21 @@ assert_output() {
     return 1
   fi
 
-  # Check BASH VERSION format (X.Y.Z)
+# Check BASH VERSION format (X.Y.Z)
   if ! echo "$OUTPUT" | grep -qE "^BASH VERSION\s*: [0-9]+\.[0-9]+\.[0-9]+$"; then
     log_err "BASH VERSION does not match expected format X.Y.Z"
+    return 1
+  fi
+
+  # Check CPU ARCH format (alphanumeric and underscores only, e.g. x86_64, aarch64)
+  if ! echo "$OUTPUT" | grep -qE "^CPU ARCH\s*: [a-zA-Z0-9_]+$"; then
+    log_err "CPU ARCH does not match expected format"
+    return 1
+  fi
+
+  # Check CURRENT SHELL format (letters only, e.g. Bash, Zsh, Unknown)
+  if ! echo "$OUTPUT" | grep -qE "^CURRENT SHELL\s*: [A-Za-z]+$"; then
+    log_err "CURRENT SHELL does not match expected format"
     return 1
   fi
 
