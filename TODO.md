@@ -320,7 +320,7 @@
 ### プロジェクト管理
 
 - [x] TODO.md の `Milestone: v0.10.0` のタイトルを考える
-- [ ] TODO.md の `Milestone: v0.11.0` を策定
+- [x] TODO.md の `Milestone: v0.11.0` を策定
 - [x] Golang での全面書き換えの検討
   - 様々な環境への対応が用意になる
   - このアプリを作る＆メンテする目的の 1 つは `For learning bash script` である。よって、Bash script でやるべき。どうしても辛くなって Golang などで作り直したい場合は、アプリの目的も含めて見直すこと
