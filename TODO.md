@@ -254,7 +254,7 @@
   - 書き方の参考:
     - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#other-ci>
     - <https://github.com/golangci/golangci-lint/blob/3c795d8637855c813c7c22fb36a3521c726bcd87/docs/src/docs/usage/install/index.mdx#install-from-source>
-- [ ] README.md に GIF 動画を追加する
+- [x] README.md に GIF 動画を追加する
   - [x] フェーズ1: 意思決定（ADR-025 参照）
     - [x] そもそも GIF を追加するべきかどうかを検討する
     - [x] 追加するならどのような方法にするか（≒ 録画ツールの選定）
@@ -274,11 +274,11 @@
   - [x] フェーズ3: 本番作業
     - [x] 本番録画してGIFを生成する
     - [x] GIFを配置し、README.md に埋め込む
-  - [ ] フェーズ4: 後処理
-    - [ ] 録画・更新手順をドキュメント化する（将来のメンテコスト削減のため）
+  - [x] フェーズ4: 後処理
+    - [x] 録画・更新手順をドキュメント化する（将来のメンテコスト削減のため）
       - どのタイミングで更新するのか、どのように更新するのか、などを明確にしておく
-    - [ ] インストールスクリプト化の要否を判断し、必要なら実施する
-    - [ ] ADR.md に意思決定を記録する
+    - [x] インストールスクリプト化の要否を判断し、必要なら実施する
+    - [x] ADR.md に意思決定を記録する
 - [x] README.md のどこかに以下のようなテキストを追加する:
   - > In this document, `proper7y` indicates the file, 'proper7y' indicates the project (≒ the repository) and `$ proper7y` indicates the command on your console.
 - [x] README.md の Notes セクション内にある冗長な括弧書き（`(this indicates 'proper7y' as the file)` など）を削除する

@@ -400,6 +400,43 @@ make format
 make integ-tests
 ```
 
+### How to update the demo GIF
+
+Update the demo GIF when the output format of `proper7y` changes noticeably
+(e.g. new fields added, layout changed). Minor changes do not require an update.
+
+#### Prerequisites
+
+Install VHS and its dependencies. The following command is for **Arch-based Linux** only:
+
+```console
+sudo pacman -S ffmpeg ttyd vhs
+```
+
+For other environments, see the [VHS installation guide](https://github.com/charmbracelet/vhs#installation).
+
+#### Steps
+
+1. Run VHS to generate the GIF
+2. Move the generated GIF to the correct location
+3. Commit the updated GIF
+
+The GIF is already embedded in README.md, so no further changes are needed.
+
+Commands:
+
+```bash
+# Step 1:
+vhs ./devel-tools/demo/proper7y.tape
+
+# Step 2:
+mv ./proper7y.gif ./devel-tools/demo/proper7y.gif
+
+# Step 3:
+git add devel-tools/demo/proper7y.gif
+git commit -m "docs(demo): update demo GIF"
+```
+
 ### How to bump a version of 'proper7y' (versioning workflow)
 
 0. (We edited `proper7y` locally.)
