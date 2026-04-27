@@ -54,6 +54,13 @@
     - `proper7y` 側に「出力フィールド一覧を返す」仕組みを持たせる案も検討する
     - その他にも、環境依存フィールドのテスト設計を改善するためのアイデアがあれば検討する
   - **この検討は ADR で行うべき**
+- [ ] `run-integ-test.bash` の `VIRTUALIZATION` および `KERNEL VERSION` の workaround を解消する
+  - 背景：`VIRTUALIZATION` は macOS で `systemd-detect-virt` / `hostnamectl` が使えないため、
+    レベル2アサーション（値が `Unknown` でないことの確認）の対象から除外している。
+    `KERNEL VERSION` は Linux 専用フィールドのため同様に除外している。
+    いずれもコードに `TODO: Excluding ... is workaround.` と明記されている。
+  - 解消の前提：「環境依存フィールドのテスト設計を再考する」タスクの設計が固まってから着手すること。
+    そのタスクの結果として、このworkaroundも自然に解消される可能性がある。
 - [ ] ユニットテストを追加することを検討する
   - ShellSpec を検討する
     - ref: [ShellSpec - シェルスクリプト用のフル機能の BDD ユニットテストフレームワーク - Qiita](https://qiita.com/ko1nksm/items/2f01ff4f50e957ebf1de)
