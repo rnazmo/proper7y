@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 # TL:DR (What is this?)
 #   - Run '/devel-tools/bin/shfmt' to the TARGETS with the option " -i 2 -w"

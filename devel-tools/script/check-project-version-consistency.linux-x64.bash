@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 # TL;DR (What is this?):
 #   Verify that the variable PROPER7Y_VERSION is consistent across

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 # TL:DR (What is this?)
 #   Install shellcheck and shfmt binary under 'foo/proper7y/devel-tools/bin/'.

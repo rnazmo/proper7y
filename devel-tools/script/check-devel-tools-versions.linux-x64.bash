@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 # Tl;DR (What is this?)
 #   Print following three versions of the devel-tools:

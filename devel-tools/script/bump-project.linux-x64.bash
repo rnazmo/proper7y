@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 # TL:DR (What is this?)
 #   - Bump the version of proper7y (project).

@@ -13,7 +13,7 @@
   - `brew install bash` した後も `./proper7y` のshebang `#!/usr/bin/env bash` はPATHの先頭のbashを使うため、インストールしたbashが必ず使われるとは限らない
   - `/opt/homebrew/bin/bash ./proper7y` のように明示するか、PATHを先頭に追加する
 - [x] proper7y コマンドの出力表示にバグがある。CPU ARCH と KERNEL VERSION の値が逆になっている
-- [ ] 全スクリプトに `set -o pipefail` を追加する（ことを検討する）
+- [x] 全スクリプトに `set -o pipefail` を追加する（ことを検討する）
   - 現状：`set -eu` のみで、パイプ途中のエラーを検知できない
   - 例：`grep ... | sed ...` の形式で grep が失敗しても、set -e は発動しない（最後のコマンド=sedの終了ステータスで判断されるため）
   - 修正案：全スクリプトの `set -eu` を `set -euo pipefail` に変更する
