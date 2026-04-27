@@ -24,6 +24,12 @@ set -eu
 
 readonly PROPER7Y_VERSION="v0.9.7"
 
+# 'declare -l' is intentional: it forces values to lowercase on assignment,
+# so that case-statement comparisons (e.g. 'linux', 'physical') always work
+# regardless of what uname or other commands return (e.g. 'Linux', 'Darwin').
+# Note: UNAME_CACHE_MACHINE and UNAME_CACHE_RELEASE are also declared with -l
+# because they come from the same uname call; their values happen to be
+# lowercase already, but -l makes this explicit and future-proof.
 declare -l UNAME_CACHE_KERNEL_NAME="This_value_should_be_overridden"
 declare -l UNAME_CACHE_MACHINE="This_value_should_be_overridden"
 declare -l UNAME_CACHE_RELEASE="This_value_should_be_overridden"

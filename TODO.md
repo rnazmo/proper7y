@@ -176,7 +176,7 @@
   - ぱっと見たときのわかりやすさと、正確性のトレードオフ？
   - 他の項目の表示形式との統一感も考慮する必要がある
   - → バージョン番号のみ表示するよう修正した（`BASH VERSION` と同形式）
-- [ ] `declare -l` の使用が意図的かどうかを確認し、コメントで明記する
+- [x] `declare -l` の使用が意図的かどうかを確認し、コメントで明記する
   - 現状：`UNAME_CACHE_KERNEL_NAME`、`UNAME_CACHE_MACHINE`、`UNAME_CACHE_RELEASE`、`OS_FAMILY_ID`、`OS_ID`、`VIRTUALIZATION_ID`、`CURRENT_SHELL_ID` がすべて `declare -l` で宣言されている
   - `declare -l` は代入時に強制小文字化する属性。OSの識別子を小文字で統一するために意図的に使っているなら、その旨をコメントで明記する
   - 意図的でないなら `-l` を外すか、意図を示すコメントを追加する
