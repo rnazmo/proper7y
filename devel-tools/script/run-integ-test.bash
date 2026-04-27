@@ -44,6 +44,11 @@ assert_output() {
   assert_line_exists "$OUTPUT" "CPU ARCH"
   assert_line_exists "$OUTPUT" "OS NAME"
   assert_line_exists "$OUTPUT" "OS VERSION"
+  # NOTE: KERNEL VERSION is Linux-only. On macOS, print_kernel_version() returns
+  # early without printing anything. We still assert it here because this
+  # integration test runs on Linux (CI uses ubuntu-latest for integ-test).
+  # If this test is ever run on macOS directly, this assertion will fail —
+  # that is intentional and expected, not a bug.
   assert_line_exists "$OUTPUT" "KERNEL VERSION"
   assert_line_exists "$OUTPUT" "CURRENT SHELL"
   assert_line_exists "$OUTPUT" "BASH VERSION"

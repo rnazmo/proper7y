@@ -219,7 +219,7 @@
 - [x] `run-integ-test-to-head` にアサーションがないことを `Makefile` のコメントで明示する
   - 現状：`make integ-tests` は `run-integ-test-to-head`（アサーションなし）と `run-integ-test-to-latest`（アサーションあり）を両方実行するが、その違いが `Makefile` を読んだだけでは分からない
   - 修正案：`run-integ-test-to-head` ターゲットにコメントを追加し、「出力内容のアサーションは行わない（exit code のみ確認）」と明記する
-- [ ] `run-integ-test.bash` の `assert_output()` で macOS 非表示フィールドの扱いをコメントで明記する
+- [x] `run-integ-test.bash` の `assert_output()` で macOS 非表示フィールドの扱いをコメントで明記する
   - 現状：`KERNEL VERSION` は Linux 専用フィールドだが、macOS 上でのテストで「存在しなくてよい」扱いになっている根拠がコードに記載されていない
   - 修正案：レベル1（フィールド名存在確認）の対象から `KERNEL VERSION` を外している理由、または macOS では表示されないためアサーション対象外としている旨をコメントで明記する
 
