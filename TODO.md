@@ -216,7 +216,7 @@
   - 外部サービス（GitHubのURL、brewパッケージ等）の変化を週次で検知する `schedule` トリガーも有用
   - **この検討は ADR で行うべき**
   - → `pull_request` は追加しない。`schedule` (weekly) を `integ-test.yml` に追加した。詳細は ADR-015 参照。
-- [ ] `run-integ-test-to-head` にアサーションがないことを `Makefile` のコメントで明示する
+- [x] `run-integ-test-to-head` にアサーションがないことを `Makefile` のコメントで明示する
   - 現状：`make integ-tests` は `run-integ-test-to-head`（アサーションなし）と `run-integ-test-to-latest`（アサーションあり）を両方実行するが、その違いが `Makefile` を読んだだけでは分からない
   - 修正案：`run-integ-test-to-head` ターゲットにコメントを追加し、「出力内容のアサーションは行わない（exit code のみ確認）」と明記する
 - [ ] `run-integ-test.bash` の `assert_output()` で macOS 非表示フィールドの扱いをコメントで明記する

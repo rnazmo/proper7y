@@ -27,6 +27,9 @@ run-integ-test-to-head:
 	./proper7y
 
 .PHONY: run-integ-test-to-latest
+# Note: This target only checks that proper7y exits with status 0.
+# It does NOT assert the output content (field names, values, format, etc.).
+# See ADR-005 for the integration test design and assertion levels.
 run-integ-test-to-latest:
 	./devel-tools/script/run-integ-test.bash
 
