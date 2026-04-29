@@ -89,6 +89,15 @@
   - テストファイルは `test/unit/` ディレクトリを新規作成してそこに置く
   - Makefile にテスト実行用ターゲットを追加する
   - CI への組み込みは後回しでよい
+- [ ] `make unit-tests` がエラーになるので対応する
+
+```zsh
+$ make unit-tests
+./devel-tools/bin/bats test/unit/
+env: ‘/home/foo/repos/github.com/rnazmo/proper7y/devel-tools/libexec/bats-core/bats’: No such file or directory
+make: *** [Makefile:27: unit-tests] Error 127
+```
+
 - [ ] 上記の「小さく試す」の結果を踏まえて、ユニットテストを継続するかどうかを判断する (Ref: ADR-030)
   - 判断結果は ADR-030 に追記する
 - [x] integ-testのアサーションをレベル3に強化する (Ref: ADR-005)
