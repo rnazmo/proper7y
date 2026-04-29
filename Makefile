@@ -22,6 +22,10 @@ format:
 validate:
 	./devel-tools/script/check-project-version-consistency.linux-x64.bash
 
+.PHONY: unit-tests
+unit-tests:
+	./devel-tools/bin/bats test/unit/
+
 .PHONY: run-integ-test-to-head
 run-integ-test-to-head:
 	./proper7y

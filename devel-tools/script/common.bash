@@ -67,6 +67,7 @@ set -euo pipefail
 readonly PROPER7Y_VERSION="v0.10.0"
 readonly SHELLCHECK_TOOL_NAME="shellcheck"
 readonly SHFMT_TOOL_NAME="shfmt"
+readonly BATS_TOOL_NAME="bats"
 
 # ============================================================
 # Class A: Path variables (set once by initialize_global_variables, then immutable)
@@ -78,6 +79,7 @@ DEVEL_TOOLS_BIN_DIR=""
 COMMON_SH_PATH=""
 SHELLCHECK_CMD_PATH=""
 SHFMT_CMD_PATH=""
+BATS_CMD_PATH=""
 
 # ============================================================
 # Class B / Class C: Mutable variables (may change during execution)
@@ -87,6 +89,7 @@ SHFMT_CMD_PATH=""
 #       always call reinitialize_version_dependent_vars().
 SHELLCHECK_CURRENT_VERSION="v0.11.0" # Class B
 SHFMT_CURRENT_VERSION="v3.13.0"      # Class B
+BATS_CURRENT_VERSION="v1.13.0"       # Class B
 SHELLCHECK_BINARY_VERSION=""         # Class C
 SHFMT_BINARY_VERSION=""              # Class C
 
@@ -122,6 +125,7 @@ _set_global_path_variables() {
   _compose_common_sh_path
   _compose_shellcheck_cmd_path
   _compose_shfmt_cmd_path
+  _compose_bats_cmd_path
   log_info "Composed global path variables."
 }
 
@@ -176,6 +180,13 @@ _compose_shellcheck_cmd_path() {
   SHELLCHECK_CMD_PATH="${DEVEL_TOOLS_BIN_DIR}/shellcheck"
   readonly SHELLCHECK_CMD_PATH
   local -r ROW="$(compose_row_for_variable_log "SHELLCHECK_CMD_PATH" "$SHELLCHECK_CMD_PATH")"
+  log_info "$ROW"
+}
+
+_compose_bats_cmd_path() {
+  BATS_CMD_PATH="${DEVEL_TOOLS_BIN_DIR}/bats"
+  readonly BATS_CMD_PATH
+  local -r ROW="$(compose_row_for_variable_log "BATS_CMD_PATH" "$BATS_CMD_PATH")"
   log_info "$ROW"
 }
 
@@ -281,6 +292,24 @@ _recompose_shfmt_binary_version() {
   _compose_shfmt_binary_version
 }
 
+_compose_bats_binary_version() {
+  log_info "Checking if the $BATS_CMD_PATH exists and is an executable file..."
+  if [[ ! -x "$BATS_CMD_PATH" ]]; then
+    log_warn "$BATS_CMD_PATH not found."
+    BATS_BINARY_VERSION="$BATS_CMD_PATH not found."
+    return 0
+  fi
+
+  # Here is the example version info:
+  #   $ ./devel-tools/bin/bats --version
+  #   Bats 1.13.0
+  BATS_BINARY_VERSION="v$($BATS_CMD_PATH --version | sed 's/Bats //')"
+}
+
+_recompose_bats_binary_version() {
+  _compose_bats_binary_version
+}
+
 # Check if the DEVEL_TOOLS_BIN_DIR exists and is a directory.
 check_if_devel_tools_bin_dir_exists() {
   if [[ -e "$DEVEL_TOOLS_BIN_DIR" ]] && [[ ! -d "$DEVEL_TOOLS_BIN_DIR" ]]; then
@@ -335,6 +364,44 @@ install_shfmt() {
   chmod +x ./shfmt
 
   _recompose_shfmt_binary_version
+}
+
+# Install bats-core via the GitHub Releases tarball under DEVEL_TOOLS_BIN_DIR.
+#
+# bats-core does not distribute a single binary; it ships a tarball with
+# an install.sh that places several files under a given prefix.
+# We use a temporary directory as the install prefix, then copy only the
+# `bats` entry-point binary to DEVEL_TOOLS_BIN_DIR.
+#
+# Ref: https://github.com/bats-core/bats-core/releases
+install_bats() {
+  (
+    local -r BATS_VERSION_WITHOUT_V="${BATS_CURRENT_VERSION#v}"
+    local -r BATS_URL="https://github.com/bats-core/bats-core/archive/refs/tags/${BATS_CURRENT_VERSION}.tar.gz"
+
+    local -r TEMP_DIR="$(mktemp -d)"
+    trap 'rm -rf "${TEMP_DIR:-}"' EXIT
+    cd "$TEMP_DIR"
+    log_info "TEMP_DIR: $TEMP_DIR"
+
+    curl -OL "$BATS_URL"
+    tar -xf "${BATS_CURRENT_VERSION}.tar.gz"
+
+    # Run the bundled install.sh into a local prefix inside TEMP_DIR,
+    # then copy only the `bats` binary to DEVEL_TOOLS_BIN_DIR.
+    # We avoid installing to a system-wide prefix to keep devel-tools self-contained.
+    local -r INSTALL_PREFIX="${TEMP_DIR}/bats-install"
+    bash "./bats-core-${BATS_VERSION_WITHOUT_V}/install.sh" "$INSTALL_PREFIX"
+    cp "${INSTALL_PREFIX}/bin/bats" "$BATS_CMD_PATH"
+    chmod +x "$BATS_CMD_PATH"
+  )
+
+  _recompose_bats_binary_version
+}
+
+reinstall_bats() {
+  install_bats
+  check_bats_is_ready
 }
 
 reinstall_shellcheck() {
@@ -487,6 +554,23 @@ check_shfmt_is_ready() {
   _check_if_installed_shfmt_version_is_correct
   log_info "Checked. shfmt is ready!"
   print_shfmt_current_version
+}
+
+_check_if_bats_exists() {
+  _check_if_the_tool_exists "$BATS_TOOL_NAME" "$BATS_CMD_PATH"
+}
+
+_check_if_installed_bats_version_is_correct() {
+  _recompose_bats_binary_version
+  compare_binary_ver_with_current_ver_of_the_devel_tool "$BATS_TOOL_NAME" "$BATS_BINARY_VERSION" "$BATS_CURRENT_VERSION"
+}
+
+check_bats_is_ready() {
+  log_info "Checking bats is ready..."
+  _check_if_bats_exists
+  _check_if_installed_bats_version_is_correct
+  log_info "Checked. bats is ready!"
+  log_info "bats 'Current version': $BATS_CURRENT_VERSION"
 }
 
 print_shellcheck_current_version() {

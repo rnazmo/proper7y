@@ -21,6 +21,10 @@ main() {
   install_shfmt
   check_shfmt_is_ready
 
+  # 4. Install bats
+  install_bats
+  check_bats_is_ready
+
   log_info "Installed successfully!"
 }
 
