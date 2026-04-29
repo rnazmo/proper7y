@@ -231,15 +231,15 @@ NOTE: These are documents to my future self.
 
 Follow semantic versioning. (SHALL)
 
-#### Branch
+### Branch
 
-- **なるべく `main` だけの状態を維持することが望ましい。(SHOULD)**
-- ただし、機能追加など変更が大きい場合に一時的なブランチを作るのは全く構わない。(SHOULD)
-- 一時ブランチはマージ後すみやかに削除する。(SHOULD)
+- **Prefer keeping only `main` branch whenever possible. (SHOULD)**
+- However, creating temporary branches for large changes (e.g., new features) is acceptable. (SHOULD)
+- Delete temporary branches promptly after merging. (SHOULD)
 
 #### Commit message
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/ja/v1.0.0/). (SHOULD)
+Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). (SHOULD)
 See ADR-009 for the rationale and detailed rules.
 
 This project is personal, so strict enforcement is not required. Continuing to commit matters more than writing a perfect message.
@@ -271,7 +271,7 @@ Because it is difficult to search and maintain the information written there.
 
 #### Issue / Pull request title
 
-特にルールは設けない。てきとうに。
+No specific rules. Keep it casual.
 
 #### Documentation
 
@@ -369,7 +369,7 @@ Ref:
 
 #### Force push to the remote repo
 
-すべきではないが、(どうしても仕方がない場合のみ) 許可する。(対象ユーザーが自分のみなので)
+Should be avoided, but allowed when absolutely necessary. (Since the only user is myself)
 
 ### Prerequisite
 
