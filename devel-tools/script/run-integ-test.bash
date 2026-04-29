@@ -92,7 +92,7 @@ assert_output() {
     return 1
   fi
 
-# Check BASH VERSION format (X.Y.Z)
+  # Check BASH VERSION format (X.Y.Z)
   if ! echo "$OUTPUT" | grep -qE "^BASH VERSION\s*: [0-9]+\.[0-9]+\.[0-9]+$"; then
     log_err "BASH VERSION does not match expected format X.Y.Z"
     return 1
