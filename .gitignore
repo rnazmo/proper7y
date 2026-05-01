@@ -1,1 +1,2 @@
-devel-tools/bin/
+devel-tools/bin/*
+devel-tools/opt/

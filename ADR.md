@@ -2,6 +2,63 @@
 
 <!-- ADRs are listed in reverse chronological order (newest first). -->
 
+## ADR-031: devel-tools における複数ファイル構成ツールの管理方針
+
+- **日付:** 2026-04-30
+- **状況:**
+  - bats-core のインストール実装後、`make unit-tests` 実行時に以下のエラーが発生：
+
+    ```
+    env: '/home/foo/repos/github.com/rnazmo/proper7y/devel-tools/libexec/bats-core/bats': No such file or directory
+    ```
+
+  - 原因: bats は単一バイナリではなく、`bin/bats` + `libexec/bats-core/` の複数ファイル構成。
+    `install_bats()` が `bin/bats` だけを `devel-tools/bin/` にコピーしていたため、
+    実行時に必要な `libexec/` 配下のスクリプト群が見つからなかった。
+  - shellcheck・shfmt は単一バイナリなので `devel-tools/bin/` だけで管理できたが、
+    bats のような複数ファイル構成のツールをどう配置するかの方針が未定義だった。
+
+- **検討した案:**
+  - **案A:** `devel-tools/` 直下をそのまま PREFIX にする
+    - `devel-tools/bin/`, `devel-tools/libexec/`, `devel-tools/share/` が並ぶ
+    - メリット: `install.sh` にそのまま任せられる
+    - デメリット: 関連ファイルが散らばる、将来的に `devel-tools/` 直下が汚れる
+  - **案B:** `devel-tools/bats/` に隔離する
+    - メリット: 関連ファイルが1箇所にまとまる
+    - デメリット: `BATS_CMD_PATH` の変更が必要、他ツールとの一貫性が崩れる
+  - **案C（採用）:** `devel-tools/opt/bats/` に隔離し、`devel-tools/bin/bats` からシンボリックリンク
+    - メリット: 関連ファイルが集約、既存ツールとのアクセス方法の一貫性を維持、将来の拡張性
+    - デメリット: シンボリックリンクの管理が必要（ただし実装は単純）
+- **決定:**
+  - 案Cを採用する。
+  - `devel-tools/opt/` を新設し、複数ファイル構成のツールはここに自己完結的に配置する。
+  - `devel-tools/bin/` からシンボリックリンクを貼り、アクセス方法は単一バイナリツールと統一する。
+- **理由:**
+  - **関連ファイルの集約:** `opt/bats/` 配下にすべてのファイルが収まり、管理が容易。
+  - **一貫性の維持:** `devel-tools/bin/<tool_name>` という既存の慣習を崩さない。
+  - **拡張性:** 将来別の複数ファイル構成ツールが増えても同じパターンで対応できる。
+  - **FHS との整合性:** `/opt/` は optional software packages を置く標準的な場所。
+    `devel-tools/opt/` もこれに倣い、「自己完結的なツール配置場所」という明確な役割を持つ。
+- **運用ルール:**
+  - **単一バイナリツール（shellcheck, shfmt）:** `devel-tools/bin/` に直接配置
+  - **複数ファイル構成ツール（bats）:** `devel-tools/opt/<tool_name>/` に配置し、
+    `devel-tools/bin/<tool_name>` からシンボリックリンク
+- **実装内容:**
+  - `install_bats()` を修正し、PREFIX を `${DEVEL_TOOLS_DIR}/opt/bats` に変更
+  - インストール後、`ln -sf` で `devel-tools/bin/bats` → `opt/bats/bin/bats` のシンボリックリンクを作成
+  - `.gitignore` に `devel-tools/opt/` を追加
+  - `BATS_CMD_PATH` は変更不要（シンボリックリンク経由で実行される）
+- **ドキュメント化:**
+  - README.md の `### How to install devel-tools` セクションの後に
+    `### Directory structure of devel-tools` セクションを追加し、
+    単一バイナリツールと複数ファイルツールの管理方針を明記する。
+- **影響:**
+  - `devel-tools/opt/` ディレクトリが新規作成される
+  - bats 関連ファイルが `opt/bats/` 配下に集約される
+  - `devel-tools/bin/bats` がシンボリックリンクになる
+  - `.gitignore` が更新される
+  - README.md にディレクトリ構造の説明が追加される
+
 ## ADR-030: ユニットテスト導入の方針
 
 - **日付:** 2026-04-29

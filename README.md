@@ -395,6 +395,25 @@ dependency and works on both Linux and macOS. (Ref: ADR-012, ADR-020)
 make install-devel-tools
 ```
 
+### Directory structure of devel-tools
+
+devel-tools uses two different installation patterns depending on the tool's distribution format:
+
+**Single binary tools** (shellcheck, shfmt):
+
+- Placed directly in `devel-tools/bin/`
+- Example: `devel-tools/bin/shellcheck`
+
+**Multi-file tools** (bats):
+
+- Installed in `devel-tools/opt/<tool_name>/` with their complete directory structure
+- Symlinked from `devel-tools/bin/<tool_name>` for consistent access
+- Example: `devel-tools/opt/bats/` (installation) → `devel-tools/bin/bats` (symlink)
+
+This design keeps `devel-tools/bin/` as the unified entry point while allowing self-contained installation for tools that require multiple files or directories.
+
+The `opt/` directory follows the Filesystem Hierarchy Standard (FHS) convention: a place for optional software packages where each tool maintains its own self-contained directory structure.
+
 ### How to bump a version of devel-tools
 
 #### Using script

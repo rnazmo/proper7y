@@ -368,16 +368,19 @@ install_shfmt() {
 
 # Install bats-core via the GitHub Releases tarball under DEVEL_TOOLS_BIN_DIR.
 #
-# bats-core does not distribute a single binary; it ships a tarball with
-# an install.sh that places several files under a given prefix.
-# We use a temporary directory as the install prefix, then copy only the
-# `bats` entry-point binary to DEVEL_TOOLS_BIN_DIR.
+# Unlike single-binary tools (shellcheck, shfmt), bats requires multiple files:
+# bin/bats, libexec/bats-core/, and optionally share/man/.
+#
+# We install bats to devel-tools/opt/bats/ (self-contained installation)
+# and create a symlink from devel-tools/bin/bats for consistent access.
+# See ADR-031 for the design rationale.
 #
 # Ref: https://github.com/bats-core/bats-core/releases
 install_bats() {
   (
     local -r BATS_VERSION_WITHOUT_V="${BATS_CURRENT_VERSION#v}"
     local -r BATS_URL="https://github.com/bats-core/bats-core/archive/refs/tags/${BATS_CURRENT_VERSION}.tar.gz"
+    local -r BATS_INSTALL_PREFIX="${DEVEL_TOOLS_DIR}/opt/bats"
 
     local -r TEMP_DIR="$(mktemp -d)"
     trap 'rm -rf "${TEMP_DIR:-}"' EXIT
@@ -387,14 +390,13 @@ install_bats() {
     curl -OL "$BATS_URL"
     tar -xf "${BATS_CURRENT_VERSION}.tar.gz"
 
-    # Run the bundled install.sh into a local prefix inside TEMP_DIR,
-    # then copy only the `bats` binary to DEVEL_TOOLS_BIN_DIR.
-    # We avoid installing to a system-wide prefix to keep devel-tools self-contained.
-    local -r INSTALL_PREFIX="${TEMP_DIR}/bats-install"
-    bash "./bats-core-${BATS_VERSION_WITHOUT_V}/install.sh" "$INSTALL_PREFIX"
-    cp "${INSTALL_PREFIX}/bin/bats" "$BATS_CMD_PATH"
-    chmod +x "$BATS_CMD_PATH"
+    # Install to devel-tools/opt/bats/ for self-contained layout
+    bash "./bats-core-${BATS_VERSION_WITHOUT_V}/install.sh" "$BATS_INSTALL_PREFIX"
   )
+
+  # Create symlink from devel-tools/bin/bats to opt/bats/bin/bats
+  # for consistent access with other devel-tools
+  ln -sf "../opt/bats/bin/bats" "$BATS_CMD_PATH"
 
   _recompose_bats_binary_version
 }
