@@ -454,7 +454,7 @@ print_os_version() {
       # - `cut -d= -f2`         : Extract the value after the '=' sign.
       # - `tr -d '"'`           : Remove surrounding double quotes if present.
       #                           Some distros quote the value (e.g. "22.04"), others don't (e.g. 12).
-      OS_VERSION=$(grep '^VERSION_ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
+      OS_VERSION=$(grep '^VERSION_ID=' /etc/os-release | cut -d= -f2 | tr -d '"') || true
 
       # If VERSION_ID is not found, check for BUILD_ID=rolling (for rolling release distributions).
       if [[ -z "$OS_VERSION" ]]; then
