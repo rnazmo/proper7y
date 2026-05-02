@@ -82,24 +82,17 @@
 - [x] ユニットテストを追加することを検討する
   - ShellSpec を検討する
   - **この検討は ADR で行うべき**
-- [ ] bats-core のバイナリDLを devel-tools の仕組みに組み込む (Ref: ADR-030)
+- [x] bats-core のバイナリDLを devel-tools の仕組みに組み込む (Ref: ADR-030)
   - 管理方針: shellcheck・shfmt と同じく `devel-tools/bin/` にバイナリを置く方式
-- [ ] `is_supported()` を対象に bats-core でユニットテストを1本書いてみる（小さく試す）(Ref: ADR-030)
+- [x] `is_supported()` を対象に bats-core でユニットテストを1本書いてみる（小さく試す）(Ref: ADR-030)
   - この関数はすでに副作用がなく、リファクタリング不要でテスト可能
   - テストファイルは `test/unit/` ディレクトリを新規作成してそこに置く
   - Makefile にテスト実行用ターゲットを追加する
   - CI への組み込みは後回しでよい
-- [ ] `make unit-tests` がエラーになるので対応する
-
-```zsh
-$ make unit-tests
-./devel-tools/bin/bats test/unit/
-env: ‘/home/foo/repos/github.com/rnazmo/proper7y/devel-tools/libexec/bats-core/bats’: No such file or directory
-make: *** [Makefile:27: unit-tests] Error 127
-```
-
+- [x] `make unit-tests` がエラーになるので対応する (bats のインストール方法の問題x)
 - [ ] 上記の「小さく試す」の結果を踏まえて、ユニットテストを継続するかどうかを判断する (Ref: ADR-030)
   - 判断結果は ADR-030 に追記する
+- [ ] ユニットテストを、ローカルでの開発フロー＆CIに組み込む
 - [x] integ-testのアサーションをレベル3に強化する (Ref: ADR-005)
   - レベル3: より多くのフィールドの値の形式を確認する（現状はCURRENT DATEとBASH VERSIONのみ）
   - 候補: CPU ARCH（英数字・アンダースコア形式）、OS VERSION（数字ドット形式）
