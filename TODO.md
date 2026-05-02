@@ -90,6 +90,35 @@
   - Makefile にテスト実行用ターゲットを追加する
   - CI への組み込みは後回しでよい
 - [x] `make unit-tests` がエラーになるので対応する (bats のインストール方法の問題)
+- [ ] `make unit-tests` が `0 tests, 0 failures` になる問題を解消する
+  - **症状:** `./devel-tools/bin/bats test/unit/` および `./devel-tools/bin/bats test/unit/is_supported.bats` を実行すると `1..0` / `0 tests, 0 failures` となり、テストが1本も認識されない
+  - **原因1: `source` が bats の前処理フェーズをクラッシュさせている**
+    - bats はテストファイルを「前処理フェーズ（`@test` の収集）」と「実行フェーズ」の2段階で処理する
+    - 前処理フェーズで `source proper7y` が実行され、`proper7y` 冒頭の `set -euo pipefail` や `declare -l` などのグローバルな副作用が bats の特殊な前処理環境と干渉し、クラッシュする
+    - クラッシュの結果、`@test` ブロックが0本として認識される
+  - **原因2: `run` がサブシェルで実行されるため `source` した関数が見えない**
+    - bats の `run` コマンドはデフォルトでサブシェルでコマンドを実行する
+    - サブシェルには親シェルで `source` した関数定義が引き継がれないため、`is_supported` が "Command not found"（exit code 127）になる
+    - `source` をコメントアウトして実行すると7本のテストが認識されるが、全テストが exit code 127 で失敗することで上記が確認済み
+  - **検討済みの方針と評価:**
+    - **方針A（却下）: `is_supported()` の定義をテストファイルにコピー**
+      - シンプルだが `proper7y` 本体と定義が重複し、メンテナンスコストが高いため却下
+    - **方針B（未検証）: `declare -f` でサブシェルに関数定義を渡す**
+      - `IS_SUPPORTED_FUNC="$(declare -f is_supported)"` をファイル冒頭で実行し、各テストで `run bash -c "${IS_SUPPORTED_FUNC}; is_supported ..."` のように呼び出す
+      - `source` の問題（原因1）を先に解決する必要がある
+      - `source` の問題の解決策候補: `source` の前後で `set` の状態を保存・復元する（`_old_set="$-"` → `set +euo pipefail` → `source` → 復元）
+      - ただし `declare -l` などの `proper7y` 固有の副作用が残る可能性があり、完全に解決するかは未検証
+    - **方針C（未検討）: bats の `load` ヘルパーや `setup()` を活用する方法**
+      - bats には `load` というヘルパーファイル読み込み機構がある
+      - `load` が `source` と異なる挙動をするかどうかは未調査
+    - **方針D（未検討）: `proper7y` のユニットテスト対象関数を別ファイルに切り出す**
+      - `is_supported()` などの副作用のない関数を `lib/functions.bash` のようなファイルに切り出し、`proper7y` からそのファイルを `source` する設計に変更する
+      - テストファイルは `proper7y` ではなく `lib/functions.bash` を `source` する
+      - `proper7y` のポリシー「Fewer files」に反するため、ADR で設計判断が必要
+  - **推奨する検討順序:**
+    1. 方針B（`declare -f` + `set` の保存・復元）を試す。実装コストが低く、既存の設計を変えずに済む
+    2. 方針Cを調査する（bats の `load` の挙動確認）
+    3. 上記2つで解決しない場合、方針Dを ADR で検討する
 - [ ] 上記の「小さく試す」の結果を踏まえて、ユニットテストを継続するかどうかを判断する (Ref: ADR-030)
   - 判断結果は ADR-030 に追記する
 - [ ] ユニットテストを、ローカルでの開発フロー＆CIに組み込む
