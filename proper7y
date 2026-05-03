@@ -380,6 +380,7 @@ identify_current_shell_id() {
   local cmd
   local -i depth=0
   local -ri MAX_DEPTH=10
+  local found=false
 
   while [[ $depth -lt $MAX_DEPTH ]]; do
     cmd="$(ps -o comm= -p "$pid" 2>/dev/null)" || break
@@ -388,10 +389,12 @@ identify_current_shell_id() {
     case "$cmd" in
     *bash*)
       CURRENT_SHELL_ID="bash"
+      found=true
       break
       ;;
     *zsh*)
       CURRENT_SHELL_ID="zsh"
+      found=true
       break
       ;;
     esac
@@ -404,7 +407,7 @@ identify_current_shell_id() {
     ((depth++)) || true
   done
 
-  [[ -z "${CURRENT_SHELL_ID:-}" ]] && CURRENT_SHELL_ID="unknown"
+  [[ "$found" == false ]] && CURRENT_SHELL_ID="unknown"
   readonly CURRENT_SHELL_ID
 
   # Check if the CURRENT_SHELL_ID value is in SUPPORTED_SHELL_IDS
