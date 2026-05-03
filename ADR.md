@@ -3,6 +3,43 @@
 <!-- ADRs are listed in reverse chronological order (newest first). -->
 <!-- ADRs are listed in reverse chronological order (newest first). -->
 
+## ADR-034: macOS における仮想化判定の多段シグナル化
+
+- **日付:** 2026-05-03
+- **状況:**
+  - `macos-latest` の Integration Tests で `VIRTUALIZATION: Unknown` が出力され、`run-integ-test.bash` の
+    「Unknown を不正扱いする」アサーションで CI が失敗していた。
+  - `proper7y` の従来実装は Linux 系の判定手段（`systemd-detect-virt`, `hostnamectl`）のみを使っており、
+    macOS では `unknown` にフォールバックしやすい構造だった。
+  - 今回の対象スコープは **macOSのみ**、かつ **VIRTUALIZATIONフィールドのみ** とする。
+
+- **検討した案（優先度）:**
+  - **案B（採用）:** macOS 専用の仮想化検出を実装し、判定シグナルを段階的に評価する。
+  - **案D（不採用）:** macOS では `physical` をデフォルトにする（簡単だが技術的に不正確）。
+  - **案A（不採用）:** テスト側で macOS のみ `Unknown` を例外許容する（本質解決ではない）。
+  - **案C（不採用）:** 全OSで `Unknown` を許容する（退行検知能力が下がる）。
+
+- **決定:**
+  - 案Bを採用する。
+  - `identify_virtualization_id()` に darwin 分岐を追加し、macOS では専用関数で判定する。
+  - 判定は以下の順で行う:
+    1. **VM強シグナル:** `sysctl kern.hv_vmm_present == 1` → `applehv`
+    2. **VM補助シグナル:** `ioreg` 出力に既知VMマーカー（`vmware`, `virtualbox`, `parallels`, `qemu`, `virtualmac` 等）→ `vmware` / `virtualbox` / `generic-vm`
+    3. **Physical寄りシグナル:** `kern.hv_vmm_present == 0` かつ VMマーカーなし → `physical`
+    4. 判定不能 → `unknown`
+  - 既存IDでは表現不足があるため、`SUPPORTED_VIRTUALIZATION_IDS` に
+    `applehv` と `generic-vm` を追加する。
+
+- **理由:**
+  - 「Unknown禁止」のテスト方針を維持しつつ、macOS の検出精度を改善できる。
+  - `physical` デフォルト固定（案D）より誤情報を出しにくい。
+  - 将来別の macOS ランナー/環境が増えても、シグナル追加で拡張しやすい。
+
+- **影響:**
+  - `proper7y` の macOS 出力で `VIRTUALIZATION` が `Unknown` になりにくくなる。
+  - `VIRTUALIZATION` の表示値に `Apple Hypervisor VM` と `Virtual Machine` が追加される。
+  - 既存 Linux 系の判定ロジックには影響しない。
+
 ## ADR-033: CI テスト環境への Arch Linux 追加
 
 - **日付:** 2026-05-03

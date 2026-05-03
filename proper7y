@@ -61,6 +61,8 @@ declare -al SUPPORTED_VIRTUALIZATION_IDS=( # Allowed VIRTUALIZATION_ID values
   "microsoft" # Used in GitHub Actions
   "docker"
   "wsl"
+  "applehv"   # Apple Hypervisor-based VM (vendor unknown)
+  "generic-vm" # VM confirmed but hypervisor vendor unknown
   "physical" # It's not a virtualized environment but a physical hardware.
   "unknown"
 )
@@ -85,6 +87,8 @@ declare -A VIRTUALIZATION_NAMES=( # The key is VIRTUALIZATION_ID
   ["microsoft"]="Hyper-V"
   ["docker"]="Docker"
   ["wsl"]="WSL"
+  ["applehv"]="Apple Hypervisor VM"
+  ["generic-vm"]="Virtual Machine"
   ["physical"]="Physical"
   ["unknown"]="Unknown"
 )
@@ -278,6 +282,12 @@ identify_os_id() {
 
 # Detect virtualization (VM or Container).
 identify_virtualization_id() {
+  if [[ "$UNAME_CACHE_KERNEL_NAME" == "darwin" ]]; then
+    identify_virtualization_id_for_darwin
+    readonly VIRTUALIZATION_ID
+    return 0
+  fi
+
   if command -v systemd-detect-virt &>/dev/null; then
     case "$(systemd-detect-virt)" in
     'oracle' | 'virtualbox') VIRTUALIZATION_ID="virtualbox" ;;
@@ -314,6 +324,54 @@ identify_virtualization_id() {
     # See identify_os_family_id() and ADR-010.
     exit 1
   fi
+}
+
+# Detect virtualization on macOS (darwin) by using multiple signals.
+# Strategy:
+#   1) VM-positive signals first (strong evidence):
+#      - kern.hv_vmm_present=1
+#      - known VM strings in ioreg output
+#   2) Physical-leaning signals second:
+#      - kern.hv_vmm_present=0
+#      - no VM marker in ioreg output
+#   3) Otherwise: unknown
+identify_virtualization_id_for_darwin() {
+  local hv_vmm_present=""
+  if command -v sysctl &>/dev/null; then
+    hv_vmm_present="$(sysctl -n kern.hv_vmm_present 2>/dev/null || true)"
+  fi
+
+  local ioreg_output=""
+  if command -v ioreg &>/dev/null; then
+    ioreg_output="$(ioreg -a -l 2>/dev/null | tr '[:upper:]' '[:lower:]' || true)"
+  fi
+
+  if [[ "$hv_vmm_present" == "1" ]]; then
+    VIRTUALIZATION_ID="applehv"
+    return 0
+  fi
+
+  # Known virtualization markers seen on macOS VMs/providers.
+  if echo "$ioreg_output" | grep -qE 'vmware|virtualbox|parallels|qemu|virtual machine|virtualmac'; then
+    if echo "$ioreg_output" | grep -q 'vmware'; then
+      VIRTUALIZATION_ID="vmware"
+    elif echo "$ioreg_output" | grep -q 'virtualbox'; then
+      VIRTUALIZATION_ID="virtualbox"
+    else
+      VIRTUALIZATION_ID="generic-vm"
+    fi
+    return 0
+  fi
+
+  # Physical-leaning fallback:
+  # hv_vmm_present=0 is not a strict proof of physical hardware, but with
+  # no VM marker in ioreg we treat it as physical for practical reporting.
+  if [[ "$hv_vmm_present" == "0" ]]; then
+    VIRTUALIZATION_ID="physical"
+    return 0
+  fi
+
+  VIRTUALIZATION_ID="unknown"
 }
 
 # Identify the chassis type and store it in CHASSIS_ID.
