@@ -1,7 +1,7 @@
 # proper7y
 
-[![Static Test](https://github.com/rnazmo/proper7y/actions/workflows/static-test.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/static-test.yml)
-[![Integration Test](https://github.com/rnazmo/proper7y/actions/workflows/integ-test.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/integ-test.yml)
+[![CI](https://github.com/rnazmo/proper7y/actions/workflows/ci.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/ci.yml)
+[![Scheduled](https://github.com/rnazmo/proper7y/actions/workflows/scheduled.yml/badge.svg)](https://github.com/rnazmo/proper7y/actions/workflows/scheduled.yml)
 
 Tiny Bash script to print basic system information in consistent format.
 
