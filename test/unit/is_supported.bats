@@ -11,13 +11,16 @@
 #   is_supported() is defined in proper7y and sourced here for testing.
 #   To avoid running proper7y's init() and main() on source, we stub them out.
 
-# Stub out functions that would run on source and cause side effects.
-init() { :; }
-main() { :; }
+# Unit tests for is_supported() in proper7y.
+#
+# How to run:
+#   ./devel-tools/bin/bats test/unit/
+#   (or: make unit-tests)
 
-# Load the script under test.
-# shellcheck source=../../proper7y
-source "${BATS_TEST_DIRNAME}/../../proper7y"
+setup() {
+  # shellcheck source=../../proper7y
+  source "${BATS_TEST_DIRNAME}/../../proper7y"
+}
 
 # --- Tests for is_supported() ---
 

@@ -621,8 +621,11 @@ log_err() {
 
 # -------------------------------------------------------------------
 
-init
-
-main
-
-exit 0
+# Allow sourcing this file without executing (e.g. for unit tests).
+# When executed directly, run the script as usual.
+# This is the standard Bash idiom equivalent to Python's `if __name__ == "__main__":`.
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  init
+  main
+  exit 0
+fi

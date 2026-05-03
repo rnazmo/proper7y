@@ -72,7 +72,7 @@
   - Makefile にテスト実行用ターゲットを追加する
   - CI への組み込みは後回しでよい
 - [x] `make unit-tests` がエラーになるので対応する (bats のインストール方法の問題)
-- [ ] `make unit-tests` が `0 tests, 0 failures` になる問題を解消する
+- [x] `make unit-tests` が `0 tests, 0 failures` になる問題を解消する
   - **症状:** `./devel-tools/bin/bats test/unit/` および `./devel-tools/bin/bats test/unit/is_supported.bats` を実行すると `1..0` / `0 tests, 0 failures` となり、テストが1本も認識されない
   - **原因1: `source` が bats の前処理フェーズをクラッシュさせている**
     - bats はテストファイルを「前処理フェーズ（`@test` の収集）」と「実行フェーズ」の2段階で処理する
