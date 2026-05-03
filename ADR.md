@@ -3,6 +3,111 @@
 <!-- ADRs are listed in reverse chronological order (newest first). -->
 <!-- ADRs are listed in reverse chronological order (newest first). -->
 
+## ADR-033: CI テスト環境への Arch Linux 追加
+
+- **日付:** 2026-05-03
+- **状況:**
+  - `proper7y` の `SUPPORTED_OS_IDS` には `archlinux`, `endeavouros`, `manjaro` が列挙されており、
+    Arch 系ディストリビューションは正式サポート対象である。
+  - しかし CI の Integration Tests は `ubuntu-latest` と `macos-latest` のみで動作しており、
+    Arch 系の動作確認はローカル（開発者の手元マシン）にのみ依存していた。
+  - Arch 系は Debian 系と異なるコードパスが存在する（例: `OS VERSION` の取得に
+    `VERSION_ID` ではなく `BUILD_ID=rolling` を使う。ADR-015 参照）。
+    これらのパスが CI で一度も実行されないまま放置されており、
+    Arch 系固有のリグレッションが自動検知できない状態だった。
+  - TODO.md にて「CI でのテスト環境に Arch Linux, EndeavourOS, Manjaro Linux などを追加する」
+    というタスクが存在しており、本 ADR はその設計判断を記録する。
+
+- **検討した環境追加の方式:**
+  - **案A（却下済み）: セルフホストランナーを使う**
+    - 実機または VM に GitHub Actions のセルフホストランナーを立てる。
+    - 維持コストが高く、個人プロジェクトには明らかに過剰。TODO.md でも却下済み。
+  - **案B（採用）: GitHub Actions の `container:` キーで Docker イメージを使う**
+    - `archlinux:latest` の公式 Docker イメージが存在する。
+    - 追加インフラ不要で、`.github/workflows/ci.yml` の変更だけで実現できる。
+    - コンテナ環境という制約から生じる問題点は後述。
+
+- **追加するディストリビューションの範囲:**
+  - 今回は **Arch Linux のみ** を追加する。EndeavourOS と Manjaro は追加しない。
+  - 理由: EndeavourOS には公式 Docker イメージが存在せず、Manjaro の Docker イメージは
+    非公式である。まず Arch Linux だけを導入して運用を確認し、
+    その後の拡張は別途判断する。
+
+- **コンテナ環境における技術的な問題と対処方針:**
+
+  **問題1: systemd 依存コマンドの不在**
+
+  `archlinux:latest` はミニマルな Docker イメージであり、コンテナ内では systemd が動作しない。
+  `proper7y` の仮想化検出（`identify_virtualization_id()`）は
+  `systemd-detect-virt` → `hostnamectl` の順にフォールバックするが、
+  いずれも systemd 依存であり、コンテナ内では利用できない可能性が高い。
+  結果として `VIRTUALIZATION: Unknown` が表示される。
+
+  対処方針の検討:
+  - **案1（不採用）: `archlinux:latest` に systemd をインストールする**
+    - 技術的には可能だが、「このプロジェクトは systemd を前提とするか」という
+      別の設計判断が必要になる。今回のスコープ（Arch Linux を CI に追加する）を超えるため不採用。
+    - また、コンテナ内で systemd を動かすこと自体が複雑な設定を要する。
+  - **案2（暫定採用）: `VIRTUALIZATION: Unknown` を許容する**
+    - `Unknown` はすでに `SUPPORTED_VIRTUALIZATION_IDS` に含まれており、
+      `proper7y` の動作として正常である。スクリプト自体はエラーなく終了する。
+    - この問題は将来の課題として TODO に記録し、改めて再検討する。
+
+  **問題2: Bash のバージョン**
+
+  `proper7y` は Bash >= 4.0 を要件とするが、`archlinux:latest` に含まれる
+  Bash のバージョンが要件を満たすかが懸念事項として挙がった。
+  調査の結果、Arch Linux は rolling release であり常に最新版に近い Bash（5.x 系）が
+  含まれているため、実質的に問題にはならない。
+
+  **問題3: `curl` 等の依存コマンドの不在**
+
+  `archlinux:latest` はミニマルイメージだが、今回のテスト内容（後述）は
+  `./proper7y` を直接実行するのみであり、`curl` を必要としない。
+  `proper7y` 自体が依存するコマンド（`date`, `ps`, `uname` 等）は
+  `archlinux:latest` に含まれているため問題なし。
+
+- **アサーション戦略の選択:**
+
+  問題1（`VIRTUALIZATION: Unknown`）の帰結として、
+  既存の `assert_output()` をそのまま使うと `VIRTUALIZATION` のレベル2アサーション
+  （値が `Unknown` でないことの確認）で失敗する。
+  これへの対処方針として2案を検討した。
+  - **案X（不採用）: `Unknown` をアサーションの例外として特別扱いする**
+    - `assert_output()` に「Arch Linux コンテナ環境では `VIRTUALIZATION` の
+      `Unknown` を許容する」という条件分岐を追加する。
+    - デメリット: テストコードが複雑になる。また「`Unknown` はバグの指標である」
+      という ADR-029 で定めた設計思想を弱める。
+      将来同様の問題が増えるたびに例外が積み重なるリスクがある。
+  - **案Y（採用）: Arch Linux ジョブでは出力内容の検証を行わない**
+    - Arch Linux ジョブでは `./proper7y` を実行して exit 0 を確認するのみとする。
+    - `run-integ-test-to-latest`（`assert_output()` を使う）は Arch Linux ジョブには含めない。
+    - デメリット: Arch Linux では「動く」ことしか確認できず、
+      フィールドの値が正しいかどうかの検証ができない。
+    - この制約は将来の課題として TODO に記録する。
+
+- **決定:**
+  - **案B（Docker コンテナ）+ 案Y（exit 0 確認のみ）の組み合わせを採用する。**
+  - `ci.yml` の `integ` ジョブに Arch Linux 用のエントリを追加する。
+    ただし他の OS（Ubuntu, macOS）とは異なり、`make integ-tests` ではなく
+    `./proper7y` の直接実行のみを行う。
+  - systemd 問題とアサーション不足は将来の課題として TODO に記録する（詳細は TODO.md 参照）。
+  - EndeavourOS と Manjaro は今回追加しない。
+
+- **理由のまとめ:**
+  - 現状「Arch 系で壊れていないことを CI で確認できない」という問題を、
+    最小限のコスト（`.yml` の変更のみ）で解消することを最優先とした。
+  - exit 0 の確認だけでも「Arch 系の主要なコードパスが壊れていない」ことの
+    一定の保証は得られる。完璧ではないが「ゼロよりはよい」という判断。
+  - 複雑な問題（systemd、アサーション戦略）は設計判断を要するため、
+    スコープを分けて将来改めて検討する。
+
+- **影響:**
+  - `.github/workflows/ci.yml` に Arch Linux 用の Integration Test ジョブが追加される。
+  - Arch Linux ジョブのテスト内容は他の OS と異なる（exit 0 確認のみ）。
+    この差異は `ci.yml` 内のコメントで明示する。
+  - TODO.md に将来の課題タスクが追加される。
+
 ## ADR-032: bats でのユニットテスト：`BASH_SOURCE` ガードによる `source` 問題の解決
 
 - **日付:** 2026-05-03

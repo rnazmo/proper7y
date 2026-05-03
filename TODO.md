@@ -145,6 +145,36 @@
   - 開発者が私だけだし、ルールを強制する仕組みは必要ない。
   - 具体的には、`make _lint` などを直接呼び出すよりも、より上位のコマンドである `make pre-commit` などを
     呼び出すようにした方が、私が（コミット前にテストをし忘れるなどの）ミスをしにくいよね、という話
+- [x] CI でのテスト環境に Arch Linux, EndeavourOS, Manjaro Linux などを追加する
+  - ADR-033 に設計判断を記録した。Arch Linux のみ追加（Docker コンテナ方式）。
+- [ ] Arch Linux CI ジョブのアサーション戦略を改善する（Ref: ADR-033）
+  - **背景と現状の制約:**
+    - 現在の Arch Linux CI ジョブは `./proper7y` を実行して exit 0 を確認するのみ。
+      `assert_output()` によるフィールド値の検証（レベル2アサーション）を行っていない。
+    - 理由: コンテナ内では systemd が動作せず `systemd-detect-virt` も `hostnamectl` も
+      使えないため `VIRTUALIZATION: Unknown` となる。
+      これが `assert_output()` の `VIRTUALIZATION` のレベル2アサーションと衝突する。
+  - **解決すべき問題:**
+    - 問題A: `archlinux:latest` コンテナ内での仮想化検出
+      - `systemd-detect-virt` と `hostnamectl` が使えない環境で、
+        `VIRTUALIZATION` フィールドに `Unknown` 以外の値を返せるか。
+      - 選択肢1: `archlinux:latest` に systemd を追加インストールする
+        （→ 「このプロジェクトは systemd を前提とするか」という設計判断が必要になる）
+      - 選択肢2: コンテナ環境を検出する別の手段（`/proc/1/cgroup` の参照など）を
+        `proper7y` の `identify_virtualization_id()` に追加する
+      - 選択肢3: `VIRTUALIZATION: Unknown` のままで、アサーション側を変更する
+    - 問題B: アサーション戦略の見直し
+      - 問題Aの解決策によっては、`assert_output()` や `REQUIRED_FIELDS` / `CONDITIONAL_FIELDS`
+        の設計（ADR-029）を改訂する必要がある。
+      - 「`Unknown` はバグの指標である」という設計思想を維持しながら、
+        コンテナ環境での `Unknown` を正常として扱う方法を検討する。
+  - **検討時の参考情報:**
+    - `/proc/1/cgroup` を参照する方法は `systemd` 不要で Docker 検出ができる場合がある
+    - `/.dockerenv` ファイルの存在確認でも Docker 環境を検出できる（ただし非公式な手法）
+    - systemd をコンテナ内で動かすには `--privileged` フラグや専用の設定が必要になるため、
+      GitHub Actions の `container:` キーとの相性を要確認
+  - **優先度:** 比較的高め
+  - **この検討は ADR で行うべき**
 
 ### ドキュメント
 

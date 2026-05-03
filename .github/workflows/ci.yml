@@ -43,3 +43,21 @@ jobs:
         run: bash --version
       - name: Run integration tests
         run: make integ-tests
+
+  integ-archlinux:
+    name: Integration Tests (Arch Linux)
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        # git is required for actions/checkout to work inside the container.
+        # Other commands needed by proper7y (uname, ps, date) are pre-installed.
+        run: pacman -Sy --noconfirm git
+      - name: Run proper7y
+        # We only verify that proper7y exits with status 0.
+        # Full output assertion (assert_output) is intentionally skipped because
+        # systemd is not available in this container, causing VIRTUALIZATION to
+        # be "Unknown". This is a known limitation. See ADR-033 and TODO.md.
+        run: ./proper7y
