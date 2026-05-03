@@ -118,6 +118,25 @@
   - CURRENT SHELL の Unknown チェック対象への包含可否も合わせて検討する
   - CI環境への依存度が高くなるため、環境ごとの期待値の管理方法を先に設計すること
 - [ ] CI でのテスト環境に Arch Linux, EndeavourOS, Manjaro Linux などを追加する
+  - GitHub Actions のホストランナーで利用可能なのは、Ubuntu と macOS だけ。
+    なので、これらのディストリビューションをテスト環境に加えるには、
+    「Docker コンテナを使う」か「セルフホストランナーを用意する」かのどちらかが必要になる。
+    - 案A: Docker コンテナを使う
+      - GitHub Actions の container: キーで archlinux:latest などの Docker イメージを使う？
+      - メリット: 追加コストなし、設定がシンプル
+      - デメリット: コンテナ環境は仮想化検出が「docker」になり、VIRTUALIZATION_ID が変わる。
+        また systemd が使えないため systemd-detect-virt が動かない可能性がある、など
+    - 案B: self-hosted runner を使う
+      - 実機 or VM に runner を立てる
+      - デメリット: 個人プロジェクトには明らかに過剰、維持コストが高い
+      - → コスト高いので無し。
+  - 公式 Docker イメージの存在を調査：
+    - archlinux:latest → 公式イメージあり
+    - endeavouros → 公式 Docker イメージなし
+    - manjarolinux/base → 非公式イメージあり
+  - 導入コストなどを考えると、まずは Arch Linux だけを追加で導入するのが良さそう。
+    その後のこと（それ以上テスト環境を増やすかどうか）は、それから考える。
+  - この検討は ADR で行うべき
 - [ ] Makefile のコマンドを整理し、各コマンドについての説明を文書化する
   - 書く場所は Mafile 内のコメントかな？そして、そこへのリンクを README.md に貼る感じ
 - [ ] Makefile のコマンドの直接実行しないコマンドには `_` 接頭辞を付けることを検討する
