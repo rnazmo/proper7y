@@ -11,13 +11,21 @@
   - 原因は以下の2つだった（詳細は TODO.md の該当タスクに記録済み）:
     1. **原因1（前処理クラッシュ）:** bats はテストファイルを「前処理フェーズ（`@test` の収集）」と「実行フェーズ」の2段階で処理する。前処理フェーズで `source proper7y` が実行されると、`proper7y` 末尾の `init` と `main` の呼び出しが走り、`init()` が OS チェック等の副作用を起こして bats の処理環境と干渉し、クラッシュする。結果として `@test` が0本として認識される。
     2. **原因2（スタブの上書き）:** 既存のテストコードはスタブ（`init() { :; }` / `main() { :; }`）を定義してから `source proper7y` していたが、`source` によって `proper7y` 内の定義でスタブが上書きされるため、スタブが機能しなかった。
-  - TODO.md に4つの方針（A〜D）が検討済みとして記録されており、また外部調査により `BASH_SOURCE` ガードが bats コミュニティのベストプラクティスとして確立されていることが確認された。
+  - TODO.md に4つの方針（A〜D）が検討済みとして記録されており、また追加調査により `BASH_SOURCE` ガードが bats 利用時のベストプラクティスとされていることが確認された。
 - **検討した案:**
   - **方針A（却下）:** `is_supported()` の定義をテストファイルにコピーする。定義が重複しメンテナンスコストが高いため却下。
   - **方針B（却下）:** `declare -f` でサブシェルに関数定義を渡す。`set` の状態復元に加え `declare -l` 等の副作用も残り、対症療法の積み重ねになるため却下。
   - **方針C（却下）:** bats の `load` ヘルパーを使う。`load` は内部的に `source` と同じであり原因1を解決しないため却下。
   - **方針D（一部採用）:** 副作用のない関数を別ファイルに切り出す。「Fewer files」ポリシーとのトレードオフが大きいため、ファイル分割はしない。ただし `proper7y` 本体への `BASH_SOURCE` ガード追加（後述）はこの方針の精神に近い。
   - **方針E（採用）:** `proper7y` 末尾を `BASH_SOURCE` ガードに変更し、テストファイルの `source` を `setup()` 内に移動する。
+- **追加調査で確認したこと:**
+  - `BASH_SOURCE` ガードは bats のベストプラクティスとして複数の文献・公式ドキュメントで確認された。
+  - 「スクリプトをテスト可能にするには `main` を関数化し、末尾を `BASH_SOURCE` ガードで囲む」という設計は、bats を使う上での標準的なアプローチである。
+  - 参照:
+    - [テスト可能な dotfiles 管理：chezmoi で実現する開発環境構築](https://zenn.dev/shunk031/articles/testable-dotfiles-management-with-chezmoi#%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%AE%E6%A7%8B%E9%80%A0%E3%81%A8%E5%AE%9F%E8%A3%85%E4%BE%8B)
+    - [Batsを利用したBashスクリプトのfizzbuzz ＃bats - Qiita](https://qiita.com/hisakug/items/94fdc8ef506a2d321008#3-41-%E3%82%A8%E3%83%B3%E3%83%88%E3%83%AA%E3%83%BC%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88%E3%82%AC%E3%83%BC%E3%83%89)
+    - [Unit Testing Bash scripts with BATS-Core – A nice guy's view on life](https://jon.sprig.gs/blog/post/2316)
+    - [Testing bash scripts using BATS – thewatertower.org](https://blog.thewatertower.org/2025/02/10/testing-bash-scripts-using-bats/)
 - **決定:**
   - **方針Eを採用する。**
   - `proper7y` の末尾を以下の `BASH_SOURCE` ガードに変更する:
@@ -38,11 +46,9 @@
   - `source` された場合: `${0}` は呼び出し元（bats など）のパスになるため一致しない → `init` と `main` がスキップされる。
   - これは Python の `if __name__ == "__main__":` に相当する、Bash の標準的なイディオムである。
 - **`run` の扱いについて:**
-  - bats の `run` はサブシェルでコマンドを実行するため、関数が変数を書き換える場合は `run` を使わず直接呼び出す必要がある（公式 Gotchas ドキュメントに明記）。
+  - bats の `run` はサブシェルでコマンドを実行するため、関数が変数を書き換える場合は `run` を使わず直接呼び出す必要がある
+    - 参照：[Gotchas — bats-core 1 documentation](https://bats-core.readthedocs.io/en/stable/gotchas.html#why-can-t-my-function-return-results-via-a-variable-when-using-run)
   - `is_supported()` は終了ステータスのみを返し、変数を書き換えない。そのため `run is_supported ...` + `[ "$status" -eq 0 ]` という書き方は正しく機能する。この書き方は維持する。
-- **外部調査で確認したこと:**
-  - `BASH_SOURCE` ガードは bats コミュニティのベストプラクティスとして複数の文献・公式ドキュメントで確認された。
-  - 「スクリプトをテスト可能にするには `main` を関数化し、末尾を `BASH_SOURCE` ガードで囲む」という設計は、bats を使う上での標準的なアプローチである。
 - **理由:**
   - 方針Eは `proper7y` 本体への変更が最小限（末尾数行の置き換えのみ）で、スクリプトの動作は一切変わらない。
   - ファイルを増やさないため「Fewer files」ポリシーに反しない。
@@ -50,7 +56,6 @@
 - **影響:**
   - `proper7y` の末尾が `BASH_SOURCE` ガードに変わる。直接実行時の動作は変わらない。
   - `test/unit/is_supported.bats` のスタブが削除され、`source` が `setup()` 内に移動する。
-  - TODO.md の「`make unit-tests` が `0 tests, 0 failures` になる問題を解消する」タスクを完了済みにする。
 
 ## ADR-031: devel-tools における複数ファイル構成ツールの管理方針
 
