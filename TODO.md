@@ -117,7 +117,7 @@
   - 候補: CPU ARCH（英数字・アンダースコア形式）、OS VERSION（数字ドット形式）
   - CURRENT SHELL の Unknown チェック対象への包含可否も合わせて検討する
   - CI環境への依存度が高くなるため、環境ごとの期待値の管理方法を先に設計すること
-- [ ] CI でのテスト環境に Arch Linux, EndeavourOS, Manjaro Linux などを追加する
+- [x] CI でのテスト環境に Arch Linux, EndeavourOS, Manjaro Linux などを追加する
   - GitHub Actions のホストランナーで利用可能なのは、Ubuntu と macOS だけ。
     なので、これらのディストリビューションをテスト環境に加えるには、
     「Docker コンテナを使う」か「セルフホストランナーを用意する」かのどちらかが必要になる。
