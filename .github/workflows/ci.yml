@@ -1,0 +1,45 @@
+name: CI
+on:
+  push:
+    paths-ignore:
+      - "**.md"
+
+jobs:
+  static:
+    name: Static Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install devel-tools
+        run: make install-devel-tools
+      - name: Run static tests
+        run: make static-tests
+
+  unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install devel-tools
+        run: make install-devel-tools
+      - name: Run unit tests
+        run: make unit-tests
+
+  integ:
+    name: Integration Tests
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump Bash version on macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install bash
+          echo "/opt/homebrew/bin" >> "$GITHUB_PATH"
+      - name: Verify Bash version on macOS
+        if: matrix.os == 'macos-latest'
+        run: bash --version
+      - name: Run integration tests
+        run: make integ-tests

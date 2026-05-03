@@ -1,0 +1,26 @@
+name: Scheduled
+on:
+  schedule:
+    - cron: "0 0 * * 0" # Weekly on Sunday at 00:00 UTC
+
+jobs:
+  integ-latest:
+    name: Install and run proper7y (stable version)
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump Bash version on macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install bash
+          echo "/opt/homebrew/bin" >> "$GITHUB_PATH"
+      - name: Verify Bash version on macOS
+        if: matrix.os == 'macos-latest'
+        run: bash --version
+      - name: Install devel-tools
+        run: make install-devel-tools
+      - name: Run integration tests (stable)
+        run: make run-integ-test-to-latest
