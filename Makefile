@@ -46,7 +46,7 @@ static-tests: lint validate
 integ-tests: run-integ-test-to-head run-integ-test-to-latest
 
 .PHONY: pre-commit
-pre-commit: static-tests format
+pre-commit: static-tests format unit-tests
 
 .PHONY: pre-push
-pre-push: static-tests integ-tests
+pre-push: static-tests format unit-tests integ-tests
