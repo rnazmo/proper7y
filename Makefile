@@ -1,3 +1,5 @@
+# ===============================================
+
 .PHONY: bump-project
 bump-project:
 	./devel-tools/script/bump-project.linux-x64.bash
@@ -10,21 +12,15 @@ install-devel-tools:
 check-devel-tools-versions:
 	./devel-tools/script/check-devel-tools-versions.linux-x64.bash
 
+# ===============================================
+
 .PHONY: lint
 lint:
 	./devel-tools/script/run-lint.linux-x64.bash
 
-.PHONY: format
-format:
-	./devel-tools/script/run-format.linux-x64.bash
-
 .PHONY: validate
 validate:
 	./devel-tools/script/check-project-version-consistency.linux-x64.bash
-
-.PHONY: unit-tests
-unit-tests:
-	./devel-tools/bin/bats test/unit/
 
 .PHONY: run-integ-test-to-head
 run-integ-test-to-head:
@@ -37,13 +33,33 @@ run-integ-test-to-head:
 run-integ-test-to-latest:
 	./devel-tools/script/run-integ-test.bash
 
+# ===============================================
+
+.PHONY: format
+format:
+	./devel-tools/script/run-format.linux-x64.bash
+
+# ===============================================
+# Commands called from CI and automated runs
+# (call these directly from the CI YAML file)
+# ===============================================
+
 .PHONY: static-tests
 static-tests: lint validate
+
+.PHONY: unit-tests
+unit-tests:
+	./devel-tools/bin/bats test/unit/
 
 .PHONY: integ-tests
 # Run head first (fast, local), then latest (slow, network).
 # No strict dependency between the two; this order is just a convention.
 integ-tests: run-integ-test-to-head run-integ-test-to-latest
+
+# ===============================================
+# Commands called from when working locally
+# (call these directly from your terminal)
+# ===============================================
 
 .PHONY: pre-commit
 pre-commit: static-tests format unit-tests
