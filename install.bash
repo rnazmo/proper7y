@@ -15,7 +15,7 @@ set -euo pipefail
 #   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash ${HOME}/bin/)"
 #   $ bash <(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/main/install.bash) "${HOME}/bin/"
 
-readonly PROPER7Y_VERSION="v0.10.0"
+readonly PROPER7Y_VERSION="v0.10.1"
 
 readonly SRC_URL="https://raw.githubusercontent.com/rnazmo/proper7y/${PROPER7Y_VERSION}/proper7y"
 
