@@ -61,9 +61,9 @@ declare -al SUPPORTED_VIRTUALIZATION_IDS=( # Allowed VIRTUALIZATION_ID values
   "microsoft" # Used in GitHub Actions
   "docker"
   "wsl"
-  "applehv"   # Apple Hypervisor-based VM (vendor unknown)
+  "applehv"    # Apple Hypervisor-based VM (vendor unknown)
   "generic-vm" # VM confirmed but hypervisor vendor unknown
-  "physical" # It's not a virtualized environment but a physical hardware.
+  "physical"   # It's not a virtualized environment but a physical hardware.
   "unknown"
 )
 declare -al SUPPORTED_SHELL_IDS=( # Allowed SHELL_ID values
