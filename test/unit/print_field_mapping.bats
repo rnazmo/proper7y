@@ -145,3 +145,19 @@ setup() {
   [ "$status" -eq 0 ]
   [ "$output" = "CPU ARCH      : aarch64" ]
 }
+
+# --- Tests for print_kernel_version() ---
+
+@test "print_kernel_version: UNAME_CACHE_RELEASE=6.1.0-1-amd64 outputs '6.1.0-1-amd64'" {
+  UNAME_CACHE_RELEASE="6.1.0-1-amd64"
+  run print_kernel_version
+  [ "$status" -eq 0 ]
+  [ "$output" = "KERNEL VERSION: 6.1.0-1-amd64" ]
+}
+
+@test "print_kernel_version: UNAME_CACHE_RELEASE=7.0.3-arch1-2 outputs '7.0.3-arch1-2'" {
+  UNAME_CACHE_RELEASE="7.0.3-arch1-2"
+  run print_kernel_version
+  [ "$status" -eq 0 ]
+  [ "$output" = "KERNEL VERSION: 7.0.3-arch1-2" ]
+}
