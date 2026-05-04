@@ -13,18 +13,53 @@ setup() {
   source "${BATS_TEST_DIRNAME}/../../proper7y"
 }
 
+# NOTE:
+# Bats executes commands passed to `run` in a subshell.
+# In Bash, associative arrays (declare -A) are NOT exported to subshells,
+# so simply doing:
+#
+#   run print_os_name
+#
+# would fail because global mappings like OS_NAMES are empty in that context.
+#
+# Since this script uses `set -u` (nounset), accessing an unset array element
+# (e.g. ${OS_NAMES[$OS_ID]}) causes an immediate exit with a non-zero status.
+#
+# To avoid this, we explicitly start a new Bash process and re-source the script
+# inside it, ensuring that all global variables (including associative arrays)
+# are properly initialized before calling the function under test.
+#
+# This pattern is required for any function that depends on global arrays.
+#
+# Example of the pattern:
+#   BAD:
+#     OS_ID="ubuntu"
+#     run print_os_name
+#   GOOD:
+#     run bash -c '
+#       source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+#       OS_ID="ubuntu"
+#       print_os_name
+#     '
+#
 # --- Tests for print_os_name() ---
 
 @test "print_os_name: OS_ID=ubuntu outputs 'Ubuntu'" {
-  OS_ID="ubuntu"
-  run print_os_name
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    OS_ID="ubuntu"
+    print_os_name
+  '
   [ "$status" -eq 0 ]
   [ "$output" = "OS NAME       : Ubuntu" ]
 }
 
 @test "print_os_name: OS_ID=archlinux outputs 'Arch Linux'" {
-  OS_ID="archlinux"
-  run print_os_name
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    OS_ID="archlinux"
+    print_os_name
+  '
   [ "$status" -eq 0 ]
   [ "$output" = "OS NAME       : Arch Linux" ]
 }
@@ -32,35 +67,65 @@ setup() {
 # --- Tests for print_virtualization() ---
 
 @test "print_virtualization: VIRTUALIZATION_ID=physical outputs 'Physical'" {
-  VIRTUALIZATION_ID="physical"
-  run print_virtualization
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    VIRTUALIZATION_ID="physical"
+    print_virtualization
+  '
   [ "$status" -eq 0 ]
   [ "$output" = "VIRTUALIZATION: Physical" ]
 }
 
 @test "print_virtualization: VIRTUALIZATION_ID=docker outputs 'Docker'" {
-  VIRTUALIZATION_ID="docker"
-  run print_virtualization
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    VIRTUALIZATION_ID="docker"
+    print_virtualization
+  '
   [ "$status" -eq 0 ]
   [ "$output" = "VIRTUALIZATION: Docker" ]
 }
 
 # --- Tests for print_chassis() ---
 
-# TODO: Add units tests for print_chassis()
+@test "print_chassis: CHASSIS_ID=desktop outputs 'Desktop'" {
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    CHASSIS_ID="desktop"
+    print_chassis
+  '
+  [ "$status" -eq 0 ]
+  [ "$output" = "CHASSIS       : Desktop" ]
+}
+
+@test "print_chassis: CHASSIS_ID=laptop outputs 'Laptop'" {
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    CHASSIS_ID="laptop"
+    print_chassis
+  '
+  [ "$status" -eq 0 ]
+  [ "$output" = "CHASSIS       : Laptop" ]
+}
 
 # --- Tests for print_current_shell() ---
 
 @test "print_current_shell: CURRENT_SHELL_ID=bash outputs 'Bash'" {
-  CURRENT_SHELL_ID="bash"
-  run print_current_shell
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    CURRENT_SHELL_ID="bash"
+    print_current_shell
+  '
   [ "$status" -eq 0 ]
   [ "$output" = "CURRENT SHELL : Bash" ]
 }
 
 @test "print_current_shell: CURRENT_SHELL_ID=zsh outputs 'Zsh'" {
-  CURRENT_SHELL_ID="zsh"
-  run print_current_shell
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    CURRENT_SHELL_ID="zsh"
+    print_current_shell
+  '
   [ "$status" -eq 0 ]
   [ "$output" = "CURRENT SHELL : Zsh" ]
 }
