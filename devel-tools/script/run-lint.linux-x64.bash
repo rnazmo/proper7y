@@ -22,6 +22,10 @@ readonly TARGETS=(
   "${DEVEL_TOOLS_DIR}/script/check-devel-tools-versions.linux-x64.bash"
   "${DEVEL_TOOLS_DIR}/script/check-project-version-consistency.linux-x64.bash"
   "${PROJECT_ROOT}/test/unit/is_supported.bats"
+  "${PROJECT_ROOT}/test/unit/string_format.bats"
+  "${PROJECT_ROOT}/test/unit/print_chassis.bats"
+  "${PROJECT_ROOT}/test/unit/print_kernel_version.bats"
+  "${PROJECT_ROOT}/test/unit/print_field_mapping.bats"
 )
 
 main() {
