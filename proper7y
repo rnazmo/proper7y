@@ -72,6 +72,20 @@ declare -al SUPPORTED_SHELL_IDS=( # Allowed SHELL_ID values
   "unknown"
 )
 
+declare -al SUPPORTED_CHASSIS_IDS=( # Allowed CHASSIS_ID values (Ref: systemd machine-info)
+  "desktop"
+  "laptop"
+  "server"
+  "tablet"
+  "handset"
+  "watch"
+  "embedded"
+  "vm"
+  "container"
+  "unknown"
+  "n/a" # Used when chassis type is not applicable (e.g. in virtualized environments)
+)
+
 declare -A OS_NAMES=( # The key is OS_ID
   ["archlinux"]="Arch Linux"
   ["endeavouros"]="EndeavourOS"
@@ -97,7 +111,7 @@ declare -A SHELL_NAMES=( # The key is SHELL_ID
   ["zsh"]="Zsh"
   ["unknown"]="Unknown"
 )
-declare -A CHASSIS_NAMES=( # The key is chassis type returned by hostnamectl
+declare -A CHASSIS_NAMES=( # The key is CHASSIS_ID
   ["desktop"]="Desktop"
   ["laptop"]="Laptop"
   ["server"]="Server"
@@ -107,6 +121,8 @@ declare -A CHASSIS_NAMES=( # The key is chassis type returned by hostnamectl
   ["embedded"]="Embedded"
   ["vm"]="Virtual Machine"
   ["container"]="Container"
+  ["unknown"]="Unknown"
+  ["n/a"]="N/A"
 )
 
 # -------------------------------------------------------------------
@@ -374,7 +390,7 @@ identify_virtualization_id_for_darwin() {
   VIRTUALIZATION_ID="unknown"
 }
 
-# Identify the chassis type and store it in CHASSIS_ID.
+# Identify the chassis type (device type) and store it in CHASSIS_ID.
 #
 # Unlike other identify_*() functions, this function does NOT call exit
 # on unknown values. Chassis type is best-effort information: if the type
@@ -382,8 +398,12 @@ identify_virtualization_id_for_darwin() {
 # chassis string is returned), CHASSIS_ID is set to "unknown" and
 # print_chassis() will display it gracefully. Exiting here would be
 # too strict for information that is non-critical. (Ref: ADR-027)
+#
+# Ref: https://www.freedesktop.org/software/systemd/man/latest/machine-info.html
 identify_chassis_id() {
   # Virtual environments don't have a meaningful chassis type.
+  # TODO: Allow CHASSIS_ID="vm" or "container"
+  #       if VIRTUALIZATION_ID indicates a known VM/container type?
   if [[ "$VIRTUALIZATION_ID" != "physical" ]]; then
     CHASSIS_ID="n/a"
     readonly CHASSIS_ID
@@ -393,8 +413,21 @@ identify_chassis_id() {
   case "$UNAME_CACHE_KERNEL_NAME" in
   "linux")
     if command -v hostnamectl &>/dev/null; then
-      if grep -q "Chassis:" <<<"$(hostnamectl status)"; then
-        CHASSIS_ID="$(hostnamectl status | grep "Chassis:" | sed "s/ *Chassis: //")"
+      local -r hostnamectl_chassis_row="$(hostnamectl status | grep 'Chassis:')"
+      if [[ "$hostnamectl_chassis_row" == *"desktop"* ]]; then
+        CHASSIS_ID="desktop"
+      elif [[ "$hostnamectl_chassis_row" == *"laptop"* ]]; then
+        CHASSIS_ID="laptop"
+      elif [[ "$hostnamectl_chassis_row" == *"server"* ]]; then
+        CHASSIS_ID="server"
+      elif [[ "$hostnamectl_chassis_row" == *"tablet"* ]]; then
+        CHASSIS_ID="tablet"
+      elif [[ "$hostnamectl_chassis_row" == *"handset"* ]]; then
+        CHASSIS_ID="handset"
+      elif [[ "$hostnamectl_chassis_row" == *"watch"* ]]; then
+        CHASSIS_ID="watch"
+      elif [[ "$hostnamectl_chassis_row" == *"embedded"* ]]; then
+        CHASSIS_ID="embedded"
       else
         CHASSIS_ID="unknown"
       fi
@@ -403,6 +436,13 @@ identify_chassis_id() {
     fi
     ;;
   "darwin")
+    # TODO: Implement macOS chassis detection using system_profiler SPHardwareDataType
+    #   Approach idea:
+    #     if system_profiler SPHardwareDataType | grep -q "Model Name.*MacBook"; then
+    #       CHASSIS="Laptop"
+    #     elif system_profiler SPHardwareDataType | grep -q "Model Name.*Mac mini\|iMac\|Mac Pro"; then
+    #       CHASSIS="Desktop"
+    #     fi
     CHASSIS_ID="unknown"
     ;;
   *)
@@ -411,6 +451,13 @@ identify_chassis_id() {
   esac
 
   readonly CHASSIS_ID
+
+  # Check if the CHASSIS_ID value is in SUPPORTED_CHASSIS_IDS
+  if ! is_supported "$CHASSIS_ID" "${SUPPORTED_CHASSIS_IDS[@]}"; then
+    log_err "This script does not support the CHASSIS_ID: ${CHASSIS_ID}"
+    # See identify_os_family_id() and ADR-010.
+    exit 1
+  fi
 }
 
 # Identify the shell that invoked this script by walking up the process tree.
@@ -563,34 +610,9 @@ print_virtualization() {
   print_row "VIRTUALIZATION" "$VIRTUALIZATION"
 }
 
-# Print chassis (device type) information.
-# Identification is done in identify_chassis_id(). (Ref: ADR-027)
-#
-# Ref: https://www.freedesktop.org/software/systemd/man/latest/machine-info.html
 print_chassis() {
-  local CHASSIS
-
-  if [[ "$CHASSIS_ID" == "n/a" ]]; then
-    CHASSIS="N/A"
-  elif [[ -n "${CHASSIS_NAMES[$CHASSIS_ID]}" ]]; then
-    # Map known chassis ID to display name (e.g. "laptop" -> "Laptop")
-    CHASSIS="${CHASSIS_NAMES[$CHASSIS_ID]}"
-  else
-    # Unknown or unrecognized chassis ID: use raw value or "Unknown"
-    # TODO: Implement macOS chassis detection using system_profiler SPHardwareDataType
-    #   Possible approach:
-    #     if system_profiler SPHardwareDataType | grep -q "Model Name.*MacBook"; then
-    #       CHASSIS="Laptop"
-    #     elif system_profiler SPHardwareDataType | grep -q "Model Name.*Mac mini\|iMac\|Mac Pro"; then
-    #       CHASSIS="Desktop"
-    #     fi
-    if [[ "$CHASSIS_ID" == "unknown" ]]; then
-      CHASSIS="Unknown"
-    else
-      CHASSIS="$CHASSIS_ID"
-    fi
-  fi
-
+  local CHASSIS="Unknown"
+  CHASSIS="${CHASSIS_NAMES[$CHASSIS_ID]}"
   print_row "CHASSIS" "$CHASSIS"
 }
 
