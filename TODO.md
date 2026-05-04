@@ -1,4 +1,4 @@
-eeeeee# TODO (proper7y)
+# TODO (proper7y)
 
 ## Milestone: v0.11.0 - テスト戦略の再設計
 
