@@ -172,7 +172,14 @@ main() {
   print_cpu_arch
   print_os_name
   print_os_version
-  print_kernel_version
+
+  # Only display kernel version on Linux.
+  # macOS and other Unix-like systems have kernel versions with different semantics,
+  # so we exclude them to avoid confusion.
+  if [[ "$UNAME_CACHE_KERNEL_NAME" == "linux" ]]; then
+    print_kernel_version
+  fi
+
   print_current_shell
   print_bash_version
 
@@ -582,13 +589,6 @@ print_os_version() {
 }
 
 print_kernel_version() {
-  # Only display kernel version on Linux.
-  # macOS and other Unix-like systems have kernel versions with different semantics,
-  # so we exclude them to avoid confusion.
-  if [[ "$UNAME_CACHE_KERNEL_NAME" != "linux" ]]; then
-    return 0
-  fi
-
   # UNAME_CACHE_RELEASE is guaranteed to be set by cache_uname().
   # If cache_uname() fails, the script exits immediately due to 'set -e'.
   local -r KERNEL_VERSION="$UNAME_CACHE_RELEASE"
