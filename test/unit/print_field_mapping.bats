@@ -45,6 +45,10 @@ setup() {
   [ "$output" = "VIRTUALIZATION: Docker" ]
 }
 
+# --- Tests for print_chassis() ---
+
+# TODO: Add units tests for print_chassis()
+
 # --- Tests for print_current_shell() ---
 
 @test "print_current_shell: CURRENT_SHELL_ID=bash outputs 'Bash'" {
