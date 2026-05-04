@@ -417,6 +417,19 @@ _detect_os_id_from_debian() {
 - 両関数は副作用がなく、ADR-030 の「副作用のない既存関数を対象に追加する」方針の延長として実施した。
 - 副作用のある関数（`identify_*()` 系など）へのテスト拡大は引き続き TODO.md に残す。
 
+### 対象範囲の拡大（第2弾）（2026-05-04 追記）
+
+- `print_chassis()`, `print_kernel_version()`, `print_os_name()`, `print_virtualization()`,
+  `print_current_shell()`, `print_cpu_arch()` のテストを追加した。
+- これらは外部コマンドを呼び出さず、グローバル変数を参照して出力するだけの関数である。
+  ADR-032 で導入した `BASH_SOURCE` ガードにより `init()` が `source` 時に実行されなくなった結果、
+  これらのグローバル変数が `readonly` にならず、テスト内で自由にセットできるようになっていた。
+  つまり、本体コードへの変更ゼロでテストが実現できた。
+- `print_chassis()` は4分岐をすべてカバー、`print_kernel_version()` はLinux/非Linuxの2分岐をカバー、
+  その他の関数は代表値2本の軽めのテストとした。
+- `log_err()` / `log_debug()` は stderr 出力のため bats での扱いが煩雑になる割にロジックが単純すぎるため、
+  テスト対象から除外した。
+
 ## ADR-029: 環境依存フィールドのインテグレーションテスト設計
 
 - **日付:** 2026-04-28
