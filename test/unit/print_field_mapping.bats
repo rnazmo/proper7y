@@ -133,6 +133,7 @@ setup() {
 # --- Tests for print_cpu_arch() ---
 
 @test "print_cpu_arch: UNAME_CACHE_MACHINE=x86_64 outputs 'x86_64'" {
+  # shellcheck disable=SC2034
   UNAME_CACHE_MACHINE="x86_64"
   run print_cpu_arch
   [ "$status" -eq 0 ]
@@ -140,6 +141,7 @@ setup() {
 }
 
 @test "print_cpu_arch: UNAME_CACHE_MACHINE=aarch64 outputs 'aarch64'" {
+  # shellcheck disable=SC2034
   UNAME_CACHE_MACHINE="aarch64"
   run print_cpu_arch
   [ "$status" -eq 0 ]
@@ -149,6 +151,7 @@ setup() {
 # --- Tests for print_kernel_version() ---
 
 @test "print_kernel_version: UNAME_CACHE_RELEASE=6.1.0-1-amd64 outputs '6.1.0-1-amd64'" {
+  # shellcheck disable=SC2034
   UNAME_CACHE_RELEASE="6.1.0-1-amd64"
   run print_kernel_version
   [ "$status" -eq 0 ]
@@ -156,6 +159,7 @@ setup() {
 }
 
 @test "print_kernel_version: UNAME_CACHE_RELEASE=7.0.3-arch1-2 outputs '7.0.3-arch1-2'" {
+  # shellcheck disable=SC2034
   UNAME_CACHE_RELEASE="7.0.3-arch1-2"
   run print_kernel_version
   [ "$status" -eq 0 ]
