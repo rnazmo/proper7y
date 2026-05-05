@@ -1,7 +1,95 @@
 # ADR (proper7y)
 
 <!-- ADRs are listed in reverse chronological order (newest first). -->
-<!-- ADRs are listed in reverse chronological order (newest first). -->
+
+## ADR-035: `proper7y` コードの全面再設計方針（4層アーキテクチャへの移行）
+
+- **日付:** 2026-05-05
+- **状況:**
+  - v0.11.0 開発中、`print_field_mapping.bats` や `string_format.bats` といった
+    ユニットテストを追加する作業の中で、`proper7y` 内の関数設計の問題が顕在化した。
+  - 具体的な問題：
+    - `print_*()` 系関数が「グローバル変数参照（ロジック）」「フォーマット」
+      「echo（副作用）」の3つの責務を1関数で担っており、テスト時に分離できない
+    - `identify_*()` 系関数が「システム読み取り」「ID特定ロジック」
+      「グローバル変数への書き込み」を同時に行っており、読み取りにくい
+    - グローバル変数が多数存在し「誰がいつ書き換えるか」の追跡が困難
+  - ADR-030 にて「副作用を分離したコード設計への書き直しは現時点では行わない」と判断していたが、
+    ユニットテストの追加作業を通じて設計の問題を実感したためこの判断を撤回する（後述）。
+
+- **決定:**
+  - `proper7y` のコードを 4層アーキテクチャへ段階的に移行する。
+
+  **Layer 1: Detection（検出層）**
+  - システムを読んで値を `echo` で返す。グローバル変数は一切触らない。
+  - 例: `detect_os_id()`, `detect_virtualization_id()`
+  - 副作用あり（システム読み取り）だがテスト可能（コマンドモック）
+
+  **Layer 2: Logic / Lookup（ロジック・変換層）**
+  - 引数を受け取り、値を `echo` で返す純粋関数。副作用なし。
+  - 例: `get_os_display_name()`, `is_supported()`
+  - 直接ユニットテスト可能。ここを厚くするほどテストしやすい範囲が増える。
+
+  **Layer 3: Output（出力層）**
+  - Layer 2 の結果を受け取り `print_row()` を呼ぶ薄いラッパー。ロジックを持たない。
+  - 例: `print_os_name()`, `print_chassis()`
+
+  **Layer 4: Orchestration（制御層）**
+  - どの順で何を出力するかを知っている。
+  - 例: `main()`, `init()`
+
+- **グローバル変数の扱い方針:**
+  - `init()` の中でのみ書き込む（`readonly` で固定する）。それ以降は読み取り専用。
+  - `detect_*()` 関数はグローバル変数に依存しない。
+
+  ```bash
+  # 理想の init():
+  init() {
+    check_prerequisites
+    readonly OS_ID="$(detect_os_id)"
+    readonly VIRTUALIZATION_ID="$(detect_virtualization_id)"
+    readonly CHASSIS_ID="$(detect_chassis_id)"
+    readonly CURRENT_SHELL_ID="$(detect_current_shell_id)"
+    # ...サポート確認は各 detect_*() の中、または init() 内で行う
+  }
+  ```
+
+- **テスト戦略（レイヤーごと）:**
+
+  | レイヤー            | テスト方法                                              | 難易度         |
+  | ------------------- | ------------------------------------------------------- | -------------- |
+  | Layer 2（純粋関数） | `run get_os_display_name "ubuntu"` で直接テスト         | 低             |
+  | Layer 3（出力）     | `run bash -c 'source ...; OS_ID=ubuntu; print_os_name'` | 中             |
+  | Layer 1（検出）     | PATH 上書きによるコマンドモック                         | 高（後回し可） |
+
+- **ADR-030 の撤回について:**
+  - ADR-030 では「Bash でこの設計をすると関数が増えてコードが読みにくくなる」として
+    書き直しを見送った。
+  - ユニットテストを実際に追加してみた結果、「ロジックと副作用が混在していることによる
+    読みにくさ・テストのしにくさ」のほうが「関数が増えることによる読みにくさ」より
+    深刻だと判断した。
+  - また ADR-030 の追記にある「副作用のある関数が大半を占める構造は変わっておらず、
+    カバレッジの限界は残る」という課題も、この移行によって改善できる見通しがついた。
+  - よって ADR-030 の「副作用を分離したコード設計への書き直しは行わない」という決定を撤回し、
+    本 ADR の方針に置き換える。
+
+- **移行方針:**
+  - 一度に全部書き換えるのではなく、段階的に進める。
+  - 最初のステップとして「全関数リストアップ表」を作成し、現状を正確に把握する。
+  - 各ステップで個別 ADR を作成する（予定）:
+    - ADR-036（想定）: Layer 2（`get_*_display_name()` 系）の設計と実装
+    - ADR-037（想定）: Layer 1（`detect_*()` 系）の設計と実装
+
+- **影響:**
+  - `proper7y` 内のほぼすべての関数が段階的に影響を受ける
+  - ユニットテストのカバレッジが向上する（特に Layer 2 が整備されると効果大）
+  - 既存のユニットテスト（`is_supported.bats`, `string_format.bats`,
+    `print_field_mapping.bats`）は移行後も基本的にそのまま有効
+  - `common.bash` のグローバル変数設計見直しとも関連する（後続タスク参照）
+  - 今回の ADR の内容は、あくまで「`proper7y` 内のコード」に関する決定であることに
+    注意すること。`install.bash` や `/develtools/` 内のコードは今回の方針の対象外であり、
+    必要に応じて別途設計判断を行う
+  - TODO.md の v0.12.0 マイルストーンに関連タスクを記載
 
 ## ADR-034: macOS における仮想化判定の多段シグナル化
 
