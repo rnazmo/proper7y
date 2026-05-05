@@ -224,8 +224,8 @@ NOTE: These are documents to my future self.
 
 ### Conventions
 
-- **SHALL**: 必ず守るルール。例外なし。
-- **SHOULD**: 原則として守るルール。合理的な理由があれば例外を認める。
+- **SHALL**: A rule that must always be followed. No exceptions.
+- **SHOULD**: A rule that should generally be followed. Exceptions are permitted with reasonable justification.
 
 #### Versioning
 
