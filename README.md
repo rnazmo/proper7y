@@ -389,6 +389,26 @@ dependency and works on both Linux and macOS. (Ref: ADR-012, ADR-020)
 2. Clone this repository under any directory on the machine. (`git clone git@github.com:rnazmo/proper7y.git`)
 3. [Install the dependencies using the scripts](https://github.com/rnazmo/proper7y#how-to-install-devel-tools)
 
+### Available make targets
+
+The `Makefile` contains inline documentation for each target. Quick reference:
+
+| Target                            | Description                                                               |
+| --------------------------------- | ------------------------------------------------------------------------- |
+| `make install-devel-tools`        | Install shellcheck, shfmt, and bats under `devel-tools/bin/`              |
+| `make check-devel-tools-versions` | Check for devel-tools updates and interactively upgrade                   |
+| `make lint`                       | Run shellcheck and shfmt in check mode (no file modification)             |
+| `make validate`                   | Verify version consistency across proper7y, install.bash, and common.bash |
+| `make unit-tests`                 | Run bats unit tests under `test/unit/`                                    |
+| `make run-integ-test-to-head`     | Run proper7y from the local working copy                                  |
+| `make run-integ-test-to-latest`   | Install and run the latest stable proper7y (requires network)             |
+| `make format`                     | Format scripts with shfmt. **Modifies files in place.**                   |
+| `make static-tests`               | Run `lint` + `validate` (used in CI)                                      |
+| `make integ-tests`                | Run all integration tests                                                 |
+| `make pre-commit`                 | Run `static-tests` + `format` + `unit-tests` (run before every commit)    |
+| `make pre-push`                   | Run `pre-commit` + `integ-tests` (run before pushing)                     |
+| `make bump-project`               | Bump the proper7y version and create a release commit and tag             |
+
 ### How to install devel-tools
 
 ```console
