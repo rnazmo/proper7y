@@ -231,7 +231,7 @@ NOTE: These are documents to my future self.
 
 Follow semantic versioning. (SHALL)
 
-### Branch
+#### Branch
 
 - **Prefer keeping only `main` branch whenever possible. (SHOULD)**
 - However, creating temporary branches for large changes (e.g., new features) is acceptable. (SHOULD)
