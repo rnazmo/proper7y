@@ -20,7 +20,5 @@ jobs:
       - name: Verify Bash version on macOS
         if: matrix.os == 'macos-latest'
         run: bash --version
-      - name: Install devel-tools
-        run: make install-devel-tools
       - name: Run integration tests (stable)
         run: make run-integ-test-to-latest
