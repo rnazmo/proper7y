@@ -124,11 +124,17 @@
     - 問題A: `archlinux:latest` コンテナ内での仮想化検出
       - `systemd-detect-virt` と `hostnamectl` が使えない環境で、
         `VIRTUALIZATION` フィールドに `Unknown` 以外の値を返せるか。
-      - 選択肢1: `archlinux:latest` に systemd を追加インストールする
-        （→ 「このプロジェクトは systemd を前提とするか」という設計判断が必要になる）
-      - 選択肢2: コンテナ環境を検出する別の手段（`/proc/1/cgroup` の参照など）を
-        `proper7y` の `identify_virtualization_id()` に追加する
-      - 選択肢3: `VIRTUALIZATION: Unknown` のままで、アサーション側を変更する
+      - 選択肢1: `archlinux:latest` コンテナに systemd を追加インストール
+        - → 「このプロジェクトは systemd を前提とするか」という別の設計判断が必要
+        - → 実装コスト高
+      - 選択肢2: コンテナ環境を検出する別の手段（ファイルベースの検出）を追加
+        - → 本質解決・設計思想を維持
+        - 一番良さそう
+        - `proper7y` の `identify_virtualization_id()` にフォールバック検出を追加
+        - 具体的には `/proc/1/cgroup` の参照など
+      - 選択肢3: アサーション側で Unknown を許容
+        - `VIRTUALIZATION: Unknown` のままで、アサーション側を変更する
+        - → 「Unknown はバグの指標」という ADR-029 の設計思想に反する退行
     - 問題B: アサーション戦略の見直し
       - 問題Aの解決策によっては、`assert_output()` や `REQUIRED_FIELDS` / `CONDITIONAL_FIELDS`
         の設計（ADR-029）を改訂する必要がある。
@@ -141,6 +147,24 @@
       GitHub Actions の `container:` キーとの相性を要確認
   - **優先度:** 比較的高め
   - **この検討は ADR で行うべき**
+  - **2026-05-12 追記：** 検討を行う
+    - 選択肢2 の「proper7y にファイルベースの検出を追加」を採用するのが良さそう
+    - 行うべき変更は？
+      - proper7y の identify_virtualization_id() にフォールバック検出を追加
+        - ystemd コマンド（systemd-detect-virt / hostnamectl）が両方とも使えない場合に、ファイルベースでコンテナを検出
+      - run-integ-test.bash のテスト対象を「リモート」と「ローカル」で選べるようにする
+        - 現在 run-integ-test.bash はリモートから install.bash を取得してテストするが、
+          ローカルの ./proper7y を対象に assert_output() を実行するモードがない。
+        - ダウンロードなしにローカルの HEAD をアサーション付きでテストできるようにする必要がある
+          - --local フラグを追加する？
+            - 単に「--local フラグを追加する」だけは微妙
+            - ローカルへのテスト（./proper7y）と、リモートへのテスト（GitHub の最新安定版？）は、並列に扱いたい
+          - 別スクリプトにする？
+            - あまりスクリプトを増やしすぎるのも微妙
+          - この辺の設計はしっかり検討したい
+      - Makefile の関連コマンドを更新する
+      - CI ジョブを更新する
+        - 現在の ./proper7y（exit 0 確認のみ）から make run-integ-test-to-head（assert_output() 込み）などに変更
 
 ### ドキュメント
 
@@ -174,7 +198,7 @@
     - ポリシーのセクションの内容は妥当？
     - など
   - その他、全体的に色々整理する（セクションの順番とか、内容の重複とか、色々整えるとか）
-- [ ] コード内ドキュメント全般について、見直す
+- [x] コード内ドキュメント全般について、見直す
   - 記述内容が古くなっていたり、変なところは無いか
   - （できる範囲で、軽く）記述のフォーマットをある程度整えたい
 - [ ] リリース直前に ChangeLog を作成する
