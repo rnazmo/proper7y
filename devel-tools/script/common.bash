@@ -199,18 +199,15 @@ _compose_shfmt_cmd_path() {
   log_info "$ROW"
 }
 
-# What is this?:
-#     Update the global variables (SHELLCHECK_BINARY_VERSION) value.
+# TL;DR (What is this?):
+#   Update the global variable (SHELLCHECK_BINARY_VERSION).
 #
 # Usage:
-#     _compose_shellcheck_binary_version
+#   _compose_shellcheck_binary_version
 #
 # NOTE:
-#     You should always call this function and update the global variable (SHELLCHECK_BINARY_VERSION)
-#     after making any changes to the binary (like installing, upgrading, etc).
-#
-#     Do not set the global variable (SHELLCHECK_BINARY_VERSION) to readonly. Because it will be updated
-#     when you install or upgrade the binary of the tool.
+#   Call this after any change to the shellcheck binary (install, upgrade, etc.).
+#   Do not declare SHELLCHECK_BINARY_VERSION as readonly: it is updated on reinstall.
 _compose_shellcheck_binary_version() {
   # Check if the TOOL exists and is a executable file.
   log_info "Checking if the $SHELLCHECK_CMD_PATH exists and a executable file..."
@@ -237,18 +234,15 @@ _compose_shellcheck_binary_version() {
   # log_info "$ROW"
 }
 
-# What is this?:
-#     Update the global variables (SHFMT_BINARY_VERSION) value.
+# TL;DR (What is this?):
+#   Update the global variable (SHFMT_BINARY_VERSION).
 #
 # Usage:
-#     _compose_shfmt_binary_version
+#   _compose_shfmt_binary_version
 #
 # NOTE:
-#     You should always call this function and update the global variable (SHFMT_BINARY_VERSION)
-#     after making any changes to the binary (like installing, upgrading, etc).
-#
-#     Do not set the global variable (SHFMT_BINARY_VERSION) to readonly. Because it will be updated
-#     when you install or upgrade the binary of the tool.
+#   Call this after any change to the shfmt binary (install, upgrade, etc.).
+#   Do not declare SHFMT_BINARY_VERSION as readonly: it is updated on reinstall.
 _compose_shfmt_binary_version() {
   # Check if the TOOL exists and is a executable file.
   log_info "Checking if the $SHFMT_CMD_PATH exists and a executable file..."
