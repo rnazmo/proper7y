@@ -221,11 +221,17 @@ cache_uname() {
   readonly UNAME_CACHE_RELEASE
 }
 
+# Identify the OS family (e.g. arch-based, debian-based) and store it in OS_FAMILY_ID.
+# Exits immediately if the OS family is not in SUPPORTED_OS_FAMILY_IDS.
+#
+# NOTE:
+#   Must be called after cache_uname().
+#
 # Ref:
-#     https://stackoverflow.com/a/17072017
-#     https://stackoverflow.com/a/18434831
-#     https://github.com/dylanaraps/neofetch/issues/433#issue-188679046
-#     http://linuxmafia.com/faq/Admin/release-files.html
+#   https://stackoverflow.com/a/17072017
+#   https://stackoverflow.com/a/18434831
+#   https://github.com/dylanaraps/neofetch/issues/433#issue-188679046
+#   http://linuxmafia.com/faq/Admin/release-files.html
 identify_os_family_id() {
   case "$UNAME_CACHE_KERNEL_NAME" in
   'linux')
@@ -261,6 +267,11 @@ identify_os_family_id() {
   fi
 }
 
+# Identify the specific OS (e.g. ubuntu, archlinux) and store it in OS_ID.
+# Exits immediately if the OS is not in SUPPORTED_OS_IDS.
+#
+# NOTE:
+#   Must be called after identify_os_family_id().
 identify_os_id() {
   case "$OS_FAMILY_ID" in
   'arch-based')
@@ -303,7 +314,10 @@ identify_os_id() {
   fi
 }
 
-# Detect virtualization (VM or Container).
+# Detect the virtualization environment and store it in VIRTUALIZATION_ID.
+# On Linux, tries systemd-detect-virt first, then falls back to hostnamectl.
+# On macOS (darwin), delegates to identify_virtualization_id_for_darwin().
+# Exits immediately if the result is not in SUPPORTED_VIRTUALIZATION_IDS.
 identify_virtualization_id() {
   if [[ "$UNAME_CACHE_KERNEL_NAME" == "darwin" ]]; then
     identify_virtualization_id_for_darwin
