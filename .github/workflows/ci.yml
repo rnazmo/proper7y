@@ -9,7 +9,7 @@ jobs:
     name: Static Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install devel-tools
         run: make install-devel-tools
       - name: Run static tests
@@ -19,7 +19,7 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install devel-tools
         run: make install-devel-tools
       - name: Run unit tests
@@ -32,7 +32,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Bump Bash version on macOS
         if: matrix.os == 'macos-latest'
         run: |
@@ -50,7 +50,7 @@ jobs:
     container:
       image: archlinux:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install dependencies
         # git is required for actions/checkout to work inside the container.
         # Other commands needed by proper7y (uname, ps, date) are pre-installed.
