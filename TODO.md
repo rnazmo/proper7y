@@ -151,9 +151,23 @@
   - 書く場所は Mafile 内のコメントかな？そして、そこへのリンクを README.md に貼る感じ
 - [ ] README.md の記述を全体的に見直す
   - 今あるセクションが妥当かどうか検討
-    - セクション自体の整理
-    - 不足・重複しているセクションはないか
-    - セクション自体の整理
+    - [x] フェーズ1：明確なバグ・陳腐化
+      - TL;DR・Examples -> v0.9.3 という古いバージョンが残っている
+      - "Using without installation" -> v0.3.0 という古いバージョンが残っている
+      - TL;DR の出力例
+        -> Hyper-V上のUbuntu（= Linux）なのに KERNEL VERSION フィールドが抜けている
+        （v0.10.0 から Linux では常に表示される）
+      - Examples 1つ目の出力例
+        -> CHASSIS : laptop（小文字）と表示されているが、コードの CHASSIS_NAMES["laptop"]="Laptop" により
+        実際は Laptop が出力される
+    - [ ] フェーズ2：セクション構造の整理
+      - Memo セクションが開発者向けドキュメントの外に孤立している（shfmt オプション説明など）
+      - "Using without installation" セクションを Installation セクション内に統合した方が自然
+      - インストール方法の説明が複数箇所に散在している（重複）
+    - [ ] フェーズ3：内容の妥当性検討
+      - Policies セクションの内容が現状の運用と合っているか
+      - "How to bump a version of my 'proper7y'" セクションの記述が現在の make bump-project の動作と一致しているか
+      - など
   - 既存のセクションの内容が妥当かどうか検討
     - セクションの内容の整理
     - 古くなっている記述多そう

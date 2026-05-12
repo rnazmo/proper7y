@@ -20,15 +20,16 @@ details to technical articles or bug reports.
 
 ```console
 $ ./proper7y
-proper7y v0.9.3 - Tiny Bash script to print basic system
+proper7y v0.10.1 - Tiny Bash script to print basic system
 information. See: https://github.com/rnazmo/proper7y
 ============================================================
-CURRENT DATE  : 2026-04-19
+CURRENT DATE  : 2026-05-12
 VIRTUALIZATION: Hyper-V
 CHASSIS       : N/A
 CPU ARCH      : x86_64
 OS NAME       : Ubuntu
 OS VERSION    : 24.04
+KERNEL VERSION: 6.8.0-1021-azure
 CURRENT SHELL : Bash
 BASH VERSION  : 5.2.21
 ============================================================
@@ -120,7 +121,7 @@ TODO: Example result log here
 Just run commands like the following in your terminal.
 
 ```console
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/v0.3.0/proper7y)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/rnazmo/proper7y/v0.10.1/proper7y)"
 ```
 
 ### How to bump a version of my 'proper7y'
@@ -132,12 +133,12 @@ Just run commands like the following in your terminal.
 
 ```console
 $ ./proper7y
-proper7y v0.9.3 - Tiny Bash script to print basic system
+proper7y v0.10.1 - Tiny Bash script to print basic system
 information. See: https://github.com/rnazmo/proper7y
 ============================================================
-CURRENT DATE  : 2026-04-18
+CURRENT DATE  : 2026-05-12
 VIRTUALIZATION: Physical
-CHASSIS       : laptop
+CHASSIS       : Laptop
 CPU ARCH      : x86_64
 OS NAME       : Ubuntu
 OS VERSION    : 24.04
@@ -149,10 +150,10 @@ BASH VERSION  : 5.2.21
 
 ```console
 $ ./proper7y
-proper7y v0.9.3 - Tiny Bash script to print basic system
+proper7y v0.10.1 - Tiny Bash script to print basic system
 information. See: https://github.com/rnazmo/proper7y
 ============================================================
-CURRENT DATE  : 2026-04-18
+CURRENT DATE  : 2026-05-12
 VIRTUALIZATION: Docker
 CHASSIS       : N/A
 CPU ARCH      : x86_64
