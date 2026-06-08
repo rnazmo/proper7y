@@ -151,7 +151,7 @@
     - 選択肢2 の「proper7y にファイルベースの検出を追加」を採用するのが良さそう
     - 行うべき変更は？
       - proper7y の identify_virtualization_id() にフォールバック検出を追加
-        - ystemd コマンド（systemd-detect-virt / hostnamectl）が両方とも使えない場合に、ファイルベースでコンテナを検出
+        - systemd コマンド（systemd-detect-virt / hostnamectl）が両方とも使えない場合に、ファイルベースでコンテナを検出
       - run-integ-test.bash のテスト対象を「リモート」と「ローカル」で選べるようにする
         - 現在 run-integ-test.bash はリモートから install.bash を取得してテストするが、
           ローカルの ./proper7y を対象に assert_output() を実行するモードがない。
