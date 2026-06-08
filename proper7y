@@ -621,26 +621,23 @@ print_cpu_arch() {
 }
 
 print_virtualization() {
-  local VIRTUALIZATION="Unknown"
-  VIRTUALIZATION="${VIRTUALIZATION_NAMES[$VIRTUALIZATION_ID]}"
+  local -r VIRTUALIZATION="${VIRTUALIZATION_NAMES[$VIRTUALIZATION_ID]:-Unknown}"
   print_row "VIRTUALIZATION" "$VIRTUALIZATION"
 }
 
 print_chassis() {
-  local CHASSIS="Unknown"
-  CHASSIS="${CHASSIS_NAMES[$CHASSIS_ID]}"
+  local -r CHASSIS="${CHASSIS_NAMES[$CHASSIS_ID]:-Unknown}"
   print_row "CHASSIS" "$CHASSIS"
 }
 
 print_current_shell() {
-  local CURRENT_SHELL="Unknown"
-  CURRENT_SHELL="${SHELL_NAMES[$CURRENT_SHELL_ID]}"
+  local -r CURRENT_SHELL="${SHELL_NAMES[$CURRENT_SHELL_ID]:-Unknown}"
   print_row "CURRENT SHELL" "$CURRENT_SHELL"
 }
 
 print_bash_version() {
   # NOTE: Avoid using BASH_VERSION here as it is a Bash built-in variable.
-  local -r BASH_VERSION_STR="${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]}.${BASH_VERSINFO[2]}"
+  local -r BASH_VERSION_STR="${BASH_VERSINFO[0]:-0}.${BASH_VERSINFO[1]:-0}.${BASH_VERSINFO[2]:-0}"
   print_row "BASH VERSION" "$BASH_VERSION_STR"
 }
 
