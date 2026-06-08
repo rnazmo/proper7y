@@ -85,7 +85,7 @@ log_info() {
 }
 log_err() {
   local -r PREFIX="ERROR:"
-  echo "$PREFIX $1"
+  echo "$PREFIX $1" >&2
 }
 
 parse_args "$@"
