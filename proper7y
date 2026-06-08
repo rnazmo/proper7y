@@ -164,8 +164,6 @@ main() {
 
   echo "============================================================"
 
-  # TODO: identify_os
-
   print_date
   print_virtualization
   print_chassis
@@ -191,9 +189,6 @@ main() {
     print_zsh_version
     ;;
   esac
-
-  # print_chassis
-  # print_default_shell
 
   echo "============================================================"
 }
