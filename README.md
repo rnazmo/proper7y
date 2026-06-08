@@ -106,14 +106,26 @@ To check that you installed it successfully:
 ```console
 $ DEST_DIR="${HOME}/.bin"
 
-$ VERSION="v0.0.1"
+$ VERSION="v0.10.1"
 
 $ cd "$DEST_DIR" && \
     curl -O https://raw.githubusercontent.com/rnazmo/proper7y/"$VERSION"/proper7y && \
     chmod +x ./proper7y
 
 $ ./proper7y
-TODO: Example result log here
+proper7y v0.10.1 - Tiny Bash script to print basic system
+information. See: https://github.com/rnazmo/proper7y
+============================================================
+CURRENT DATE  : 2026-06-09
+VIRTUALIZATION: Physical
+CHASSIS       : Laptop
+CPU ARCH      : x86_64
+OS NAME       : Ubuntu
+OS VERSION    : 24.04
+KERNEL VERSION: 6.8.0-45-generic
+CURRENT SHELL : Bash
+BASH VERSION  : 5.2.21
+============================================================
 ```
 
 ### Using without installation
@@ -126,7 +138,7 @@ Just run commands like the following in your terminal.
 
 ### How to bump a version of my 'proper7y'
 
-1. Delete you old `proper7y` file.
+1. Delete your old `proper7y` file.
 2. Install a new version of 'proper7y'. (See [Installation](https://github.com/rnazmo/proper7y#installation) section.)
 
 ### Examples
