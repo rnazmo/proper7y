@@ -11,12 +11,6 @@
 #   is_supported() is defined in proper7y and sourced here for testing.
 #   To avoid running proper7y's init() and main() on source, we stub them out.
 
-# Unit tests for is_supported() in proper7y.
-#
-# How to run:
-#   ./devel-tools/bin/bats test/unit/
-#   (or: make unit-tests)
-
 setup() {
   # shellcheck source=../../proper7y
   source "${BATS_TEST_DIRNAME}/../../proper7y"
