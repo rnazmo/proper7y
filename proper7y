@@ -357,7 +357,9 @@ identify_virtualization_id() {
   # Check if the VIRTUALIZATION_ID value is in SUPPORTED_VIRTUALIZATION_IDS
   if ! is_supported "$VIRTUALIZATION_ID" "${SUPPORTED_VIRTUALIZATION_IDS[@]}"; then
     log_err "This script does not support the VIRTUALIZATION_ID: ${VIRTUALIZATION_ID}"
-    log_debug "systemd-detect-virt: $(systemd-detect-virt)"
+    if command -v systemd-detect-virt &>/dev/null; then
+      log_debug "systemd-detect-virt: $(systemd-detect-virt)"
+    fi
     # See identify_os_family_id() and ADR-010.
     exit 1
   fi
