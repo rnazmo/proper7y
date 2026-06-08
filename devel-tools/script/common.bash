@@ -92,6 +92,7 @@ SHFMT_CURRENT_VERSION="v3.13.0"      # Class B
 BATS_CURRENT_VERSION="v1.13.0"       # Class B
 SHELLCHECK_BINARY_VERSION=""         # Class C
 SHFMT_BINARY_VERSION=""              # Class C
+BATS_BINARY_VERSION=""               # Class C
 
 # Initialize all global variables.
 #
@@ -135,6 +136,7 @@ _set_mutable_global_variables() {
   # calling these functions.
   _compose_shellcheck_binary_version
   _compose_shfmt_binary_version
+  _compose_bats_binary_version
   log_info "Composed mutable global variables."
 }
 
@@ -307,7 +309,7 @@ _recompose_bats_binary_version() {
 # Check if the DEVEL_TOOLS_BIN_DIR exists and is a directory.
 check_if_devel_tools_bin_dir_exists() {
   if [[ -e "$DEVEL_TOOLS_BIN_DIR" ]] && [[ ! -d "$DEVEL_TOOLS_BIN_DIR" ]]; then
-    log_err "The path $DEVEL_TOOLS_BIN_DIR sould be a directory not a file."
+    log_err "The path $DEVEL_TOOLS_BIN_DIR should be a directory not a file."
     return 1
   elif [[ ! -d "$DEVEL_TOOLS_BIN_DIR" ]]; then
     mkdir "$DEVEL_TOOLS_BIN_DIR"
@@ -351,11 +353,17 @@ install_shellcheck() {
 #   https://github.com/mvdan/sh#shfmt
 #   https://github.com/mvdan/sh/releases
 install_shfmt() {
-  local -r SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
+  (
+    local -r SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
 
-  cd "$DEVEL_TOOLS_BIN_DIR"
-  curl -L "$SHFMT_URL" -o shfmt
-  chmod +x ./shfmt
+    local -r TEMP_DIR="$(mktemp -d)"
+    trap 'rm -rf "${TEMP_DIR:-}"' EXIT
+    cd "$TEMP_DIR"
+
+    curl -L "$SHFMT_URL" -o shfmt
+    mv -f "./shfmt" "$SHFMT_CMD_PATH"
+    chmod +x "$SHFMT_CMD_PATH"
+  )
 
   _recompose_shfmt_binary_version
 }
