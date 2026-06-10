@@ -54,7 +54,7 @@ main() {
   log_info "SRC_URL is $SRC_URL"
   log_info "DEST_DIR is $DEST_DIR"
 
-  cd "$DEST_DIR"
+  cd "$DEST_DIR" || exit 1
 
   # Download the file from remote server.
   curl -O "$SRC_URL"
