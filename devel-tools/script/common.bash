@@ -503,7 +503,7 @@ overwrite_version_number_variable() {
   local -r OLD="$VARIABLE_NAME=\"$VERSION_OLD\""
   local -r NEW="$VARIABLE_NAME=\"$VERSION_NEW\""
 
-  sed -i "s/${OLD}/${NEW}/" "$TARGET_FILE"
+  sed_i "s/${OLD}/${NEW}/" "$TARGET_FILE"
 
   log_info "Overwrite the version in the target: END"
 }
@@ -589,6 +589,22 @@ print_shellcheck_current_version() {
 
 print_shfmt_current_version() {
   log_info "shfmt 'Current version': $SHFMT_CURRENT_VERSION"
+}
+
+# Cross-platform sed -i: works on both GNU sed (Linux) and BSD sed (macOS).
+#
+# Usage:
+#   sed_i 's/foo/bar/' file
+#
+# NOTE:
+#   GNU sed accepts 'sed -i "s/.../" file' (no backup extension argument),
+#   but BSD sed requires 'sed -i "" "s/.../" file' (empty string argument).
+sed_i() {
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    sed -i '' "$@"
+  else
+    sed -i "$@"
+  fi
 }
 
 confirm_continue() {
