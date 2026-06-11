@@ -324,6 +324,8 @@ install_shellcheck() {
   # Without this, trap would overwrite any existing EXIT trap in the parent
   # shell, potentially causing other cleanup handlers to be silently dropped.
   (
+    # NOTE: This URL depends on the GitHub release naming convention.
+    # If shellcheck changes its asset names, update the URL accordingly.
     local -r SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_CURRENT_VERSION}/shellcheck-${SHELLCHECK_CURRENT_VERSION}.linux.x86_64.tar.xz"
 
     local -r TEMP_DIR="$(mktemp -d)"
@@ -354,6 +356,8 @@ install_shellcheck() {
 #   https://github.com/mvdan/sh/releases
 install_shfmt() {
   (
+    # NOTE: This URL depends on the GitHub release naming convention.
+    # If shfmt changes its asset names, update the URL accordingly.
     local -r SHFMT_URL="https://github.com/mvdan/sh/releases/download/${SHFMT_CURRENT_VERSION}/shfmt_${SHFMT_CURRENT_VERSION}_linux_amd64"
 
     local -r TEMP_DIR="$(mktemp -d)"
@@ -380,6 +384,8 @@ install_shfmt() {
 # Ref: https://github.com/bats-core/bats-core/releases
 install_bats() {
   (
+    # NOTE: This URL depends on the GitHub release naming convention.
+    # If bats-core changes its tag/asset names, update the URL accordingly.
     local -r BATS_VERSION_WITHOUT_V="${BATS_CURRENT_VERSION#v}"
     local -r BATS_URL="https://github.com/bats-core/bats-core/archive/refs/tags/${BATS_CURRENT_VERSION}.tar.gz"
     local -r BATS_INSTALL_PREFIX="${DEVEL_TOOLS_DIR}/opt/bats"
