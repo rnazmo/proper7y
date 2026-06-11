@@ -127,8 +127,12 @@ declare -A CHASSIS_NAMES=( # The key is CHASSIS_ID
 
 # -------------------------------------------------------------------
 
-# Must be called once at the very beginning of the script,
-# before any other processing.
+# Must be called once at the very beginning of the script.
+#
+# Called by the BASH_SOURCE guard (end of this file) before main().
+# When this file is sourced for testing (e.g. via bats), init() is
+# intentionally not executed so that individual functions can be tested
+# without side effects.
 init() {
   check_prerequisites
   identify_environment # Exits here if the OS or environment is not supported.
@@ -158,6 +162,12 @@ identify_environment() {
 
 # -------------------------------------------------------------------
 
+# Print all system information fields.
+#
+# NOTE: init() must have been called before this function is invoked.
+# This is guaranteed by the BASH_SOURCE guard at the bottom of the file.
+# When testing individual print_*() functions via 'source', init() is
+# skipped and global variables are set directly by the test.
 main() {
   echo "proper7y $PROPER7Y_VERSION - Tiny Bash script to print basic system"
   echo "information. See: https://github.com/rnazmo/proper7y"
