@@ -56,15 +56,13 @@ main() {
   log_info "SRC_URL is $SRC_URL"
   log_info "DEST_DIR is $DEST_DIR"
 
-  cd "$DEST_DIR" || exit 1
-
   # Download the file from remote server.
-  curl -O "$SRC_URL"
+  curl -o "${DEST_DIR}/proper7y" "$SRC_URL"
 
   # Add execute permission.
-  chmod +x ./proper7y
+  chmod +x "${DEST_DIR}/proper7y"
 
-  if [[ ! -x ./proper7y ]]; then
+  if [[ ! -x "${DEST_DIR}/proper7y" ]]; then
     log_err "Something wrong :("
     print_usage
     exit 1
