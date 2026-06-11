@@ -440,24 +440,20 @@ identify_chassis_id() {
   case "$UNAME_CACHE_KERNEL_NAME" in
   "linux")
     if command -v hostnamectl &>/dev/null; then
-      local -r hostnamectl_chassis_row="$(hostnamectl status | grep 'Chassis:')"
-      if [[ "$hostnamectl_chassis_row" == *"desktop"* ]]; then
-        CHASSIS_ID="desktop"
-      elif [[ "$hostnamectl_chassis_row" == *"laptop"* ]]; then
-        CHASSIS_ID="laptop"
-      elif [[ "$hostnamectl_chassis_row" == *"server"* ]]; then
-        CHASSIS_ID="server"
-      elif [[ "$hostnamectl_chassis_row" == *"tablet"* ]]; then
-        CHASSIS_ID="tablet"
-      elif [[ "$hostnamectl_chassis_row" == *"handset"* ]]; then
-        CHASSIS_ID="handset"
-      elif [[ "$hostnamectl_chassis_row" == *"watch"* ]]; then
-        CHASSIS_ID="watch"
-      elif [[ "$hostnamectl_chassis_row" == *"embedded"* ]]; then
-        CHASSIS_ID="embedded"
-      else
-        CHASSIS_ID="unknown"
-      fi
+      local -r hostnamectl_output
+      hostnamectl_output="$(hostnamectl status 2>/dev/null)" || true
+      local chassis_raw
+      chassis_raw="$(echo "$hostnamectl_output" | grep "Chassis:" | sed -e "s/.*Chassis: *//" | tr '[:upper:]' '[:lower:]')"
+      case "$chassis_raw" in
+      'desktop') CHASSIS_ID="desktop" ;;
+      'laptop')  CHASSIS_ID="laptop" ;;
+      'server')  CHASSIS_ID="server" ;;
+      'tablet')  CHASSIS_ID="tablet" ;;
+      'handset') CHASSIS_ID="handset" ;;
+      'watch')   CHASSIS_ID="watch" ;;
+      'embedded') CHASSIS_ID="embedded" ;;
+      *)         CHASSIS_ID="unknown" ;;
+      esac
     else
       CHASSIS_ID="unknown"
     fi
