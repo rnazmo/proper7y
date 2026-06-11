@@ -229,6 +229,8 @@ _compose_shellcheck_binary_version() {
   #   version: 0.7.2
   #   license: GNU General Public License, version 3
   #   website: https://www.shellcheck.net
+  # NOTE: This sed pattern depends on the shellcheck --version output format.
+  # If shellcheck changes its version line format, update accordingly.
   SHELLCHECK_BINARY_VERSION="$($SHELLCHECK_CMD_PATH --version | grep "version: " | sed 's/version: /v/')"
 
   # TODO: Following log is verbose? or should print?
