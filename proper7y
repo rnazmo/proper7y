@@ -648,7 +648,7 @@ print_zsh_version() {
     # Extract only the version number from `zsh --version` output.
     # Example input : "zsh 5.9 (x86_64-pc-linux-gnu)"
     # Example output: "5.9"
-    ZSH_VERSION=$(zsh --version | sed "s/zsh //" | sed "s/ (.*//")
+    ZSH_VERSION=$(zsh --version | sed -e "s/zsh //" -e "s/ (.*//")
   else
     ZSH_VERSION="(Not Found)"
   fi
