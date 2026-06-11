@@ -173,3 +173,38 @@ setup() {
   [ "$status" -eq 0 ]
   [ "$output" = "KERNEL VERSION: 7.0.3-arch1-2" ]
 }
+
+# --- Tests for print_os_version() ---
+
+@test "print_os_version: unknown kernel outputs Unknown" {
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    UNAME_CACHE_KERNEL_NAME="freebsd"
+    print_os_version
+  '
+  [ "$status" -eq 0 ]
+  [ "$output" = "OS VERSION    : Unknown" ]
+}
+
+@test "print_os_version: linux kernel produces formatted output" {
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    UNAME_CACHE_KERNEL_NAME="linux"
+    print_os_version
+  '
+  [ "$status" -eq 0 ]
+  [[ "$output" =~ ^"OS VERSION    : " ]] || false
+}
+
+@test "print_os_version: darwin kernel produces formatted output" {
+  if ! command -v sw_vers &>/dev/null; then
+    skip "sw_vers not available on this system"
+  fi
+  run bash -c '
+    source "'"${BATS_TEST_DIRNAME}"'/../../proper7y"
+    UNAME_CACHE_KERNEL_NAME="darwin"
+    print_os_version
+  '
+  [ "$status" -eq 0 ]
+  [[ "$output" =~ ^"OS VERSION    : " ]] || false
+}
