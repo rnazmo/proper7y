@@ -386,7 +386,7 @@ identify_virtualization_id_for_darwin() {
 
   local ioreg_output=""
   if command -v ioreg &>/dev/null; then
-    ioreg_output="$(ioreg -a -l 2>/dev/null | tr '[:upper:]' '[:lower:]' || true)"
+    ioreg_output="$(ioreg -a -l 2>/dev/null || true)"
   fi
 
   if [[ "$hv_vmm_present" == "1" ]]; then
@@ -395,10 +395,10 @@ identify_virtualization_id_for_darwin() {
   fi
 
   # Known virtualization markers seen on macOS VMs/providers.
-  if echo "$ioreg_output" | grep -qE 'vmware|virtualbox|parallels|qemu|virtual machine|virtualmac'; then
-    if echo "$ioreg_output" | grep -q 'vmware'; then
+  if echo "$ioreg_output" | grep -iqE 'vmware|virtualbox|parallels|qemu|virtual machine|virtualmac'; then
+    if echo "$ioreg_output" | grep -iq 'vmware'; then
       VIRTUALIZATION_ID="vmware"
-    elif echo "$ioreg_output" | grep -q 'virtualbox'; then
+    elif echo "$ioreg_output" | grep -iq 'virtualbox'; then
       VIRTUALIZATION_ID="virtualbox"
     else
       VIRTUALIZATION_ID="generic-vm"
