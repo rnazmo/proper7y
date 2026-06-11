@@ -539,7 +539,12 @@ identify_current_shell_id() {
     ((depth++)) || true
   done
 
-  [[ "$found" == false ]] && CURRENT_SHELL_ID="unknown"
+  if [[ "$found" == false ]]; then
+    if [[ $depth -eq $MAX_DEPTH ]]; then
+      log_debug "Process tree depth limit ($MAX_DEPTH) reached; last pid checked was ${pid}"
+    fi
+    CURRENT_SHELL_ID="unknown"
+  fi
   readonly CURRENT_SHELL_ID
 
   # Check if the CURRENT_SHELL_ID value is in SUPPORTED_SHELL_IDS
