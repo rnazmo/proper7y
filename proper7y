@@ -331,8 +331,12 @@ identify_virtualization_id() {
     *) VIRTUALIZATION_ID="unknown" ;;
     esac
   elif command -v hostnamectl &>/dev/null; then
-    if grep -q "Virtualization:" <<<"$(hostnamectl status)"; then
-      case "$(hostnamectl status | grep "Virtualization:" | sed -e "s/ *Virtualization: //" | tr '[:upper:]' '[:lower:]')" in
+    local hostnamectl_output
+    hostnamectl_output="$(hostnamectl status 2>/dev/null)" || true
+    if [[ "$hostnamectl_output" == *"Virtualization:"* ]]; then
+      local virt_raw
+      virt_raw="$(echo "$hostnamectl_output" | grep "Virtualization:" | sed -e "s/ *Virtualization: //" | tr '[:upper:]' '[:lower:]')"
+      case "$virt_raw" in
       'oracle' | 'virtualbox') VIRTUALIZATION_ID="virtualbox" ;;
       'vmware') VIRTUALIZATION_ID="vmware" ;;
       'microsoft') VIRTUALIZATION_ID="microsoft" ;;
