@@ -592,7 +592,7 @@ print_shfmt_current_version() {
 }
 
 confirm_continue() {
-  read -p "Continue? [y/N]" -n 1 -r
+  read -t 10 -p "Continue? [y/N]" -n 1 -r
   echo # Print new line (optional)
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     log_info "Aborted."
