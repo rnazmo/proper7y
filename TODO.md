@@ -362,6 +362,16 @@
     - `setup()` / `teardown()` の適切な使い方
     - `assert_*` 系ヘルパーの活用可否
 
+- [ ] `identify_*()` 系関数のユニットテストを追加する
+  - **背景:** コードレビューで指摘。`identify_os_family_id()`、`identify_os_id()`、
+    `identify_virtualization_id()`、`identify_chassis_id()`、`identify_current_shell_id()`
+    のユニットテストが存在しない。
+  - **原因:** これらの関数はシステムコマンド（`uname`, `systemd-detect-virt`,
+    `hostnamectl`, `ps` 等）やファイル（`/etc/os-release` 等）に強く依存しており、
+    現在の設計ではモックなしにユニットテストが困難。
+  - **対応方針:** Layer 1（`detect_*()` 系）の切り出し（ADR-035 の4層アーキテクチャ化）
+    完了後に対応する。
+
 - [ ] Layer 1（`detect_*()` 系）のユニットテストを検討する
   - **目的:** 環境コマンド（`uname`, `systemd-detect-virt` 等）に依存する関数をテストする
   - **方針（案）:** PATH 上書きによるコマンドモック
