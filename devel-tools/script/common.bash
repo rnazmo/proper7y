@@ -546,16 +546,16 @@ verify_version_consistency() {
 
 check_shellcheck_is_ready() {
   log_info "Checking shellcheck is ready..."
-  _check_if_shellcheck_exists
-  _check_if_installed_shellcheck_version_is_correct
+  _check_if_shellcheck_exists || return 1
+  _check_if_installed_shellcheck_version_is_correct || return 1
   log_info "Checked. shellcheck is ready!"
   print_shellcheck_current_version
 }
 
 check_shfmt_is_ready() {
   log_info "Checking shfmt is ready..."
-  _check_if_shfmt_exists
-  _check_if_installed_shfmt_version_is_correct
+  _check_if_shfmt_exists || return 1
+  _check_if_installed_shfmt_version_is_correct || return 1
   log_info "Checked. shfmt is ready!"
   print_shfmt_current_version
 }
@@ -571,8 +571,8 @@ _check_if_installed_bats_version_is_correct() {
 
 check_bats_is_ready() {
   log_info "Checking bats is ready..."
-  _check_if_bats_exists
-  _check_if_installed_bats_version_is_correct
+  _check_if_bats_exists || return 1
+  _check_if_installed_bats_version_is_correct || return 1
   log_info "Checked. bats is ready!"
   log_info "bats 'Current version': $BATS_CURRENT_VERSION"
 }
